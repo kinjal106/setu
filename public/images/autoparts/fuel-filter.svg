@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 160" width="100%" height="100%">
+    <defs>
+      <linearGradient id="fuelCan" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#94A3B8"/>
+        <stop offset="50%" stop-color="#F8FAFC"/>
+        <stop offset="100%" stop-color="#64748B"/>
+      </linearGradient>
+      <filter id="fuelShadow" x="-10%" y="-10%" width="120%" height="120%">
+        <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000" flood-opacity="0.18"/>
+      </filter>
+    </defs>
+    <!-- Inlet Pipe -->
+    <rect x="35" y="75" width="25" height="10" rx="2" fill="#64748B" stroke="#334155" stroke-width="1"/>
+    <!-- Outlet Pipe -->
+    <rect x="140" y="75" width="25" height="10" rx="2" fill="#64748B" stroke="#334155" stroke-width="1"/>
+    <!-- Filter Canister Body -->
+    <rect x="58" y="48" width="84" height="64" rx="14" fill="url(#fuelCan)" filter="url(#fuelShadow)" stroke="#475569" stroke-width="1.5"/>
+    <rect x="68" y="60" width="64" height="40" rx="4" fill="#0F172A"/>
+    <text x="100" y="78" font-size="8" font-weight="bold" font-family="sans-serif" text-anchor="middle" fill="#FFFFFF">FUEL FILTER</text>
+    <text x="100" y="90" font-size="6" font-family="sans-serif" text-anchor="middle" fill="#38BDF8">HIGH PRESSURE MPI</text>
+  </svg>

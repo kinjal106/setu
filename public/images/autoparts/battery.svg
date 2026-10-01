@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 160" width="100%" height="100%">
+    <defs>
+      <linearGradient id="batBlack" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#334155"/>
+        <stop offset="40%" stop-color="#0F172A"/>
+        <stop offset="100%" stop-color="#020617"/>
+      </linearGradient>
+      <linearGradient id="amaronGreen" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#16A34A"/>
+        <stop offset="50%" stop-color="#22C55E"/>
+        <stop offset="100%" stop-color="#15803D"/>
+      </linearGradient>
+      <filter id="batShadow" x="-10%" y="-10%" width="120%" height="120%">
+        <feDropShadow dx="0" dy="5" stdDeviation="5" flood-color="#000" flood-opacity="0.25"/>
+      </filter>
+    </defs>
+    <rect x="60" y="32" width="16" height="12" rx="2" fill="#DC2626" stroke="#991B1B" stroke-width="1"/>
+    <rect x="124" y="32" width="16" height="12" rx="2" fill="#2563EB" stroke="#1D4ED8" stroke-width="1"/>
+    <path d="M 50,55 C 50,25 150,25 150,55" fill="none" stroke="#22C55E" stroke-width="4.5" stroke-linecap="round"/>
+    <rect x="42" y="44" width="116" height="96" rx="8" fill="url(#batBlack)" filter="url(#batShadow)" stroke="#475569" stroke-width="1.5"/>
+    <rect x="42" y="44" width="116" height="22" rx="6" fill="url(#amaronGreen)" stroke="#15803D" stroke-width="1"/>
+    <circle cx="68" cy="55" r="4" fill="#0F172A"/>
+    <circle cx="84" cy="55" r="4" fill="#0F172A"/>
+    <circle cx="100" cy="55" r="4" fill="#0F172A"/>
+    <circle cx="116" cy="55" r="4" fill="#0F172A"/>
+    <circle cx="132" cy="55" r="4" fill="#0F172A"/>
+    <rect x="52" y="76" width="96" height="52" rx="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
+    <text x="100" y="94" font-size="12" font-weight="900" font-family="sans-serif" text-anchor="middle" fill="#22C55E">PRO 35AH</text>
+    <text x="100" y="108" font-size="7" font-weight="bold" font-family="sans-serif" text-anchor="middle" fill="#E2E8F0">MAINTENANCE FREE</text>
+    <text x="100" y="120" font-size="6" font-family="sans-serif" text-anchor="middle" fill="#94A3B8">60 MONTHS WARRANTY</text>
+  </svg>

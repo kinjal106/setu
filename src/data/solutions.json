@@ -1,0 +1,66 @@
+[
+  {
+    "id": "trakzee-mini",
+    "name": "Trakzee Mini",
+    "description": "Trakzee Mini is a simplified GPS tracking platform designed for basic vehicle tracking needs. It enables...",
+    "icon": "🔴",
+    "color": "#FF4444",
+    "category": "fleet-management"
+  },
+  {
+    "id": "petzee",
+    "name": "Petzee",
+    "description": "Petzee is an intelligent pet tracking and safety platform designed to help pet owners monitor their...",
+    "icon": "🐾",
+    "color": "#FF8C00",
+    "category": "pet-tracking"
+  },
+  {
+    "id": "elexee",
+    "name": "Elexee",
+    "description": "Elexee is a smart electric vehicle (EV) fleet management platform designed to monitor, manage...",
+    "icon": "⚡",
+    "color": "#00CC44",
+    "category": "ev-management"
+  },
+  {
+    "id": "taskeye",
+    "name": "TaskEye",
+    "description": "TaskEye is a smart workforce and task management platform designed to streamline field operations and...",
+    "icon": "👁️",
+    "color": "#0066CC",
+    "category": "workforce"
+  },
+  {
+    "id": "smart-waste",
+    "name": "SMART WASTE (Advanced Waste Collection S...",
+    "description": "SmartWaste simplifies waste collection from start to finish. It helps managers plan smarter routes, track...",
+    "icon": "♻️",
+    "color": "#228B22",
+    "category": "waste-management"
+  },
+  {
+    "id": "smart-tranzit",
+    "name": "SmartTranzit",
+    "description": "The Public Transportation Management Software is a smart platform designed to streamline and optimize...",
+    "icon": "🚌",
+    "color": "#444444",
+    "category": "transit"
+  },
+  {
+    "id": "smartbus",
+    "name": "SmartBus",
+    "description": "Unplanned routes, delayed buses, and lack of real-time visibility make school transportation stressful f...",
+    "icon": "🚍",
+    "color": "#FF6600",
+    "category": "school-transport"
+  },
+  {
+    "id": "gridzee",
+    "name": "Gridzee",
+    "description": "It is a real time indoor location and monitoring system for people and assets.",
+    "icon": "📡",
+    "color": "#8800CC",
+    "category": "indoor-tracking"
+  }
+]

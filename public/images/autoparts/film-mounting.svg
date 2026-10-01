@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F8FAFC" />
+      <stop offset="100%" stop-color="#E2E8F0" />
+    </linearGradient>
+    <linearGradient id="filmGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E293B" />
+      <stop offset="50%" stop-color="#0F172A" />
+      <stop offset="100%" stop-color="#020617" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#0F172A" flood-opacity="0.18" />
+    </filter>
+  </defs>
+  <rect width="200" height="200" rx="16" fill="url(#bgGrad)" />
+  <!-- Background tape/brand band -->
+  <rect x="15" y="115" width="170" height="34" rx="4" fill="#1E3A8A" opacity="0.85" />
+  <text x="100" y="132" font-family="-apple-system, sans-serif" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle" letter-spacing="1">OEM GENUINE PART</text>
+  <text x="100" y="143" font-family="-apple-system, sans-serif" font-size="8" fill="#93C5FD" text-anchor="middle">SPARE PARTS EXPERT</text>
+  <!-- 4th Mounting Film Pad -->
+  <rect x="55" y="45" width="90" height="60" rx="4" fill="url(#filmGrad)" filter="url(#shadow)" stroke="#475569" stroke-width="1.5" />
+  <!-- Highlighting lines on film -->
+  <rect x="62" y="52" width="76" height="46" rx="2" fill="none" stroke="#334155" stroke-dasharray="3 2" />
+  <line x1="68" y1="75" x2="132" y2="75" stroke="#334155" stroke-width="1" />
+  <circle cx="100" cy="75" r="4" fill="#64748B" />
+  <!-- Corner notch details -->
+  <rect x="55" y="45" width="6" height="6" fill="#334155" />
+  <rect x="139" y="45" width="6" height="6" fill="#334155" />
+  <rect x="55" y="99" width="6" height="6" fill="#334155" />
+  <rect x="139" y="99" width="6" height="6" fill="#334155" />
+  <!-- Text Label -->
+  <text x="100" y="172" font-family="-apple-system, sans-serif" font-size="9.5" font-weight="600" fill="#475569" text-anchor="middle">MEMBER 4TH MOUNTING</text>
+</svg>

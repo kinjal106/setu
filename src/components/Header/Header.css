@@ -1,0 +1,410 @@
+/* ─────────────────────────────────────────────────────────────
+   Setu Portal — Main Top Header
+   Theme: Blue (Dark Navy #071A41, matching original palette)
+   Layout: Left-aligned Logo & Nav Links (Hardware, Solutions,
+   Setu Finance, Auto Parts BETA), Right-aligned Action Icons.
+   Search bar removed as requested.
+   ───────────────────────────────────────────────────────────── */
+
+.header {
+  position: fixed;
+  top: 0;
+  left: var(--sidebar-width);
+  right: 0;
+  height: var(--header-height);
+  background: #071A41;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  z-index: 90;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.header__container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+/* ── Left-Aligned Group: Logo + Navigation Links ── */
+.header__left {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  flex-shrink: 0;
+}
+
+/* Setu Logo */
+.header__logo-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  user-select: none;
+  transition: opacity 0.15s ease;
+}
+
+.header__logo-btn:hover {
+  opacity: 0.85;
+}
+
+.header__logo-img {
+  height: 28px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+}
+
+/* Navigation Links */
+.header__nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.header__nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 6px;
+  background: transparent;
+  border: 1px solid transparent;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.75);
+  cursor: pointer;
+  transition: all 160ms ease;
+  white-space: nowrap;
+  font-family: inherit;
+}
+
+.header__nav-link:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.header__nav-link--active {
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.06);
+  font-weight: 600;
+}
+
+.header__nav-link--active:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* BETA pill badge */
+.header__beta-badge {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  background: rgba(255, 255, 255, 0.16);
+  color: rgba(255, 255, 255, 0.95);
+  padding: 2px 5px;
+  border-radius: 4px;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.header__beta-badge-dark {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  background: #E0F2FE;
+  color: #0284C7;
+  padding: 2px 5px;
+  border-radius: 4px;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+/* ── Spacer: Pushes Right Icons to Far Right ── */
+.header__spacer {
+  flex: 1;
+}
+
+/* ── Right-Aligned Group: Action Icons ── */
+.header__actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  position: relative;
+}
+
+/* Base Icon Button */
+.header__icon-btn {
+  background: transparent;
+  border: none;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 160ms ease;
+  position: relative;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.header__icon-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+}
+
+/* Shopping Cart Button */
+.header__icon-btn--cart {
+  width: 34px;
+  height: 34px;
+}
+
+.header__cart-count {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 16px;
+  height: 16px;
+  background: #006EFF;
+  color: #ffffff;
+  font-size: 8.5px;
+  font-weight: 700;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 3px;
+  line-height: 1;
+  border: 1.5px solid #071A41;
+}
+
+/* Blue Play / Tutorial Button */
+.header__icon-btn--play {
+  background: #006EFF;
+  color: #ffffff;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  padding: 0;
+}
+
+.header__icon-btn--play:hover {
+  background: #0055CC;
+  color: #ffffff;
+  transform: scale(1.06);
+}
+
+/* Hamburger Menu Button */
+.header__icon-btn--menu {
+  width: 34px;
+  height: 34px;
+}
+
+.header__icon-btn--menu:hover,
+.header__icon-btn--menu-active {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+}
+
+/* ── Hamburger Dropdown Menu ── */
+.header__dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 220px;
+  background: #ffffff;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  padding: 6px;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  animation: headerFadeIn 0.15s ease-out;
+}
+
+@keyframes headerFadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.header__dropdown-header {
+  padding: 8px 12px 6px;
+  border-bottom: 1px solid #F1F5F9;
+  margin-bottom: 4px;
+}
+
+.header__dropdown-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #64748B;
+  letter-spacing: 0.05em;
+}
+
+.header__dropdown-links {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.header__dropdown-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: none;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #334155;
+  cursor: pointer;
+  transition: all 0.12s ease;
+  text-align: left;
+}
+
+.header__dropdown-item:hover {
+  background: #F8FAFC;
+  color: #006EFF;
+}
+
+.header__dropdown-divider {
+  height: 1px;
+  background: #F1F5F9;
+  margin: 4px 0;
+}
+
+/* ── Tutorial Modal Overlay ── */
+.header__modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  animation: modalFadeIn 0.2s ease-out;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.header__modal-dialog {
+  background: #ffffff;
+  border: 1px solid #E2E8F0;
+  border-radius: 12px;
+  width: 460px;
+  max-width: 90vw;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.header__modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px;
+  border-bottom: 1px solid #F1F5F9;
+}
+
+.header__modal-head h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #0F172A;
+  margin: 0;
+}
+
+.header__modal-close {
+  background: none;
+  border: none;
+  font-size: 16px;
+  color: #94A3B8;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+  transition: color 0.15s ease;
+}
+
+.header__modal-close:hover {
+  color: #0F172A;
+}
+
+.header__modal-body {
+  padding: 20px 24px;
+}
+
+.header__modal-body p {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #475569;
+  margin: 0 0 16px;
+}
+
+.header__modal-video-placeholder {
+  background: #F8FAFC;
+  border: 1px dashed #CBD5E1;
+  border-radius: 8px;
+  height: 160px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: #64748B;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.header__modal-play-circle {
+  width: 44px;
+  height: 44px;
+  background: #006EFF;
+  color: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header__modal-foot {
+  padding: 14px 24px;
+  background: #F8FAFC;
+  border-top: 1px solid #F1F5F9;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* ── Responsive Queries ── */
+@media (max-width: 900px) {
+  .header__nav {
+    gap: 4px;
+  }
+  .header__nav-link {
+    padding: 5px 10px;
+    font-size: 12.5px;
+  }
+  .header__left {
+    gap: 16px;
+  }
+}
+
+@media (max-width: 640px) {
+  .header__nav {
+    display: none;
+  }
+}

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 160" width="100%" height="100%">
+    <defs>
+      <linearGradient id="alloyCast" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#E2E8F0"/>
+        <stop offset="50%" stop-color="#94A3B8"/>
+        <stop offset="100%" stop-color="#475569"/>
+      </linearGradient>
+      <filter id="wpShadow" x="-10%" y="-10%" width="120%" height="120%">
+        <feDropShadow dx="0" dy="5" stdDeviation="5" flood-color="#000" flood-opacity="0.2"/>
+      </filter>
+    </defs>
+    <!-- Flange Plate -->
+    <path d="M 45,70 C 45,40 80,30 115,40 C 150,50 160,90 145,115 C 130,135 70,135 50,110 Z" fill="url(#alloyCast)" filter="url(#wpShadow)" stroke="#475569" stroke-width="2"/>
+    <!-- Mounting Holes -->
+    <circle cx="55" cy="55" r="4.5" fill="#0F172A" stroke="#CBD5E1" stroke-width="1"/>
+    <circle cx="140" cy="55" r="4.5" fill="#0F172A" stroke="#CBD5E1" stroke-width="1"/>
+    <circle cx="140" cy="110" r="4.5" fill="#0F172A" stroke="#CBD5E1" stroke-width="1"/>
+    <circle cx="65" cy="115" r="4.5" fill="#0F172A" stroke="#CBD5E1" stroke-width="1"/>
+    <!-- Central Hub & Pulley Bearing -->
+    <circle cx="100" cy="80" r="32" fill="#334155" stroke="#1E293B" stroke-width="2"/>
+    <circle cx="100" cy="80" r="20" fill="#0F172A"/>
+    <!-- Impeller Curved Blades -->
+    <path d="M 100,60 C 110,65 110,75 100,80" stroke="#E2E8F0" stroke-width="3" stroke-linecap="round"/>
+    <path d="M 100,100 C 90,95 90,85 100,80" stroke="#E2E8F0" stroke-width="3" stroke-linecap="round"/>
+    <path d="M 80,80 C 85,90 95,90 100,80" stroke="#E2E8F0" stroke-width="3" stroke-linecap="round"/>
+    <path d="M 120,80 C 115,70 105,70 100,80" stroke="#E2E8F0" stroke-width="3" stroke-linecap="round"/>
+  </svg>

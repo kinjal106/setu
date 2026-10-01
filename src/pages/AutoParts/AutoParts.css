@@ -1,0 +1,1246 @@
+/* ─────────────────────────────────────────────────────────────
+   Setu Portal — Auto Spare Parts Marketplace
+   Unified Single-Card Architecture (20px Curved Corners, 10px Padding)
+   Sidebar: Origin Filter & Hierarchical Categories Tree (matching Hardware)
+   Main: Clean Vehicle Finder without clutter + Rich Product Grid
+   ───────────────────────────────────────────────────────────── */
+
+.autoparts-page {
+  background: var(--bg-light);
+  width: 100%;
+  height: calc(100vh - var(--header-height));
+  max-height: calc(100vh - var(--header-height));
+  padding: 10px;
+  box-sizing: border-box;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: #0F172A;
+}
+
+.autoparts-card {
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+  background: #ffffff;
+  border: 1px solid #E2E8F0;
+  border-radius: 20px;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.04);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* ── Fixed Topbar: Breadcrumbs + Navigation State ── */
+.autoparts-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 24px;
+  border-bottom: 1px solid #E2E8F0;
+  background: #ffffff;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  gap: 16px;
+}
+
+.autoparts-breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  flex-wrap: wrap;
+}
+
+.autoparts-crumb-link {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #006EFF;
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.autoparts-crumb-link:hover {
+  text-decoration: underline;
+}
+
+.autoparts-sep {
+  color: #94A3B8;
+  font-size: 13px;
+  user-select: none;
+}
+
+.autoparts-crumb-current {
+  color: #0F172A;
+  font-weight: 600;
+}
+
+.autoparts-badge-beta {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  background: #EFF6FF;
+  color: #006EFF;
+  padding: 2px 6px;
+  border-radius: 4px;
+  line-height: 1.2;
+}
+
+.autoparts-vehicle-tag {
+  background: #F1F5F9;
+  color: #1E293B;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  border: 1px solid #E2E8F0;
+}
+
+.autoparts-topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.autoparts-reset-all-btn {
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  color: #475569;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.autoparts-reset-all-btn:hover {
+  background: #F1F5F9;
+  color: #0F172A;
+}
+
+/* ── Unified Body: Left Filter Panel + Right Content Area ── */
+.autoparts-body {
+  display: flex;
+  flex: 1;
+  height: calc(100% - 49px);
+  min-height: 0;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* ══════════════════════════════════════════════════════
+   LEFT PANEL: Origin + Hierarchical Categories (Matching Hardware)
+   ══════════════════════════════════════════════════════ */
+.autoparts-sidebar {
+  width: 280px;
+  height: 100%;
+  flex-shrink: 0;
+  border-right: 1px solid #E2E8F0;
+  background: #FAFAFC;
+  padding: 16px 14px;
+  overflow-y: auto;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.autoparts-sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.autoparts-sidebar::-webkit-scrollbar-thumb {
+  background: #E2E8F0;
+  border-radius: 4px;
+}
+
+/* 1. Origin Filter Box */
+.autoparts-origin-box {
+  width: 100%;
+  border-bottom: 1px solid #E2E8F0;
+  padding-bottom: 14px;
+}
+
+.autoparts-origin-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* 2. Categories Filter Tree Box matching Hardware */
+.autoparts-categories-box {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Search Category input field matching Screenshot 1 */
+.autoparts-cat-search {
+  padding: 0 4px 6px;
+}
+
+.autoparts-cat-input {
+  width: 100%;
+  height: 32px;
+  background: #ffffff;
+  border: 1px solid #CBD5E1;
+  border-radius: 6px;
+  padding: 0 10px;
+  font-size: 12px;
+  color: #0F172A;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.autoparts-cat-input:focus {
+  outline: none;
+  border-color: #006EFF;
+  box-shadow: 0 0 0 2px rgba(0, 110, 255, 0.12);
+}
+
+/* ── FilterTree Styles (Identical to Hardware.css) ── */
+.filter-tree {
+  width: 100%;
+}
+
+.filter-tree__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2px 8px 10px;
+}
+
+.filter-tree__title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #64748B;
+  margin: 0;
+}
+
+.filter-tree__reset-btn {
+  background: none;
+  border: none;
+  color: #006EFF;
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  font-family: inherit;
+  transition: opacity 140ms ease;
+}
+
+.filter-tree__reset-btn:hover {
+  text-decoration: underline;
+  opacity: 0.85;
+}
+
+.filter-tree__list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* Category group */
+.fgroup {
+  width: 100%;
+}
+
+.fgroup__row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 140ms ease;
+  user-select: none;
+}
+
+.fgroup__row:hover {
+  background: #F8FAFC;
+}
+
+.fgroup__row--active {
+  background: #F1F5F9 !important;
+}
+
+.fgroup__label {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 500;
+  color: #1E293B;
+  line-height: 1.3;
+}
+
+.fgroup__row--active .fgroup__label {
+  font-weight: 600;
+  color: #0F172A;
+}
+
+/* Triangle arrow */
+.fgroup__arrow {
+  background: none;
+  border: none;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #334155;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: transform 180ms ease, color 140ms ease;
+  flex-shrink: 0;
+}
+
+.fgroup__arrow:hover {
+  color: #0F172A;
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.fgroup__arrow--open {
+  transform: rotate(90deg);
+}
+
+/* Subcategories children list */
+.fgroup__children {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding-left: 20px;
+  margin-top: 2px;
+  margin-bottom: 4px;
+  border-left: 1.5px solid #E2E8F0;
+  margin-left: 17px;
+}
+
+.fchild {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 140ms ease;
+  user-select: none;
+}
+
+.fchild:hover {
+  background: #F8FAFC;
+}
+
+.fchild--active {
+  background: #EFF6FF !important;
+}
+
+.fchild__label {
+  font-size: 12px;
+  color: #475569;
+  line-height: 1.25;
+}
+
+.fchild--active .fchild__label {
+  color: #006EFF;
+  font-weight: 600;
+}
+
+/* Custom Checkbox */
+.fcheck {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.fcheck input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  margin: 0;
+}
+
+.fcheck__box {
+  width: 17px;
+  height: 17px;
+  border: 1.8px solid #94A3B8;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  transition: all 140ms ease;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.fcheck__box--sm {
+  width: 15px;
+  height: 15px;
+  border-radius: 3.5px;
+}
+
+.fcheck:hover .fcheck__box {
+  border-color: #006EFF;
+}
+
+.fcheck input:checked + .fcheck__box {
+  background: #006EFF;
+  border-color: #006EFF;
+}
+
+.fcheck input:checked + .fcheck__box::after {
+  content: "";
+  display: block;
+  width: 4px;
+  height: 8px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  margin-bottom: 2px;
+}
+
+/* ══════════════════════════════════════════════════════
+   RIGHT PANEL: Vehicle Finder Tabs & Parts Listing
+   ══════════════════════════════════════════════════════ */
+.autoparts-main {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  overflow-y: auto;
+  padding: 20px 24px 48px;
+  box-sizing: border-box;
+  background: #ffffff;
+}
+
+.autoparts-main::-webkit-scrollbar {
+  width: 6px;
+}
+
+.autoparts-main::-webkit-scrollbar-thumb {
+  background: #E2E8F0;
+  border-radius: 4px;
+}
+
+/* 1. Vehicle Finder Box (Clean search matching Screenshot 1 & 2) */
+.autoparts-finder-card {
+  background: #ffffff;
+  border: 1px solid #E2E8F0;
+  border-radius: 10px;
+  margin-bottom: 24px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03);
+}
+
+.autoparts-finder-tabs {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #E2E8F0;
+  background: #ffffff;
+  padding-right: 14px;
+}
+
+.autoparts-finder-tab {
+  padding: 12px 20px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  font-size: 13px;
+  font-weight: 500;
+  color: #64748B;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.autoparts-finder-tab:hover {
+  color: #0F172A;
+}
+
+.autoparts-finder-tab--active {
+  color: #006EFF;
+  font-weight: 600;
+  border-bottom-color: #006EFF;
+  background: #ffffff;
+}
+
+.autoparts-finder-reset-btn {
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: #006EFF;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 4px 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.autoparts-finder-reset-btn:hover {
+  text-decoration: underline;
+}
+
+.autoparts-finder-body {
+  padding: 18px 20px;
+}
+
+.autoparts-finder-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  color: #475569;
+  margin-bottom: 8px;
+}
+
+/* Tab 1 layout: flex row with input on left and 4 spec fields on right */
+.autoparts-finder-flex-row {
+  display: flex;
+  gap: 20px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.autoparts-reg-input-group {
+  flex: 1;
+  min-width: 280px;
+}
+
+.autoparts-reg-row {
+  display: flex;
+  gap: 8px;
+}
+
+.autoparts-input-with-clear {
+  position: relative;
+  flex: 1;
+}
+
+.autoparts-reg-input {
+  width: 100%;
+  height: 36px;
+  background: #F1F5F9;
+  border: 1px solid #CBD5E1;
+  border-radius: 6px;
+  padding: 0 28px 0 12px;
+  font-size: 13px;
+  color: #0F172A;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.autoparts-reg-input:focus {
+  outline: none;
+  background: #ffffff;
+  border-color: #006EFF;
+}
+
+.autoparts-input-clear-icon {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #94A3B8;
+  cursor: pointer;
+  font-size: 11px;
+  padding: 2px;
+}
+
+.autoparts-search-parts-btn {
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #EFF6FF;
+  color: #006EFF;
+  border: 1px solid #BFDBFE;
+  border-radius: 6px;
+  padding: 0 16px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.autoparts-search-parts-btn:hover {
+  background: #006EFF;
+  border-color: #006EFF;
+  color: #ffffff;
+}
+
+.autoparts-finder-error {
+  color: #DC2626;
+  font-size: 12px;
+  margin: 6px 0 0;
+}
+
+/* 4 live vehicle spec fields side-by-side matching screenshot 1 & 2 */
+.autoparts-spec-fields-row {
+  display: flex;
+  gap: 12px;
+  flex: 1.4;
+  min-width: 400px;
+}
+
+.autoparts-spec-field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.autoparts-spec-field--variant {
+  flex: 1.5;
+}
+
+.autoparts-spec-field label {
+  font-size: 12px;
+  color: #475569;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.autoparts-spec-input {
+  height: 36px;
+  background: #F1F5F9;
+  border: 1px solid #E2E8F0;
+  border-radius: 6px;
+  padding: 0 10px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #475569;
+  box-sizing: border-box;
+  width: 100%;
+  cursor: default;
+}
+
+/* Cascade Tab 2 */
+.autoparts-cascade-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.autoparts-cascade-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.autoparts-cascade-field label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #475569;
+}
+
+.autoparts-cascade-field select {
+  height: 36px;
+  background: #F8FAFC;
+  border: 1px solid #CBD5E1;
+  border-radius: 6px;
+  padding: 0 10px;
+  font-size: 12.5px;
+  color: #0F172A;
+}
+
+.autoparts-cascade-submit {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Part No Tab 3 */
+.autoparts-partno-search {
+  max-width: 600px;
+}
+
+/* Finder Footer Note */
+.autoparts-finder-footer {
+  padding: 10px 20px;
+  background: #ffffff;
+  border-top: 1px solid #F1F5F9;
+  font-size: 12px;
+  color: #64748B;
+  font-style: italic;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.autoparts-finder-info-icon {
+  font-style: normal;
+  font-size: 13px;
+  color: #64748B;
+  flex-shrink: 0;
+}
+
+/* 2. Results Header Bar */
+.autoparts-results-bar {
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.autoparts-results-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.autoparts-results-title-group {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.autoparts-results-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #0F172A;
+  margin: 0;
+}
+
+.autoparts-results-count {
+  font-size: 16px;
+  font-weight: 600;
+  color: #64748B;
+}
+
+.autoparts-results-tools {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.autoparts-filter-search {
+  position: relative;
+  width: 220px;
+}
+
+.autoparts-filter-search-input {
+  width: 100%;
+  height: 34px;
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 6px;
+  padding: 0 28px 0 12px;
+  font-size: 12px;
+  color: #0F172A;
+  box-sizing: border-box;
+}
+
+.autoparts-filter-search-input:focus {
+  outline: none;
+  background: #ffffff;
+  border-color: #006EFF;
+}
+
+.autoparts-clear-btn {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #94A3B8;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 2px;
+}
+
+.autoparts-sort-select {
+  height: 34px;
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 6px;
+  padding: 0 10px;
+  font-size: 12px;
+  color: #334155;
+  cursor: pointer;
+}
+
+/* 3. Products Grid */
+.autoparts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.autoparts-card-item {
+  background: #ffffff;
+  border: 1px solid #E2E8F0;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  position: relative;
+}
+
+.autoparts-card-item:hover {
+  border-color: #93C5FD;
+  box-shadow: 0 6px 16px rgba(0, 110, 255, 0.08);
+  transform: translateY(-2px);
+}
+
+.autoparts-card-item__top {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+}
+
+.autoparts-origin-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2.5px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.autoparts-origin-badge--oem {
+  background: #FEF3C7;
+  color: #92400E;
+  border: 1px solid #FDE68A;
+}
+
+.autoparts-origin-badge--aftermarket {
+  background: #EFF6FF;
+  color: #1E40AF;
+  border: 1px solid #BFDBFE;
+}
+
+/* Product Thumbnail Frame */
+.autoparts-card-item__thumb {
+  width: 100%;
+  height: 130px;
+  background: #F8FAFC;
+  border: 1px solid #F1F5F9;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  box-sizing: border-box;
+  margin-bottom: 12px;
+  overflow: hidden;
+  transition: background 0.15s ease;
+}
+
+.autoparts-card-item:hover .autoparts-card-item__thumb {
+  background: #F1F5F9;
+}
+
+.autoparts-card-item__img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.autoparts-card-item:hover .autoparts-card-item__img {
+  transform: scale(1.05);
+}
+
+.autoparts-card-item__info {
+  display: flex;
+  flex-direction: column;
+}
+
+.autoparts-card-item__name {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #0F172A;
+  margin: 0;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 38px;
+  transition: color 0.15s ease;
+}
+
+.autoparts-card-item:hover .autoparts-card-item__name {
+  color: #006EFF;
+}
+
+/* Empty State */
+.autoparts-empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  background: #F8FAFC;
+  border: 1px dashed #CBD5E1;
+  border-radius: 12px;
+}
+
+.autoparts-empty-icon {
+  font-size: 36px;
+  margin-bottom: 12px;
+}
+
+.autoparts-empty-state h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #0F172A;
+  margin: 0 0 6px;
+}
+
+.autoparts-empty-state p {
+  font-size: 13px;
+  color: #64748B;
+  max-width: 440px;
+  margin: 0 auto 18px;
+}
+
+/* ── Quick View / Fitment Details Modal ── */
+.autoparts-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  animation: modalFadeIn 0.2s ease-out;
+}
+
+.autoparts-modal {
+  background: #ffffff;
+  border-radius: 12px;
+  width: 580px;
+  max-width: 90vw;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+
+.autoparts-modal__head {
+  padding: 18px 24px;
+  border-bottom: 1px solid #E2E8F0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.autoparts-modal__title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #0F172A;
+  margin: 6px 0 4px;
+}
+
+.autoparts-modal__pnum {
+  font-size: 12px;
+  color: #64748B;
+}
+
+.autoparts-modal__close-btn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: #94A3B8;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.autoparts-modal__close-btn:hover {
+  color: #0F172A;
+}
+
+.autoparts-modal__body {
+  padding: 20px 24px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.autoparts-modal__hero {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.autoparts-modal__icon-frame {
+  width: 64px;
+  height: 64px;
+  background: #ffffff;
+  border: 1px solid #E2E8F0;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #006EFF;
+  flex-shrink: 0;
+}
+
+.autoparts-modal__pricing {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.autoparts-modal__price-val {
+  font-size: 22px;
+  font-weight: 700;
+  color: #0F172A;
+}
+
+.autoparts-modal__mrp-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+}
+
+.autoparts-modal__mrp {
+  color: #94A3B8;
+  text-decoration: line-through;
+}
+
+.autoparts-modal__save {
+  color: #059669;
+  font-weight: 700;
+}
+
+.autoparts-modal__tax-hint {
+  font-size: 11px;
+  color: #64748B;
+  margin-top: 4px;
+}
+
+.autoparts-modal__section h4 {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #0F172A;
+  margin: 0 0 8px;
+}
+
+.autoparts-modal__section p {
+  font-size: 13px;
+  line-height: 1.55;
+  color: #475569;
+  margin: 0;
+}
+
+.autoparts-modal__specs-table {
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.autoparts-modal__spec-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 14px;
+  border-bottom: 1px solid #F1F5F9;
+  font-size: 12.5px;
+}
+
+.autoparts-modal__spec-row:last-child {
+  border-bottom: none;
+}
+
+.autoparts-modal__spec-k {
+  color: #64748B;
+  font-weight: 500;
+}
+
+.autoparts-modal__spec-v {
+  color: #0F172A;
+  font-weight: 600;
+}
+
+.autoparts-modal__compat-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.autoparts-modal__compat-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  color: #334155;
+  background: #F8FAFC;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #F1F5F9;
+}
+
+.autoparts-compat-check {
+  color: #059669;
+  font-weight: bold;
+}
+
+.autoparts-modal__foot {
+  padding: 14px 24px;
+  border-top: 1px solid #E2E8F0;
+  background: #F8FAFC;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+/* ── Empty Sidebar State (Before vehicle is selected) ── */
+.autoparts-sidebar-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 32px 16px;
+  background: #FFFFFF;
+  border: 1.5px dashed #CBD5E1;
+  border-radius: 12px;
+  box-sizing: border-box;
+}
+
+.autoparts-sidebar-empty-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #F1F5F9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+
+.autoparts-sidebar-empty-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1E293B;
+  margin: 0 0 8px;
+}
+
+.autoparts-sidebar-empty-desc {
+  font-size: 12px;
+  color: #64748B;
+  line-height: 1.45;
+  margin: 0 0 14px;
+}
+
+.autoparts-sidebar-empty-hint {
+  background: #EFF6FF;
+  border: 1px solid #DBEAFE;
+  color: #006EFF;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.35;
+  padding: 8px 10px;
+  border-radius: 6px;
+}
+
+/* ── Empty Catalog Hero (Before vehicle is searched) ── */
+.autoparts-empty-catalog {
+  width: 100%;
+  padding: 12px 0 24px;
+}
+
+.autoparts-empty-catalog__card {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 14px;
+  padding: 60px 32px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.autoparts-empty-catalog__icon-wrap {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: #EFF6FF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.autoparts-empty-catalog__title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #0F172A;
+  margin: 0 0 8px;
+}
+
+.autoparts-empty-catalog__subtitle {
+  font-size: 13.5px;
+  color: #64748B;
+  line-height: 1.5;
+  max-width: 580px;
+  margin: 0;
+}
+
+/* ── Responsive Queries ── */
+@media (max-width: 1024px) {
+  .autoparts-page {
+    height: auto;
+    max-height: none;
+    overflow: visible;
+  }
+  .autoparts-card {
+    height: auto;
+    max-height: none;
+    overflow: visible;
+  }
+  .autoparts-body {
+    flex-direction: column;
+    height: auto;
+    overflow: visible;
+  }
+  .autoparts-sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #E2E8F0;
+    height: auto;
+    overflow: visible;
+  }
+  .autoparts-main {
+    height: auto;
+    overflow: visible;
+    padding: 16px 14px 32px;
+  }
+  .autoparts-cascade-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .autoparts-spec-fields-row {
+    flex-direction: column;
+    min-width: 100%;
+  }
+}
+
+

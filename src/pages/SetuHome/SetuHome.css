@@ -1,0 +1,670 @@
+/* ────────────────────────────────────────
+   Dashboard - Full Width with 10px Padding
+   (Dark Tone Hero Card & Light Tone Open Hardware Section)
+──────────────────────────────────────── */
+
+.dashboard {
+  background: #F8FAFC;
+  min-height: calc(100vh - var(--header-height));
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.dashboard__page-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  box-sizing: border-box;
+}
+
+/* ────────────────────────────────────────
+   Card 1: Magical Hero Banner Card
+   (Original search bar styling, continuous animated pink & blue aurora)
+──────────────────────────────────────── */
+.hero-magic-card {
+  position: relative;
+  background: linear-gradient(145deg, #07122A 0%, #09193C 50%, #061026 100%);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  min-height: 350px;
+  padding: 95px 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: visible;
+  z-index: 20;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  box-sizing: border-box;
+}
+
+.hero-aurora-bg {
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Continuous Animated Pink & Blue Aurora Glows */
+.aurora-orb {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(75px);
+  mix-blend-mode: screen;
+  opacity: 0.65;
+  z-index: 1;
+}
+
+/* Electric Blue Orb */
+.aurora-orb--blue {
+  width: 540px;
+  height: 320px;
+  background: radial-gradient(circle, #006EFF 0%, #3B82F6 40%, transparent 70%);
+  top: -15%;
+  left: 5%;
+  animation: floatBlue 11s ease-in-out infinite alternate;
+}
+
+/* Neon Pink / Magenta Orb */
+.aurora-orb--pink {
+  width: 520px;
+  height: 320px;
+  background: radial-gradient(circle, #EC4899 0%, #D946EF 45%, transparent 70%);
+  top: -10%;
+  right: 8%;
+  animation: floatPink 13s ease-in-out infinite alternate;
+}
+
+/* Electric Cyan Orb */
+.aurora-orb--cyan {
+  width: 480px;
+  height: 280px;
+  background: radial-gradient(circle, #06B6D4 0%, #22D3EE 40%, transparent 70%);
+  bottom: -15%;
+  left: 36%;
+  animation: floatCyan 15s ease-in-out infinite alternate;
+}
+
+@keyframes floatBlue {
+  0% { transform: translate(0px, 0px) scale(1); }
+  50% { transform: translate(50px, 30px) scale(1.15); }
+  100% { transform: translate(-30px, 40px) scale(0.95); }
+}
+
+@keyframes floatPink {
+  0% { transform: translate(0px, 0px) scale(1); }
+  50% { transform: translate(-60px, 35px) scale(1.18); }
+  100% { transform: translate(40px, -20px) scale(0.92); }
+}
+
+@keyframes floatCyan {
+  0% { transform: translate(0px, 0px) scale(1); }
+  50% { transform: translate(40px, -30px) scale(1.12); }
+  100% { transform: translate(-45px, 20px) scale(0.96); }
+}
+
+.hero-magic-card__inner {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* Single-line Heading */
+.hero-magic-card__heading {
+  font-size: 38px;
+  font-weight: 800;
+  color: #FFFFFF;
+  line-height: 1.2;
+  letter-spacing: -0.8px;
+  margin-bottom: 28px;
+  white-space: nowrap;
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
+}
+
+/* ────────────────────────────────────────
+   Search Bar Wrapper
+──────────────────────────────────────── */
+.search-section-wrap {
+  text-align: left;
+  position: relative;
+  width: 100%;
+}
+
+/* ────────────────────────────────────────
+   Search Container Card
+──────────────────────────────────────── */
+.search-container-card {
+  position: relative;
+  background: rgba(8, 18, 44, 0.82);
+  border: 1.5px solid rgba(255, 255, 255, 0.18);
+  border-radius: 18px;
+  height: 58px;
+  padding: 0 14px 0 16px;
+  backdrop-filter: blur(24px);
+  box-shadow: 0 14px 44px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  transition: border-color 200ms ease, box-shadow 200ms ease;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+}
+
+.search-container-card:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.search-container-card--focused {
+  border-color: #38BDF8;
+  box-shadow: 0 16px 48px rgba(0, 110, 255, 0.4), 0 0 0 2px rgba(56, 189, 248, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.search-input-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Search input wrapper */
+.search-normal-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.search-normal-icon {
+  flex-shrink: 0;
+  stroke: rgba(255, 255, 255, 0.6);
+}
+
+.search-normal-icon--ai {
+  stroke: #38BDF8;
+}
+
+.search-field-wrapper {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+/* Search input field - constant single-line height */
+.search-field {
+  width: 100%;
+  height: 44px;
+  border: none;
+  outline: none;
+  font-size: 14.5px;
+  color: #FFFFFF;
+  background: transparent;
+  font-family: inherit;
+  line-height: 44px;
+}
+
+.search-field::placeholder {
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 14px;
+}
+
+.search-clear-btn {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 6px;
+  transition: color 140ms ease;
+  flex-shrink: 0;
+}
+
+.search-clear-btn:hover {
+  color: #FFFFFF;
+}
+
+/* Action submit button */
+.search-submit-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #006EFF 0%, #06B6D4 100%);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  box-shadow: 0 4px 16px rgba(0, 110, 255, 0.4);
+  transition: background 160ms ease, transform 120ms ease, box-shadow 160ms ease;
+}
+
+.search-submit-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 22px rgba(0, 110, 255, 0.6);
+}
+
+.search-submit-btn:disabled {
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: none;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ────────────────────────────────────────
+   Normal Search Instant Dropdown (Dark Mode)
+──────────────────────────────────────── */
+.search-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  right: 0;
+  background: #081533;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 14px;
+  box-shadow: 0 20px 52px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(56, 189, 248, 0.15);
+  z-index: 100;
+  overflow: hidden;
+  backdrop-filter: blur(24px);
+  max-height: 490px;
+  display: flex;
+  flex-direction: column;
+}
+
+.search-dropdown-section {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.search-dropdown-section:last-child {
+  border-bottom: none;
+}
+
+.search-dropdown-section-header {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #94A3B8;
+}
+
+/* Suggestion Buttons */
+.search-dropdown-suggestions-list {
+  display: flex;
+  flex-direction: column;
+  padding: 4px 0;
+}
+
+.search-dropdown-suggest-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 8px 16px;
+  background: none;
+  border: none;
+  color: #E2E8F0;
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  text-align: left;
+  transition: background 140ms ease, color 140ms ease;
+}
+
+.search-dropdown-suggest-btn:hover {
+  background: rgba(0, 110, 255, 0.18);
+  color: #38BDF8;
+}
+
+.search-dropdown-suggest-text {
+  font-weight: 500;
+}
+
+.search-dropdown-suggest-tag {
+  font-size: 11px;
+  color: #64748B;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+
+/* Hardware Results List */
+.search-dropdown-items-list {
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.search-dropdown-items-list::-webkit-scrollbar {
+  width: 5px;
+}
+
+.search-dropdown-items-list::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.search-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: background 140ms ease;
+}
+
+.search-dropdown-item:last-child {
+  border-bottom: none;
+}
+
+.search-dropdown-item:hover {
+  background: rgba(0, 110, 255, 0.22);
+}
+
+.search-dropdown-thumb {
+  width: 38px;
+  height: 38px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+  padding: 2px;
+}
+
+.search-dropdown-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.search-dropdown-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.search-dropdown-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+
+.search-dropdown-title {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+.search-dropdown-badge {
+  font-size: 9px;
+  font-weight: 700;
+  color: #ffffff;
+  padding: 2px 6px;
+  border-radius: 4px;
+  line-height: 1;
+}
+
+.search-dropdown-price {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #38BDF8;
+  margin-left: auto;
+}
+
+.search-dropdown-desc {
+  font-size: 11.5px;
+  color: rgba(255, 255, 255, 0.6);
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.search-dropdown-arrow {
+  color: rgba(255, 255, 255, 0.4);
+  flex-shrink: 0;
+}
+
+/* Empty search state */
+.search-dropdown-empty {
+  padding: 22px 16px;
+  text-align: center;
+}
+
+.search-dropdown-empty-title {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #F1F5F9;
+  margin: 0 0 6px 0;
+}
+
+.search-dropdown-empty-sub {
+  font-size: 12px;
+  color: #94A3B8;
+  margin: 0 0 12px 0;
+}
+
+.search-dropdown-empty-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.search-dropdown-chip {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #E2E8F0;
+  font-size: 12px;
+  padding: 5px 12px;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 140ms ease;
+  font-family: inherit;
+}
+
+.search-dropdown-chip:hover {
+  background: rgba(0, 110, 255, 0.3);
+  border-color: #38BDF8;
+  color: #FFFFFF;
+}
+
+.search-dropdown-footer {
+  padding: 10px 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  text-align: center;
+}
+
+.search-dropdown-see-all {
+  background: none;
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  color: #38BDF8;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.search-dropdown-see-all:hover {
+  text-decoration: underline;
+}
+
+/* ────────────────────────────────────────
+   Shop by Category Section
+   (Supports 7 hardware categories, Cards Grid & List View)
+──────────────────────────────────────── */
+.shop-category-section {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 4px 6px 28px;
+}
+
+.shop-category-section__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 22px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.shop-category-section__title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #0F172A;
+  letter-spacing: -0.3px;
+  margin: 0;
+  line-height: 1.25;
+}
+
+.shop-category-section__sub {
+  font-size: 13.5px;
+  color: #64748B;
+  margin: 4px 0 0 0;
+}
+
+/* 4-column responsive grid (4x2 for 8 categories, utilizing full screen area) */
+.shop-category-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Category Card - Enlarged & Polished */
+.shop-category-card {
+  position: relative;
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 14px;
+  padding: 18px 22px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 94px;
+  cursor: pointer;
+  transition: all 180ms cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+  box-sizing: border-box;
+}
+
+.shop-category-card:hover {
+  transform: translateY(-2px);
+  border-color: #2563EB;
+  box-shadow: 0 10px 28px rgba(37, 99, 235, 0.09);
+}
+
+/* Icon Box on the left */
+.shop-category-icon-box {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 180ms ease, background 180ms ease, border-color 180ms ease;
+}
+
+.shop-category-card:hover .shop-category-icon-box {
+  background: #EFF6FF;
+  border-color: #BFDBFE;
+  transform: scale(1.05);
+}
+
+/* Title and product count */
+.shop-category-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.shop-category-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0F172A;
+  line-height: 1.3;
+  margin: 0 0 3px 0;
+  letter-spacing: -0.2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.shop-category-count {
+  font-size: 13px;
+  font-weight: 500;
+  color: #64748B;
+  margin: 0;
+  line-height: 1.25;
+}
+
+/* Right Chevron Arrow */
+.shop-category-arrow {
+  color: #94A3B8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 160ms ease, color 160ms ease;
+  flex-shrink: 0;
+  padding: 4px;
+}
+
+.shop-category-card:hover .shop-category-arrow {
+  color: #2563EB;
+  transform: translateX(3px);
+}
+
+/* ────────────────────────────────────────
+   Responsive
+──────────────────────────────────────── */
+@media (max-width: 1200px) {
+  .shop-category-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+}
+
+@media (max-width: 960px) {
+  .hero-magic-card__heading {
+    font-size: 28px;
+    white-space: normal;
+  }
+  .hero-magic-card {
+    padding: 36px 20px 32px;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-magic-card {
+    border-radius: 16px;
+    padding: 28px 16px 24px;
+  }
+  .hero-magic-card__heading {
+    font-size: 22px;
+    white-space: normal;
+  }
+  .shop-category-grid {
+    grid-template-columns: 1fr;
+  }
+}

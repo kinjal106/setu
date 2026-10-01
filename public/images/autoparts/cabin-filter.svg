@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 160" width="100%" height="100%">
+    <defs>
+      <filter id="cabinShadow" x="-10%" y="-10%" width="120%" height="120%">
+        <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000" flood-opacity="0.15"/>
+      </filter>
+    </defs>
+    <rect x="42" y="38" width="116" height="84" rx="4" fill="#FFFFFF" filter="url(#cabinShadow)" stroke="#CBD5E1" stroke-width="2"/>
+    <g stroke="#64748B" stroke-width="2">
+      <line x1="50" y1="42" x2="50" y2="118"/>
+      <line x1="56" y1="42" x2="56" y2="118"/>
+      <line x1="62" y1="42" x2="62" y2="118"/>
+      <line x1="68" y1="42" x2="68" y2="118"/>
+      <line x1="74" y1="42" x2="74" y2="118"/>
+      <line x1="80" y1="42" x2="80" y2="118"/>
+      <line x1="86" y1="42" x2="86" y2="118"/>
+      <line x1="92" y1="42" x2="92" y2="118"/>
+      <line x1="98" y1="42" x2="98" y2="118"/>
+      <line x1="104" y1="42" x2="104" y2="118"/>
+      <line x1="110" y1="42" x2="110" y2="118"/>
+      <line x1="116" y1="42" x2="116" y2="118"/>
+      <line x1="122" y1="42" x2="122" y2="118"/>
+      <line x1="128" y1="42" x2="128" y2="118"/>
+      <line x1="134" y1="42" x2="134" y2="118"/>
+      <line x1="140" y1="42" x2="140" y2="118"/>
+      <line x1="146" y1="42" x2="146" y2="118"/>
+    </g>
+    <path d="M 45,72 L 45,86 M 45,86 L 43,82 M 45,86 L 47,82" stroke="#006EFF" stroke-width="1.8" stroke-linecap="round"/>
+  </svg>

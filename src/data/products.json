@@ -1,0 +1,742 @@
+[
+  {
+    "id": "br06",
+    "name": "BR06",
+    "slug": "br06",
+    "category": "vehicle-tracking",
+    "subcategory": "wired-gps-tracker",
+    "image": "/images/hardware/br06.svg",
+    "shortDescription": "BR06 is a compact and reliable GPS tracking device designed for real-time vehicle monitoring and securi...",
+    "description": "BR06 is an advanced GPS tracking device developed to provide reliable real time vehicle monitoring and improved fleet management capabilities. Designed with modern telematics technology, the device combines GPS positioning and cellular communication to deliver accurate location tracking and operational alerts for vehicles.\n\nThe device receives positioning signals from GPS satellites to determine the vehicle's exact location. This location data is then transmitted to a monitoring platform through cellular connectivity. Fleet operators and vehicle owners can access this information through web dashboards or mobile applications that display vehicle movement on interactive digital maps.\n\nReal time vehicle tracking enables businesses to maintain complete visibility of their fleet operations. Companies can monitor vehicle locations, track delivery progress and respond quickly to operational changes. This feature is particularly valuable for logistics companies, delivery services and transportation businesses that depend on timely and efficient vehicle operations.\n\nBR06 also includes intelligent monitoring features that enhance vehicle safety and operational control. Ignition detection allows the system to identify when the vehicle engine is turned on or off. Fleet managers can use this feature to monitor driver activity, track operational hours and verify vehicle usage.\n\nGeo fence monitoring allows users to define virtual boundaries around specific operational areas such as warehouses, service zones or delivery routes. When a vehicle enters or leaves these zones, the system automatically sends alerts to the monitoring platform. This feature helps organizations prevent unauthorized vehicle usage and maintain better operational control.\n\nThe device also supports overspeed alerts. When a vehicle exceeds a predefined speed limit, the system generates a notification to the monitoring platform. This capability helps fleet operators enforce safe driving practices and reduce accident risks.\n\nAnother useful capability of BR06 is trip history recording. The system stores route information which can later be reviewed through route playback features in the tracking platform. Fleet managers can analyze driving patterns, optimize routes and improve fleet efficiency.\n\nThe compact design of the BR06 tracker allows it to be installed discreetly inside vehicles without affecting normal vehicle operation. Built using durable automotive grade materials, the device is capable of operating reliably under typical vehicle conditions including vibration, temperature fluctuations and continuous movement.\n\nBR06 is widely used across industries including logistics fleets, transportation services, delivery vehicles and commercial fleet management systems. It also provides an effective solution for personal vehicle security and monitoring.\n\nBy combining real time GPS tracking with intelligent alerts and trip analysis features, BR06 helps businesses improve operational efficiency, enhance safety and maintain better control over their fleet operations.",
+    "features": [
+      "Real time vehicle tracking visibility",
+      "Geo fence monitoring alert system",
+      "Overspeed safety notifications",
+      "Trip history route playback tools"
+    ],
+    "pricingPlans": [
+      {
+        "id": "lite",
+        "name": "Lite",
+        "price": 2415,
+        "unit": "Per Device",
+        "tagline": "Basic Fleet Tracking",
+        "description": "Essential vehicle tracking with live GPS positioning, ignition status, and 30-day trip history.",
+        "features": [
+          "Real time vehicle tracking visibility",
+          "Ignition on / off alerts",
+          "Vibration & movement security alerts",
+          "30-day trip history route playback"
+        ]
+      },
+      {
+        "id": "standard",
+        "name": "Standard",
+        "price": 2760,
+        "unit": "Per Device",
+        "isPopular": true,
+        "tagline": "Most Popular Choice",
+        "description": "Full telematics suite with geofence boundary monitoring, overspeed safety, and Trakzee platform sync.",
+        "features": [
+          "Real time vehicle tracking visibility",
+          "Geo fence monitoring alert system",
+          "Overspeed safety notifications",
+          "Trip history route playback tools"
+        ]
+      },
+      {
+        "id": "premium",
+        "name": "Premium",
+        "price": 3450,
+        "unit": "Per Device",
+        "tagline": "Enterprise Security",
+        "description": "Advanced fleet protection with anti-tamper alarms, extended backup battery, and dedicated support SLA.",
+        "features": [
+          "Everything included in Standard plan",
+          "Anti-tamper & device removal alarms",
+          "Driver behaviour & harsh braking insights",
+          "Priority 24/7 telematics support SLA"
+        ]
+      }
+    ],
+    "buttonMode": "dual",
+    "inStock": true,
+    "badge": "In Stock",
+    "specifications": {
+      "powerEfficiencyRating": "5",
+      "inputVoltage": "9-36",
+      "warehouse": "Delhi",
+      "modelName": "BR06",
+      "material": "Automotive grade ABS housing",
+      "width": "7 CM",
+      "height": "1.8 CM",
+      "manufacturerName": "BLACKROCK",
+      "length": "8.5 CM",
+      "netWeight": "85 grams",
+      "controlType": "Remote monitoring through mobile application and web platform",
+      "brand": "BR06 MAGNET",
+      "installationType": "Agent",
+      "relatedLink": "www.hitechnologies.in",
+      "productUrl": "www.hitechnologies.in",
+      "productType": "Vehicle GPS Tracker",
+      "manufacturingCountry": "CN",
+      "productCapacity": "Single vehicle monitoring",
+      "compatibility": "Compatible with GPS tracking platforms and mobile applications"
+    },
+    "recommendedFor": [
+      "Fleet vehicles",
+      "Logistics operations",
+      "Commercial transportation",
+      "Personal vehicles"
+    ],
+    "technicalSpecs": {
+      "gpsAccuracy": "2.5m CEP",
+      "connectivity": "4G LTE / 3G / 2G",
+      "communication": "TCP/UDP, SMS",
+      "battery": "Backup battery 100mAh",
+      "operatingTemperature": "-20°C to +70°C",
+      "compatibility": "iOS, Android, Web Platforms"
+    },
+    "price": 2415
+  },
+  {
+    "id": "t5324-mdvr",
+    "name": "T5324 SD Card MDVR",
+    "slug": "t5324-sd-card-mdvr",
+    "category": "video-telematics",
+    "subcategory": "mdvr",
+    "image": "/images/hardware/t5324-mdvr.svg",
+    "shortDescription": "4-channel AI SD Card MDVR supporting 720P recording. H.264/H.265 compression, dual SD cards...",
+    "description": "The T5324 SD Card MDVR is a professional-grade mobile digital video recorder designed for commercial vehicles. It supports 4-channel video recording with 720P resolution and advanced H.264/H.265 compression technology.",
+    "features": [
+      "4-channel video recording",
+      "720P HD resolution",
+      "Dual SD card support",
+      "H.264/H.265 compression",
+      "Real-time video monitoring",
+      "GPS tracking integration"
+    ],
+    "inStock": true,
+    "badge": "In Stock",
+    "specifications": {
+      "powerEfficiencyRating": "4",
+      "inputVoltage": "9-36",
+      "warehouse": "Mumbai",
+      "modelName": "T5324",
+      "material": "Industrial grade metal housing",
+      "width": "18 CM",
+      "height": "4 CM",
+      "manufacturerName": "TELETEK",
+      "length": "12 CM",
+      "netWeight": "450 grams",
+      "productType": "AI SD Card MDVR"
+    },
+    "price": 8900
+  },
+  {
+    "id": "sp-ble4-fuel",
+    "name": "SP BLE-4 Fuel Sensor",
+    "slug": "sp-ble4-fuel-sensor",
+    "category": "fuel-sensors",
+    "subcategory": "fuel-level-sensor",
+    "image": "/images/hardware/sp-ble4-fuel.svg",
+    "shortDescription": "The Mernetek SP BLE-4 fuel sensor accurately measures fuel level in commercial vehicles and...",
+    "description": "The SP BLE-4 Fuel Sensor is a precision fuel monitoring device using Bluetooth Low Energy technology for accurate fuel level measurement in commercial and industrial vehicles.",
+    "features": [
+      "BLE 4.0 wireless connectivity",
+      "High accuracy fuel measurement",
+      "Real-time monitoring",
+      "Anti-tamper alerts",
+      "Compatible with major fleet platforms"
+    ],
+    "inStock": true,
+    "badge": "In Stock",
+    "specifications": {
+      "modelName": "SP BLE-4",
+      "productType": "Fuel Level Sensor",
+      "manufacturerName": "MERNETEK"
+    },
+    "price": 4500
+  },
+  {
+    "id": "eh15",
+    "name": "EH15",
+    "slug": "eh15",
+    "category": "video-telematics",
+    "subcategory": "adas-mdvr",
+    "image": "/images/hardware/eh15.svg",
+    "shortDescription": "The EH15 is a 4G ADAS and DMS video telematics device supporting up to six cameras. It combines 4G...",
+    "description": "The EH15 is an advanced 4G ADAS (Advanced Driver Assistance System) and DMS (Driver Monitoring System) video telematics device. It supports up to 6 cameras for comprehensive vehicle surveillance.",
+    "features": [
+      "ADAS & DMS integration",
+      "Up to 6 camera channels",
+      "4G LTE connectivity",
+      "AI-powered driver monitoring",
+      "Real-time video streaming"
+    ],
+    "inStock": true,
+    "badge": "In Stock",
+    "specifications": {
+      "modelName": "EH15",
+      "productType": "ADAS MDVR"
+    },
+    "price": 9500
+  },
+  {
+    "id": "v5-mini",
+    "name": "V5 Mini",
+    "slug": "v5-mini",
+    "category": "vehicle-tracking",
+    "subcategory": "wired-gps-tracker",
+    "image": "/images/hardware/v5-mini.svg",
+    "shortDescription": "The V5 Mini Vehicle GPS Tracker is a compact and economical 2G GPS tracking device designed for real-time vehicle and asset monitoring. It supports GPS positioning with up to 2.5m accuracy, configurable location updates from 10 seconds to 60 minutes, geofencing, historical offline logs, driver behaviour analysis, ignition monitoring, power-cut alerts, and real-time notifications. With a wide 9–90V DC input range, compact design, built-in backup battery, and low standby current, it is suitable fo",
+    "description": "The V5 Mini Vehicle GPS Tracker is a compact and versatile vehicle tracking device designed for real-time location monitoring, vehicle security, and driver behaviour analysis. With support for a wide operating voltage range of DC 9–90V, the device is compatible with a wide range of vehicles, including cars, motorcycles, trucks, buses, commercial vehicles, and other powered assets.\n\nFeaturing built-in GPS positioning and 2G GSM/GPRS communication, the V5 enables reliable vehicle location tracking and data transmission. Its compact design and integrated antenna allow for discreet installation, making it suitable for hidden installation inside vehicles. The device continuously monitors vehicle movement and can generate alerts for vehicle movement, speeding, geofence violations, and other predefined events.\n\nThe V5 supports ACC detection through wired ignition monitoring and motion-based ignition detection. This enables the tracking system to identify vehicle ignition and movement status. The device also supports remote cut-off functionality, allowing authorized users to remotely disable the vehicle's power or fuel supply through the connected fleet management platform, subject to proper vehicle installation and system configuration.\n\nWith an integrated accelerometer, the tracker supports driver behaviour analysis, including harsh acceleration, harsh braking, and rash turning detection. These insights help fleet operators improve driving standards, reduce unsafe driving behaviour, and enhance overall vehicle safety.\n\nThe device includes multiple alert functions for enhanced security and fleet monitoring. Alerts can be configured for vehicle movement, speeding, geofence events, and other operational conditions. The V5 also features a built-in rechargeable 60mAh / 3.7V Li-Polymer battery, providing backup power during power interruptions or vehicle tampering situations.\n\nThe tracker supports 1000 offline memory logs, allowing tracking data to be stored when cellular connectivity is temporarily unavailable. Once communication is restored, stored data can be transmitted to the tracking platform. Its 2G GSM connectivity supports GSM 850/900/1800/1900 MHz bands, while GPRS Class 12 and TCP/IP communication enable data transmission to compatible GPS tracking platforms.\n\nThe V5 Mini Vehicle GPS Tracker is suitable for personal vehicles, fleet management, logistics, commercial transportation, vehicle security, driver monitoring, and asset tracking applications. Its compact size, wide voltage compatibility, low power consumption, and reliable tracking features make it an efficient solution for vehicle monitoring and anti-theft applications.",
+    "features": [
+      "Real time vehicle GPS tracking",
+      "Geo fence monitoring alerts",
+      "Overspeed safety notifications",
+      "Trip history route playback"
+    ],
+    "pricingPlans": [
+      {
+        "id": "lite",
+        "name": "Lite",
+        "price": 2249,
+        "unit": "Per Units",
+        "tagline": "Cost-Effective Tracker",
+        "description": "Essential vehicle monitoring with live location, ignition status, and compact discreet installation.",
+        "features": [
+          "Real time vehicle GPS tracking",
+          "Compact 9–90V wide voltage input",
+          "Ignition detection alerts",
+          "30-day historical route playback"
+        ]
+      },
+      {
+        "id": "standard",
+        "name": "Standard",
+        "price": 2999,
+        "unit": "Per Units",
+        "isPopular": true,
+        "tagline": "Recommended for Fleets",
+        "description": "Comprehensive tracking with smart geofencing, overspeed safety notifications, and trip analytics.",
+        "features": [
+          "Real time vehicle GPS tracking",
+          "Geo fence monitoring alerts",
+          "Overspeed safety notifications",
+          "Trip history route playback"
+        ]
+      },
+      {
+        "id": "premium",
+        "name": "Premium",
+        "price": 3699,
+        "unit": "Per Units",
+        "tagline": "Full Telematics Suite",
+        "description": "Advanced driver behavior analytics, remote engine cut-off, and 1000 offline memory logs.",
+        "features": [
+          "Everything in Standard plan",
+          "Driver behaviour analysis (harsh braking/turns)",
+          "Remote engine power/fuel cut-off relay",
+          "Pre-activated 1-Year IoT data SIM"
+        ]
+      }
+    ],
+    "buttonMode": "submit",
+    "inStock": true,
+    "badge": "In Stock",
+    "specifications": {
+      "powerEfficiencyRating": "5",
+      "manufacturerName": "Markon Electronics Corporation Private Limited",
+      "technicalSpecification": "The V5 Mini Vehicle GPS Tracker supports GPS positioning with <2.5m CEP accuracy, 2G GSM quad-band connectivity (850/900/1800/1900 MHz), GPRS Class 12 TCP/IP, operating voltage DC 9–90V, integrated GPS/GSM antennas, 3-axis accelerometer for driving behavior, 60mAh rechargeable backup battery, and 32MB flash storage.",
+      "inputVoltage": "9",
+      "length": "7.19",
+      "brand": "Markon",
+      "importerDetails": "Prosoftek",
+      "recommendedFor": "Fleet Management, Personal Vehicles, Commercial Vehicles, Motorcycles, Trucks, Buses",
+      "modelName": "V5 Mini Vehicle GPS Tracker",
+      "netWeight": "29",
+      "material": "ABS Plastic",
+      "productColor": "Black",
+      "width": "3.02",
+      "warranty": "1 Year",
+      "partNumber": "Real-time",
+      "manufacturingCountry": "IN",
+      "compatibility": "Compatible with motorcycles, cars, commercial vehicles, trucks, heavy-duty vehicles, and other powered assets",
+      "productCapacity": "32MB Flash Memory and offline storage for up to 1000 location packets.",
+      "productType": "Mini Vehicle GPS Tracker or Wired GPS Vehicle Tracking Device",
+      "height": "1.29"
+    },
+    "featureTag": "V5 Mini",
+    "brand": "Markon",
+    "recommendedFor": [
+      "Fleet Management",
+      "Personal Vehicles",
+      "Commercial Vehicles",
+      "Motorcycles",
+      "Trucks",
+      "Buses"
+    ],
+    "additionalDetails": {
+      "title": "V5 Mini",
+      "content": "The V5 Mini Vehicle GPS Tracker is a compact 2G GPS tracking device for real-time location monitoring, vehicle security, driver behaviour analysis, and fleet management operations with wide DC 9–90V voltage compatibility and internal emergency power backup."
+    },
+    "termsAndConditions": "Hardware_Device_Terms_and_Conditions.pdf",
+    "price": 2249
+  },
+  {
+    "id": "br05-4g",
+    "name": "BR05 4G",
+    "slug": "br05-4g",
+    "category": "vehicle-tracking",
+    "subcategory": "wired-gps-tracker",
+    "image": "/images/hardware/br05-4g.svg",
+    "shortDescription": "BR05 4G is a compact GPS tracker designed for real-time vehicle monitoring...",
+    "description": "BR05 4G is a compact and reliable 4G GPS tracker with advanced connectivity.",
+    "features": [
+      "4G LTE",
+      "Real-time tracking",
+      "Compact design",
+      "Fleet management ready"
+    ],
+    "inStock": true,
+    "badge": "In Stock",
+    "specifications": {
+      "productType": "Vehicle GPS Tracker"
+    },
+    "price": 2650
+  },
+  {
+    "id": "gl500-2g",
+    "name": "GL500 2G",
+    "slug": "gl500-2g",
+    "category": "asset-logistics",
+    "subcategory": "e-lock-tracker",
+    "image": "/images/hardware/gl500-2g.svg",
+    "shortDescription": "The GL500 2G Smart Electronic Lock is a high-security GPS-enabled lock...",
+    "description": "The GL500 2G is a smart GPS-enabled electronic lock for cargo security.",
+    "features": [
+      "GPS tracking",
+      "Electronic lock",
+      "Remote unlock",
+      "Tamper alerts"
+    ],
+    "inStock": true,
+    "badge": "In Stock",
+    "specifications": {
+      "productType": "E-Lock Tracker"
+    },
+    "price": 2400
+  },
+  {
+    "id": "7h-elock",
+    "name": "7H E-Lock",
+    "slug": "7h-elock",
+    "category": "asset-logistics",
+    "subcategory": "e-lock-tracker",
+    "image": "/images/hardware/7h-elock.svg",
+    "shortDescription": "The TT 08 7H E-Lock is a smart electronic cargo and container lock designed for...",
+    "description": "The 7H E-Lock is a high-security electronic cargo lock with GPS tracking for container security.",
+    "features": [
+      "GPS enabled",
+      "Smart lock",
+      "Container security",
+      "Remote control"
+    ],
+    "inStock": true,
+    "badge": "In Stock",
+    "specifications": {
+      "productType": "E-Lock Tracker"
+    },
+    "price": 4800
+  },
+  {
+    "id": "eco5-lite",
+    "name": "Eco5 Lite",
+    "slug": "eco5-lite",
+    "category": "vehicle-tracking",
+    "subcategory": "obd-gps-tracker",
+    "image": "/images/hardware/eco5-lite.svg",
+    "shortDescription": "Eco5 Lite GPS Tracker is a compact and efficient vehicle tracking device designed...",
+    "description": "The Eco5 Lite is an OBD-based GPS tracker that plugs directly into the vehicle diagnostic port.",
+    "features": [
+      "OBD plug-and-play",
+      "Real-time tracking",
+      "Vehicle diagnostics",
+      "Compact design"
+    ],
+    "inStock": true,
+    "badge": "In Stock",
+    "specifications": {
+      "productType": "OBD GPS Tracker"
+    },
+    "price": 1850
+  },
+  {
+    "id": "gb440",
+    "name": "GB440",
+    "slug": "gb440",
+    "category": "vehicle-tracking",
+    "subcategory": "ais-gps-device",
+    "image": "/images/hardware/gb440.svg",
+    "shortDescription": "The AD GM440 is an AIS-140 compliant 4G Vehicle Location Tracking Device designed...",
+    "description": "The GB440 is an AIS-140 compliant 4G GPS tracker meeting Indian government compliance standards.",
+    "features": [
+      "AIS-140 compliant",
+      "4G LTE",
+      "Government approved",
+      "Panic button support"
+    ],
+    "inStock": true,
+    "badge": "In Stock",
+    "specifications": {
+      "productType": "AIS GPS Device"
+    },
+    "price": 3100
+  },
+  {
+    "id": "v5-4g",
+    "name": "V5 4G",
+    "slug": "v5-4g",
+    "category": "vehicle-tracking",
+    "subcategory": "wired-gps-tracker",
+    "image": "/images/hardware/v5-4g.svg",
+    "shortDescription": "The Corvus V5 (4G) is a compact and intelligent vehicle GPS tracker designed...",
+    "description": "The V5 4G is a compact intelligent GPS tracker with 4G connectivity for modern fleet management.",
+    "features": [
+      "4G LTE",
+      "Real-time tracking",
+      "Geofencing",
+      "Fleet management"
+    ],
+    "inStock": true,
+    "badge": "In Stock",
+    "specifications": {
+      "productType": "Vehicle GPS Tracker"
+    },
+    "price": 2850
+  },
+  {
+    "id": "prithvi-140-rto",
+    "name": "PRITHVI 140 4G Rajasthan RTO",
+    "slug": "prithvi-140-rto",
+    "category": "vehicle-tracking",
+    "subcategory": "ais-gps-device",
+    "image": "/images/hardware/prithvi-140-rto.svg",
+    "shortDescription": "The PRITHVI 140 4G Rajasthan RTO is a government approved, ARAI/CAT-A...",
+    "description": "The PRITHVI 140 4G is a government-approved, AIS-140 compliant GPS tracker for Rajasthan state.",
+    "features": [
+      "AIS-140 compliant",
+      "Government approved",
+      "ARAI certified",
+      "4G LTE"
+    ],
+    "inStock": true,
+    "badge": "In Stock",
+    "specifications": {
+      "productType": "AIS GPS Device"
+    },
+    "price": 3950
+  },
+  {
+    "id": "gl500-4g",
+    "name": "GL500 4G",
+    "slug": "gl500-4g",
+    "category": "asset-logistics",
+    "subcategory": "e-lock-tracker",
+    "image": "/images/hardware/gl500-4g.svg",
+    "shortDescription": "The GL500 4G Smart GPS Electronic Lock is a high-security GPS-enabled lock...",
+    "description": "The GL500 4G is an advanced GPS-enabled electronic lock with 4G connectivity.",
+    "features": [
+      "4G LTE",
+      "GPS tracking",
+      "Smart lock",
+      "Tamper alerts"
+    ],
+    "inStock": true,
+    "badge": "In Stock",
+    "specifications": {
+      "productType": "E-Lock Tracker"
+    },
+    "price": 3200
+  },
+  {
+    "id": "falcon-f1-ai-4g",
+    "name": "Falcon F1 AI 4G Vehicle Camera",
+    "slug": "falcon-f1-ai-4g",
+    "category": "video-telematics",
+    "subcategory": "ai-dashcam",
+    "image": "/images/hardware/falcon-f1.svg",
+    "shortDescription": "The Falcon F1 is a compact AI-powered 4G vehicle camera designed for commercial...",
+    "description": "The Falcon F1 AI is a compact AI-powered 4G vehicle camera with advanced driver monitoring.",
+    "features": [
+      "AI-powered",
+      "4G LTE",
+      "ADAS support",
+      "Driver monitoring"
+    ],
+    "inStock": true,
+    "badge": "In Stock",
+    "specifications": {
+      "productType": "AI Dashcam"
+    },
+    "price": 11200
+  },
+  {
+    "id": "titan-t4-ai-4g",
+    "name": "Titan T4 AI 4G CAT-4 Dash Camera",
+    "slug": "titan-t4-ai-4g",
+    "category": "video-telematics",
+    "subcategory": "ai-dashcam",
+    "image": "/images/hardware/titan-t4.svg",
+    "shortDescription": "The Titan T4 is a high-performance AI-powered 4-channel 4G CAT-4 dash...",
+    "description": "The Titan T4 is a high-performance multi-channel AI dashcam for commercial vehicle safety.",
+    "features": [
+      "4-channel recording",
+      "AI detection",
+      "4G CAT-4",
+      "Commercial grade"
+    ],
+    "inStock": true,
+    "badge": "In Stock",
+    "specifications": {
+      "productType": "AI Dashcam"
+    },
+    "price": 12500
+  },
+  {
+    "id": "sentinel-s3-ai-4g",
+    "name": "Sentinel S3 AI 4G Dash Camera",
+    "slug": "sentinel-s3-ai-4g",
+    "category": "video-telematics",
+    "subcategory": "ai-dashcam",
+    "image": "/images/hardware/sentinel-s3.svg",
+    "shortDescription": "The Sentinel S3 is an advanced AI-powered 4G dash camera designed for...",
+    "description": "The Sentinel S3 AI is a high-capability dashcam with AI-powered safety features.",
+    "features": [
+      "AI-powered",
+      "4G connectivity",
+      "Advanced safety",
+      "Professional grade"
+    ],
+    "inStock": true,
+    "badge": "In Stock",
+    "specifications": {
+      "productType": "AI Dashcam"
+    },
+    "price": 13800
+  },
+  {
+    "id": "vector-v2-pro-4g",
+    "name": "Vector V2 Pro 4G Dash Camera",
+    "slug": "vector-v2-pro-4g",
+    "category": "video-telematics",
+    "subcategory": "dashcam",
+    "image": "/images/hardware/vector-v2-pro.svg",
+    "shortDescription": "The Vector V2 Pro is an advanced 2-channel 4G dash camera designed for...",
+    "description": "The Vector V2 Pro is a dual-channel 4G dashcam for professional fleet video monitoring.",
+    "features": [
+      "2-channel recording",
+      "4G LTE",
+      "Professional grade",
+      "Remote viewing"
+    ],
+    "inStock": true,
+    "badge": "In Stock",
+    "specifications": {
+      "productType": "Dashcam"
+    },
+    "price": 14200
+  },
+  {
+    "id": "vector-v2-ai-4g",
+    "name": "Vector V2 AI 4G Dash Camera",
+    "slug": "vector-v2-ai-4g",
+    "category": "video-telematics",
+    "subcategory": "ai-dashcam",
+    "image": "/images/hardware/vector-v2-ai.svg",
+    "shortDescription": "Vector V2 AI Dash Camera is an intelligent 2 channel 4G vehicle...",
+    "description": "The Vector V2 AI is an AI-enhanced dual-channel dashcam with smart detection capabilities.",
+    "features": [
+      "AI detection",
+      "2-channel",
+      "4G LTE",
+      "Smart alerts"
+    ],
+    "inStock": true,
+    "badge": "In Stock",
+    "specifications": {
+      "productType": "AI Dashcam"
+    },
+    "price": 14900
+  },
+  {
+    "id": "sentinel-s4",
+    "name": "Sentinel S4",
+    "slug": "sentinel-s4",
+    "category": "video-telematics",
+    "subcategory": "ai-dashcam",
+    "image": "/images/hardware/sentinel-s4.svg",
+    "shortDescription": "The Sentinel S4 AI is a professional 4-channel, 4G CAT A dash camera...",
+    "description": "The Sentinel S4 is a professional-grade 4-channel AI dashcam for enterprise fleet management.",
+    "features": [
+      "4-channel AI",
+      "4G CAT A",
+      "Professional grade",
+      "Enterprise features"
+    ],
+    "inStock": true,
+    "badge": "In Stock",
+    "specifications": {
+      "productType": "AI Dashcam"
+    },
+    "price": 16500
+  },
+  {
+    "id": "ecogas-track",
+    "name": "Ecogas Track",
+    "slug": "ecogas-track",
+    "category": "vehicle-tracking",
+    "subcategory": "ais-gps-device",
+    "image": "/images/hardware/ecogas-track.svg",
+    "shortDescription": "The Ecogas ECO/VTS is an ARAI-approved AIS-140 compliant 4G Vehicle Location...",
+    "description": "The Ecogas Track is an ARAI-approved AIS-140 compliant GPS tracker specifically designed for CNG/LPG vehicles.",
+    "features": [
+      "AIS-140 compliant",
+      "ARAI approved",
+      "CNG/LPG vehicle support",
+      "4G LTE"
+    ],
+    "inStock": true,
+    "badge": "In Stock",
+    "specifications": {
+      "productType": "AIS GPS Device"
+    },
+    "price": 3400
+  },
+  {
+    "id": "prithvi-140-mining",
+    "name": "PRITHVI 140 4G Rajasthan Mining",
+    "slug": "prithvi-140-mining",
+    "category": "vehicle-tracking",
+    "subcategory": "ais-gps-device",
+    "image": "/images/hardware/prithvi-140-mining.svg",
+    "shortDescription": "The PRITHVI 140 4G (Rajasthan Mining Edition) is an AIS-140 certified...",
+    "description": "The PRITHVI 140 Mining Edition is an AIS-140 certified GPS tracker for mining vehicles in Rajasthan.",
+    "features": [
+      "Mining grade",
+      "AIS-140 certified",
+      "Rugged design",
+      "Government compliant"
+    ],
+    "inStock": true,
+    "badge": "In Stock",
+    "specifications": {
+      "productType": "AIS GPS Device"
+    },
+    "price": 4200
+  },
+  {
+    "id": "prithvi-140-oem",
+    "name": "PRITHVI 140 OEM",
+    "slug": "prithvi-140-oem",
+    "category": "vehicle-tracking",
+    "subcategory": "ais-gps-device",
+    "image": "/images/hardware/prithvi-140-oem.svg",
+    "shortDescription": "The PRITHVI 140 OEM is an AIS-140 compliant Vehicle Location Tracking...",
+    "description": "The PRITHVI 140 OEM is an AIS-140 compliant GPS tracker designed for OEM vehicle integration.",
+    "features": [
+      "AIS-140 compliant",
+      "OEM integration",
+      "Government approved",
+      "4G LTE"
+    ],
+    "inStock": true,
+    "badge": "In Stock",
+    "specifications": {
+      "productType": "AIS GPS Device"
+    },
+    "price": 3650
+  },
+  {
+    "id": "prithvi-140",
+    "name": "PRITHVI 140",
+    "slug": "prithvi-140",
+    "category": "vehicle-tracking",
+    "subcategory": "ais-gps-device",
+    "image": "/images/hardware/prithvi-140.svg",
+    "shortDescription": "The PRITHVI 140 is an advanced AIS-140 compliant Vehicle Location Tracking Device (VLTD) developed by Watsoo Express Pvt. Ltd. It supports GSM, GPS, GNSS, and IRNSS (NavIC) for accurate real-time vehicle tracking. Featuring an embedded dual-network SIM, SOS emergency button, fuel monitoring, anti-theft alerts, and IP67-rated protection, it is ideal for fleet management, commercial transportation, and Smart City projects.",
+    "description": "The PRITHVI 140 is an advanced AIS-140 compliant Vehicle Location Tracking Device (VLTD) developed by Watsoo Express Pvt. Ltd. It supports GSM, GPS, GNSS, and IRNSS (NavIC) for accurate real-time vehicle tracking. Featuring an embedded dual-network SIM, SOS emergency button, fuel monitoring, anti-theft alerts, and IP67-rated protection, it is ideal for fleet management, commercial transportation, and Smart City projects.\n\nCertified under AIS-140 and ARAI standards, the device is engineered for rigorous public transport, commercial fleet monitoring, school buses, and smart city infrastructure. It combines high-sensitivity GNSS with Indian satellite IRNSS (NavIC) constellation for reliable geonavigation even in urban canyons and remote corridors.",
+    "features": [
+      "AIS-140 compliant vehicle tracking device",
+      "GSM, GPS, GNSS & IRNSS (NavIC) support",
+      "Embedded dual-network SIM",
+      "SOS emergency button with live alerts",
+      "Fuel monitoring with multiple analog & digital I/O",
+      "IP67-rated enclosure with anti-theft and anti-tow"
+    ],
+    "pricingPlans": [
+      {
+        "id": "lite",
+        "name": "Lite",
+        "price": 3325,
+        "unit": "Per Units",
+        "tagline": "Basic AIS-140 Tracking",
+        "description": "Basic AIS-140 compliant tracking with 2G/4G fallback, internal battery backup, and ignition detection.",
+        "features": [
+          "AIS-140 basic location tracking",
+          "GSM & GNSS satellite positioning",
+          "Ignition on / off alerts",
+          "Web & Mobile tracking portal"
+        ]
+      },
+      {
+        "id": "standard",
+        "name": "Standard",
+        "price": 3800,
+        "unit": "Per Units",
+        "isPopular": true,
+        "tagline": "Government Approved VLTD",
+        "description": "Complete AIS-140 certified VLTD with embedded dual-network SIM, SOS emergency button, and ARAI approval.",
+        "features": [
+          "AIS-140 compliant vehicle tracking device",
+          "GSM, GPS, GNSS & IRNSS (NavIC) support",
+          "Embedded dual-network SIM",
+          "SOS emergency button with live alerts"
+        ]
+      },
+      {
+        "id": "premium",
+        "name": "Premium",
+        "price": 4600,
+        "unit": "Per Units",
+        "tagline": "Enterprise Fleet Package",
+        "description": "Full enterprise package with fuel monitoring telemetry, IP67 anti-theft protection, and priority support.",
+        "features": [
+          "Everything in Standard plan",
+          "Fuel monitoring with multiple analog & digital I/O",
+          "IP67-rated enclosure with anti-theft & anti-tow",
+          "Priority 24/7 telematics support & TAC documents"
+        ]
+      }
+    ],
+    "buttonMode": "submit",
+    "inStock": true,
+    "badge": "In Stock",
+    "specifications": {
+      "productType": "AIS-140 GPS Device",
+      "brand": "Watsoo Express",
+      "manufacturerName": "Watsoo Express Pvt. Ltd.",
+      "importerDetails": "Watsoo Express Pvt. Ltd.",
+      "modelName": "PRITHVI 140 Vehicle Location Tracking Device (VLTD)",
+      "connectivity": "GSM, GPS, GNSS & IRNSS (NavIC)",
+      "certification": "AIS-140 / ARAI Certified",
+      "powerEfficiencyRating": "5",
+      "inputVoltage": "9-36V DC",
+      "material": "IP67 Weatherproof ABS Housing",
+      "warranty": "1 Year Manufacturer Warranty"
+    },
+    "price": 3800,
+    "brand": "Watsoo Express"
+  }
+]

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+    <linearGradient id="darkChassis" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E293B"/>
+      <stop offset="50%" stop-color="#0F172A"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+    <linearGradient id="blueChassis" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563EB"/>
+      <stop offset="50%" stop-color="#1D4ED8"/>
+      <stop offset="100%" stop-color="#172554"/>
+    </linearGradient>
+    <linearGradient id="metalBezel" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#94A3B8"/>
+      <stop offset="50%" stop-color="#475569"/>
+      <stop offset="100%" stop-color="#334155"/>
+    </linearGradient>
+    <linearGradient id="lensGlass" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38BDF8" stop-opacity="0.8"/>
+      <stop offset="50%" stop-color="#0284C7" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#0F172A"/>
+    </linearGradient>
+    <filter id="glowGreen" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    <filter id="glowBlue" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    <filter id="dropShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="#000" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+  
+  <!-- Drop Shadow Base -->
+  <rect x="32" y="46" width="136" height="104" rx="16" fill="none" filter="url(#dropShadow)"/>
+  
+  <!-- Wire Harness Top -->
+  <rect x="82" y="20" width="36" height="28" rx="4" fill="#1E293B" stroke="#334155" stroke-width="1.5"/>
+  <!-- Colored Wires -->
+  <line x1="88" y1="10" x2="88" y2="22" stroke="#EF4444" stroke-width="3.5" stroke-linecap="round"/>
+  <line x1="96" y1="6" x2="96" y2="22" stroke="#0F172A" stroke-width="3.5" stroke-linecap="round"/>
+  <line x1="104" y1="8" x2="104" y2="22" stroke="#EAB308" stroke-width="3.5" stroke-linecap="round"/>
+  <line x1="112" y1="10" x2="112" y2="22" stroke="#3B82F6" stroke-width="3.5" stroke-linecap="round"/>
+
+  <!-- Main Chassis -->
+  <rect x="30" y="44" width="140" height="108" rx="16" fill="url(#darkChassis)" stroke="#334155" stroke-width="1.5"/>
+  <!-- Inner Recessed Panel -->
+  <rect x="40" y="54" width="120" height="88" rx="10" fill="#090D16" stroke="#1E293B" stroke-width="1"/>
+
+  <!-- Corner Screws -->
+  <circle cx="48" cy="62" r="2.5" fill="#475569"/>
+  <circle cx="152" cy="62" r="2.5" fill="#475569"/>
+  <circle cx="48" cy="134" r="2.5" fill="#475569"/>
+  <circle cx="152" cy="134" r="2.5" fill="#475569"/>
+
+  <!-- Status LEDs -->
+  <circle cx="60" cy="80" r="4" fill="#10B981" filter="url(#glowGreen)"/>
+  <circle cx="75" cy="80" r="4" fill="#38BDF8" filter="url(#glowBlue)"/>
+  <circle cx="90" cy="80" r="4" fill="#EF4444"/>
+  <text x="60" y="92" fill="#64748B" font-size="6" font-family="sans-serif" font-weight="bold" text-anchor="middle">GPS</text>
+  <text x="75" y="92" fill="#64748B" font-size="6" font-family="sans-serif" font-weight="bold" text-anchor="middle">GSM</text>
+  <text x="90" y="92" fill="#64748B" font-size="6" font-family="sans-serif" font-weight="bold" text-anchor="middle">PWR</text>
+
+  <!-- Product Label -->
+  <text x="100" y="116" fill="#FFFFFF" font-size="14" font-family="sans-serif" font-weight="800" text-anchor="middle" letter-spacing="0.5">BR06</text>
+  <text x="100" y="128" fill="#38BDF8" font-size="7.5" font-family="sans-serif" font-weight="700" text-anchor="middle" letter-spacing="1">COMPACT GPS TRACKER</text>
+
+  
+  <!-- Certification Badge -->
+  <rect x="116" y="72" width="36" height="14" rx="3" fill="#1E3A8A" stroke="#3B82F6" stroke-width="1"/>
+  <text x="134" y="82" fill="#FFFFFF" font-size="6.5" font-family="sans-serif" font-weight="bold" text-anchor="middle">BESTSELLER</text>
+  
+  
+</svg>

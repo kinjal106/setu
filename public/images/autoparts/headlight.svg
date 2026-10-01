@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 160" width="100%" height="100%">
+    <defs>
+      <linearGradient id="lensReflect" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#E0F2FE"/>
+        <stop offset="40%" stop-color="#BAE6FD"/>
+        <stop offset="80%" stop-color="#38BDF8"/>
+        <stop offset="100%" stop-color="#0284C7"/>
+      </linearGradient>
+      <filter id="headlightShadow" x="-10%" y="-10%" width="120%" height="120%">
+        <feDropShadow dx="0" dy="5" stdDeviation="5" flood-color="#000" flood-opacity="0.2"/>
+      </filter>
+    </defs>
+    <path d="M 35,95 C 40,55 80,40 165,45 C 160,85 140,115 105,120 C 70,125 40,115 35,95 Z" fill="#0F172A" filter="url(#headlightShadow)" stroke="#334155" stroke-width="2"/>
+    <path d="M 42,92 C 46,60 82,46 158,52 C 153,84 135,110 102,114 C 72,118 46,110 42,92 Z" fill="url(#lensReflect)" opacity="0.85" stroke="#FFFFFF" stroke-width="1.5"/>
+    <circle cx="85" cy="80" r="22" fill="#F8FAFC" stroke="#0284C7" stroke-width="2"/>
+    <circle cx="85" cy="80" r="14" fill="#0284C7" stroke="#38BDF8" stroke-width="2"/>
+    <circle cx="82" cy="77" r="4" fill="#FFFFFF"/>
+    <path d="M 130,60 C 145,62 154,72 150,85 C 142,83 135,75 130,60 Z" fill="#F59E0B" stroke="#D97706" stroke-width="1"/>
+  </svg>

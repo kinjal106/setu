@@ -1,0 +1,65 @@
+[
+  {
+    "id": "vehicle-tracking",
+    "label": "Vehicle Tracking Devices",
+    "children": [
+      { "id": "wired-gps-tracker", "label": "Wired GPS Tracker" },
+      { "id": "obd-gps-tracker", "label": "OBD GPS Tracker" },
+      { "id": "can-bus-gps-tracker", "label": "CAN Bus GPS Tracker" },
+      { "id": "ais-gps-device", "label": "AIS GPS Device" }
+    ]
+  },
+  {
+    "id": "video-telematics",
+    "label": "Video Telematics",
+    "children": [
+      { "id": "dashcam", "label": "Dashcam" },
+      { "id": "ai-dashcam", "label": "AI Dashcam" },
+      { "id": "mdvr", "label": "MDVR" },
+      { "id": "adas-mdvr", "label": "ADAS MDVR" }
+    ]
+  },
+  {
+    "id": "asset-logistics",
+    "label": "Asset & Logistics Tracking",
+    "children": [
+      { "id": "asset-gps-tracker", "label": "Asset GPS Tracker" },
+      { "id": "container-tracking", "label": "Container Tracking Device" },
+      { "id": "e-lock-tracker", "label": "E-lock Tracker" }
+    ]
+  },
+  {
+    "id": "personal-safety",
+    "label": "Personal Safety Tracking",
+    "children": [
+      { "id": "personal-gps-tracker", "label": "Personal GPS Tracker" },
+      { "id": "wearable-gps", "label": "Wearable GPS Device" },
+      { "id": "safety-tracking", "label": "Safety Tracking Device" },
+      { "id": "sos-tracking", "label": "SOS Tracking Device" }
+    ]
+  },
+  {
+    "id": "fuel-sensors",
+    "label": "Fuel & Vehicle Sensors",
+    "children": [
+      { "id": "fuel-level-sensor", "label": "Fuel Level Sensor" }
+    ]
+  },
+  {
+    "id": "iot-sensors",
+    "label": "IoT Sensors",
+    "children": [
+      { "id": "temperature-sensor", "label": "Temperature & Humidity Sensor" },
+      { "id": "door-sensor", "label": "BLE Door Sensor" }
+    ]
+  },
+  {
+    "id": "accessories",
+    "label": "Accessories",
+    "children": [
+      { "id": "relays-cables", "label": "Relays & Power Cables" },
+      { "id": "antennas", "label": "GSM / GPS Antennas" },
+      { "id": "sos-buttons", "label": "Panic & SOS Buttons" }
+    ]
+  }
+]
