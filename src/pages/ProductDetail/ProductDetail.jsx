@@ -379,11 +379,12 @@ export default function ProductDetail() {
           </button>
         </div>
 
-        {/* ── Unified Card Body: 3-Part Layout (1. Left Fixed Image Gallery | 2. Center Scrolling Details & Specs | 3. Right Fixed Buy Box) ── */}
+        {/* ── Unified Card Body: 3-Part Layout (1600px Inner Container) ── */}
         <div className="setu-ui-card-body">
-          
-          {/* ── Part 1: Product Image & Previews (Left Fixed Partition, Wider & Fixed in Place) ── */}
-          <div className="setu-ui-gallery-partition">
+          <div className="setu-ui-card-body-inner">
+            
+            {/* ── Part 1: Product Image & Previews (Left Fixed Partition, Wider & Fixed in Place) ── */}
+            <div className="setu-ui-gallery-partition">
             <div className="setu-ui-main-image-card">
               {!imgError && (galleryImages[activeThumb] || product.image) ? (
                 <img
@@ -427,92 +428,79 @@ export default function ProductDetail() {
             <h1 className="setu-ui-title">{product.name}</h1>
             
             <div className="setu-ui-stock-row">
-              <span className="setu-ui-stock-label">Status:</span>
               <span className={`setu-ui-stock-badge ${product.inStock !== false ? 'setu-ui-stock-badge--in' : 'setu-ui-stock-badge--out'}`}>
                 <span className="setu-ui-stock-dot" />
                 {product.inStock !== false ? 'In Stock' : 'Out of Stock'}
               </span>
             </div>
 
-            {/* Dotted Leader Line Details */}
+            {/* Product Key Details */}
             <div className="setu-ui-details-block">
               <h3 className="setu-ui-details-heading">Details</h3>
-              
-              <div className="setu-ui-leader-row">
-                <span className="setu-ui-leader-k">Brand / series</span>
-                <span className="setu-ui-leader-dots" />
-                <span className="setu-ui-leader-v">{brandName}</span>
-              </div>
 
               {isAutoPart ? (
                 <>
                   <div className="setu-ui-leader-row">
                     <span className="setu-ui-leader-k">Brand</span>
-                    <span className="setu-ui-leader-dots" />
                     <span className="setu-ui-leader-v">{brandName}</span>
                   </div>
 
                   <div className="setu-ui-leader-row">
                     <span className="setu-ui-leader-k">Part Number</span>
-                    <span className="setu-ui-leader-dots" />
                     <span className="setu-ui-leader-v">{product.partNumber}</span>
                   </div>
 
                   {product.manufacturerDescription && (
                     <div className="setu-ui-leader-row">
                       <span className="setu-ui-leader-k">Manufacturer Description</span>
-                      <span className="setu-ui-leader-dots" />
                       <span className="setu-ui-leader-v">{product.manufacturerDescription}</span>
                     </div>
                   )}
 
                   <div className="setu-ui-leader-row">
                     <span className="setu-ui-leader-k">Category</span>
-                    <span className="setu-ui-leader-dots" />
                     <span className="setu-ui-leader-v">Auto Spare Parts › {subcat}</span>
                   </div>
 
                   <div className="setu-ui-leader-row">
                     <span className="setu-ui-leader-k">Origin</span>
-                    <span className="setu-ui-leader-dots" />
                     <span className="setu-ui-leader-v">{product.origin === 'OEM' ? 'OEM Genuine Part' : 'Tier-1 Aftermarket'}</span>
                   </div>
 
                   <div className="setu-ui-leader-row">
                     <span className="setu-ui-leader-k">Vehicle fitment</span>
-                    <span className="setu-ui-leader-dots" />
                     <span className="setu-ui-leader-v setu-ui-leader-v--wrap">{fitmentSummaryText}</span>
                   </div>
 
                   <div className="setu-ui-leader-row">
                     <span className="setu-ui-leader-k">Warranty</span>
-                    <span className="setu-ui-leader-dots" />
                     <span className="setu-ui-leader-v">{product.specifications?.Warranty || '1 Year'}</span>
                   </div>
                 </>
               ) : (
                 <>
                   <div className="setu-ui-leader-row">
+                    <span className="setu-ui-leader-k">Brand / series</span>
+                    <span className="setu-ui-leader-v">{brandName}</span>
+                  </div>
+
+                  <div className="setu-ui-leader-row">
                     <span className="setu-ui-leader-k">Category</span>
-                    <span className="setu-ui-leader-dots" />
                     <span className="setu-ui-leader-v">Vehicle Tracking Devices › {subcat}</span>
                   </div>
 
                   <div className="setu-ui-leader-row">
                     <span className="setu-ui-leader-k">Connectivity</span>
-                    <span className="setu-ui-leader-dots" />
                     <span className="setu-ui-leader-v">{connectivity}</span>
                   </div>
 
                   <div className="setu-ui-leader-row">
                     <span className="setu-ui-leader-k">Special features</span>
-                    <span className="setu-ui-leader-dots" />
                     <span className="setu-ui-leader-v">{isPrithvi ? 'AIS-140 certified, SOS panic alert' : 'Live tracking'}</span>
                   </div>
 
                   <div className="setu-ui-leader-row">
                     <span className="setu-ui-leader-k">Supported application</span>
-                    <span className="setu-ui-leader-dots" />
                     <span className="setu-ui-leader-v setu-ui-leader-v--wrap">
                       Trakzee, SmartBus and other Uffizio platforms
                     </span>
@@ -1096,6 +1084,7 @@ export default function ProductDetail() {
 
           </aside>
 
+          </div>
         </div>
       </div>
 
