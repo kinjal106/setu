@@ -503,31 +503,36 @@
 
 /* Bulk Pricing Slab Card */
 .setu-ui-bulk-card {
-  border: 1px solid #bfdbfe;
+  border: 1px solid #e2e8f0;
   border-radius: 8px;
   background: #ffffff;
-  padding: 14px 16px;
-  margin-top: 6px;
+  padding: 0;
+  margin-top: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
 }
 
 .setu-ui-bulk-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 10px 16px;
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
   gap: 16px;
-  margin-bottom: 12px;
 }
 
 .setu-ui-bulk-header-left {
   display: flex;
-  flex-direction: column;
-  gap: 2px;
+  align-items: center;
 }
 
 .setu-ui-bulk-title {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
   color: #0f172a;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .setu-ui-bulk-qty-box {
@@ -545,7 +550,80 @@
 .setu-ui-bulk-qty-label {
   font-size: 13px;
   font-weight: 600;
-  color: #1e293b;
+  color: #334155;
+}
+
+.setu-bulk-counter {
+  display: inline-flex;
+  align-items: stretch;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #ffffff;
+  height: 32px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.setu-bulk-counter__btn {
+  border: none;
+  width: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.setu-bulk-counter__btn--minus {
+  background: #f8fafc;
+  color: #475569;
+  font-size: 13px;
+  font-weight: 600;
+  border-right: 1px solid #e2e8f0;
+}
+
+.setu-bulk-counter__btn--minus:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+.setu-bulk-counter__input {
+  width: 46px;
+  border: none;
+  text-align: center;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  color: #0f172a;
+  outline: none;
+  background: #ffffff;
+  padding: 0 4px;
+  box-sizing: border-box;
+  -moz-appearance: textfield;
+}
+
+.setu-bulk-counter__input::-webkit-outer-spin-button,
+.setu-bulk-counter__input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.setu-bulk-counter__input:focus {
+  background: #eff6ff;
+  color: #1e3a8a;
+}
+
+.setu-bulk-counter__btn--plus {
+  background: #1e3a8a;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  border-left: 1px solid #1e3a8a;
+}
+
+.setu-bulk-counter__btn--plus:hover {
+  background: #1e40af;
 }
 
 .setu-ui-bulk-table {
@@ -558,47 +636,27 @@
   text-align: left;
   color: #64748b;
   font-weight: 600;
-  padding: 8px 12px;
+  padding: 9px 16px;
   border-bottom: 1px solid #e2e8f0;
   font-size: 11px;
   text-transform: uppercase;
-  letter-spacing: 0.4px;
+  letter-spacing: 0.5px;
+  background: #ffffff;
 }
 
 .setu-ui-bulk-table td {
-  padding: 9px 10px;
+  padding: 10px 16px;
   color: #1e293b;
   border-bottom: 1px solid #f1f5f9;
   vertical-align: middle;
 }
 
-.setu-ui-bulk-row--clickable {
-  cursor: pointer;
-  transition: background 0.15s ease;
-}
-
-.setu-ui-bulk-row--clickable:hover {
-  background: #f8fafc;
+.setu-ui-bulk-table tbody tr:last-child td {
+  border-bottom: none;
 }
 
 .setu-ui-slab--active {
-  background: #eff6ff !important;
-}
-
-.setu-ui-slab-cell {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.setu-ui-slab-radio {
-  font-size: 14px;
-  color: #94a3b8;
-  line-height: 1;
-}
-
-.setu-ui-slab-radio--active {
-  color: #2563eb;
+  background: #f0f7ff !important;
 }
 
 .setu-ui-slab-name {
@@ -612,9 +670,9 @@
   color: #ffffff;
   font-size: 10px;
   font-weight: 600;
-  padding: 2px 6px;
+  padding: 1px 6px;
   border-radius: 4px;
-  margin-left: 4px;
+  margin-left: 8px;
   vertical-align: middle;
 }
 
@@ -637,12 +695,6 @@
   color: #2563eb;
 }
 
-.setu-ui-bulk-note {
-  font-size: 11px;
-  color: #64748b;
-  margin: 10px 0 0;
-  font-style: italic;
-}
 
 /* ─────────────────────────────────────────────────────────────
    Right Fixed Partition: Buy Box Panel & Setu Purchase Card

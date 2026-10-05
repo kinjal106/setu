@@ -673,10 +673,10 @@ export default function ProductDetail() {
                     </div>
                   </div>
 
-                  <div className="setu-plan-card__counter">
+                  <div className="setu-bulk-counter">
                     <button
                       type="button"
-                      className="setu-plan-card__counter-btn setu-plan-card__counter-btn--minus"
+                      className="setu-bulk-counter__btn setu-bulk-counter__btn--minus"
                       onClick={() => setQty(Math.max(1, qty - 1))}
                       aria-label="Decrease quantity"
                     >
@@ -695,13 +695,13 @@ export default function ProductDetail() {
                           setQty(Math.max(1, Math.min(99999, val)));
                         }
                       }}
-                      className="setu-plan-card__counter-input"
+                      className="setu-bulk-counter__input"
                       aria-label="Order Quantity"
                       title="Type any quantity directly"
                     />
                     <button
                       type="button"
-                      className="setu-plan-card__counter-btn setu-plan-card__counter-btn--plus"
+                      className="setu-bulk-counter__btn setu-bulk-counter__btn--plus"
                       onClick={() => setQty(qty + 1)}
                       aria-label="Increase quantity"
                     >
@@ -720,36 +720,18 @@ export default function ProductDetail() {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr
-                    className={`setu-ui-bulk-row--clickable ${currentSlab === '1–50' ? 'setu-ui-slab--active' : ''}`}
-                    onClick={() => setQty(1)}
-                    title="Click to select 1–50 units slab"
-                  >
+                  <tr className={currentSlab === '1–50' ? 'setu-ui-slab--active' : ''}>
                     <td>
-                      <div className="setu-ui-slab-cell">
-                        <span className={`setu-ui-slab-radio ${currentSlab === '1–50' ? 'setu-ui-slab-radio--active' : ''}`}>
-                          {currentSlab === '1–50' ? '●' : '○'}
-                        </span>
-                        <span className="setu-ui-slab-name">1–50 units</span>
-                        {currentSlab === '1–50' && <span className="setu-ui-current-pill">Current</span>}
-                      </div>
+                      <span className="setu-ui-slab-name">1–50 units</span>
+                      {currentSlab === '1–50' && <span className="setu-ui-current-pill">Current</span>}
                     </td>
                     <td className="setu-ui-slab-price">₹{slabPrices.slab1.toLocaleString('en-IN')}</td>
                     <td>—</td>
                   </tr>
-                  <tr
-                    className={`setu-ui-bulk-row--clickable ${currentSlab === '51–100' ? 'setu-ui-slab--active' : ''}`}
-                    onClick={() => setQty(51)}
-                    title="Click to select 51–100 units slab"
-                  >
+                  <tr className={currentSlab === '51–100' ? 'setu-ui-slab--active' : ''}>
                     <td>
-                      <div className="setu-ui-slab-cell">
-                        <span className={`setu-ui-slab-radio ${currentSlab === '51–100' ? 'setu-ui-slab-radio--active' : ''}`}>
-                          {currentSlab === '51–100' ? '●' : '○'}
-                        </span>
-                        <span className="setu-ui-slab-name">51–100 units</span>
-                        {currentSlab === '51–100' && <span className="setu-ui-current-pill">Current</span>}
-                      </div>
+                      <span className="setu-ui-slab-name">51–100 units</span>
+                      {currentSlab === '51–100' && <span className="setu-ui-current-pill">Current</span>}
                     </td>
                     <td className="setu-ui-slab-price">₹{slabPrices.slab2.toLocaleString('en-IN')}</td>
                     <td>
@@ -758,19 +740,10 @@ export default function ProductDetail() {
                       </span>
                     </td>
                   </tr>
-                  <tr
-                    className={`setu-ui-bulk-row--clickable ${currentSlab === '101–500' ? 'setu-ui-slab--active' : ''}`}
-                    onClick={() => setQty(101)}
-                    title="Click to select 101–500 units slab"
-                  >
+                  <tr className={currentSlab === '101–500' ? 'setu-ui-slab--active' : ''}>
                     <td>
-                      <div className="setu-ui-slab-cell">
-                        <span className={`setu-ui-slab-radio ${currentSlab === '101–500' ? 'setu-ui-slab-radio--active' : ''}`}>
-                          {currentSlab === '101–500' ? '●' : '○'}
-                        </span>
-                        <span className="setu-ui-slab-name">101–500 units</span>
-                        {currentSlab === '101–500' && <span className="setu-ui-current-pill">Current</span>}
-                      </div>
+                      <span className="setu-ui-slab-name">101–500 units</span>
+                      {currentSlab === '101–500' && <span className="setu-ui-current-pill">Current</span>}
                     </td>
                     <td className="setu-ui-slab-price">₹{slabPrices.slab3.toLocaleString('en-IN')}</td>
                     <td>
@@ -779,19 +752,10 @@ export default function ProductDetail() {
                       </span>
                     </td>
                   </tr>
-                  <tr
-                    className={`setu-ui-bulk-row--clickable ${currentSlab === '500+' ? 'setu-ui-slab--active' : ''}`}
-                    onClick={() => setQty(500)}
-                    title="Click to select 500+ units slab"
-                  >
+                  <tr className={currentSlab === '500+' ? 'setu-ui-slab--active' : ''}>
                     <td>
-                      <div className="setu-ui-slab-cell">
-                        <span className={`setu-ui-slab-radio ${currentSlab === '500+' ? 'setu-ui-slab-radio--active' : ''}`}>
-                          {currentSlab === '500+' ? '●' : '○'}
-                        </span>
-                        <span className="setu-ui-slab-name">500+ units</span>
-                        {currentSlab === '500+' && <span className="setu-ui-current-pill">Current</span>}
-                      </div>
+                      <span className="setu-ui-slab-name">500+ units</span>
+                      {currentSlab === '500+' && <span className="setu-ui-current-pill">Current</span>}
                     </td>
                     <td className="setu-ui-slab-price">₹{slabPrices.slab4.toLocaleString('en-IN')}</td>
                     <td>
@@ -1247,7 +1211,6 @@ export default function ProductDetail() {
                   <span className="setu-plan-card__final-summary-label">Final Quantity:</span>
                   <span className="setu-plan-card__final-summary-qty">
                     <strong>{qty}</strong> {qty === 1 ? 'Unit' : 'Units'}
-                    <span className="setu-plan-card__final-slab-tag">Slab {currentSlab}</span>
                   </span>
                 </div>
                 <div className="setu-plan-card__final-summary-row setu-plan-card__final-summary-row--total">
