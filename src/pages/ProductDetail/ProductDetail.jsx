@@ -640,53 +640,75 @@ export default function ProductDetail() {
               </div>
             )}
 
-            {/* Bulk Pricing Slab Card */}
+            {/* Bulk Pricing Slab Card with Single Quantity Chooser Option */}
             <div className="setu-ui-bulk-card">
               <div className="setu-ui-bulk-header">
                 <div className="setu-ui-bulk-header-left">
                   <span className="setu-ui-bulk-title">Bulk pricing slab</span>
-                  <span className="setu-ui-bulk-hint">Click any slab to choose quantity</span>
                 </div>
-                <span className="setu-ui-bulk-user-qty">
-                  Your quantity: <strong>{qty} {qty === 1 ? 'unit' : 'units'}</strong> · Slab <strong>{currentSlab}</strong>
-                </span>
-              </div>
 
-              {/* Quick Slab Select Buttons */}
-              <div className="setu-ui-bulk-pills-row">
-                <span className="setu-ui-bulk-pills-label">Quick select slab:</span>
-                <button
-                  type="button"
-                  className={`setu-ui-bulk-pill-btn ${currentSlab === '1–50' ? 'setu-ui-bulk-pill-btn--active' : ''}`}
-                  onClick={() => setQty(1)}
-                  title="Select 1–50 slab (1 unit)"
-                >
-                  1–50 (1 unit)
-                </button>
-                <button
-                  type="button"
-                  className={`setu-ui-bulk-pill-btn ${currentSlab === '51–100' ? 'setu-ui-bulk-pill-btn--active' : ''}`}
-                  onClick={() => setQty(51)}
-                  title="Select 51–100 slab (51 units)"
-                >
-                  51–100 (51 units)
-                </button>
-                <button
-                  type="button"
-                  className={`setu-ui-bulk-pill-btn ${currentSlab === '101–500' ? 'setu-ui-bulk-pill-btn--active' : ''}`}
-                  onClick={() => setQty(101)}
-                  title="Select 101–500 slab (101 units)"
-                >
-                  101–500 (101 units)
-                </button>
-                <button
-                  type="button"
-                  className={`setu-ui-bulk-pill-btn ${currentSlab === '500+' ? 'setu-ui-bulk-pill-btn--active' : ''}`}
-                  onClick={() => setQty(500)}
-                  title="Select 500+ slab (500 units)"
-                >
-                  500+ (500 units)
-                </button>
+                {/* Single Quantity Choose Option with Plus, Minus and Editable Numbers */}
+                <div className="setu-ui-bulk-qty-box">
+                  <div className="setu-ui-bulk-qty-label-wrap">
+                    <span className="setu-ui-bulk-qty-label">Quantity</span>
+                    <div
+                      className="setu-tooltip-wrap"
+                      onMouseEnter={() => setShowQtyTooltip(true)}
+                      onMouseLeave={() => setShowQtyTooltip(false)}
+                    >
+                      <button
+                        type="button"
+                        className="setu-plan-card__qty-info-btn"
+                        onClick={() => setShowQtyTooltip(!showQtyTooltip)}
+                        aria-label="Quantity info"
+                      >
+                        ⓘ
+                      </button>
+                      {showQtyTooltip && (
+                        <div className="setu-tooltip-bubble">
+                          <span>Mini. order quantity is 1 · Type directly or click + / —</span>
+                          <div className="setu-tooltip-arrow" />
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="setu-plan-card__counter">
+                    <button
+                      type="button"
+                      className="setu-plan-card__counter-btn setu-plan-card__counter-btn--minus"
+                      onClick={() => setQty(Math.max(1, qty - 1))}
+                      aria-label="Decrease quantity"
+                    >
+                      —
+                    </button>
+                    <input
+                      type="number"
+                      min="1"
+                      max="99999"
+                      value={qty}
+                      onChange={(e) => {
+                        const val = parseInt(e.target.value, 10);
+                        if (isNaN(val)) {
+                          setQty(1);
+                        } else {
+                          setQty(Math.max(1, Math.min(99999, val)));
+                        }
+                      }}
+                      className="setu-plan-card__counter-input"
+                      aria-label="Order Quantity"
+                      title="Type any quantity directly"
+                    />
+                    <button
+                      type="button"
+                      className="setu-plan-card__counter-btn setu-plan-card__counter-btn--plus"
+                      onClick={() => setQty(qty + 1)}
+                      aria-label="Increase quantity"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
               </div>
 
               <table className="setu-ui-bulk-table">
@@ -695,14 +717,13 @@ export default function ProductDetail() {
                     <th>Quantity Slab</th>
                     <th>Price per unit</th>
                     <th>You save</th>
-                    <th style={{ textAlign: 'right' }}>Select Slab</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr
                     className={`setu-ui-bulk-row--clickable ${currentSlab === '1–50' ? 'setu-ui-slab--active' : ''}`}
                     onClick={() => setQty(1)}
-                    title="Click to apply 1–50 units slab"
+                    title="Click to select 1–50 units slab"
                   >
                     <td>
                       <div className="setu-ui-slab-cell">
@@ -715,20 +736,11 @@ export default function ProductDetail() {
                     </td>
                     <td className="setu-ui-slab-price">₹{slabPrices.slab1.toLocaleString('en-IN')}</td>
                     <td>—</td>
-                    <td style={{ textAlign: 'right' }}>
-                      <button
-                        type="button"
-                        className={`setu-ui-slab-apply-btn ${currentSlab === '1–50' ? 'setu-ui-slab-apply-btn--active' : ''}`}
-                        onClick={(e) => { e.stopPropagation(); setQty(1); }}
-                      >
-                        {currentSlab === '1–50' ? '✓ Selected' : 'Choose'}
-                      </button>
-                    </td>
                   </tr>
                   <tr
                     className={`setu-ui-bulk-row--clickable ${currentSlab === '51–100' ? 'setu-ui-slab--active' : ''}`}
                     onClick={() => setQty(51)}
-                    title="Click to apply 51–100 units slab (51 units)"
+                    title="Click to select 51–100 units slab"
                   >
                     <td>
                       <div className="setu-ui-slab-cell">
@@ -745,20 +757,11 @@ export default function ProductDetail() {
                         {Math.round(((slabPrices.slab1 - slabPrices.slab2) / slabPrices.slab1) * 100)}% OFF
                       </span>
                     </td>
-                    <td style={{ textAlign: 'right' }}>
-                      <button
-                        type="button"
-                        className={`setu-ui-slab-apply-btn ${currentSlab === '51–100' ? 'setu-ui-slab-apply-btn--active' : ''}`}
-                        onClick={(e) => { e.stopPropagation(); setQty(51); }}
-                      >
-                        {currentSlab === '51–100' ? '✓ Selected' : 'Choose (51)'}
-                      </button>
-                    </td>
                   </tr>
                   <tr
                     className={`setu-ui-bulk-row--clickable ${currentSlab === '101–500' ? 'setu-ui-slab--active' : ''}`}
                     onClick={() => setQty(101)}
-                    title="Click to apply 101–500 units slab (101 units)"
+                    title="Click to select 101–500 units slab"
                   >
                     <td>
                       <div className="setu-ui-slab-cell">
@@ -775,20 +778,11 @@ export default function ProductDetail() {
                         {Math.round(((slabPrices.slab1 - slabPrices.slab3) / slabPrices.slab1) * 100)}% OFF
                       </span>
                     </td>
-                    <td style={{ textAlign: 'right' }}>
-                      <button
-                        type="button"
-                        className={`setu-ui-slab-apply-btn ${currentSlab === '101–500' ? 'setu-ui-slab-apply-btn--active' : ''}`}
-                        onClick={(e) => { e.stopPropagation(); setQty(101); }}
-                      >
-                        {currentSlab === '101–500' ? '✓ Selected' : 'Choose (101)'}
-                      </button>
-                    </td>
                   </tr>
                   <tr
                     className={`setu-ui-bulk-row--clickable ${currentSlab === '500+' ? 'setu-ui-slab--active' : ''}`}
                     onClick={() => setQty(500)}
-                    title="Click to apply 500+ units slab (500 units)"
+                    title="Click to select 500+ units slab"
                   >
                     <td>
                       <div className="setu-ui-slab-cell">
@@ -805,22 +799,9 @@ export default function ProductDetail() {
                         {Math.round(((slabPrices.slab1 - slabPrices.slab4) / slabPrices.slab1) * 100)}% OFF
                       </span>
                     </td>
-                    <td style={{ textAlign: 'right' }}>
-                      <button
-                        type="button"
-                        className={`setu-ui-slab-apply-btn ${currentSlab === '500+' ? 'setu-ui-slab-apply-btn--active' : ''}`}
-                        onClick={(e) => { e.stopPropagation(); setQty(500); }}
-                      >
-                        {currentSlab === '500+' ? '✓ Selected' : 'Choose (500)'}
-                      </button>
-                    </td>
                   </tr>
                 </tbody>
               </table>
-
-              <p className="setu-ui-bulk-note">
-                Select a slab above or type your exact quantity in the buy box. Price updates automatically across all slabs.
-              </p>
             </div>
 
             {/* ── Tabs Strip ── */}
@@ -1256,88 +1237,6 @@ export default function ProductDetail() {
                 >
                   Terms and Conditions
                 </button>
-              </div>
-
-              {/* Quantity Selector Row with Hover Popup Tooltip & Editable Input */}
-              <div className="setu-plan-card__qty-row">
-                <div className="setu-plan-card__qty-label-wrap">
-                  <span className="setu-plan-card__qty-label">Quantity</span>
-                  
-                  {/* Tooltip Wrapper for 'i' icon hover popup */}
-                  <div
-                    className="setu-tooltip-wrap"
-                    onMouseEnter={() => setShowQtyTooltip(true)}
-                    onMouseLeave={() => setShowQtyTooltip(false)}
-                  >
-                    <button
-                      type="button"
-                      className="setu-plan-card__qty-info-btn"
-                      onClick={() => setShowQtyTooltip(!showQtyTooltip)}
-                      aria-label="Minimum order quantity info"
-                    >
-                      ⓘ
-                    </button>
-
-                    {/* Dark Tooltip Balloon */}
-                    {showQtyTooltip && (
-                      <div className="setu-tooltip-bubble">
-                        <span>Mini. order quantity is 1 · Type directly or click + / —</span>
-                        <div className="setu-tooltip-arrow" />
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                <div className="setu-plan-card__counter">
-                  <button
-                    type="button"
-                    className="setu-plan-card__counter-btn setu-plan-card__counter-btn--minus"
-                    onClick={() => setQty(Math.max(1, qty - 1))}
-                    aria-label="Decrease quantity"
-                  >
-                    —
-                  </button>
-                  <input
-                    type="number"
-                    min="1"
-                    max="99999"
-                    value={qty}
-                    onChange={(e) => {
-                      const val = parseInt(e.target.value, 10);
-                      if (isNaN(val)) {
-                        setQty(1);
-                      } else {
-                        setQty(Math.max(1, Math.min(99999, val)));
-                      }
-                    }}
-                    className="setu-plan-card__counter-input"
-                    aria-label="Order Quantity"
-                    title="Type any quantity directly"
-                  />
-                  <button
-                    type="button"
-                    className="setu-plan-card__counter-btn setu-plan-card__counter-btn--plus"
-                    onClick={() => setQty(qty + 1)}
-                    aria-label="Increase quantity"
-                  >
-                    +
-                  </button>
-                </div>
-              </div>
-
-              {/* Quick Quantity Chips */}
-              <div className="setu-plan-card__quick-chips">
-                <span className="setu-plan-card__quick-chips-label">Quick select:</span>
-                {[1, 10, 50, 100, 500].map((num) => (
-                  <button
-                    key={num}
-                    type="button"
-                    className={`setu-plan-card__quick-chip ${qty === num ? 'setu-plan-card__quick-chip--active' : ''}`}
-                    onClick={() => setQty(num)}
-                  >
-                    {num}
-                  </button>
-                ))}
               </div>
 
               <div className="setu-plan-card__divider" />
