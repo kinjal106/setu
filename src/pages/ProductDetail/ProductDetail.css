@@ -522,11 +522,6 @@
   gap: 16px;
 }
 
-.setu-ui-bulk-header-left {
-  display: flex;
-  align-items: center;
-}
-
 .setu-ui-bulk-title {
   font-size: 13px;
   font-weight: 700;
@@ -535,23 +530,98 @@
   letter-spacing: 0.5px;
 }
 
-.setu-ui-bulk-qty-box {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+.setu-ui-bulk-selected-tag {
+  font-size: 12px;
+  color: #475569;
+  background: #ffffff;
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 1px solid #e2e8f0;
+  white-space: nowrap;
 }
 
-.setu-ui-bulk-qty-label-wrap {
+.setu-ui-bulk-selected-tag strong {
+  color: #0f172a;
+  font-weight: 700;
+}
+
+/* Slabs & Quantity Manage Controls Bar */
+.setu-ui-slab-controls-bar {
   display: flex;
   align-items: center;
-  gap: 4px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 10px 16px;
+  background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.setu-ui-slab-tabs-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.setu-ui-slab-tabs-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #475569;
+}
+
+.setu-ui-slab-tabs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.setu-ui-slab-tab {
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  color: #334155;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  padding: 5px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.setu-ui-slab-tab:hover {
+  background: #eff6ff;
+  border-color: #2563eb;
+  color: #1d4ed8;
+}
+
+.setu-ui-slab-tab--active {
+  background: #1e3a8a;
+  border-color: #1e3a8a;
+  color: #ffffff;
+  box-shadow: 0 1px 2px rgba(30, 58, 138, 0.15);
+}
+
+.setu-ui-slab-tab--active:hover {
+  background: #1e40af;
+  border-color: #1e40af;
+  color: #ffffff;
+}
+
+.setu-ui-bulk-qty-manage {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .setu-ui-bulk-qty-label {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
-  color: #334155;
+  color: #475569;
 }
+
 
 .setu-bulk-counter {
   display: inline-flex;

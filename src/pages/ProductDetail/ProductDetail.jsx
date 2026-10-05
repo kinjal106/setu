@@ -640,39 +640,58 @@ export default function ProductDetail() {
               </div>
             )}
 
-            {/* Bulk Pricing Slab Card with Single Quantity Chooser Option */}
+            {/* Bulk Pricing Slab Card with Slab Tabs and Quantity Manage */}
             <div className="setu-ui-bulk-card">
               <div className="setu-ui-bulk-header">
-                <div className="setu-ui-bulk-header-left">
-                  <span className="setu-ui-bulk-title">Bulk pricing slab</span>
+                <span className="setu-ui-bulk-title">Bulk pricing slab</span>
+                <span className="setu-ui-bulk-selected-tag">
+                  Selected: <strong>{qty}</strong> {qty === 1 ? 'unit' : 'units'} · Slab {currentSlab}
+                </span>
+              </div>
+
+              {/* Slab Tabs + Single Quantity Manage Controls Bar */}
+              <div className="setu-ui-slab-controls-bar">
+                <div className="setu-ui-slab-tabs-wrap">
+                  <span className="setu-ui-slab-tabs-label">Slab tabs:</span>
+                  <div className="setu-ui-slab-tabs">
+                    <button
+                      type="button"
+                      className={`setu-ui-slab-tab ${currentSlab === '1–50' ? 'setu-ui-slab-tab--active' : ''}`}
+                      onClick={() => setQty(1)}
+                      title="Select 1–50 units slab (1 unit)"
+                    >
+                      1–50 units
+                    </button>
+                    <button
+                      type="button"
+                      className={`setu-ui-slab-tab ${currentSlab === '51–100' ? 'setu-ui-slab-tab--active' : ''}`}
+                      onClick={() => setQty(51)}
+                      title="Select 51–100 units slab (51 units)"
+                    >
+                      51–100 units
+                    </button>
+                    <button
+                      type="button"
+                      className={`setu-ui-slab-tab ${currentSlab === '101–500' ? 'setu-ui-slab-tab--active' : ''}`}
+                      onClick={() => setQty(101)}
+                      title="Select 101–500 units slab (101 units)"
+                    >
+                      101–500 units
+                    </button>
+                    <button
+                      type="button"
+                      className={`setu-ui-slab-tab ${currentSlab === '500+' ? 'setu-ui-slab-tab--active' : ''}`}
+                      onClick={() => setQty(500)}
+                      title="Select 500+ units slab (500 units)"
+                    >
+                      500+ units
+                    </button>
+                  </div>
                 </div>
 
-                {/* Single Quantity Choose Option with Plus, Minus and Editable Numbers */}
-                <div className="setu-ui-bulk-qty-box">
-                  <div className="setu-ui-bulk-qty-label-wrap">
-                    <span className="setu-ui-bulk-qty-label">Quantity</span>
-                    <div
-                      className="setu-tooltip-wrap"
-                      onMouseEnter={() => setShowQtyTooltip(true)}
-                      onMouseLeave={() => setShowQtyTooltip(false)}
-                    >
-                      <button
-                        type="button"
-                        className="setu-plan-card__qty-info-btn"
-                        onClick={() => setShowQtyTooltip(!showQtyTooltip)}
-                        aria-label="Quantity info"
-                      >
-                        ⓘ
-                      </button>
-                      {showQtyTooltip && (
-                        <div className="setu-tooltip-bubble">
-                          <span>Mini. order quantity is 1 · Type directly or click + / —</span>
-                          <div className="setu-tooltip-arrow" />
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
+                {/* Single Quantity Manage Option */}
+                <div className="setu-ui-bulk-qty-manage">
+                  <span className="setu-ui-bulk-qty-label">Quantity manage:</span>
                   <div className="setu-bulk-counter">
                     <button
                       type="button"
