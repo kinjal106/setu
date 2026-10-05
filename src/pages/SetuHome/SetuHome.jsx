@@ -66,6 +66,41 @@ const SEARCH_SUGGESTIONS_POOL = [
   { text: 'Falcon F1 4G AI Camera', query: 'Falcon F1', category: 'Dashcam' }
 ];
 
+const DEFAULT_LAST_SEARCHES = [
+  { text: 'BR06 4G Vehicle Tracker', query: 'BR06', category: 'GPS Tracker' },
+  { text: 'AIS-140 GPS Devices', query: 'AIS-140', category: 'Certified' },
+  { text: 'GL500 GPS E-Lock Tracker', query: 'GL500', category: 'Logistics' },
+  { text: 'T5324 SD Card MDVR', query: 'MDVR', category: 'Video System' }
+];
+
+function getLastSearches() {
+  try {
+    const raw = localStorage.getItem('setu_last_searches');
+    if (!raw) return DEFAULT_LAST_SEARCHES;
+    const parsed = JSON.parse(raw);
+    if (Array.isArray(parsed) && parsed.length > 0) {
+      return parsed;
+    }
+  } catch (e) {
+    // fallback
+  }
+  return DEFAULT_LAST_SEARCHES;
+}
+
+function saveSearchTerm(term, category = 'Recent') {
+  if (!term || !term.trim()) return;
+  const clean = term.trim();
+  try {
+    const existing = getLastSearches();
+    const filtered = existing.filter(item => (item.query || item.text).toLowerCase() !== clean.toLowerCase());
+    const updated = [{ text: clean, query: clean, category }, ...filtered].slice(0, 5);
+    localStorage.setItem('setu_last_searches', JSON.stringify(updated));
+    return updated;
+  } catch (e) {
+    return DEFAULT_LAST_SEARCHES;
+  }
+}
+
 const STOP_WORDS = new Set(['find', 'search', 'for', 'the', 'a', 'an', 'in', 'on', 'with', 'and', 'or', 'device', 'devices', 'approved', 'hardware']);
 
 function getProductBadge(product) {
@@ -99,8 +134,14 @@ function SearchContainer() {
   const [query, setQuery] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [lastSearches, setLastSearches] = useState(getLastSearches);
   const inputRef = useRef(null);
   const dropdownRef = useRef(null);
+
+  const handleRecordSearch = (term, cat = 'Recent') => {
+    const updated = saveSearchTerm(term, cat);
+    if (updated) setLastSearches(updated);
+  };
 
   // Typewriter animation active when query is empty and user not actively typing
   const animatedPlaceholder = useTypewriter(NORMAL_SEARCH_SUGGESTIONS, !query);
@@ -133,7 +174,7 @@ function SearchContainer() {
   const suggestions = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) {
-      return SEARCH_SUGGESTIONS_POOL.slice(0, 4);
+      return lastSearches.slice(0, 4);
     }
     const cleanTokens = q.replace(/[^\w\s-]/g, ' ').split(/\s+/).filter(Boolean).filter(t => !STOP_WORDS.has(t));
     const matches = SEARCH_SUGGESTIONS_POOL.filter(item => {
@@ -144,7 +185,7 @@ function SearchContainer() {
       return cleanTokens.some(token => text.includes(token) || queryKey.includes(token));
     });
     return matches.slice(0, 4);
-  }, [query]);
+  }, [query, lastSearches]);
 
   // Close dropdown on click outside
   useEffect(() => {
@@ -165,6 +206,7 @@ function SearchContainer() {
   const handleSubmit = (e) => {
     if (e) e.preventDefault();
     if (!query.trim()) return;
+    handleRecordSearch(query.trim(), 'Search');
     setIsDropdownOpen(false);
     navigate(`/hardware?q=${encodeURIComponent(query.trim())}`);
   };
@@ -178,7 +220,8 @@ function SearchContainer() {
     }
   };
 
-  const handleSelectSuggestion = (suggestQuery) => {
+  const handleSelectSuggestion = (suggestQuery, itemText, cat) => {
+    handleRecordSearch(itemText || suggestQuery, cat || 'Recent');
     setQuery(suggestQuery);
     setIsDropdownOpen(true);
     inputRef.current?.focus();
@@ -249,15 +292,38 @@ function SearchContainer() {
         {/* ── Live Dropdown for Search Suggestions & Matching Hardware ── */}
         {isDropdownOpen && (
           <div ref={dropdownRef} className="search-dropdown-menu">
-            {/* Suggestions while typing */}
+            {/* Last Searches or Suggestions while typing */}
             {suggestions.length > 0 && (
               <div className="search-dropdown-section">
                 <div className="search-dropdown-section-header">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                    <circle cx="11" cy="11" r="8"/>
-                    <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                  </svg>
-                  <span>{query.trim() ? 'Search Suggestions' : 'Popular Searches'}</span>
+                  {query.trim() ? (
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                      <circle cx="11" cy="11" r="8"/>
+                      <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                    </svg>
+                  ) : (
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
+                      <circle cx="12" cy="12" r="10"/>
+                      <polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                  )}
+                  <span>{query.trim() ? 'Search Suggestions' : 'Last Searches'}</span>
+                  {!query.trim() && lastSearches.length > 0 && (
+                    <button
+                      type="button"
+                      className="search-dropdown-clear-history-btn"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        try {
+                          localStorage.removeItem('setu_last_searches');
+                        } catch(err) {}
+                        setLastSearches([]);
+                      }}
+                      title="Clear search history"
+                    >
+                      Clear
+                    </button>
+                  )}
                 </div>
                 <div className="search-dropdown-suggestions-list">
                   {suggestions.map((sug, idx) => (
@@ -265,7 +331,7 @@ function SearchContainer() {
                       key={idx}
                       type="button"
                       className="search-dropdown-suggest-btn"
-                      onClick={() => handleSelectSuggestion(sug.query)}
+                      onClick={() => handleSelectSuggestion(sug.query, sug.text, sug.category)}
                     >
                       <span className="search-dropdown-suggest-text">{sug.text}</span>
                       <span className="search-dropdown-suggest-tag">{sug.category}</span>
@@ -294,12 +360,12 @@ function SearchContainer() {
                   <div className="search-dropdown-items-list">
                     {matchingHardware.map(prod => {
                       const badge = getProductBadge(prod);
-                      const basePrice = prod.pricingPlans?.[0]?.price || prod.price;
                       return (
                         <div
                           key={prod.id}
                           className="search-dropdown-item"
                           onClick={() => {
+                            handleRecordSearch(prod.name, prod.category || 'Hardware');
                             setIsDropdownOpen(false);
                             navigate(`/hardware/${prod.slug}`);
                           }}
@@ -321,9 +387,6 @@ function SearchContainer() {
                                 <span className="search-dropdown-badge" style={{ background: badge.color }}>
                                   {badge.label}
                                 </span>
-                              )}
-                              {basePrice && (
-                                <span className="search-dropdown-price">₹{Number(basePrice).toLocaleString('en-IN')}</span>
                               )}
                             </div>
                             <span className="search-dropdown-desc">{prod.shortDescription}</span>

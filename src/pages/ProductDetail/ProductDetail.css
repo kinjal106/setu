@@ -506,26 +506,92 @@
   border: 1px solid #bfdbfe;
   border-radius: 8px;
   background: #ffffff;
-  padding: 12px 14px;
-  margin-top: 4px;
+  padding: 14px 16px;
+  margin-top: 6px;
 }
 
 .setu-ui-bulk-header {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  margin-bottom: 8px;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.setu-ui-bulk-header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .setu-ui-bulk-title {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 700;
   color: #0f172a;
 }
 
+.setu-ui-bulk-hint {
+  font-size: 11px;
+  color: #64748b;
+}
+
 .setu-ui-bulk-user-qty {
   font-size: 12px;
+  color: #1e293b;
+  background: #f1f5f9;
+  padding: 4px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.setu-ui-bulk-pills-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+  padding: 8px 10px;
+  background: #f8fafc;
+  border-radius: 6px;
+  border: 1px solid #f1f5f9;
+}
+
+.setu-ui-bulk-pills-label {
+  font-size: 11px;
+  font-weight: 600;
   color: #64748b;
+  margin-right: 2px;
+}
+
+.setu-ui-bulk-pill-btn {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #334155;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.setu-ui-bulk-pill-btn:hover {
+  border-color: #2563eb;
+  color: #2563eb;
+  background: #eff6ff;
+}
+
+.setu-ui-bulk-pill-btn--active {
+  background: #1e3a8a;
+  border-color: #1e3a8a;
+  color: #ffffff;
+}
+
+.setu-ui-bulk-pill-btn--active:hover {
+  background: #1e40af;
+  border-color: #1e40af;
+  color: #ffffff;
 }
 
 .setu-ui-bulk-table {
@@ -537,21 +603,53 @@
 .setu-ui-bulk-table th {
   text-align: left;
   color: #64748b;
-  font-weight: 500;
-  padding: 6px 8px;
+  font-weight: 600;
+  padding: 7px 10px;
   border-bottom: 1px solid #e2e8f0;
-  font-size: 12px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
 }
 
 .setu-ui-bulk-table td {
-  padding: 8px 8px;
+  padding: 9px 10px;
   color: #1e293b;
   border-bottom: 1px solid #f1f5f9;
+  vertical-align: middle;
+}
+
+.setu-ui-bulk-row--clickable {
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.setu-ui-bulk-row--clickable:hover {
+  background: #f8fafc;
 }
 
 .setu-ui-slab--active {
-  background: #eff6ff;
-  border-radius: 4px;
+  background: #eff6ff !important;
+}
+
+.setu-ui-slab-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.setu-ui-slab-radio {
+  font-size: 14px;
+  color: #94a3b8;
+  line-height: 1;
+}
+
+.setu-ui-slab-radio--active {
+  color: #2563eb;
+}
+
+.setu-ui-slab-name {
+  font-weight: 600;
+  color: #0f172a;
 }
 
 .setu-ui-current-pill {
@@ -560,14 +658,50 @@
   color: #ffffff;
   font-size: 10px;
   font-weight: 600;
-  padding: 1px 6px;
+  padding: 2px 6px;
   border-radius: 4px;
-  margin-left: 6px;
+  margin-left: 4px;
   vertical-align: middle;
 }
 
-.setu-ui-slab-price {
+.setu-ui-save-badge {
+  display: inline-block;
+  background: #dcfce7;
+  color: #15803d;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+
+.setu-ui-slab-apply-btn {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #475569;
+  font-family: inherit;
+  font-size: 11px;
   font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.setu-ui-slab-apply-btn:hover {
+  border-color: #2563eb;
+  color: #2563eb;
+  background: #eff6ff;
+}
+
+.setu-ui-slab-apply-btn--active {
+  background: #1e3a8a;
+  border-color: #1e3a8a;
+  color: #ffffff;
+}
+
+.setu-ui-slab-price {
+  font-weight: 700;
+  color: #0f172a;
 }
 
 .setu-ui-slab--active .setu-ui-slab-price {
@@ -575,7 +709,7 @@
 }
 
 .setu-ui-bulk-note {
-  font-size: 12px;
+  font-size: 11px;
   color: #64748b;
   margin: 10px 0 0;
   font-style: italic;
@@ -831,27 +965,82 @@
   background: #e2e8f0;
 }
 
-.setu-plan-card__counter-val {
-  width: 48px;
+.setu-plan-card__counter-val,
+.setu-plan-card__counter-input {
+  width: 54px;
   display: flex;
   align-items: center;
   justify-content: center;
+  text-align: center;
+  font-family: inherit;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   color: #0f172a;
+  border: none;
   border-left: 1px solid #cbd5e1;
   border-right: 1px solid #cbd5e1;
+  background: #ffffff;
+  outline: none;
+  padding: 0 4px;
+  box-sizing: border-box;
+  -moz-appearance: textfield;
 }
 
-.setu-plan-card__counter-btn--plus {
-  background: #1e3a8a;
-  color: #ffffff;
-  font-size: 18px;
+.setu-plan-card__counter-input::-webkit-outer-spin-button,
+.setu-plan-card__counter-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.setu-plan-card__counter-input:focus {
+  background: #eff6ff;
+  color: #1e3a8a;
+}
+
+/* Quick Quantity Select Chips */
+.setu-plan-card__quick-chips {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.setu-plan-card__quick-chips-label {
+  font-size: 11px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.setu-plan-card__quick-chip {
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  color: #334155;
+  font-family: inherit;
+  font-size: 11px;
   font-weight: 600;
+  padding: 3px 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
 }
 
-.setu-plan-card__counter-btn--plus:hover {
+.setu-plan-card__quick-chip:hover {
+  background: #e2e8f0;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+
+.setu-plan-card__quick-chip--active {
+  background: #1e3a8a;
+  border-color: #1e3a8a;
+  color: #ffffff;
+}
+
+.setu-plan-card__quick-chip--active:hover {
   background: #1e40af;
+  border-color: #1e40af;
+  color: #ffffff;
 }
 
 .setu-plan-card__subtotal-hint {
@@ -867,7 +1056,72 @@
 .setu-plan-card__divider {
   height: 1px;
   background: #f1f5f9;
-  margin: 18px 0 20px;
+  margin: 16px 0 16px;
+}
+
+/* Final Quantity & Order Total Bar (Directly Above Action Buttons) */
+.setu-plan-card__final-summary-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.setu-plan-card__final-summary-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+}
+
+.setu-plan-card__final-summary-label {
+  color: #64748b;
+  font-weight: 500;
+}
+
+.setu-plan-card__final-summary-qty {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #0f172a;
+  font-weight: 600;
+}
+
+.setu-plan-card__final-slab-tag {
+  background: #dbeafe;
+  color: #1d4ed8;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.setu-plan-card__final-summary-row--total {
+  border-top: 1px dashed #e2e8f0;
+  padding-top: 6px;
+  margin-top: 2px;
+}
+
+.setu-plan-card__final-summary-row--total .setu-plan-card__final-summary-label {
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.setu-plan-card__final-summary-total {
+  font-size: 16px;
+  font-weight: 800;
+  color: #1e3a8a;
+}
+
+.setu-plan-card__final-summary-sub {
+  font-size: 11px;
+  color: #94a3b8;
+  text-align: right;
+  margin-top: -2px;
 }
 
 /* Dual action buttons matching Card 1 in reference */

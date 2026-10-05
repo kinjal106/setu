@@ -19,27 +19,36 @@ const BRAND_ORDER = [
 
 /* ── Filter Tree matching reference image ── */
 function FilterTree({ categories, selected, onChange }) {
+  // By default, close all categories. Only expand categories with active selections.
   const [expanded, setExpanded] = useState(() => {
-    const all = {};
+    const init = {};
     (categories || []).forEach(cat => {
-      all[cat.id] = true;
+      const isCatSelected = selected.has(cat.id);
+      const hasChildSelected = cat.children && cat.children.some(c => selected.has(c.id));
+      init[cat.id] = isCatSelected || hasChildSelected;
     });
-    return all;
+    return init;
   });
 
+  // When selection changes or categories update, expand any category that has active selections
   useEffect(() => {
     if (categories && categories.length > 0) {
       setExpanded(prev => {
         const next = { ...prev };
         categories.forEach(cat => {
-          if (next[cat.id] === undefined) {
+          const isCatSelected = selected.has(cat.id);
+          const hasChildSelected = cat.children && cat.children.some(c => selected.has(c.id));
+          if (isCatSelected || hasChildSelected) {
             next[cat.id] = true;
+          } else if (selected.size === 0) {
+            // When all selections are cleared, close all categories back to default
+            next[cat.id] = false;
           }
         });
         return next;
       });
     }
-  }, [categories]);
+  }, [categories, selected]);
 
   const toggleExpand = (catId, e) => {
     e?.stopPropagation();
@@ -69,6 +78,7 @@ function FilterTree({ categories, selected, onChange }) {
 
   const toggleSubcategory = (cat, childId, e) => {
     e.stopPropagation();
+    setExpanded(exp => ({ ...exp, [cat.id]: true }));
     onChange(prev => {
       const next = new Set(prev);
       if (next.has(childId)) {
