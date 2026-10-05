@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
+import { getAssetUrl } from '../../utils/assetUrl';
 import './Header.css';
 
 const navLinks = [
@@ -57,8 +58,8 @@ export default function Header() {
             title="Setu Home"
           >
             <img 
-              src="/images/setu-logo-white.png" 
-              srcSet="/images/setu-logo-white@2x.png 2x" 
+              src={getAssetUrl('/images/setu-logo-white.png')} 
+              srcSet={`${getAssetUrl('/images/setu-logo-white@2x.png')} 2x`} 
               alt="Setu" 
               className="header__logo-img" 
             />

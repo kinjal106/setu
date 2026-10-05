@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
+import { getAssetUrl } from '../../utils/assetUrl';
 import './Order.css';
 
 // Default mock product matching user's exact reference screenshot (media_1791183769912.png)
@@ -310,11 +311,11 @@ export default function Order() {
                           {/* Image Thumbnail */}
                           <div className="order-product-img-box">
                             <img 
-                              src={item.image || '/images/hardware/t5324-mdvr.svg'} 
-                              alt={item.name}
+                              src={getAssetUrl(item.image || '/images/hardware/t5324-mdvr.svg')} 
+                              alt={item.name} 
                               className="order-product-img"
                               onError={(e) => {
-                                e.target.src = '/images/hardware/t5324-mdvr.svg';
+                                e.target.src = getAssetUrl('/images/hardware/t5324-mdvr.svg');
                               }}
                             />
                           </div>

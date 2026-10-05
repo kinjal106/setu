@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
+import { getAssetUrl } from '../../utils/assetUrl';
 import './CartDrawer.css';
 
 export default function CartDrawer() {
@@ -52,7 +53,7 @@ export default function CartDrawer() {
                 <div key={item.id} className="cart-item">
                   <div className="cart-item__image">
                     {item.image ? (
-                      <img src={item.image} alt={item.name} className="cart-item__thumb-img" />
+                      <img src={getAssetUrl(item.image)} alt={item.name} className="cart-item__thumb-img" />
                     ) : (
                       <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="1.5">
                         <rect x="2" y="7" width="20" height="14" rx="2"/>

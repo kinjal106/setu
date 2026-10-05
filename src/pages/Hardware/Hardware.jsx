@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import products from '../../data/products.json';
 import categories from '../../data/categories.json';
+import { getAssetUrl } from '../../utils/assetUrl';
 import './Hardware.css';
 
 
@@ -264,7 +265,7 @@ function ProductCard({ product, isLowest, onClick }) {
         <div className="pcard-ref__img-center">
           {product.image && !imgError ? (
             <img
-              src={product.image}
+              src={getAssetUrl(product.image)}
               alt={product.name}
               className="pcard-ref__img"
               onError={() => setImgError(true)}

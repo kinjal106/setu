@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { getAssetUrl } from '../../utils/assetUrl';
 import './OrderHistory.css';
 
 // Default order history items matching exact screenshot media_1791183233401.png
@@ -160,11 +161,11 @@ export default function OrderHistory() {
                           <div className="history-item-cell">
                             <div className="history-item-icon-box">
                               <img 
-                                src={ord.image} 
+                                src={getAssetUrl(ord.image)} 
                                 alt={ord.item} 
                                 className="history-item-icon"
                                 onError={(e) => {
-                                  e.target.src = '/images/hardware/advance-4wire.svg';
+                                  e.target.src = getAssetUrl('/images/hardware/advance-4wire.svg');
                                 }}
                               />
                             </div>

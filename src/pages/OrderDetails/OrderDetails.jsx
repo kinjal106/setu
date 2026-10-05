@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useNavigate, useLocation, useParams, Link } from 'react-router-dom';
+import { getAssetUrl } from '../../utils/assetUrl';
 import './OrderDetails.css';
 
 // Default mock order details matching media_1791184472775.png
@@ -387,11 +388,11 @@ export default function OrderDetails() {
                   {/* Thumbnail */}
                   <div className="order-product-thumb-box">
                     <img 
-                      src={orderData.product.image} 
+                      src={getAssetUrl(orderData.product.image)} 
                       alt={orderData.product.name} 
                       className="order-product-thumb"
                       onError={(e) => {
-                        e.target.src = '/images/hardware/gl500-2g.svg';
+                        e.target.src = getAssetUrl('/images/hardware/gl500-2g.svg');
                       }}
                     />
                   </div>

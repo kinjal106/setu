@@ -1,6 +1,7 @@
 import React, { useState, useRef, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import products from '../../data/products.json';
+import { getAssetUrl } from '../../utils/assetUrl';
 import './SetuHome.css';
 
 /* Animated search suggestions for typewriter effect */
@@ -305,7 +306,7 @@ function SearchContainer() {
                         >
                           <div className="search-dropdown-thumb">
                             {prod.image ? (
-                              <img src={prod.image} alt={prod.name} className="search-dropdown-img" />
+                              <img src={getAssetUrl(prod.image)} alt={prod.name} className="search-dropdown-img" />
                             ) : (
                               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748B" strokeWidth="1.5">
                                 <rect x="2" y="7" width="20" height="14" rx="2"/>

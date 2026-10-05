@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
 import autopartsData from '../../data/autoparts.json';
+import { getAssetUrl } from '../../utils/assetUrl';
 import './AutoParts.css';
 
 /* ── Inline Category Icon for Product Cards ── */
@@ -1104,7 +1105,7 @@ export default function AutoParts() {
                           {/* Product Thumbnail Profile Image */}
                           <div className="autoparts-card-item__thumb">
                             <img 
-                              src={part.image || '/images/autoparts/brake-pads.svg'} 
+                              src={getAssetUrl(part.image || '/images/autoparts/brake-pads.svg')} 
                               alt={part.name} 
                               className="autoparts-card-item__img" 
                               loading="lazy"

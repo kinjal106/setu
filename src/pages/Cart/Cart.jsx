@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
+import { getAssetUrl } from '../../utils/assetUrl';
 import './Cart.css';
 
 // Default mock items matching media_1791183246253.png
@@ -206,11 +207,11 @@ export default function Cart() {
                           {/* Product Image Thumbnail */}
                           <div className="cart-item-img-box">
                             <img 
-                              src={item.image} 
+                              src={getAssetUrl(item.image)} 
                               alt={item.name} 
                               className="cart-item-img"
                               onError={(e) => {
-                                e.target.src = '/images/hardware/br05-4g.svg';
+                                e.target.src = getAssetUrl('/images/hardware/br05-4g.svg');
                               }}
                             />
                           </div>

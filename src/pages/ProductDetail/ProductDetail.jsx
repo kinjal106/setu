@@ -4,6 +4,7 @@ import products from '../../data/products.json';
 import autopartsData from '../../data/autoparts.json';
 import { getPartFitmentList } from '../../data/autopartsFitment';
 import { useCart } from '../../context/CartContext';
+import { getAssetUrl } from '../../utils/assetUrl';
 import './ProductDetail.css';
 
 export default function ProductDetail() {
@@ -224,7 +225,8 @@ export default function ProductDetail() {
   }, [product.id, activeConfig?.id, activeThumb]);
 
   const galleryImages = useMemo(() => {
-    const mainImg = (activeConfig && activeConfig.image) || product.image || (isAutoPart ? '/images/autoparts/brake-pads.svg' : '/images/hardware/prithvi-140.svg');
+    const raw = (activeConfig && activeConfig.image) || product.image || (isAutoPart ? '/images/autoparts/brake-pads.svg' : '/images/hardware/prithvi-140.svg');
+    const mainImg = getAssetUrl(raw);
     return [mainImg, mainImg, mainImg, mainImg, mainImg];
   }, [product, isAutoPart, activeConfig]);
 
