@@ -1,0 +1,319 @@
+/* ────────────────────────────────────────
+   Order History Page - Single Unified Curved Card Layout
+   (10px padding, 20px radius, 1600px container width)
+──────────────────────────────────────── */
+
+.history-page {
+  width: 100%;
+  background: var(--bg-light);
+  height: calc(100vh - var(--header-height));
+  max-height: calc(100vh - var(--header-height));
+  padding: 10px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* Single unified card wrapping all content */
+.history-unified-card {
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+  background: #ffffff;
+  border: 1px solid #E2E8F0;
+  border-radius: 20px;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.04);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* Topbar: Breadcrumbs + Navigation */
+.history-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 28px;
+  border-bottom: 1px solid #E2E8F0;
+  background: #ffffff;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.history-breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.history-breadcrumbs a {
+  color: #64748B;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 140ms ease;
+}
+
+.history-breadcrumbs a:hover {
+  color: #204397;
+}
+
+.history-sep {
+  color: #CBD5E1;
+  font-size: 13px;
+}
+
+.history-current-crumb {
+  color: #0F172A;
+  font-weight: 600;
+}
+
+.history-back-btn {
+  background: #F1F5F9;
+  border: 1px solid #E2E8F0;
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #334155;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.history-back-btn:hover {
+  background: #E2E8F0;
+  color: #0F172A;
+}
+
+/* Scrollable Body */
+.history-scroll-body {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px 0 40px;
+  box-sizing: border-box;
+}
+
+.history-scroll-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.history-scroll-body::-webkit-scrollbar-thumb {
+  background: #E2E8F0;
+  border-radius: 4px;
+}
+
+.history-inner-container {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+/* Table Card matching media_1791183233401.png */
+.history-table-card {
+  background: #ffffff;
+  border: 1px solid #E2E8F0;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03);
+}
+
+.history-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.history-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+/* Header Columns */
+.history-table thead th {
+  padding: 16px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #0F172A;
+  border-bottom: 1px solid #E2E8F0;
+  background: #ffffff;
+  white-space: nowrap;
+}
+
+.history-table thead th:not(:last-child) {
+  border-right: 1px solid #F1F5F9;
+}
+
+.th-item {
+  width: 28%;
+}
+
+.th-date {
+  width: 14%;
+}
+
+.th-qty {
+  width: 12%;
+}
+
+.th-price {
+  width: 16%;
+}
+
+.th-status {
+  width: 16%;
+}
+
+.th-action {
+  width: 14%;
+  text-align: right;
+}
+
+/* Table Body Rows */
+.history-row {
+  transition: background 140ms ease;
+}
+
+.history-row:hover {
+  background: #FAFCFF;
+}
+
+.history-table tbody td {
+  padding: 16px 20px;
+  font-size: 14px;
+  color: #334155;
+  border-bottom: 1px solid #F1F5F9;
+  vertical-align: middle;
+}
+
+.history-row:last-child td {
+  border-bottom: none;
+}
+
+/* Item cell with cyan icon container */
+.history-item-cell {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.history-item-icon-box {
+  width: 44px;
+  height: 44px;
+  background: #E0F2FE;
+  border: 1px solid #BAE6FD;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.history-item-icon {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.history-item-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #0F172A;
+}
+
+.td-date {
+  color: #475569;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.td-qty {
+  color: #0F172A;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.td-price {
+  font-size: 14px;
+  font-weight: 600;
+  color: #0F172A;
+}
+
+/* Status Badges */
+.history-status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 14px;
+  border-radius: 6px;
+  line-height: 1.3;
+  letter-spacing: 0.01em;
+}
+
+/* Order Placed: Light soft green */
+.history-status-badge--placed {
+  background: #DCFCE7;
+  color: #16A34A;
+}
+
+/* Confirmed: Soft yellow/amber */
+.history-status-badge--confirmed {
+  background: #FEF3C7;
+  color: #D97706;
+}
+
+/* Completed: Forest green */
+.history-status-badge--completed {
+  background: #DCFCE7;
+  color: #15803D;
+}
+
+/* Action View Order Button */
+.td-action {
+  text-align: right;
+}
+
+.history-view-btn {
+  background: #204397;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  padding: 7px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 140ms ease;
+  white-space: nowrap;
+}
+
+.history-view-btn:hover {
+  background: #173377;
+  box-shadow: 0 2px 8px rgba(32, 67, 151, 0.25);
+  transform: translateY(-1px);
+}
+
+.history-view-btn:active {
+  transform: translateY(0);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .history-table thead th,
+  .history-table tbody td {
+    padding: 12px 14px;
+  }
+}

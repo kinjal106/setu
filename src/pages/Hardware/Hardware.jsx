@@ -2,10 +2,21 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import products from '../../data/products.json';
 import categories from '../../data/categories.json';
-import { useCart } from '../../context/CartContext';
 import './Hardware.css';
 
-/* ── Filter Tree matching media_1790762192027.png ── */
+
+const BRAND_ORDER = [
+  'M Series',
+  'T98 Series',
+  'BR Series',
+  'LLS Series',
+  'Magnet Series',
+  'Mercetech',
+  'EC Series',
+  'Eco5 Series'
+];
+
+/* ── Filter Tree matching reference image ── */
 function FilterTree({ categories, selected, onChange }) {
   const [expanded, setExpanded] = useState(() => {
     const all = {};
@@ -15,7 +26,6 @@ function FilterTree({ categories, selected, onChange }) {
     return all;
   });
 
-  // Ensure all categories are open by default when categories load or change
   useEffect(() => {
     if (categories && categories.length > 0) {
       setExpanded(prev => {
@@ -95,7 +105,6 @@ function FilterTree({ categories, selected, onChange }) {
           const hasChildSelected = cat.children && cat.children.some(c => selected.has(c.id));
           const isActive = isCatSelected || hasChildSelected;
           const isExpanded = !!expanded[cat.id];
-
           return (
             <div key={cat.id} className="fgroup">
               <div 
@@ -113,18 +122,20 @@ function FilterTree({ categories, selected, onChange }) {
 
                 <span className="fgroup__label">{cat.label}</span>
 
-                {cat.children && cat.children.length > 0 && (
-                  <button 
-                    type="button"
-                    className={`fgroup__arrow ${isExpanded ? 'fgroup__arrow--open' : ''}`}
-                    onClick={(e) => toggleExpand(cat.id, e)}
-                    aria-label={`Toggle ${cat.label} subcategories`}
-                  >
-                    <svg width="7" height="9" viewBox="0 0 6 8" fill="currentColor">
-                      <polygon points="0 0 6 4 0 8"/>
-                    </svg>
-                  </button>
-                )}
+                <span className="fgroup__arrow-slot">
+                  {cat.children && cat.children.length > 0 && (
+                    <button 
+                      type="button"
+                      className={`fgroup__arrow ${isExpanded ? 'fgroup__arrow--open' : ''}`}
+                      onClick={(e) => toggleExpand(cat.id, e)}
+                      aria-label={`Toggle ${cat.label} subcategories`}
+                    >
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="9 18 15 12 9 6"/>
+                      </svg>
+                    </button>
+                  )}
+                </span>
               </div>
 
               {isExpanded && cat.children && (
@@ -156,34 +167,100 @@ function FilterTree({ categories, selected, onChange }) {
   );
 }
 
-/* ── Product Card Component (Horizontal List Card) ── */
+/* ── Brand Filter Component matching media_1791179790288.png ── */
+function BrandFilter({ selected, onChange }) {
+  const brandList = useMemo(() => {
+    const counts = {};
+    products.forEach(p => {
+      if (p.brand) {
+        counts[p.brand] = (counts[p.brand] || 0) + 1;
+      }
+    });
+
+    const items = [];
+    BRAND_ORDER.forEach(b => {
+      items.push({ name: b, count: counts[b] || 0 });
+    });
+
+    Object.keys(counts).forEach(b => {
+      if (!BRAND_ORDER.includes(b)) {
+        items.push({ name: b, count: counts[b] });
+      }
+    });
+
+    return items;
+  }, []);
+
+  const toggleBrand = (brandName) => {
+    onChange(prev => {
+      const next = new Set(prev);
+      if (next.has(brandName)) {
+        next.delete(brandName);
+      } else {
+        next.add(brandName);
+      }
+      return next;
+    });
+  };
+
+  return (
+    <div className="filter-brand">
+      <div className="filter-brand__head">
+        <span className="filter-brand__title">BRAND</span>
+        {selected.size > 0 && (
+          <button 
+            type="button" 
+            className="filter-brand__reset-btn"
+            onClick={() => onChange(new Set())}
+          >
+            Clear
+          </button>
+        )}
+      </div>
+
+      <div className="filter-brand__list">
+        {brandList.map(b => {
+          const isSelected = selected.has(b.name);
+          return (
+            <div 
+              key={b.name} 
+              className={`fgroup__row ${isSelected ? 'fgroup__row--active' : ''}`}
+              onClick={() => toggleBrand(b.name)}
+            >
+              <label className="fcheck" onClick={e => e.stopPropagation()}>
+                <input 
+                  type="checkbox" 
+                  checked={isSelected} 
+                  onChange={() => toggleBrand(b.name)} 
+                />
+                <span className="fcheck__box" />
+              </label>
+              <span className="fgroup__label">{b.name}</span>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+/* ── Product Card Component matching media_1791179790288.png ── */
 function ProductCard({ product, isLowest, onClick }) {
-  const { addToCart, setIsCartOpen } = useCart();
-  const [justAdded, setJustAdded] = useState(false);
   const [imgError, setImgError] = useState(false);
 
   const basePrice = Number(product.price || product.pricingPlans?.[0]?.price || 599);
   const wholePrice = Math.floor(basePrice).toLocaleString('en-IN');
   const decimalPart = basePrice % 1 === 0 ? '00' : (basePrice % 1).toFixed(2).slice(2);
 
-  const handleAddToCart = (e) => {
-    e.stopPropagation();
-    addToCart(product);
-    setJustAdded(true);
-    setTimeout(() => setJustAdded(false), 1800);
-  };
-
-  const handleBuyNow = (e) => {
-    e.stopPropagation();
-    addToCart(product);
-    setIsCartOpen(true);
-  };
+  const displayTags = product.tags && product.tags.length > 0
+    ? product.tags
+    : (product.features && product.features.length > 0 ? product.features.slice(0, 2) : ['Live tracking']);
 
   return (
     <div className="pcard-ref" onClick={onClick}>
       {/* Left image container */}
       <div className="pcard-ref__img-box">
-        {isLowest && <span className="pcard-ref__badge">Lowest price</span>}
+        {(isLowest || product.isLowest) && <span className="pcard-ref__badge">Lowest price</span>}
         <div className="pcard-ref__img-center">
           {product.image && !imgError ? (
             <img
@@ -204,7 +281,7 @@ function ProductCard({ product, isLowest, onClick }) {
         </div>
       </div>
 
-      {/* Right details container with breathing space */}
+      {/* Right details container */}
       <div className="pcard-ref__info">
         <div className="pcard-ref__content">
           <h3 className="pcard-ref__title">{product.name}</h3>
@@ -213,29 +290,22 @@ function ProductCard({ product, isLowest, onClick }) {
             <p className="pcard-ref__desc">{product.shortDescription}</p>
           )}
 
+          {/* Feature Badges / Pills */}
+          {displayTags && displayTags.length > 0 && (
+            <div className="pcard-ref__tags">
+              {displayTags.map((tag, idx) => (
+                <span key={idx} className="pcard-ref__tag-pill">{tag}</span>
+              ))}
+            </div>
+          )}
+
+          {/* Price display row */}
           <div className="pcard-ref__price-row">
             <span className="pcard-ref__currency">₹</span>
             <span className="pcard-ref__amount">{wholePrice}</span>
             <span className="pcard-ref__super">{decimalPart}</span>
             <span className="pcard-ref__gst">+ GST</span>
           </div>
-        </div>
-
-        <div className="pcard-ref__actions">
-          <button 
-            type="button" 
-            className={`pcard-ref__btn-agree-cart ${justAdded ? 'pcard-ref__btn-agree-cart--added' : ''}`}
-            onClick={handleAddToCart}
-          >
-            {justAdded ? 'Added ✓' : 'Agree & Add To Cart'}
-          </button>
-          <button 
-            type="button" 
-            className="pcard-ref__btn-agree-buy"
-            onClick={handleBuyNow}
-          >
-            Agree & Buy Now
-          </button>
         </div>
       </div>
     </div>
@@ -267,6 +337,7 @@ export default function Hardware() {
   };
 
   const [selected, setSelected] = useState(getInitialSelection);
+  const [selectedBrands, setSelectedBrands] = useState(new Set());
   const [search, setSearch] = useState(urlQ);
 
   useEffect(() => {
@@ -304,8 +375,10 @@ export default function Hardware() {
           p.slug,
           p.category,
           p.subcategory,
+          p.brand || '',
           p.shortDescription || '',
-          ...(p.features || [])
+          ...(p.features || []),
+          ...(p.tags || [])
         ].join(' ').toLowerCase();
 
         matchQ = p.name.toLowerCase().includes(q) || tokensToUse.every(token => searchable.includes(token));
@@ -313,10 +386,19 @@ export default function Hardware() {
       if (!matchQ) return false;
 
       // 2. Category selection filter
-      if (selected.size === 0) return true;
-      return selected.has(p.category) || selected.has(p.subcategory);
+      if (selected.size > 0) {
+        const matchCat = selected.has(p.category) || selected.has(p.subcategory);
+        if (!matchCat) return false;
+      }
+
+      // 3. Brand selection filter
+      if (selectedBrands.size > 0) {
+        if (!selectedBrands.has(p.brand)) return false;
+      }
+
+      return true;
     });
-  }, [selected, search]);
+  }, [selected, selectedBrands, search]);
 
   const lowestPriceId = useMemo(() => {
     if (!filtered || filtered.length === 0) return null;
@@ -338,11 +420,12 @@ export default function Hardware() {
         {/* ── Left Filter Panel ── */}
         <aside className="hw-filters">
           <FilterTree categories={categories} selected={selected} onChange={setSelected} />
+          <BrandFilter selected={selectedBrands} onChange={setSelectedBrands} />
         </aside>
 
-        {/* ── Right Main Content (Single List View) ── */}
+        {/* ── Right Main Content ── */}
         <main className="hw-main">
-          {/* Header row with fixed Hardware Solutions title */}
+          {/* Header row with Hardware Solutions title and search */}
           <div className="hw-main__header">
             <div className="hw-main__header-left">
               <h2 className="hw-main__title">
@@ -377,7 +460,7 @@ export default function Hardware() {
             </div>
           </div>
 
-          {/* Product List Container (Horizontal Card Layout) */}
+          {/* Product List Container */}
           <div className="hw-list-container">
             {filtered.length === 0 ? (
               <div className="product-grid__empty">
@@ -387,7 +470,7 @@ export default function Hardware() {
                 <p>No products found</p>
                 <button 
                   className="btn btn-outline btn-sm" 
-                  onClick={() => { setSelected(new Set()); setSearch(''); }}
+                  onClick={() => { setSelected(new Set()); setSelectedBrands(new Set()); setSearch(''); }}
                 >
                   Clear all filters
                 </button>

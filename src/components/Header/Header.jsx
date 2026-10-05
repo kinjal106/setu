@@ -17,6 +17,7 @@ export default function Header() {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showTutorialModal, setShowTutorialModal] = useState(false);
+  const [showTermsModal, setShowTermsModal] = useState(false);
   const menuRef = useRef(null);
 
   // Close hamburger menu on outside click
@@ -88,7 +89,7 @@ export default function Header() {
           <button
             type="button"
             className="header__icon-btn header__icon-btn--cart"
-            onClick={() => setIsCartOpen(true)}
+            onClick={() => navigate('/cart')}
             aria-label="Shopping Cart"
             title="Shopping Cart"
           >
@@ -97,7 +98,7 @@ export default function Header() {
               <circle cx="20" cy="21" r="1" />
               <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
             </svg>
-            <span className="header__cart-count">{cartCount > 0 ? cartCount : 27}</span>
+            <span className="header__cart-count">{cartCount > 0 ? cartCount : 2}</span>
           </button>
 
           {/* Blue Play Button */}
@@ -115,7 +116,7 @@ export default function Header() {
 
           {/* Hamburger Menu Icon */}
           <button 
-            type="button"
+            type="button" 
             className={`header__icon-btn header__icon-btn--menu ${isMenuOpen ? 'header__icon-btn--menu-active' : ''}`}
             onClick={() => setIsMenuOpen(prev => !prev)}
             aria-label="Menu" 
@@ -128,32 +129,45 @@ export default function Header() {
             </svg>
           </button>
 
-          {/* Quick Dropdown Menu */}
+          {/* Quick Dropdown Menu (Matching media_1791183233401.png) */}
           {isMenuOpen && (
             <div className="header__dropdown-menu">
-              <div className="header__dropdown-header">
-                <span className="header__dropdown-title">Setu Portal</span>
-              </div>
               <div className="header__dropdown-links">
-                <button type="button" className="header__dropdown-item" onClick={() => { navigate('/'); setIsMenuOpen(false); }}>
-                  <span>Setu Home</span>
+                <button 
+                  type="button" 
+                  className="header__dropdown-item" 
+                  onClick={() => { 
+                    navigate('/order-history'); 
+                    setIsMenuOpen(false); 
+                  }}
+                >
+                  <div className="header__dropdown-item-left">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#64748B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="header__dropdown-svg">
+                      <circle cx="12" cy="12" r="10" />
+                      <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                    <span>Order History</span>
+                  </div>
                 </button>
-                <button type="button" className="header__dropdown-item" onClick={() => { navigate('/hardware'); setIsMenuOpen(false); }}>
-                  <span>Hardware Solutions</span>
-                </button>
-                <button type="button" className="header__dropdown-item" onClick={() => { navigate('/solutions'); setIsMenuOpen(false); }}>
-                  <span>Telematics Solutions</span>
-                </button>
-                <button type="button" className="header__dropdown-item" onClick={() => { navigate('/finance'); setIsMenuOpen(false); }}>
-                  <span>Setu Finance</span>
-                </button>
-                <button type="button" className="header__dropdown-item" onClick={() => { navigate('/auto-parts'); setIsMenuOpen(false); }}>
-                  <span>Auto Parts Marketplace</span>
-                  <span className="header__beta-badge-dark">BETA</span>
-                </button>
-                <div className="header__dropdown-divider" />
-                <button type="button" className="header__dropdown-item" onClick={() => { setIsCartOpen(true); setIsMenuOpen(false); }}>
-                  <span>View Cart ({cartCount > 0 ? cartCount : 27})</span>
+
+                <button 
+                  type="button" 
+                  className="header__dropdown-item" 
+                  onClick={() => { 
+                    setShowTermsModal(true); 
+                    setIsMenuOpen(false); 
+                  }}
+                >
+                  <div className="header__dropdown-item-left">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#64748B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="header__dropdown-svg">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                      <polyline points="14 2 14 8 20 8" />
+                      <line x1="16" y1="13" x2="8" y2="13" />
+                      <line x1="16" y1="17" x2="8" y2="17" />
+                      <polyline points="10 9 9 9 8 9" />
+                    </svg>
+                    <span>Terms and Condition</span>
+                  </div>
                 </button>
               </div>
             </div>
@@ -194,6 +208,46 @@ export default function Header() {
                 onClick={() => setShowTutorialModal(false)}
               >
                 Got It
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Terms and Condition Modal */}
+      {showTermsModal && (
+        <div className="header__modal-overlay" onClick={() => setShowTermsModal(false)}>
+          <div className="header__modal-dialog header__modal-dialog--terms" onClick={e => e.stopPropagation()}>
+            <div className="header__modal-head">
+              <h3>Terms and Conditions</h3>
+              <button 
+                type="button" 
+                className="header__modal-close" 
+                onClick={() => setShowTermsModal(false)}
+              >
+                ✕
+              </button>
+            </div>
+            <div className="header__modal-body header__modal-body--terms">
+              <h4>1. General Platform Terms</h4>
+              <p>Setu is an enterprise telematics and vehicle IoT procurement portal operated by Uffizio. All orders placed are subject to commercial fleet supply availability, statutory GST taxation, and seller order confirmation.</p>
+              
+              <h4>2. Warranty &amp; Hardware Replacement</h4>
+              <p>Standard hardware devices carry a 1-year manufacturer replacement warranty covering internal circuitry, GNSS/GSM receivers, and internal firmware. Any physical alteration, burn damage, or unauthorized tampering voids warranty.</p>
+              
+              <h4>3. Dispatch &amp; Logistics</h4>
+              <p>Orders are dispatched from regional hubs within 24 to 48 hours of payment receipt or credit approval. Bulk fleet consignments are handled with expedited surface cargo with live tracking.</p>
+
+              <h4>4. Taxation &amp; Invoicing</h4>
+              <p>Statutory Goods and Services Tax (GST 18%) applies to all hardware and telematics subscription purchases. Tax invoices contain valid HSN classifications enabling full Input Tax Credit (ITC) for registered businesses.</p>
+            </div>
+            <div className="header__modal-foot">
+              <button 
+                type="button" 
+                className="btn btn-primary" 
+                onClick={() => setShowTermsModal(false)}
+              >
+                I Understand
               </button>
             </div>
           </div>

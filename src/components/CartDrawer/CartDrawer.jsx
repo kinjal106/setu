@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
 import './CartDrawer.css';
 
 export default function CartDrawer() {
+  const navigate = useNavigate();
   const { cartItems, cartCount, removeFromCart, updateQty, isCartOpen, setIsCartOpen } = useCart();
 
   if (!isCartOpen) return null;
@@ -85,8 +87,15 @@ export default function CartDrawer() {
 
         {cartItems.length > 0 && (
           <div className="cart-drawer__footer">
-            <button className="btn btn-primary" style={{ width: '100%', justifyContent: 'center' }}>
-              Request a Quote
+            <button 
+              className="btn btn-primary" 
+              style={{ width: '100%', justifyContent: 'center' }}
+              onClick={() => {
+                setIsCartOpen(false);
+                navigate('/order');
+              }}
+            >
+              Proceed to Order
             </button>
             <button
               className="btn btn-outline"

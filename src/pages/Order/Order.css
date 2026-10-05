@@ -1,0 +1,977 @@
+/* ─────────────────────────────────────────────────────────────
+   Setu Portal — Order Summary Page
+   Single Unified Curved Card Architecture
+   (Matching Hardware, ProductDetail & AutoParts: 20px Radius, 10px Page Padding)
+   ───────────────────────────────────────────────────────────── */
+
+.order-page {
+  background: var(--bg-light); /* #F8FAFC */
+  width: 100%;
+  height: calc(100vh - var(--header-height));
+  max-height: calc(100vh - var(--header-height));
+  padding: 10px;
+  box-sizing: border-box;
+  overflow: hidden;
+  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: #0f172a;
+}
+
+/* Single unified card wrapping all content - full width with 10px outer padding & 20px corners */
+.order-unified-card {
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+  background: #ffffff;
+  border: 1px solid #E2E8F0;
+  border-radius: 20px;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.04);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* ── Fixed Topbar: Breadcrumbs + Navigation (Full Width) ── */
+.order-topbar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 28px;
+  border-bottom: 1px solid #E2E8F0;
+  background: #ffffff;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.order-breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  flex-wrap: wrap;
+}
+
+.order-breadcrumbs a {
+  color: #2563EB;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.order-breadcrumbs a:hover {
+  text-decoration: underline;
+}
+
+.order-sep {
+  color: #94A3B8;
+  font-size: 13px;
+  user-select: none;
+}
+
+.order-current-crumb {
+  color: #0F172A;
+  font-weight: 600;
+}
+
+.order-back-btn {
+  background: #F1F5F9;
+  border: 1px solid #E2E8F0;
+  color: #334155;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.order-back-btn:hover {
+  background: #E2E8F0;
+  color: #0F172A;
+}
+
+/* ── Scrollable Body within the Curved Card ── */
+.order-scroll-body {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+  background: #ffffff;
+  padding: 24px 0 40px;
+  box-sizing: border-box;
+}
+
+.order-scroll-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.order-scroll-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.order-scroll-body::-webkit-scrollbar-thumb {
+  background: #E2E8F0;
+  border-radius: 4px;
+}
+
+.order-scroll-body::-webkit-scrollbar-thumb:hover {
+  background: #CBD5E1;
+}
+
+.order-inner-container {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+/* ── Main 2-Column Content Layout ── */
+.order-page__layout {
+  display: flex;
+  gap: 28px;
+  align-items: flex-start;
+}
+
+/* ── Left Column: Sections ── */
+.order-page__main-col {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.order-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.order-section__title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0F172A;
+  margin: 0 0 10px 0;
+}
+
+/* ── Base Order Card ── */
+.order-card {
+  background: #ffffff;
+  border: 1px solid #E2E8F0;
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03);
+  box-sizing: border-box;
+}
+
+/* ── Section 1: Product List Card ── */
+.order-card--product {
+  padding: 20px 24px 14px;
+}
+
+.order-product-row {
+  display: grid;
+  grid-template-columns: 56px minmax(180px, 1.4fr) minmax(110px, 1fr) minmax(150px, 1.3fr) 60px minmax(140px, 1.1fr);
+  align-items: flex-start;
+  gap: 18px;
+}
+
+.order-product-img-box {
+  width: 56px;
+  height: 56px;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.order-product-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.order-product-info {
+  min-width: 0;
+  padding-top: 2px;
+}
+
+.order-product-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0F172A;
+  margin: 0;
+  line-height: 1.35;
+}
+
+.order-meta-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.order-meta-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: #64748B;
+  white-space: nowrap;
+}
+
+.order-meta-val {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0F172A;
+  white-space: nowrap;
+}
+
+.order-meta-val--mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.order-meta-val--seller {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.35;
+  white-space: normal;
+  text-transform: uppercase;
+}
+
+.order-meta-col--qty {
+  text-align: left;
+}
+
+.order-meta-col--price {
+  text-align: left;
+}
+
+.order-price-val {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0F172A;
+}
+
+.order-unit-price-sub {
+  font-size: 11px;
+  color: #64748B;
+  white-space: nowrap;
+}
+
+/* ── Apply Coupon Area (Bottom Right of Product List) ── */
+.order-coupon-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 14px;
+  padding-top: 10px;
+}
+
+.order-apply-coupon-btn {
+  background: none;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #16A34A; /* Exact Green from Screenshot */
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: all 0.15s ease;
+}
+
+.order-apply-coupon-btn:hover {
+  background: #F0FDF4;
+}
+
+.order-coupon-form {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.order-coupon-input {
+  border: 1px solid #CBD5E1;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 12px;
+  width: 170px;
+  text-transform: uppercase;
+}
+
+.order-coupon-input:focus {
+  border-color: #2563EB;
+}
+
+.order-coupon-submit-btn {
+  background: #16A34A;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.order-coupon-submit-btn:hover {
+  background: #15803D;
+}
+
+.order-coupon-cancel-btn {
+  background: none;
+  border: none;
+  color: #64748B;
+  cursor: pointer;
+  padding: 4px;
+  font-size: 12px;
+}
+
+.order-coupon-error {
+  font-size: 11px;
+  color: #DC2626;
+  margin-left: 8px;
+}
+
+.order-coupon-applied-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #DCFCE7;
+  border: 1px solid #86EFAC;
+  color: #166534;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.order-coupon-remove-btn {
+  background: none;
+  border: none;
+  color: #DC2626;
+  font-size: 11px;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+}
+
+/* ── Section 2: Billing Address Card ── */
+.order-billing-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.order-edit-billing-btn {
+  background: #EFF6FF;
+  color: #2563EB;
+  border: 1px solid #BFDBFE;
+  border-radius: 6px;
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.order-edit-billing-btn:hover {
+  background: #DBEAFE;
+  border-color: #93C5FD;
+}
+
+.order-card--address {
+  padding: 18px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.order-addr-line {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13px;
+}
+
+.order-addr-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.order-addr-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0F172A;
+}
+
+.order-addr-text {
+  font-size: 13px;
+  color: #334155;
+  line-height: 1.45;
+}
+
+.order-addr-gst {
+  font-size: 13px;
+  font-weight: 600;
+  color: #334155;
+}
+
+/* ── Section 3: Shipping Address Card ── */
+.order-shipping-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.order-add-addr-btn {
+  background: #EFF6FF; /* Matching blue tint button in screenshot */
+  color: #2563EB;
+  border: 1px solid #BFDBFE;
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.order-add-addr-btn:hover {
+  background: #DBEAFE;
+  border-color: #93C5FD;
+}
+
+.order-add-addr-icon {
+  font-size: 15px;
+  line-height: 1;
+  font-weight: 700;
+}
+
+.order-card--shipping {
+  padding: 16px 20px;
+}
+
+.order-same-addr-checkrow {
+  padding-bottom: 12px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid #F1F5F9;
+}
+
+.order-checkbox-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.order-custom-checkbox {
+  width: 16px;
+  height: 16px;
+  accent-color: #2563EB;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.order-checkbox-text {
+  font-size: 13px;
+  font-weight: 500;
+  color: #2563EB; /* Matching blue text in screenshot */
+}
+
+.order-shipping-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.order-shipping-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+  cursor: pointer;
+}
+
+.order-shipping-row:hover {
+  background: #F8FAFC;
+}
+
+.order-shipping-row--selected {
+  background: #F8FAFC;
+  border-color: #E2E8F0;
+}
+
+.order-shipping-radio-col {
+  margin-top: 3px;
+  flex-shrink: 0;
+}
+
+.order-custom-radio {
+  width: 16px;
+  height: 16px;
+  accent-color: #2563EB;
+  cursor: pointer;
+  margin: 0;
+}
+
+.order-shipping-content-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.order-shipping-actions-col {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.order-addr-action-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.order-addr-action-btn--edit {
+  background: #EEF2FF;
+  color: #4F46E5;
+}
+
+.order-addr-action-btn--edit:hover {
+  background: #E0E7FF;
+}
+
+.order-addr-action-btn--delete {
+  background: #FEF2F2;
+  color: #EF4444;
+}
+
+.order-addr-action-btn--delete:hover {
+  background: #FEE2E2;
+}
+
+.order-same-addr-active-box {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 6px 4px;
+}
+
+.order-same-addr-pill {
+  font-size: 11px;
+  font-weight: 600;
+  background: #EFF6FF;
+  color: #2563EB;
+  padding: 2px 8px;
+  border-radius: 12px;
+  border: 1px solid #DBEAFE;
+  margin-left: 8px;
+  display: inline-block;
+}
+
+/* ════ Right Column: Price Details & Submit ════ */
+.order-page__side-col {
+  width: 360px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.order-card--summary {
+  padding: 22px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.order-summary-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+}
+
+.order-summary-label {
+  color: #475569;
+  font-weight: 400;
+}
+
+.order-summary-label em {
+  font-style: italic;
+  color: #64748B;
+  font-size: 12px;
+}
+
+.order-summary-val {
+  color: #0F172A;
+  font-weight: 500;
+}
+
+.order-summary-val--green {
+  color: #16A34A;
+  font-weight: 600;
+}
+
+.order-summary-divider {
+  border-top: 1px solid #E2E8F0;
+  margin: 4px 0 2px;
+}
+
+.order-summary-row--total {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0F172A;
+  padding-top: 4px;
+}
+
+.order-summary-total-label {
+  font-weight: 700;
+  color: #0F172A;
+}
+
+.order-summary-total-val {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0F172A;
+}
+
+/* ── Payment Mode Selection (Inside Price Details Card) ── */
+.order-payment-mode-section {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid #E2E8F0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.order-payment-mode-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0F172A;
+}
+
+.order-payment-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.order-radio-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.order-custom-radio {
+  width: 16px;
+  height: 16px;
+  accent-color: #2563EB;
+  cursor: pointer;
+  margin: 0;
+}
+
+.order-radio-text {
+  font-size: 13px;
+  color: #1E293B;
+  font-weight: 500;
+}
+
+/* ── Disclaimer Box (Inside Price Details Card) ── */
+.order-disclaimer-card {
+  margin-top: 12px;
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  padding: 12px 14px;
+  box-sizing: border-box;
+}
+
+.order-disclaimer-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.order-disclaimer-checkbox {
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.order-disclaimer-text {
+  font-size: 11px;
+  line-height: 1.45;
+  color: #475569;
+}
+
+/* ── Submit Request Action Button (Below Card) ── */
+.order-submit-btn {
+  width: 100%;
+  height: 42px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 16px;
+  border: none;
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.order-submit-btn--disabled {
+  background: #CBD5E1; /* Matching screenshot disabled button */
+  color: #FFFFFF;
+  cursor: not-allowed;
+}
+
+.order-submit-btn--active {
+  background: #2563EB;
+  color: #FFFFFF;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(37, 99, 235, 0.2);
+}
+
+.order-submit-btn--active:hover {
+  background: #1D4ED8;
+}
+
+/* ── Modals: Address & Success ── */
+.order-modal__overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.order-modal__card {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 520px;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.order-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.order-modal__title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #0F172A;
+  margin: 0;
+}
+
+.order-modal__close-btn {
+  background: none;
+  border: none;
+  font-size: 16px;
+  color: #64748B;
+  cursor: pointer;
+}
+
+.order-modal__form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.order-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.order-form-group label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.order-form-group input,
+.order-form-group textarea {
+  border: 1px solid #CBD5E1;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 13px;
+  color: #0F172A;
+  background: #FFFFFF;
+  box-sizing: border-box;
+}
+
+.order-form-group input:focus,
+.order-form-group textarea:focus {
+  border-color: #2563EB;
+  outline: none;
+}
+
+.order-modal__actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+/* ── Success Modal ── */
+.order-modal__card--success {
+  text-align: center;
+  max-width: 500px;
+}
+
+.order-success-icon-wrap {
+  width: 64px;
+  height: 64px;
+  background: #DCFCE7;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+
+.order-success-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0F172A;
+  margin: 0 0 6px;
+}
+
+.order-success-sub {
+  font-size: 13px;
+  color: #475569;
+  margin: 0 0 20px;
+}
+
+.order-success-summary-box {
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: left;
+  font-size: 13px;
+}
+
+.order-success-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #334155;
+}
+
+.order-success-row strong {
+  color: #0F172A;
+}
+
+.order-success-notice {
+  font-size: 12px;
+  color: #64748B;
+  line-height: 1.5;
+  margin: 16px 0 0;
+}
+
+/* ── Responsive Behavior ── */
+@media (max-width: 1024px) {
+  .order-page {
+    height: auto;
+    max-height: none;
+    overflow: visible;
+  }
+  .order-unified-card {
+    height: auto;
+    max-height: none;
+    overflow: visible;
+  }
+  .order-scroll-body {
+    overflow: visible;
+    height: auto;
+    padding: 18px 16px 40px;
+  }
+  .order-page__layout {
+    flex-direction: column;
+  }
+  .order-page__side-col {
+    width: 100%;
+  }
+  .order-product-row {
+    grid-template-columns: 56px 1fr 1fr;
+    gap: 12px;
+  }
+  .order-meta-col--seller,
+  .order-meta-col--qty,
+  .order-meta-col--price {
+    grid-column: span 1;
+  }
+}
+
+@media (max-width: 640px) {
+  .order-page {
+    padding: 8px;
+  }
+  .order-unified-card {
+    border-radius: 14px;
+  }
+  .order-scroll-body {
+    padding: 14px 12px 32px;
+  }
+  .order-product-row {
+    grid-template-columns: 1fr;
+  }
+}

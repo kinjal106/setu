@@ -48,7 +48,7 @@ export default function ProductDetail() {
           className="setu-ui-btn-primary" 
           onClick={() => navigate(isAutoPartsRoute ? '/auto-parts' : '/hardware')}
         >
-          {isAutoPartsRoute ? 'Back to Auto Parts' : 'Back to Hardware'}
+          ‹ Back
         </button>
       </div>
     );
@@ -75,6 +75,87 @@ export default function ProductDetail() {
   const connectivity = isAutoPart
     ? (sp.Material || sp.Position || product.origin || 'OEM Standard')
     : (sp.connectivity || (isPrithvi ? 'GSM, GPS, GNSS & IRNSS (NavIC)' : product.name?.includes('4G') ? '4G LTE' : '2G'));
+
+  // Hardware multi-configuration options support
+  const configurations = useMemo(() => {
+    if (product?.configurations && product.configurations.length > 0) {
+      return product.configurations;
+    }
+    return null;
+  }, [product]);
+
+  // Selected configuration state
+  const [selectedConfigId, setSelectedConfigId] = useState(() => {
+    if (product?.configurations && product.configurations.length > 0) {
+      const match = product.configurations.find(
+        (c) => c.id === slug || c.slug === slug || product.id?.includes(c.id) || product.name?.toLowerCase().includes(c.name.toLowerCase())
+      );
+      if (match) return match.id;
+      const rec = product.configurations.find((c) => c.isRecommended);
+      return rec ? rec.id : product.configurations[0].id;
+    }
+    return null;
+  });
+
+  useEffect(() => {
+    if (product?.configurations && product.configurations.length > 0) {
+      const match = product.configurations.find(
+        (c) => c.id === slug || c.slug === slug || product.id?.includes(c.id) || product.name?.toLowerCase().includes(c.name.toLowerCase())
+      );
+      if (match) {
+        setSelectedConfigId(match.id);
+      } else {
+        const rec = product.configurations.find((c) => c.isRecommended);
+        setSelectedConfigId(rec ? rec.id : product.configurations[0].id);
+      }
+    } else {
+      setSelectedConfigId(null);
+    }
+  }, [product, slug]);
+
+  const activeConfig = useMemo(() => {
+    if (!configurations || configurations.length === 0) return null;
+    return configurations.find((c) => c.id === selectedConfigId) || configurations[0];
+  }, [configurations, selectedConfigId]);
+
+  // Dynamic Title based on selected configuration
+  const displayTitle = useMemo(() => {
+    if (!activeConfig) return product.name;
+    if (activeConfig.title) return activeConfig.title;
+    if (/\b(2G|4G)\b/i.test(product.name)) {
+      return product.name.replace(/\b(2G|4G)\b/i, activeConfig.name);
+    }
+    return `${product.name} – ${activeConfig.name}`;
+  }, [product.name, activeConfig]);
+
+  // Dynamic Connectivity based on selected configuration
+  const displayConnectivity = useMemo(() => {
+    if (activeConfig && (activeConfig.connectivity || activeConfig.name)) {
+      return activeConfig.connectivity || activeConfig.name;
+    }
+    return connectivity;
+  }, [activeConfig, connectivity]);
+
+  // Formatted category hierarchy for Details table
+  const categoryDisplay = useMemo(() => {
+    if (isAutoPart) return `Auto Spare Parts › ${subcat}`;
+    if (product.category === 'asset-logistics') {
+      const sub = product.subcategory === 'e-lock-tracker' ? 'Elock Tracker' : subcat;
+      return `Asset & Logistics Tracking › ${sub}`;
+    }
+    if (product.category === 'video-telematics') return `Video Telematics › ${subcat}`;
+    if (product.category === 'fuel-sensors') return `Fuel Sensors › ${subcat}`;
+    if (product.category === 'obd-trackers') return `OBD Trackers › ${subcat}`;
+    return `Vehicle Tracking Devices › ${subcat}`;
+  }, [isAutoPart, product.category, product.subcategory, subcat]);
+
+  // Special features text
+  const specialFeaturesText = useMemo(() => {
+    if (product.specialFeatures) return product.specialFeatures;
+    if (isPrithvi) return 'AIS-140 certified, SOS panic alert';
+    if (product.tags && product.tags.length > 0) return product.tags.join(', ');
+    return 'Live tracking';
+  }, [product.specialFeatures, product.tags, isPrithvi]);
 
   // Fitment list computation (guarantees 10+ models matching Boodmo / OEM screenshots)
   const fitmentList = useMemo(() => {
@@ -104,8 +185,11 @@ export default function ProductDetail() {
     return 'Universal Fleet Fitment';
   }, [product, isAutoPart, fitmentList]);
 
-  // Base price and consumption unit
+  // Base price dynamically takes active configuration into account
   const basePrice = useMemo(() => {
+    if (activeConfig && activeConfig.price) {
+      return activeConfig.price;
+    }
     if (product.price) return product.price;
     if (product.pricingPlans && product.pricingPlans.length > 0) {
       const std = product.pricingPlans.find((p) => p.isPopular) || product.pricingPlans[0];
@@ -115,7 +199,7 @@ export default function ProductDetail() {
     if (product.category === 'video-telematics') return 4250;
     if (product.category === 'fuel-sensors') return 2890;
     return 2760;
-  }, [product, isPrithvi]);
+  }, [product, isPrithvi, activeConfig]);
 
   const consumptionUnit = isAutoPart
     ? (product.unit || 'Per Piece')
@@ -137,12 +221,12 @@ export default function ProductDetail() {
 
   useEffect(() => {
     setImgError(false);
-  }, [product.id, activeThumb]);
+  }, [product.id, activeConfig?.id, activeThumb]);
 
   const galleryImages = useMemo(() => {
-    const mainImg = product.image || (isAutoPart ? '/images/autoparts/brake-pads.svg' : '/images/hardware/prithvi-140.svg');
+    const mainImg = (activeConfig && activeConfig.image) || product.image || (isAutoPart ? '/images/autoparts/brake-pads.svg' : '/images/hardware/prithvi-140.svg');
     return [mainImg, mainImg, mainImg, mainImg, mainImg];
-  }, [product, isAutoPart]);
+  }, [product, isAutoPart, activeConfig]);
 
   // Interactive states
   const [qty, setQty] = useState(1);
@@ -201,7 +285,7 @@ export default function ProductDetail() {
     return slabPrices.slab1;
   }, [qty, slabPrices]);
 
-  const displayPriceText = `${unitPrice} INR`;
+  const displayPriceText = `₹${unitPrice.toLocaleString('en-IN')}`;
 
   // Key benefits list (4 items with green checkmarks)
   const planBenefits = useMemo(() => {
@@ -312,7 +396,11 @@ export default function ProductDetail() {
   const handleAddToCart = () => {
     addToCart({
       ...product,
+      id: activeConfig ? `${product.id}-${activeConfig.id}` : product.id,
+      name: displayTitle,
       price: unitPrice,
+      basePrice,
+      configuration: activeConfig ? activeConfig.name : null,
       consumptionUnit,
       qty
     });
@@ -321,25 +409,33 @@ export default function ProductDetail() {
   };
 
   const handleBuyNow = () => {
-    addToCart({
+    const orderItem = {
       ...product,
+      id: activeConfig ? `${product.id}-${activeConfig.id}` : product.id,
+      name: displayTitle,
       price: unitPrice,
+      basePrice,
+      configuration: activeConfig ? activeConfig.name : null,
       consumptionUnit,
       qty
-    });
-    setBuyNowSubmitted(true);
-    setTimeout(() => setBuyNowSubmitted(false), 2600);
+    };
+    addToCart(orderItem);
+    navigate('/order', { state: { directBuy: true, product: orderItem } });
   };
 
   const handleSubmitRequest = () => {
-    addToCart({
+    const orderItem = {
       ...product,
+      id: activeConfig ? `${product.id}-${activeConfig.id}` : product.id,
+      name: displayTitle,
       price: unitPrice,
+      basePrice,
+      configuration: activeConfig ? activeConfig.name : null,
       consumptionUnit,
       qty
-    });
-    setRequestSubmitted(true);
-    setTimeout(() => setRequestSubmitted(false), 2800);
+    };
+    addToCart(orderItem);
+    navigate('/order', { state: { directBuy: true, product: orderItem } });
   };
 
   return (
@@ -375,7 +471,7 @@ export default function ProductDetail() {
             className="setu-ui-back-btn" 
             onClick={() => navigate(isAutoPart ? '/auto-parts' : '/hardware')}
           >
-            {isAutoPart ? '‹ Back to Auto Parts' : '‹ Back to Hardware'}
+            ‹ Back
           </button>
         </div>
 
@@ -425,9 +521,10 @@ export default function ProductDetail() {
 
           {/* ── Part 2: Product Details & Specifications (Center Scrolling Partition) ── */}
           <div className="setu-ui-center-scroll-col" id="setu-details-scroll">
-            <h1 className="setu-ui-title">{product.name}</h1>
+            <h1 className="setu-ui-title">{displayTitle}</h1>
             
             <div className="setu-ui-stock-row">
+              <span className="setu-ui-stock-label">Status:</span>
               <span className={`setu-ui-stock-badge ${product.inStock !== false ? 'setu-ui-stock-badge--in' : 'setu-ui-stock-badge--out'}`}>
                 <span className="setu-ui-stock-dot" />
                 {product.inStock !== false ? 'In Stock' : 'Out of Stock'}
@@ -481,26 +578,31 @@ export default function ProductDetail() {
                 <>
                   <div className="setu-ui-leader-row">
                     <span className="setu-ui-leader-k">Brand / series</span>
+                    <span className="setu-ui-leader-dots" />
                     <span className="setu-ui-leader-v">{brandName}</span>
                   </div>
 
                   <div className="setu-ui-leader-row">
                     <span className="setu-ui-leader-k">Category</span>
-                    <span className="setu-ui-leader-v">Vehicle Tracking Devices › {subcat}</span>
+                    <span className="setu-ui-leader-dots" />
+                    <span className="setu-ui-leader-v">{categoryDisplay}</span>
                   </div>
 
                   <div className="setu-ui-leader-row">
                     <span className="setu-ui-leader-k">Connectivity</span>
-                    <span className="setu-ui-leader-v">{connectivity}</span>
+                    <span className="setu-ui-leader-dots" />
+                    <span className="setu-ui-leader-v">{displayConnectivity}</span>
                   </div>
 
                   <div className="setu-ui-leader-row">
                     <span className="setu-ui-leader-k">Special features</span>
-                    <span className="setu-ui-leader-v">{isPrithvi ? 'AIS-140 certified, SOS panic alert' : 'Live tracking'}</span>
+                    <span className="setu-ui-leader-dots" />
+                    <span className="setu-ui-leader-v">{specialFeaturesText}</span>
                   </div>
 
                   <div className="setu-ui-leader-row">
                     <span className="setu-ui-leader-k">Supported application</span>
+                    <span className="setu-ui-leader-dots" />
                     <span className="setu-ui-leader-v setu-ui-leader-v--wrap">
                       Trakzee, SmartBus and other Uffizio platforms
                     </span>
@@ -508,6 +610,33 @@ export default function ProductDetail() {
                 </>
               )}
             </div>
+
+            {/* ── Hardware Configuration Selector Block (Matching User Requirement & Screenshot) ── */}
+            {configurations && configurations.length > 0 && (
+              <div className="setu-config-block">
+                <div className="setu-config-heading">
+                  Configuration: <span className="setu-config-heading-val">{activeConfig?.name}</span>
+                </div>
+                <div className="setu-config-options">
+                  {configurations.map((cfg) => {
+                    const isSelected = selectedConfigId === cfg.id;
+                    return (
+                      <button
+                        key={cfg.id}
+                        type="button"
+                        className={`setu-config-card ${isSelected ? 'setu-config-card--active' : ''}`}
+                        onClick={() => setSelectedConfigId(cfg.id)}
+                      >
+                        <span className="setu-config-card__name">{cfg.name}</span>
+                        <span className="setu-config-card__sub">
+                          ₹{cfg.price?.toLocaleString('en-IN')}{cfg.badge ? ` · ${cfg.badge}` : ''}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
 
             {/* Bulk Pricing Slab Card */}
             <div className="setu-ui-bulk-card">
@@ -532,7 +661,7 @@ export default function ProductDetail() {
                       1–50 units
                       {currentSlab === '1–50' && <span className="setu-ui-current-pill">Current</span>}
                     </td>
-                    <td className="setu-ui-slab-price">{slabPrices.slab1} INR</td>
+                    <td className="setu-ui-slab-price">₹{slabPrices.slab1.toLocaleString('en-IN')}</td>
                     <td>—</td>
                   </tr>
                   <tr className={currentSlab === '51–100' ? 'setu-ui-slab--active' : ''}>
@@ -540,7 +669,7 @@ export default function ProductDetail() {
                       51–100 units
                       {currentSlab === '51–100' && <span className="setu-ui-current-pill">Current</span>}
                     </td>
-                    <td className="setu-ui-slab-price">{slabPrices.slab2} INR</td>
+                    <td className="setu-ui-slab-price">₹{slabPrices.slab2.toLocaleString('en-IN')}</td>
                     <td>{Math.round(((slabPrices.slab1 - slabPrices.slab2) / slabPrices.slab1) * 100)}%</td>
                   </tr>
                   <tr className={currentSlab === '101–500' ? 'setu-ui-slab--active' : ''}>
@@ -548,7 +677,7 @@ export default function ProductDetail() {
                       101–500 units
                       {currentSlab === '101–500' && <span className="setu-ui-current-pill">Current</span>}
                     </td>
-                    <td className="setu-ui-slab-price">{slabPrices.slab3} INR</td>
+                    <td className="setu-ui-slab-price">₹{slabPrices.slab3.toLocaleString('en-IN')}</td>
                     <td>{Math.round(((slabPrices.slab1 - slabPrices.slab3) / slabPrices.slab1) * 100)}%</td>
                   </tr>
                   <tr className={currentSlab === '500+' ? 'setu-ui-slab--active' : ''}>
@@ -556,7 +685,7 @@ export default function ProductDetail() {
                       500+ units
                       {currentSlab === '500+' && <span className="setu-ui-current-pill">Current</span>}
                     </td>
-                    <td className="setu-ui-slab-price">{slabPrices.slab4} INR</td>
+                    <td className="setu-ui-slab-price">₹{slabPrices.slab4.toLocaleString('en-IN')}</td>
                     <td>{Math.round(((slabPrices.slab1 - slabPrices.slab4) / slabPrices.slab1) * 100)}%</td>
                   </tr>
                 </tbody>
@@ -720,7 +849,7 @@ export default function ProductDetail() {
                       <tr>
                         <th>Bulk Pricing Slabs</th>
                         <td>
-                          1–50: {slabPrices.slab1} INR · 51–100: {slabPrices.slab2} INR · 101–500: {slabPrices.slab3} INR · 500+: {slabPrices.slab4} INR
+                          1–50: ₹{slabPrices.slab1.toLocaleString('en-IN')} · 51–100: ₹{slabPrices.slab2.toLocaleString('en-IN')} · 101–500: ₹{slabPrices.slab3.toLocaleString('en-IN')} · 500+: ₹{slabPrices.slab4.toLocaleString('en-IN')}
                         </td>
                       </tr>
                     </>
@@ -732,7 +861,7 @@ export default function ProductDetail() {
                       </tr>
                       <tr>
                         <th>Model name</th>
-                        <td>{product.name}</td>
+                        <td>{displayTitle}</td>
                       </tr>
                       <tr>
                         <th>Brand / series</th>
@@ -740,7 +869,7 @@ export default function ProductDetail() {
                       </tr>
                       <tr>
                         <th>Category</th>
-                        <td>Vehicle Tracking Devices</td>
+                        <td>{categoryDisplay.split('›')[0]?.trim() || 'Vehicle Tracking Devices'}</td>
                       </tr>
                       <tr>
                         <th>Sub-category</th>
@@ -748,7 +877,7 @@ export default function ProductDetail() {
                       </tr>
                       <tr>
                         <th>Connectivity</th>
-                        <td>{connectivity}</td>
+                        <td>{displayConnectivity}</td>
                       </tr>
                       <tr>
                         <th>Certification</th>
@@ -756,11 +885,11 @@ export default function ProductDetail() {
                       </tr>
                       <tr>
                         <th>Configurations</th>
-                        <td>Single configuration</td>
+                        <td>{configurations ? configurations.map((c) => c.name).join(', ') : 'Single configuration'}</td>
                       </tr>
                       <tr>
                         <th>Special features</th>
-                        <td>{isPrithvi ? 'SOS emergency button, fuel monitoring, dual-network SIM' : 'Live tracking'}</td>
+                        <td>{specialFeaturesText}</td>
                       </tr>
                       <tr>
                         <th>Supported application</th>
@@ -785,7 +914,7 @@ export default function ProductDetail() {
                       <tr>
                         <th>Bulk pricing slabs</th>
                         <td>
-                          1–50: {slabPrices.slab1} INR · 51–100: {slabPrices.slab2} INR · 101–500: {slabPrices.slab3} INR · 500+: {slabPrices.slab4} INR
+                          1–50: ₹{slabPrices.slab1.toLocaleString('en-IN')} · 51–100: ₹{slabPrices.slab2.toLocaleString('en-IN')} · 101–500: ₹{slabPrices.slab3.toLocaleString('en-IN')} · 500+: ₹{slabPrices.slab4.toLocaleString('en-IN')}
                         </td>
                       </tr>
                     </>

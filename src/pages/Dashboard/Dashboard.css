@@ -11,7 +11,7 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   color: #0F172A;
 }
 
@@ -32,7 +32,7 @@
   background: #E2E8F0;
   padding: 4px 10px;
   border-radius: 9999px;
-  font-size: 11.5px;
+  font-size: 12px;
   font-weight: 600;
   color: #334155;
   margin-bottom: 8px;
@@ -147,7 +147,7 @@
 }
 
 .fleet-kpi-card__sub {
-  font-size: 11.5px;
+  font-size: 12px;
   color: #64748B;
 }
 
@@ -169,7 +169,7 @@
 }
 
 .fleet-metric-box__label {
-  font-size: 11.5px;
+  font-size: 12px;
   font-weight: 600;
   color: #64748B;
   text-transform: uppercase;
@@ -184,7 +184,7 @@
 }
 
 .fleet-metric-box__sub {
-  font-size: 11.5px;
+  font-size: 12px;
   color: #64748B;
 }
 
@@ -248,7 +248,7 @@
 }
 
 .fleet-setu-banner__desc {
-  font-size: 12.5px;
+  font-size: 13px;
   opacity: 0.85;
   margin: 0;
   line-height: 1.45;
@@ -305,14 +305,14 @@
 }
 
 .fleet-card__title {
-  font-size: 14.5px;
+  font-size: 15px;
   font-weight: 700;
   color: #0F172A;
   margin: 0 0 2px;
 }
 
 .fleet-card__sub {
-  font-size: 11.5px;
+  font-size: 12px;
   color: #64748B;
   margin: 0;
 }
@@ -336,7 +336,7 @@
 .fleet-card__badge-pulse {
   background: #EF4444;
   color: #ffffff;
-  font-size: 10.5px;
+  font-size: 11px;
   font-weight: 700;
   padding: 2px 8px;
   border-radius: 9999px;
@@ -408,7 +408,7 @@
   color: #ffffff;
   padding: 4px 8px;
   border-radius: 4px;
-  font-size: 10.5px;
+  font-size: 11px;
   white-space: nowrap;
   pointer-events: none;
   display: flex;
@@ -497,12 +497,12 @@
 }
 
 .fleet-alert-item__time {
-  font-size: 10.5px;
+  font-size: 11px;
   color: #64748B;
 }
 
 .fleet-alert-item__vehicle {
-  font-size: 11.5px;
+  font-size: 12px;
   color: #334155;
 }
 
@@ -526,7 +526,7 @@
 .fleet-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 12.5px;
+  font-size: 13px;
 }
 
 .fleet-table th {
@@ -536,7 +536,7 @@
   font-weight: 600;
   color: #475569;
   border-bottom: 1px solid #E2E8F0;
-  font-size: 11.5px;
+  font-size: 12px;
   white-space: nowrap;
 }
 
@@ -560,7 +560,7 @@
   border: 1px solid #E2E8F0;
   padding: 2px 8px;
   border-radius: 4px;
-  font-size: 11.5px;
+  font-size: 12px;
   color: #334155;
 }
 
@@ -618,7 +618,7 @@
 }
 
 .fleet-status-pill {
-  font-size: 10.5px;
+  font-size: 11px;
   font-weight: 700;
   padding: 3px 8px;
   border-radius: 9999px;
@@ -650,14 +650,14 @@
 }
 
 .fleet-table__time {
-  font-size: 11.5px;
+  font-size: 12px;
   color: #94A3B8;
 }
 
 .fleet-card__reset-btn {
   background: #F1F5F9;
   border: 1px solid #E2E8F0;
-  font-size: 11.5px;
+  font-size: 12px;
   font-weight: 600;
   color: #2563EB;
   padding: 4px 10px;

@@ -11,7 +11,7 @@
   padding: 10px;
   box-sizing: border-box;
   overflow: hidden;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   color: #0f172a;
 }
 
@@ -37,7 +37,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding: 12px 24px;
+  padding: 14px 28px;
   border-bottom: 1px solid #E2E8F0;
   background: #ffffff;
   flex-shrink: 0;
@@ -82,7 +82,7 @@
   background: #F1F5F9;
   border: 1px solid #E2E8F0;
   color: #334155;
-  font-size: 12.5px;
+  font-size: 13px;
   font-weight: 600;
   padding: 6px 14px;
   border-radius: 6px;
@@ -344,34 +344,117 @@
 .setu-ui-leader-row {
   display: flex;
   align-items: baseline;
-  gap: 16px;
-  font-size: 12.5px;
+  gap: 8px;
+  font-size: 13px;
   margin-bottom: 6px;
 }
 
 .setu-ui-leader-k {
   color: #64748b;
-  width: 150px;
-  min-width: 150px;
   flex-shrink: 0;
   white-space: nowrap;
 }
 
 .setu-ui-leader-dots {
-  display: none;
+  display: block;
+  flex: 1;
+  border-bottom: 1.5px dotted #CBD5E1;
+  margin: 0 4px;
+  min-width: 16px;
+  align-self: flex-end;
+  margin-bottom: 4px;
 }
 
 .setu-ui-leader-v {
   color: #0f172a;
   font-weight: 600;
-  text-align: left;
-  flex: 1;
+  text-align: right;
+  flex-shrink: 0;
 }
 
 .setu-ui-leader-v--wrap {
   white-space: normal;
   max-width: 440px;
   line-height: 1.4;
+  text-align: right;
+}
+
+/* ── Hardware Configuration Selector Block (Matching Screenshot) ── */
+.setu-config-block {
+  margin-top: 14px;
+  margin-bottom: 18px;
+}
+
+.setu-config-heading {
+  font-size: 13px;
+  font-weight: 600;
+  color: #0F172A;
+  margin-bottom: 10px;
+}
+
+.setu-config-heading-val {
+  font-weight: 700;
+  color: #0F172A;
+}
+
+.setu-config-options {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.setu-config-card {
+  min-width: 140px;
+  padding: 10px 16px;
+  background: #ffffff;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-family: inherit;
+  transition: all 0.15s ease-in-out;
+  outline: none;
+}
+
+.setu-config-card:hover {
+  border-color: #94A3B8;
+  background: #F8FAFC;
+}
+
+.setu-config-card--active {
+  border: 1.5px solid #2563EB;
+  background: #EFF6FF;
+  outline: 1px solid #2563EB;
+}
+
+.setu-config-card--active:hover {
+  border-color: #1D4ED8;
+  background: #EFF6FF;
+}
+
+.setu-config-card__name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0F172A;
+}
+
+.setu-config-card--active .setu-config-card__name {
+  color: #1D4ED8;
+}
+
+.setu-config-card__sub {
+  font-size: 11px;
+  color: #64748B;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.setu-config-card--active .setu-config-card__sub {
+  color: #2563EB;
 }
 
 /* Center Price Box */
@@ -448,7 +531,7 @@
 .setu-ui-bulk-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 12.5px;
+  font-size: 13px;
 }
 
 .setu-ui-bulk-table th {
@@ -457,7 +540,7 @@
   font-weight: 500;
   padding: 6px 8px;
   border-bottom: 1px solid #e2e8f0;
-  font-size: 11.5px;
+  font-size: 12px;
 }
 
 .setu-ui-bulk-table td {
@@ -492,7 +575,7 @@
 }
 
 .setu-ui-bulk-note {
-  font-size: 11.5px;
+  font-size: 12px;
   color: #64748b;
   margin: 10px 0 0;
   font-style: italic;
@@ -560,7 +643,7 @@
 }
 
 .setu-plan-card__per-unit {
-  font-size: 13.5px;
+  font-size: 13px;
   color: #64748b;
   font-weight: 400;
   white-space: nowrap;
@@ -649,7 +732,7 @@
 }
 
 .setu-plan-card__qty-label {
-  font-size: 13.5px;
+  font-size: 13px;
   font-weight: 500;
   color: #1e293b;
 }
@@ -657,7 +740,7 @@
 .setu-plan-card__qty-info-btn {
   background: none;
   border: none;
-  font-size: 13.5px;
+  font-size: 13px;
   color: #64748b;
   cursor: pointer;
   padding: 0 2px;
@@ -772,7 +855,7 @@
 }
 
 .setu-plan-card__subtotal-hint {
-  font-size: 11.5px;
+  font-size: 12px;
   color: #475569;
   margin-top: 10px;
   background: #f8fafc;
@@ -839,7 +922,7 @@
   border: none;
   border-radius: 6px;
   padding: 12px;
-  font-size: 13.5px;
+  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.15s ease;
@@ -878,14 +961,14 @@
 }
 
 .setu-ui-trust-title {
-  font-size: 12.5px;
+  font-size: 13px;
   font-weight: 600;
   color: #0F172A;
   line-height: 1.2;
 }
 
 .setu-ui-trust-sub {
-  font-size: 11.5px;
+  font-size: 12px;
   color: #64748B;
   line-height: 1.2;
 }
@@ -986,7 +1069,7 @@
   border: 1px solid #e2e8f0;
   border-radius: 8px;
   overflow: hidden;
-  font-size: 12.5px;
+  font-size: 13px;
 }
 
 .setu-ui-specs-table th {
@@ -1089,7 +1172,7 @@
 
 .setu-ui-faq-answer p {
   margin: 12px 0 0;
-  font-size: 13.5px;
+  font-size: 14px;
   line-height: 1.65;
   color: #475569;
 }
@@ -1208,7 +1291,7 @@
 }
 
 .setu-info-modal__meta-label {
-  font-size: 12.5px;
+  font-size: 13px;
   font-weight: 700;
   color: #0f172a;
   line-height: 1.3;
@@ -1311,7 +1394,7 @@
   border: none;
   outline: none;
   background: transparent;
-  font-size: 12.5px;
+  font-size: 13px;
   color: #0F172A;
   width: 170px;
 }
@@ -1471,14 +1554,14 @@
   border: 1px solid #E2E8F0;
   border-radius: 6px;
   overflow: hidden;
-  font-size: 12.5px;
+  font-size: 13px;
 }
 
 .setu-fitment-subtable thead th {
   background: #E5E7EB;
   color: #374151;
   font-weight: 700;
-  font-size: 11.5px;
+  font-size: 12px;
   padding: 8px 12px;
   text-align: left;
   border-bottom: 1px solid #D1D5DB;

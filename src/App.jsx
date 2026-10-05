@@ -9,6 +9,10 @@ import Hardware from './pages/Hardware/Hardware';
 import ProductDetail from './pages/ProductDetail/ProductDetail';
 import Solutions from './pages/Solutions/Solutions';
 import AutoParts from './pages/AutoParts/AutoParts';
+import Order from './pages/Order/Order';
+import Cart from './pages/Cart/Cart';
+import OrderHistory from './pages/OrderHistory/OrderHistory';
+import OrderDetails from './pages/OrderDetails/OrderDetails';
 import './styles/globals.css';
 import './App.css';
 
@@ -65,6 +69,18 @@ function AppLayout() {
             <Route path="/auto-parts/:slug" element={<ProductDetail />} />
             <Route path="/setu/auto-parts/:slug" element={<ProductDetail />} />
             <Route path="/finance" element={<ComingSoon title="Setu Finance" description="Equipment financing and leasing options for commercial fleets are coming soon." />} />
+            <Route path="/order" element={<Order />} />
+            <Route path="/setu/order" element={<Order />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/setu/cart" element={<Cart />} />
+            <Route path="/order-history" element={<OrderHistory />} />
+            <Route path="/setu/order-history" element={<OrderHistory />} />
+            <Route path="/orders" element={<OrderHistory />} />
+            <Route path="/setu/orders" element={<OrderHistory />} />
+            <Route path="/order-details" element={<OrderDetails />} />
+            <Route path="/order-details/:id" element={<OrderDetails />} />
+            <Route path="/setu/order-details" element={<OrderDetails />} />
+            <Route path="/setu/order-details/:id" element={<OrderDetails />} />
 
             {/* Fallback */}
             <Route path="*" element={<ComingSoon title="Page Not Found" description="The page you are looking for does not exist." />} />

@@ -55,24 +55,54 @@
   ],
   "categories": [
     {
-      "id": "maintenance-service",
-      "label": "Maintenance Service Parts",
+      "id": "accessories",
+      "label": "Accessories",
       "children": [
         {
-          "id": "belt",
-          "label": "Belt & Timing System"
+          "id": "audio-system",
+          "label": "Audio System",
+          "children": [
+            {
+              "id": "amplifier",
+              "label": "Amplifier"
+            },
+            {
+              "id": "bass-tube",
+              "label": "Bass Tube"
+            },
+            {
+              "id": "speaker",
+              "label": "Speaker"
+            },
+            {
+              "id": "subwoofer",
+              "label": "Subwoofer"
+            }
+          ]
         },
         {
-          "id": "brake",
-          "label": "Brake"
+          "id": "action-camera",
+          "label": "Action Camera and Accessories"
         },
         {
-          "id": "catalogue-service",
-          "label": "Catalogue Service manual"
+          "id": "anti-rust-spray",
+          "label": "Anti Rust Spray"
         },
         {
-          "id": "clutch",
-          "label": "Clutch"
+          "id": "backup-camera",
+          "label": "Backup Camera"
+        },
+        {
+          "id": "bar-light",
+          "label": "Bar Light"
+        },
+        {
+          "id": "battery-charger",
+          "label": "Battery Charger"
+        },
+        {
+          "id": "brake-cleaner-spray",
+          "label": "Brake Cleaner Spray"
         }
       ]
     },
@@ -81,36 +111,54 @@
       "label": "Brake System",
       "children": [
         {
-          "id": "front-brake-pads",
-          "label": "Front Brake Pads"
+          "id": "brake-pads-shoes",
+          "label": "Brake Pads & Shoes",
+          "children": [
+            {
+              "id": "front-brake-pads",
+              "label": "Front Brake Pads"
+            },
+            {
+              "id": "rear-brake-pads",
+              "label": "Rear Brake Pads"
+            },
+            {
+              "id": "brake-shoes",
+              "label": "Brake Shoes"
+            }
+          ]
         },
         {
-          "id": "brake-shoes",
-          "label": "Brake Shoes"
+          "id": "brake-discs-drums",
+          "label": "Brake Discs & Drums",
+          "children": [
+            {
+              "id": "front-brake-disc",
+              "label": "Front Brake Disc"
+            },
+            {
+              "id": "rear-brake-disc",
+              "label": "Rear Brake Disc"
+            },
+            {
+              "id": "drum-brake",
+              "label": "Drum Brake"
+            }
+          ]
         },
         {
-          "id": "drum-brake",
-          "label": "Drum Brake"
-        },
-        {
-          "id": "front-brake-disc",
-          "label": "Front Brake Disc"
-        },
-        {
-          "id": "rear-brake-disc",
-          "label": "Rear Brake Disc"
-        },
-        {
-          "id": "rear-brake-pads",
-          "label": "Rear Brake Pads"
-        },
-        {
-          "id": "brake-fluid",
-          "label": "Brake Fluid"
-        },
-        {
-          "id": "brake-repair-kit",
-          "label": "Brake Repair Kit"
+          "id": "brake-hydraulics",
+          "label": "Brake Hydraulics & Fluids",
+          "children": [
+            {
+              "id": "brake-fluid",
+              "label": "Brake Fluid"
+            },
+            {
+              "id": "brake-repair-kit",
+              "label": "Brake Repair Kit"
+            }
+          ]
         }
       ]
     },
@@ -119,20 +167,32 @@
       "label": "Filters",
       "children": [
         {
-          "id": "oil-filter",
-          "label": "Oil Filter"
+          "id": "air-cabin-filters",
+          "label": "Air & Cabin Filters",
+          "children": [
+            {
+              "id": "air-filter",
+              "label": "Air Filter"
+            },
+            {
+              "id": "cabin-filter",
+              "label": "Cabin AC Filter"
+            }
+          ]
         },
         {
-          "id": "air-filter",
-          "label": "Air Filter"
-        },
-        {
-          "id": "cabin-filter",
-          "label": "Cabin AC Filter"
-        },
-        {
-          "id": "fuel-filter",
-          "label": "Fuel Filter"
+          "id": "fluid-filters",
+          "label": "Fluid Filters",
+          "children": [
+            {
+              "id": "oil-filter",
+              "label": "Oil Filter"
+            },
+            {
+              "id": "fuel-filter",
+              "label": "Fuel Filter"
+            }
+          ]
         }
       ]
     },
@@ -141,24 +201,36 @@
       "label": "Engine & Cooling System",
       "children": [
         {
-          "id": "radiator",
-          "label": "Radiator Assembly"
+          "id": "cooling-system",
+          "label": "Cooling System",
+          "children": [
+            {
+              "id": "radiator",
+              "label": "Radiator Assembly"
+            },
+            {
+              "id": "water-pump",
+              "label": "Water Pump"
+            },
+            {
+              "id": "coolant",
+              "label": "Coolants & Fluids"
+            }
+          ]
         },
         {
-          "id": "water-pump",
-          "label": "Water Pump"
-        },
-        {
-          "id": "engine-mount",
-          "label": "Engine Mounts"
-        },
-        {
-          "id": "drive-belt",
-          "label": "Drive Belts"
-        },
-        {
-          "id": "coolant",
-          "label": "Coolants & Fluids"
+          "id": "engine-belts-mounts",
+          "label": "Belts & Engine Mounts",
+          "children": [
+            {
+              "id": "drive-belt",
+              "label": "Drive Belts"
+            },
+            {
+              "id": "engine-mount",
+              "label": "Engine Mounts"
+            }
+          ]
         }
       ]
     },
@@ -167,16 +239,28 @@
       "label": "Suspension & Steering",
       "children": [
         {
-          "id": "shock-absorber",
-          "label": "Shock Absorbers"
+          "id": "suspension-parts",
+          "label": "Suspension Components",
+          "children": [
+            {
+              "id": "shock-absorber",
+              "label": "Shock Absorbers"
+            }
+          ]
         },
         {
-          "id": "control-arm",
-          "label": "Control Arms & Ball Joints"
-        },
-        {
-          "id": "tie-rod",
-          "label": "Tie Rod Ends"
+          "id": "steering-parts",
+          "label": "Steering & Linkages",
+          "children": [
+            {
+              "id": "control-arm",
+              "label": "Control Arms & Ball Joints"
+            },
+            {
+              "id": "tie-rod",
+              "label": "Tie Rod Ends"
+            }
+          ]
         }
       ]
     },
@@ -185,16 +269,28 @@
       "label": "Clutch System",
       "children": [
         {
-          "id": "clutch-kit",
-          "label": "Clutch Kit"
+          "id": "clutch-components",
+          "label": "Clutch Components",
+          "children": [
+            {
+              "id": "clutch-kit",
+              "label": "Clutch Kit"
+            },
+            {
+              "id": "clutch-disc",
+              "label": "Clutch Disc"
+            }
+          ]
         },
         {
-          "id": "clutch-disc",
-          "label": "Clutch Disc"
-        },
-        {
-          "id": "clutch-cable",
-          "label": "Control Cables"
+          "id": "clutch-controls",
+          "label": "Clutch Controls",
+          "children": [
+            {
+              "id": "clutch-cable",
+              "label": "Control Cables"
+            }
+          ]
         }
       ]
     },
@@ -203,20 +299,32 @@
       "label": "Electric Components & Lighting",
       "children": [
         {
-          "id": "headlight",
-          "label": "Headlights"
+          "id": "lighting-system",
+          "label": "Lighting System",
+          "children": [
+            {
+              "id": "headlight",
+              "label": "Headlights"
+            },
+            {
+              "id": "tail-light",
+              "label": "Tail Lights"
+            }
+          ]
         },
         {
-          "id": "tail-light",
-          "label": "Tail Lights"
-        },
-        {
-          "id": "battery",
-          "label": "Car Battery"
-        },
-        {
-          "id": "spark-plugs",
-          "label": "Spark Plugs"
+          "id": "electrical-ignition",
+          "label": "Electrical & Ignition",
+          "children": [
+            {
+              "id": "battery",
+              "label": "Car Battery"
+            },
+            {
+              "id": "spark-plugs",
+              "label": "Spark Plugs"
+            }
+          ]
         }
       ]
     },
@@ -225,12 +333,28 @@
       "label": "Windscreen Cleaning & Body",
       "children": [
         {
-          "id": "wiper-blades",
-          "label": "Wiper Blades"
+          "id": "windscreen-cleaning",
+          "label": "Windscreen Cleaning",
+          "children": [
+            {
+              "id": "wiper-blades",
+              "label": "Wiper Blades"
+            }
+          ]
         },
         {
-          "id": "side-mirror",
-          "label": "Side View Mirrors (ORVM)"
+          "id": "body-mirrors",
+          "label": "Body & Mirrors",
+          "children": [
+            {
+              "id": "side-mirror",
+              "label": "Side View Mirrors (ORVM)"
+            },
+            {
+              "id": "body-mounting",
+              "label": "Body Mountings"
+            }
+          ]
         }
       ]
     },
@@ -239,8 +363,42 @@
       "label": "Hardware & Fasteners",
       "children": [
         {
-          "id": "caliper-pins",
-          "label": "Caliper Pins & Bolts"
+          "id": "brake-hardware",
+          "label": "Brake Hardware",
+          "children": [
+            {
+              "id": "caliper-pins",
+              "label": "Caliper Pins & Bolts"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "maintenance-service",
+      "label": "Maintenance Service Parts",
+      "children": [
+        {
+          "id": "routine-service",
+          "label": "Routine Service",
+          "children": [
+            {
+              "id": "belt",
+              "label": "Belt & Timing System"
+            },
+            {
+              "id": "brake",
+              "label": "Brake Service Kit"
+            },
+            {
+              "id": "catalogue-service",
+              "label": "Catalogue Service manual"
+            },
+            {
+              "id": "clutch",
+              "label": "Clutch Service"
+            }
+          ]
         }
       ]
     }
@@ -251,7 +409,7 @@
       "name": "Front Disc Brake Pad Set (Low-Metallic)",
       "partNumber": "55810M74L00",
       "category": "brake-system",
-      "subcategory": "front-brake-pads",
+      "subcategory": "brake-pads-shoes",
       "categoryName": "Brake System",
       "brand": "Maruti Genuine Parts (MGP)",
       "origin": "OEM",
@@ -778,14 +936,15 @@
             }
           ]
         }
-      ]
+      ],
+      "leafCategory": "front-brake-pads"
     },
     {
       "id": "part-bp-02",
       "name": "Bosch QuietCast Ceramic Front Brake Pads",
       "partNumber": "BP1420-BOS",
       "category": "brake-system",
-      "subcategory": "front-brake-pads",
+      "subcategory": "brake-pads-shoes",
       "categoryName": "Brake System",
       "brand": "Bosch",
       "origin": "Aftermarket",
@@ -1205,14 +1364,15 @@
             }
           ]
         }
-      ]
+      ],
+      "leafCategory": "front-brake-pads"
     },
     {
       "id": "part-dr-01",
       "name": "Front Ventilated Brake Disc Rotor (Pair)",
       "partNumber": "55311M74L00",
       "category": "brake-system",
-      "subcategory": "front-brake-disc",
+      "subcategory": "brake-discs-drums",
       "categoryName": "Brake System",
       "brand": "Brembo",
       "origin": "Aftermarket",
@@ -1630,14 +1790,15 @@
             }
           ]
         }
-      ]
+      ],
+      "leafCategory": "front-brake-disc"
     },
     {
       "id": "part-bs-01",
       "name": "Rear Brake Shoe Set (Axle Set)",
       "partNumber": "53200M74L00",
       "category": "brake-system",
-      "subcategory": "brake-shoes",
+      "subcategory": "brake-pads-shoes",
       "categoryName": "Brake System",
       "brand": "TVS Girling",
       "origin": "OEM",
@@ -2055,14 +2216,15 @@
             }
           ]
         }
-      ]
+      ],
+      "leafCategory": "brake-shoes"
     },
     {
       "id": "part-bf-01",
       "name": "DOT 4 High Performance Brake Fluid (500ml)",
       "partNumber": "BF-DOT4-500",
       "category": "brake-system",
-      "subcategory": "brake-fluid",
+      "subcategory": "brake-hydraulics",
       "categoryName": "Brake System",
       "brand": "Castrol",
       "origin": "OEM",
@@ -2566,14 +2728,15 @@
             }
           ]
         }
-      ]
+      ],
+      "leafCategory": "brake-fluid"
     },
     {
       "id": "part-of-01",
       "name": "Spin-on Engine Oil Filter (Magnetic Drain)",
       "partNumber": "16510M68K00",
       "category": "filters",
-      "subcategory": "oil-filter",
+      "subcategory": "fluid-filters",
       "categoryName": "Filters",
       "brand": "Maruti Genuine Parts (MGP)",
       "origin": "OEM",
@@ -2992,14 +3155,15 @@
             }
           ]
         }
-      ]
+      ],
+      "leafCategory": "oil-filter"
     },
     {
       "id": "part-af-01",
       "name": "Heavy Duty Engine Air Filter Element",
       "partNumber": "13780M74L00",
       "category": "filters",
-      "subcategory": "air-filter",
+      "subcategory": "air-cabin-filters",
       "categoryName": "Filters",
       "brand": "Purolator",
       "origin": "OEM",
@@ -3418,14 +3582,15 @@
             }
           ]
         }
-      ]
+      ],
+      "leafCategory": "air-filter"
     },
     {
       "id": "part-cf-01",
       "name": "Activated Carbon Cabin AC Pollen Filter",
       "partNumber": "95861M74L00",
       "category": "filters",
-      "subcategory": "cabin-filter",
+      "subcategory": "air-cabin-filters",
       "categoryName": "Filters",
       "brand": "Mann-Filter",
       "origin": "Aftermarket",
@@ -3844,14 +4009,15 @@
             }
           ]
         }
-      ]
+      ],
+      "leafCategory": "cabin-filter"
     },
     {
       "id": "part-ff-01",
       "name": "In-Tank Electronic Fuel Filter Assembly",
       "partNumber": "15410M74L00",
       "category": "filters",
-      "subcategory": "fuel-filter",
+      "subcategory": "fluid-filters",
       "categoryName": "Filters",
       "brand": "Denso",
       "origin": "OEM",
@@ -4269,14 +4435,15 @@
             }
           ]
         }
-      ]
+      ],
+      "leafCategory": "fuel-filter"
     },
     {
       "id": "part-sp-01",
       "name": "Laser Iridium Spark Plug Set (Pack of 4)",
       "partNumber": "SILKR6C10E",
       "category": "electric-components",
-      "subcategory": "spark-plugs",
+      "subcategory": "electrical-ignition",
       "categoryName": "Electric Components & Lighting",
       "brand": "NGK",
       "origin": "OEM",
@@ -4695,14 +4862,15 @@
             }
           ]
         }
-      ]
+      ],
+      "leafCategory": "spark-plugs"
     },
     {
       "id": "part-eo-01",
       "name": "Fully Synthetic Engine Oil 5W-30 (3.5 Litres)",
       "partNumber": "EDGE-5W30-35L",
       "category": "maintenance-service",
-      "subcategory": "brake",
+      "subcategory": "routine-service",
       "categoryName": "Maintenance Service Parts",
       "brand": "Mobil 1",
       "origin": "OEM",
@@ -5205,14 +5373,15 @@
             }
           ]
         }
-      ]
+      ],
+      "leafCategory": "brake"
     },
     {
       "id": "part-co-01",
       "name": "Pre-mixed Long Life Radiator Coolant (3 Litres)",
       "partNumber": "COOL-LL-RED",
       "category": "engine-cooling",
-      "subcategory": "coolant",
+      "subcategory": "cooling-system",
       "categoryName": "Engine & Cooling System",
       "brand": "Golden Cruiser",
       "origin": "OEM",
@@ -5715,14 +5884,15 @@
             }
           ]
         }
-      ]
+      ],
+      "leafCategory": "coolant"
     },
     {
       "id": "part-hl-01",
       "name": "Clear Lens Headlight Assembly LH (Passenger Side)",
       "partNumber": "35320M74L00",
       "category": "electric-components",
-      "subcategory": "headlight",
+      "subcategory": "lighting-system",
       "categoryName": "Electric Components & Lighting",
       "brand": "Lumax",
       "origin": "OEM",
@@ -6248,14 +6418,15 @@
             }
           ]
         }
-      ]
+      ],
+      "leafCategory": "headlight"
     },
     {
       "id": "part-hl-02",
       "name": "Clear Lens Headlight Assembly RH (Driver Side)",
       "partNumber": "35120M74L00",
       "category": "electric-components",
-      "subcategory": "headlight",
+      "subcategory": "lighting-system",
       "categoryName": "Electric Components & Lighting",
       "brand": "Lumax",
       "origin": "OEM",
@@ -6781,14 +6952,15 @@
             }
           ]
         }
-      ]
+      ],
+      "leafCategory": "headlight"
     },
     {
       "id": "part-tl-01",
       "name": "Rear Tail Light Cluster LH (Passenger Side)",
       "partNumber": "35670M74L00",
       "category": "electric-components",
-      "subcategory": "tail-light",
+      "subcategory": "lighting-system",
       "categoryName": "Electric Components & Lighting",
       "brand": "Uno Minda",
       "origin": "OEM",
@@ -7313,14 +7485,15 @@
             }
           ]
         }
-      ]
+      ],
+      "leafCategory": "tail-light"
     },
     {
       "id": "part-bat-01",
       "name": "Amaron Pro 35AH Maintenance Free Car Battery",
       "partNumber": "AAM-PR-00042B20L",
       "category": "electric-components",
-      "subcategory": "battery",
+      "subcategory": "electrical-ignition",
       "categoryName": "Electric Components & Lighting",
       "brand": "Amaron",
       "origin": "Aftermarket",
@@ -7824,14 +7997,15 @@
             }
           ]
         }
-      ]
+      ],
+      "leafCategory": "battery"
     },
     {
       "id": "part-rad-01",
       "name": "Aluminum Core Engine Radiator Assembly",
       "partNumber": "17700M74L00",
       "category": "engine-cooling",
-      "subcategory": "radiator",
+      "subcategory": "cooling-system",
       "categoryName": "Engine & Cooling System",
       "brand": "Subros",
       "origin": "OEM",
@@ -8356,14 +8530,15 @@
             }
           ]
         }
-      ]
+      ],
+      "leafCategory": "radiator"
     },
     {
       "id": "part-wp-01",
       "name": "Engine Water Pump Assembly with Gasket",
       "partNumber": "17400M68K00",
       "category": "engine-cooling",
-      "subcategory": "water-pump",
+      "subcategory": "cooling-system",
       "categoryName": "Engine & Cooling System",
       "brand": "AISIN",
       "origin": "OEM",
@@ -8888,14 +9063,15 @@
             }
           ]
         }
-      ]
+      ],
+      "leafCategory": "water-pump"
     },
     {
       "id": "part-tb-01",
       "name": "Engine Alternator & AC Poly-V Drive Belt",
       "partNumber": "17521M68K00",
       "category": "engine-cooling",
-      "subcategory": "drive-belt",
+      "subcategory": "engine-belts-mounts",
       "categoryName": "Engine & Cooling System",
       "brand": "Continental",
       "origin": "Aftermarket",
@@ -9312,14 +9488,15 @@
             }
           ]
         }
-      ]
+      ],
+      "leafCategory": "drive-belt"
     },
     {
       "id": "part-em-01",
       "name": "Right Hand Engine Mount Damper",
       "partNumber": "11610M74L00",
       "category": "engine-cooling",
-      "subcategory": "engine-mount",
+      "subcategory": "engine-belts-mounts",
       "categoryName": "Engine & Cooling System",
       "brand": "Maruti Genuine Parts (MGP)",
       "origin": "OEM",
@@ -9844,14 +10021,15 @@
             }
           ]
         }
-      ]
+      ],
+      "leafCategory": "engine-mount"
     },
     {
       "id": "part-sa-01",
       "name": "Front Gas Shock Absorber Strut LH",
       "partNumber": "41602M74L00",
       "category": "suspension-steering",
-      "subcategory": "shock-absorber",
+      "subcategory": "suspension-parts",
       "categoryName": "Suspension & Steering",
       "brand": "Gabriel",
       "origin": "OEM",
@@ -10376,14 +10554,15 @@
             }
           ]
         }
-      ]
+      ],
+      "leafCategory": "shock-absorber"
     },
     {
       "id": "part-lca-01",
       "name": "Front Lower Suspension Control Arm with Ball Joint",
       "partNumber": "45202M74L00",
       "category": "suspension-steering",
-      "subcategory": "control-arm",
+      "subcategory": "steering-parts",
       "categoryName": "Suspension & Steering",
       "brand": "Rane",
       "origin": "OEM",
@@ -10908,14 +11087,15 @@
             }
           ]
         }
-      ]
+      ],
+      "leafCategory": "control-arm"
     },
     {
       "id": "part-tr-01",
       "name": "Steering Tie Rod End (Pair - LH + RH)",
       "partNumber": "48810M74L00",
       "category": "suspension-steering",
-      "subcategory": "tie-rod",
+      "subcategory": "steering-parts",
       "categoryName": "Suspension & Steering",
       "brand": "TRW",
       "origin": "Aftermarket",
@@ -11332,14 +11512,15 @@
             }
           ]
         }
-      ]
+      ],
+      "leafCategory": "tie-rod"
     },
     {
       "id": "part-cp-01",
       "name": "3-Piece Complete Clutch Kit (Plate + Cover + Bearing)",
       "partNumber": "22100M74L00-KIT",
       "category": "clutch-system",
-      "subcategory": "clutch-kit",
+      "subcategory": "clutch-components",
       "categoryName": "Clutch System",
       "brand": "Valeo",
       "origin": "OEM",
@@ -11864,14 +12045,15 @@
             }
           ]
         }
-      ]
+      ],
+      "leafCategory": "clutch-kit"
     },
     {
       "id": "part-cl-cable-01",
       "name": "Heavy Duty Clutch Control Cable Assembly",
       "partNumber": "23710M74L00",
       "category": "clutch-system",
-      "subcategory": "clutch-cable",
+      "subcategory": "clutch-controls",
       "categoryName": "Clutch System",
       "brand": "Suprajit",
       "origin": "OEM",
@@ -12289,14 +12471,15 @@
             }
           ]
         }
-      ]
+      ],
+      "leafCategory": "clutch-cable"
     },
     {
       "id": "part-wp-blades-01",
       "name": "Frameless Aerodynamic Wiper Blades (21\" + 18\" Pair)",
       "partNumber": "WB-AERO-2118",
       "category": "windscreen-body",
-      "subcategory": "wiper-blades",
+      "subcategory": "windscreen-cleaning",
       "categoryName": "Windscreen Cleaning & Body",
       "brand": "Bosch",
       "origin": "Aftermarket",
@@ -12799,14 +12982,15 @@
             }
           ]
         }
-      ]
+      ],
+      "leafCategory": "wiper-blades"
     },
     {
       "id": "part-orvm-01",
       "name": "Door Side View Mirror Assembly LH (Electric Adjust)",
       "partNumber": "84702M74L10",
       "category": "windscreen-body",
-      "subcategory": "side-mirror",
+      "subcategory": "body-mirrors",
       "categoryName": "Windscreen Cleaning & Body",
       "brand": "Ficosa",
       "origin": "OEM",
@@ -13331,14 +13515,15 @@
             }
           ]
         }
-      ]
+      ],
+      "leafCategory": "side-mirror"
     },
     {
       "id": "part-fasteners-01",
       "name": "Brake Caliper Pin & Flange Bolt Service Kit (16 Pcs)",
       "partNumber": "09159M12038-KIT",
       "category": "fasteners-hardware",
-      "subcategory": "caliper-pins",
+      "subcategory": "brake-hardware",
       "categoryName": "Hardware & Fasteners",
       "brand": "Maruti Genuine Parts (MGP)",
       "origin": "OEM",
@@ -13840,14 +14025,15 @@
             }
           ]
         }
-      ]
+      ],
+      "leafCategory": "caliper-pins"
     },
     {
       "id": "part-film-mount-01",
       "name": "FILM, MEMBER 4TH MOUNTING",
       "partNumber": "77150M68P00",
       "category": "windscreen-body",
-      "subcategory": "body-mounting",
+      "subcategory": "body-mirrors",
       "categoryName": "Body & Mounting",
       "brand": "MARUTI SUZUKI",
       "manufacturerDescription": "FILM, MEMBER 4TH MOUNTING",
@@ -14341,7 +14527,410 @@
             }
           ]
         }
+      ],
+      "leafCategory": "body-mounting"
+    },
+    {
+      "id": "part-acc-sub-01",
+      "name": "Sony XS-NW1200 12\" (30cm) Subwoofer (1800W Peak)",
+      "partNumber": "XSNW1200-12",
+      "category": "accessories",
+      "subcategory": "audio-system",
+      "leafCategory": "subwoofer",
+      "categoryName": "Accessories",
+      "brand": "Sony",
+      "origin": "Aftermarket",
+      "price": 4490,
+      "mrp": 5990,
+      "discount": 25,
+      "inStock": true,
+      "rating": 4.8,
+      "reviews": 215,
+      "compatibleVehicles": [
+        "maruti-swift-2016",
+        "hyundai-creta-2020",
+        "tata-nexon-2021",
+        "mahindra-bolero-2019"
+      ],
+      "specifications": {
+        "Cone Size": "300 mm (12 inch)",
+        "Peak Power": "1800 Watts",
+        "Rated RMS Power": "300 Watts",
+        "Impedance": "4 Ohms",
+        "Cone Material": "Dimpled Polypropylene Cone",
+        "Warranty": "1 Year Manufacturer Warranty"
+      },
+      "description": "Experience punchier, deeper bass with a 30cm (12 inch) cone woofer. High power handling of 1800W peak and 300W RMS for loud, distortion-free sound reproduction in hatchback and SUV boot spaces.",
+      "image": "/images/autoparts/subwoofer.svg",
+      "fitmentList": [
+        {
+          "make": "MARUTI",
+          "model": "SWIFT",
+          "variants": [
+            {
+              "variant": "1.2L VXI MT (TYPE 2 K12M)",
+              "startYear": "2011",
+              "endYear": "2017",
+              "fuelType": "Petrol"
+            }
+          ]
+        },
+        {
+          "make": "HYUNDAI",
+          "model": "CRETA",
+          "variants": [
+            {
+              "variant": "1.5L CRDi SX (Diesel)",
+              "startYear": "2020",
+              "endYear": "2024",
+              "fuelType": "Diesel"
+            }
+          ]
+        }
       ]
+    },
+    {
+      "id": "part-acc-sub-02",
+      "name": "Pioneer TS-WX300A 1300W Active Bass Reflex Subwoofer",
+      "partNumber": "TS-WX300A",
+      "category": "accessories",
+      "subcategory": "audio-system",
+      "leafCategory": "subwoofer",
+      "categoryName": "Accessories",
+      "brand": "Pioneer",
+      "origin": "Aftermarket",
+      "price": 8990,
+      "mrp": 11490,
+      "discount": 22,
+      "inStock": true,
+      "rating": 4.9,
+      "reviews": 184,
+      "compatibleVehicles": [
+        "maruti-swift-2016",
+        "hyundai-creta-2020",
+        "tata-nexon-2021",
+        "mahindra-bolero-2019"
+      ],
+      "specifications": {
+        "Enclosure Type": "Bass Reflex Active Subwoofer",
+        "Amplifier": "Built-in Class-D Amp 350W RMS",
+        "Peak Power": "1300 Watts",
+        "Frequency Response": "20 Hz to 130 Hz",
+        "Controls": "Gain, LPF & Phase adjustment",
+        "Warranty": "2 Years Pioneer India Warranty"
+      },
+      "description": "Upgrade your vehicle sound system with an easy-to-install Pioneer Active Subwoofer package featuring a built-in Class D amplifier and tuned bass reflex port.",
+      "image": "/images/autoparts/subwoofer.svg",
+      "fitmentList": [
+        {
+          "make": "MARUTI",
+          "model": "SWIFT",
+          "variants": [
+            {
+              "variant": "1.2L VXI MT (TYPE 2 K12M)",
+              "startYear": "2011",
+              "endYear": "2017",
+              "fuelType": "Petrol"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "part-acc-amp-01",
+      "name": "Sony XM-N1004 4-Channel Stereo Power Amplifier (1000W)",
+      "partNumber": "XMN1004-4CH",
+      "category": "accessories",
+      "subcategory": "audio-system",
+      "leafCategory": "amplifier",
+      "categoryName": "Accessories",
+      "brand": "Sony",
+      "origin": "Aftermarket",
+      "price": 5890,
+      "mrp": 7490,
+      "discount": 21,
+      "inStock": true,
+      "rating": 4.7,
+      "reviews": 142,
+      "compatibleVehicles": [
+        "maruti-swift-2016",
+        "hyundai-creta-2020",
+        "tata-nexon-2021",
+        "mahindra-bolero-2019"
+      ],
+      "specifications": {
+        "Channels": "4 Channel / 3 Channel / 2 Channel bridgeable",
+        "Maximum Output": "1000W Max Total",
+        "Thermal Control": "Automatic Thermal Control system",
+        "Filter": "High Pass / Low Pass Filter switchable",
+        "Warranty": "1 Year Official Warranty"
+      },
+      "description": "Crisp audio delivery and punchy dynamics with Automatic Thermal Control keeping sound crystal-clear under long driving hours.",
+      "image": "/images/autoparts/amplifier.svg",
+      "fitmentList": []
+    },
+    {
+      "id": "part-acc-spk-01",
+      "name": "Pioneer TS-G1620F 300W 6.5\" 2-Way Coaxial Car Speakers (Pair)",
+      "partNumber": "TS-G1620F-PR",
+      "category": "accessories",
+      "subcategory": "audio-system",
+      "leafCategory": "speaker",
+      "categoryName": "Accessories",
+      "brand": "Pioneer",
+      "origin": "Aftermarket",
+      "price": 1990,
+      "mrp": 2690,
+      "discount": 26,
+      "inStock": true,
+      "rating": 4.6,
+      "reviews": 310,
+      "compatibleVehicles": [
+        "maruti-swift-2016",
+        "hyundai-creta-2020",
+        "tata-nexon-2021",
+        "mahindra-bolero-2019"
+      ],
+      "specifications": {
+        "Speaker Size": "16 cm (6.5 inch)",
+        "Type": "2-Way Coaxial",
+        "Max Music Power": "300W",
+        "Nominal Power": "40W RMS",
+        "Sensitivity": "89 dB",
+        "Warranty": "1 Year"
+      },
+      "description": "Premium In-door speaker replacement delivering rich vocal reproduction, balanced acoustic highs, and deep mids designed for swift factory door mounts.",
+      "image": "/images/autoparts/speaker.svg",
+      "fitmentList": []
+    },
+    {
+      "id": "part-acc-tube-01",
+      "name": "JBL Stage 1200B 1000W 12-inch Subwoofer Enclosure Tube",
+      "partNumber": "JBL-STG1200B",
+      "category": "accessories",
+      "subcategory": "audio-system",
+      "leafCategory": "bass-tube",
+      "categoryName": "Accessories",
+      "brand": "JBL",
+      "origin": "Aftermarket",
+      "price": 6290,
+      "mrp": 7990,
+      "discount": 21,
+      "inStock": true,
+      "rating": 4.7,
+      "reviews": 92,
+      "compatibleVehicles": [
+        "maruti-swift-2016",
+        "hyundai-creta-2020",
+        "tata-nexon-2021",
+        "mahindra-bolero-2019"
+      ],
+      "specifications": {
+        "Woofer Size": "12 inch (300mm)",
+        "Power Handling": "250W RMS, 1000W Peak",
+        "Enclosure": "Carpeted Slot-Port Enclosure",
+        "Impedance": "4 Ohms",
+        "Warranty": "1 Year JBL Harman Warranty"
+      },
+      "description": "Compact slot-ported enclosure engineered to produce massive low-frequency resonance without consuming entire trunk room.",
+      "image": "/images/autoparts/subwoofer.svg",
+      "fitmentList": []
+    },
+    {
+      "id": "part-acc-cam-01",
+      "name": "Blaupunkt DH05 AHD Reverse Parking Camera with Night Vision",
+      "partNumber": "BLP-DH05-CAM",
+      "category": "accessories",
+      "subcategory": "backup-camera",
+      "leafCategory": "backup-camera",
+      "categoryName": "Accessories",
+      "brand": "Blaupunkt",
+      "origin": "Aftermarket",
+      "price": 1650,
+      "mrp": 2299,
+      "discount": 28,
+      "inStock": true,
+      "rating": 4.7,
+      "reviews": 178,
+      "compatibleVehicles": [
+        "maruti-swift-2016",
+        "hyundai-creta-2020",
+        "tata-nexon-2021",
+        "mahindra-bolero-2019"
+      ],
+      "specifications": {
+        "Resolution": "AHD 720p / CVBS selectable",
+        "Viewing Angle": "170 Degree Ultra Wide",
+        "Waterproof": "IP68 Weatherproof Rated",
+        "Night Vision": "Low Lux Starlight Sensor",
+        "Warranty": "1 Year Replacement Warranty"
+      },
+      "description": "High-definition reverse parking assist camera with dynamic trajectory guidelines, low-light night visibility, and waterproof housing.",
+      "image": "/images/autoparts/headlight.svg",
+      "fitmentList": []
+    },
+    {
+      "id": "part-acc-spray-01",
+      "name": "3M Professional Rubberized Underbody Anti-Rust Coating Spray (500ml)",
+      "partNumber": "3M-RUST-500",
+      "category": "accessories",
+      "subcategory": "anti-rust-spray",
+      "leafCategory": "anti-rust-spray",
+      "categoryName": "Accessories",
+      "brand": "3M",
+      "origin": "Aftermarket",
+      "price": 475,
+      "mrp": 590,
+      "discount": 19,
+      "inStock": true,
+      "rating": 4.8,
+      "reviews": 520,
+      "compatibleVehicles": [
+        "maruti-swift-2016",
+        "hyundai-creta-2020",
+        "tata-nexon-2021",
+        "mahindra-bolero-2019"
+      ],
+      "specifications": {
+        "Volume": "500 ml Aerosol Can",
+        "Base": "Bitumen / Rubber Elastomer blend",
+        "Protection": "Corrosion, Water Seepage, Gravel chipping & Road noise dampening",
+        "Drying Time": "Tack-free in 45 mins"
+      },
+      "description": "Forms a durable, flexible, textured rubber barrier protecting chassis, wheel wells, and floor pan from moisture, road salts, corrosion, and road gravel abrasion.",
+      "image": "/images/autoparts/coolant.svg",
+      "fitmentList": []
+    },
+    {
+      "id": "part-acc-spray-02",
+      "name": "Wurth Rapid Brake & Clutch Cleaner Aerosol Spray (500ml)",
+      "partNumber": "WURTH-BRK-500",
+      "category": "accessories",
+      "subcategory": "brake-cleaner-spray",
+      "leafCategory": "brake-cleaner-spray",
+      "categoryName": "Accessories",
+      "brand": "Wurth",
+      "origin": "Aftermarket",
+      "price": 399,
+      "mrp": 499,
+      "discount": 20,
+      "inStock": true,
+      "rating": 4.9,
+      "reviews": 430,
+      "compatibleVehicles": [
+        "maruti-swift-2016",
+        "hyundai-creta-2020",
+        "tata-nexon-2021",
+        "mahindra-bolero-2019"
+      ],
+      "specifications": {
+        "Volume": "500 ml",
+        "Evaporation": "Ultra Fast residue-free flash drying",
+        "Removes": "Brake dust, soot, grease, oil, and resinous deposits",
+        "Origin": "Germany formulation"
+      },
+      "description": "Fast-acting degreaser for disc and drum brakes, clutch linings, pads, and cylinder parts. Restores optimal brake friction without residue.",
+      "image": "/images/autoparts/brake-fluid.svg",
+      "fitmentList": []
+    },
+    {
+      "id": "part-acc-dash-01",
+      "name": "Qubo Dashcam Pro GPS 1080p Smart Car Camera by Hero Group",
+      "partNumber": "QUBO-DCP-GPS",
+      "category": "accessories",
+      "subcategory": "action-camera",
+      "leafCategory": "action-camera",
+      "categoryName": "Accessories",
+      "brand": "Hero Qubo",
+      "origin": "Aftermarket",
+      "price": 3490,
+      "mrp": 4990,
+      "discount": 30,
+      "inStock": true,
+      "rating": 4.6,
+      "reviews": 88,
+      "compatibleVehicles": [
+        "maruti-swift-2016",
+        "hyundai-creta-2020",
+        "tata-nexon-2021",
+        "mahindra-bolero-2019"
+      ],
+      "specifications": {
+        "Video Quality": "Full HD 1080p @ 30fps",
+        "Sensor": "Sony IMX323 Low Light Sensor",
+        "Field of View": "140 Wide Angle",
+        "Connectivity": "Built-in Wi-Fi & Qubo App Sync",
+        "Features": "Emergency Event Recording, G-Sensor Loop"
+      },
+      "description": "Smart dashboard camera with built-in GPS logger, emergency event video lock on sudden impact, and instant Wi-Fi phone playback.",
+      "image": "/images/autoparts/headlight.svg",
+      "fitmentList": []
+    },
+    {
+      "id": "part-acc-light-01",
+      "name": "Osram LEDriving Lightbar FX250-SP Auxiliary Driving Bar Light",
+      "partNumber": "LEDDL103-SP",
+      "category": "accessories",
+      "subcategory": "bar-light",
+      "leafCategory": "bar-light",
+      "categoryName": "Accessories",
+      "brand": "Osram",
+      "origin": "Aftermarket",
+      "price": 4200,
+      "mrp": 5500,
+      "discount": 24,
+      "inStock": true,
+      "rating": 4.8,
+      "reviews": 64,
+      "compatibleVehicles": [
+        "maruti-swift-2016",
+        "hyundai-creta-2020",
+        "tata-nexon-2021",
+        "mahindra-bolero-2019"
+      ],
+      "specifications": {
+        "Beam Distance": "Up to 360 meters beam throw",
+        "Luminous Flux": "2700 Lumens",
+        "Color Temp": "6000K Cool White",
+        "Ingress Protection": "IP67 Waterproof & Dustproof",
+        "Warranty": "5 Years Osram Guarantee"
+      },
+      "description": "Compact high-performance LED lightbar providing focused spot beam illumination on dark highway and fleet transit routes.",
+      "image": "/images/autoparts/headlight.svg",
+      "fitmentList": []
+    },
+    {
+      "id": "part-acc-chg-01",
+      "name": "Bosch C3 6V/12V Automatic Smart Battery Charger & Maintainer",
+      "partNumber": "018999903M",
+      "category": "accessories",
+      "subcategory": "battery-charger",
+      "leafCategory": "battery-charger",
+      "categoryName": "Accessories",
+      "brand": "Bosch",
+      "origin": "OEM",
+      "price": 3250,
+      "mrp": 3950,
+      "discount": 18,
+      "inStock": true,
+      "rating": 4.9,
+      "reviews": 140,
+      "compatibleVehicles": [
+        "maruti-swift-2016",
+        "hyundai-creta-2020",
+        "tata-nexon-2021",
+        "mahindra-bolero-2019"
+      ],
+      "specifications": {
+        "Voltage": "6V / 12V Lead Acid, AGM, GEL",
+        "Charging Current": "Up to 3.8A continuous",
+        "Safety": "Spark-free, reverse polarity & short circuit protection",
+        "Modes": "Trickle charging & maintenance pulse mode",
+        "Warranty": "2 Years Bosch India Warranty"
+      },
+      "description": "Microprocessor controlled 4-stage smart charger that revives discharged batteries, extends lead-acid life, and maintains fleet voltage.",
+      "image": "/images/autoparts/battery.svg",
+      "fitmentList": []
     }
   ]
 }
