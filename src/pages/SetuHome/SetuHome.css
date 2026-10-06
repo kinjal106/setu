@@ -686,3 +686,417 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ────────────────────────────────────────
+   5-Banner Slider Section (Below Categories)
+   Matches Reference Design in media_1791291552945.png
+──────────────────────────────────────── */
+.home-banner-slider-section {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 6px 36px;
+  position: relative;
+}
+
+.home-banner-slider-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  gap: 16px;
+}
+
+.home-banner-slider-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #0F172A;
+  letter-spacing: -0.3px;
+  margin: 0;
+  line-height: 1.25;
+}
+
+.home-banner-slider-sub {
+  font-size: 14px;
+  color: #64748B;
+  margin: 4px 0 0 0;
+}
+
+.home-banner-slider-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.home-banner-slider-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid #E2E8F0;
+  background: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0F172A;
+  cursor: pointer;
+  transition: all 180ms ease;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+}
+
+.home-banner-slider-btn:hover {
+  background: #0F172A;
+  border-color: #0F172A;
+  color: #FFFFFF;
+  transform: translateY(-1px);
+}
+
+.home-banner-slider-btn:active {
+  transform: translateY(0);
+}
+
+/* Carousel Viewport */
+.home-banner-slider-viewport {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 18px;
+  box-sizing: border-box;
+}
+
+/* Smooth Sliding Track using CSS Custom Properties */
+.home-banner-slider-track {
+  --card-gap: 18px;
+  --card-width: calc((100% - var(--card-gap)) / 2);
+  display: flex;
+  gap: var(--card-gap);
+  transition: transform 450ms cubic-bezier(0.25, 1, 0.5, 1);
+  transform: translateX(calc(-1 * var(--slide-index, 0) * (var(--card-width) + var(--card-gap))));
+  will-change: transform;
+}
+
+/* Individual Banner Card */
+.home-banner-card {
+  flex: 0 0 var(--card-width);
+  width: var(--card-width);
+  min-width: var(--card-width);
+  min-height: 250px;
+  border-radius: 18px;
+  padding: 28px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 220ms ease, box-shadow 220ms ease;
+}
+
+.home-banner-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.14);
+}
+
+/* Theme Gradients */
+.home-banner-card--finance {
+  background: linear-gradient(115deg, #071126 0%, #0c1a3b 45%, #133370 75%, #1d4ed8 100%);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.home-banner-card--autoparts {
+  background: linear-gradient(115deg, #041916 0%, #062822 45%, #064e3b 80%, #047857 100%);
+  border: 1px solid rgba(52, 211, 153, 0.2);
+}
+
+.home-banner-card--ais140 {
+  background: linear-gradient(115deg, #031525 0%, #07263d 50%, #0369a1 85%, #0284c7 100%);
+  border: 1px solid rgba(56, 189, 248, 0.2);
+}
+
+.home-banner-card--video {
+  background: linear-gradient(115deg, #130a24 0%, #1e1138 50%, #581c87 85%, #7c3aed 100%);
+  border: 1px solid rgba(192, 132, 252, 0.2);
+}
+
+.home-banner-card--solutions {
+  background: linear-gradient(115deg, #09172e 0%, #0f274a 50%, #1e3a8a 85%, #2563eb 100%);
+  border: 1px solid rgba(251, 191, 36, 0.2);
+}
+
+/* Card Top Elements */
+.home-banner-card__top {
+  display: flex;
+  flex-direction: column;
+}
+
+.home-banner-card__tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.home-banner-card__title {
+  font-size: 21px;
+  font-weight: 700;
+  color: #FFFFFF;
+  line-height: 1.28;
+  margin: 0 0 10px 0;
+  letter-spacing: -0.3px;
+}
+
+.home-banner-card__desc {
+  font-size: 13px;
+  font-weight: 400;
+  color: #94A3B8;
+  line-height: 1.45;
+  margin: 0;
+  max-width: 95%;
+}
+
+/* Card Bottom Elements */
+.home-banner-card__bottom {
+  margin-top: 26px;
+}
+
+/* Price & CTA Row */
+.home-banner-price-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.home-banner-price-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.home-banner-amount {
+  font-size: 26px;
+  font-weight: 800;
+  color: #FFFFFF;
+  letter-spacing: -0.5px;
+  line-height: 1;
+}
+
+.home-banner-subtext {
+  font-size: 12px;
+  color: #94A3B8;
+  margin-top: 5px;
+  font-weight: 500;
+  display: block;
+}
+
+/* Base CTA Button */
+.home-banner-cta-btn {
+  border-radius: 9999px;
+  padding: 10px 22px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  transition: all 180ms ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  font-family: inherit;
+}
+
+.home-banner-card--finance .home-banner-cta-btn {
+  background: #FBBF24;
+  color: #0F172A;
+  box-shadow: 0 2px 8px rgba(251, 191, 36, 0.25);
+}
+
+.home-banner-card--finance .home-banner-cta-btn:hover {
+  background: #F59E0B;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(251, 191, 36, 0.35);
+}
+
+.home-banner-card--ais140 .home-banner-cta-btn {
+  background: #38BDF8;
+  color: #071927;
+  box-shadow: 0 2px 8px rgba(56, 189, 248, 0.25);
+}
+
+.home-banner-card--ais140 .home-banner-cta-btn:hover {
+  background: #0EA5E9;
+  transform: translateY(-1px);
+}
+
+.home-banner-card--video .home-banner-cta-btn {
+  background: #C084FC;
+  color: #1E0A3C;
+  box-shadow: 0 2px 8px rgba(192, 132, 252, 0.25);
+}
+
+.home-banner-card--video .home-banner-cta-btn:hover {
+  background: #A855F7;
+  transform: translateY(-1px);
+}
+
+.home-banner-card--solutions .home-banner-cta-btn {
+  background: #FDE047;
+  color: #0F172A;
+  box-shadow: 0 2px 8px rgba(253, 224, 71, 0.25);
+}
+
+.home-banner-card--solutions .home-banner-cta-btn:hover {
+  background: #FACC15;
+  transform: translateY(-1px);
+}
+
+/* Indian Vehicle Plate Search Bar (Card 2) */
+.home-banner-plate-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.home-banner-plate-input-wrap {
+  display: flex;
+  align-items: center;
+  background: #FFFFFF;
+  border-radius: 8px;
+  height: 42px;
+  flex: 1;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.home-banner-plate-ind {
+  background: #0038A8;
+  color: #FFFFFF;
+  width: 36px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: 800;
+  line-height: 1;
+  flex-shrink: 0;
+  padding: 0 4px;
+  box-sizing: border-box;
+}
+
+.home-banner-plate-chakra {
+  font-size: 10px;
+  line-height: 1;
+  margin-bottom: 2px;
+  color: #93C5FD;
+}
+
+.home-banner-plate-ind-text {
+  letter-spacing: 0.5px;
+}
+
+.home-banner-plate-input {
+  flex: 1;
+  height: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 0 14px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #1E293B;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  font-family: inherit;
+}
+
+.home-banner-plate-input::placeholder {
+  color: #64748B;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+}
+
+.home-banner-plate-btn {
+  background: #FFFFFF;
+  color: #0F172A;
+  border: none;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 0 22px;
+  height: 42px;
+  border-radius: 9999px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 180ms ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  font-family: inherit;
+}
+
+.home-banner-plate-btn:hover {
+  background: #F1F5F9;
+  transform: translateY(-1px);
+}
+
+/* Dots Indicator */
+.home-banner-slider-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.home-banner-slider-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background: #CBD5E1;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: all 240ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.home-banner-slider-dot:hover {
+  background: #94A3B8;
+}
+
+.home-banner-slider-dot--active {
+  background: #2563EB;
+  width: 28px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 960px) {
+  .home-banner-slider-track {
+    --card-gap: 14px;
+    --card-width: 100%;
+  }
+
+  .home-banner-card {
+    padding: 24px 20px;
+    min-height: auto;
+  }
+
+  .home-banner-card__title {
+    font-size: 18px;
+  }
+
+  .home-banner-amount {
+    font-size: 22px;
+  }
+
+  .home-banner-plate-box {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .home-banner-plate-btn {
+    width: 100%;
+    margin-top: 8px;
+  }
+}
+

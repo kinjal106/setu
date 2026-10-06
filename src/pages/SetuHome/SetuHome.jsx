@@ -659,6 +659,238 @@ function ShopByCategorySection() {
   );
 }
 
+/* ── 5 Banner Slider Configuration matching Reference Screenshot ── */
+const HOME_BANNERS = [
+  {
+    id: 'finance',
+    tag: 'SETU FINANCE',
+    tagColor: '#FBBF24',
+    title: 'Buy hardware now, pay in EMIs. No CIBIL check.',
+    desc: 'Your limit is set from live fleet data through system integration, so new and small fleet owners qualify too.',
+    type: 'pricing',
+    amount: '₹22,565',
+    subText: '/month for ₹2.5 lakh over 12 months',
+    btnText: 'Check my limit →',
+    path: '/finance',
+    cardClass: 'home-banner-card--finance'
+  },
+  {
+    id: 'autoparts',
+    tag: 'AUTO PARTS · BETA',
+    tagColor: '#34D399',
+    title: 'Enter a vehicle number. See every part that fits.',
+    desc: 'From a single screw to the front bumper, matched to the exact make, model and year.',
+    type: 'plate-search',
+    btnText: 'Find parts',
+    path: '/auto-parts',
+    cardClass: 'home-banner-card--autoparts'
+  },
+  {
+    id: 'ais140',
+    tag: 'GOVERNMENT APPROVED · AIS-140',
+    tagColor: '#38BDF8',
+    title: 'ARAI & ICAT Certified AIS-140 GPS with Emergency SOS.',
+    desc: 'Mandatory for commercial vehicles, transport buses & mining fleets with dual embedded eSIMs and panic buttons.',
+    type: 'pricing',
+    amount: '₹3,800',
+    subText: '/device · Bulk slabs start at ₹3,325',
+    btnText: 'Explore AIS-140 →',
+    path: '/hardware?category=vehicle-tracking',
+    cardClass: 'home-banner-card--ais140'
+  },
+  {
+    id: 'video',
+    tag: 'AI VIDEO TELEMATICS · SMART CAMERAS',
+    tagColor: '#C084FC',
+    title: 'Detect fatigue & prevent collisions with ADAS & DMS.',
+    desc: 'Dual-facing 4G AI cameras detecting driver drowsiness, phone use, and forward collision in real time.',
+    type: 'pricing',
+    amount: '₹8,900',
+    subText: '/unit · Includes 4G cloud live streaming',
+    btnText: 'View AI Dashcams →',
+    path: '/hardware?category=video-telematics',
+    cardClass: 'home-banner-card--video'
+  },
+  {
+    id: 'solutions',
+    tag: 'TELEMATICS PLATFORMS · 10+ SOLUTIONS',
+    tagColor: '#FDE047',
+    title: 'Pre-integrated with Trakzee, SmartBus & TaskEye.',
+    desc: 'Zero configuration needed. Devices connect automatically out of the box with ready-to-use cloud telematics and APIs.',
+    type: 'pricing',
+    amount: 'Instant Sync',
+    subText: 'Over-the-air firmware updates & lifetime API access',
+    btnText: 'Explore Solutions →',
+    path: '/solutions',
+    cardClass: 'home-banner-card--solutions'
+  }
+];
+
+/* ── 5 Banner Slider Section ── */
+function HomeBannerSlider() {
+  const navigate = useNavigate();
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [vehiclePlate, setVehiclePlate] = useState('');
+  const [isPaused, setIsPaused] = useState(false);
+  const totalBanners = HOME_BANNERS.length;
+
+  // Auto-advance slider every 5 seconds unless hovered/paused
+  useEffect(() => {
+    if (isPaused) return;
+    const timer = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % totalBanners);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [isPaused, totalBanners]);
+
+  const handlePrev = () => {
+    setCurrentIndex((prev) => (prev - 1 + totalBanners) % totalBanners);
+  };
+
+  const handleNext = () => {
+    setCurrentIndex((prev) => (prev + 1) % totalBanners);
+  };
+
+  const handlePlateSearch = (e) => {
+    if (e) e.preventDefault();
+    const cleanPlate = vehiclePlate.trim() || 'GJ 15 AT 7788';
+    navigate(`/auto-parts?reg=${encodeURIComponent(cleanPlate.replace(/\s+/g, ''))}`);
+  };
+
+  // Build extended array for infinite wrap-around feel
+  const sliderCards = [...HOME_BANNERS, ...HOME_BANNERS.slice(0, 2)];
+
+  return (
+    <section 
+      className="home-banner-slider-section"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+      aria-label="Programs & Solutions Banners"
+    >
+      <div className="home-banner-slider-header">
+        <div>
+          <h2 className="home-banner-slider-title">Programs &amp; Solutions</h2>
+          <p className="home-banner-slider-sub">
+            Financing, vehicle compatibility search, certified hardware, and fleet software
+          </p>
+        </div>
+
+        <div className="home-banner-slider-controls">
+          <button 
+            type="button" 
+            className="home-banner-slider-btn" 
+            onClick={handlePrev}
+            aria-label="Previous banners"
+            title="Previous"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="15 18 9 12 15 6" />
+            </svg>
+          </button>
+          <button 
+            type="button" 
+            className="home-banner-slider-btn" 
+            onClick={handleNext}
+            aria-label="Next banners"
+            title="Next"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      {/* Carousel Viewport and Smooth Track */}
+      <div className="home-banner-slider-viewport">
+        <div 
+          className="home-banner-slider-track"
+          style={{ '--slide-index': currentIndex }}
+        >
+          {sliderCards.map((banner, idx) => (
+            <div 
+              key={`${banner.id}-${idx}`}
+              className={`home-banner-card ${banner.cardClass}`}
+              onClick={() => {
+                if (banner.type !== 'plate-search') {
+                  navigate(banner.path);
+                }
+              }}
+            >
+              <div className="home-banner-card__top">
+                <span className="home-banner-card__tag" style={{ color: banner.tagColor }}>
+                  {banner.tag}
+                </span>
+                <h3 className="home-banner-card__title">{banner.title}</h3>
+                <p className="home-banner-card__desc">{banner.desc}</p>
+              </div>
+
+              <div className="home-banner-card__bottom">
+                {banner.type === 'plate-search' ? (
+                  <form 
+                    className="home-banner-plate-box" 
+                    onSubmit={handlePlateSearch} 
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <div className="home-banner-plate-input-wrap">
+                      <div className="home-banner-plate-ind">
+                        <span className="home-banner-plate-chakra">☸</span>
+                        <span className="home-banner-plate-ind-text">IND</span>
+                      </div>
+                      <input
+                        type="text"
+                        className="home-banner-plate-input"
+                        placeholder="GJ 15 AT 7788"
+                        value={vehiclePlate}
+                        onChange={(e) => setVehiclePlate(e.target.value)}
+                        aria-label="Enter vehicle number"
+                      />
+                    </div>
+                    <button type="submit" className="home-banner-plate-btn">
+                      {banner.btnText}
+                    </button>
+                  </form>
+                ) : (
+                  <div className="home-banner-price-row">
+                    <div className="home-banner-price-info">
+                      <span className="home-banner-amount">{banner.amount}</span>
+                      <span className="home-banner-subtext">{banner.subText}</span>
+                    </div>
+                    <button
+                      type="button"
+                      className="home-banner-cta-btn"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigate(banner.path);
+                      }}
+                    >
+                      {banner.btnText}
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* 5 Dots Indicator */}
+      <div className="home-banner-slider-dots">
+        {HOME_BANNERS.map((banner, idx) => (
+          <button
+            key={banner.id}
+            type="button"
+            className={`home-banner-slider-dot ${currentIndex === idx ? 'home-banner-slider-dot--active' : ''}`}
+            onClick={() => setCurrentIndex(idx)}
+            aria-label={`Go to slide ${idx + 1}: ${banner.tag}`}
+            title={banner.tag}
+          />
+        ))}
+      </div>
+    </section>
+  );
+}
+
 /* ── Main Setu Home Page ── */
 export default function SetuHome() {
   return (
@@ -687,6 +919,9 @@ export default function SetuHome() {
 
         {/* ── Shop by Category Section (Matches Reference Design) ── */}
         <ShopByCategorySection />
+
+        {/* ── 5 Banner Slider Section (Below Categories) ── */}
+        <HomeBannerSlider />
 
       </div>
     </div>
