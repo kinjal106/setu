@@ -1,1667 +1,1703 @@
-import React, { useState, useRef, useMemo, useEffect } from 'react';
+import React, { useState, useRef, useMemo, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import products from '../../data/products.json';
-import solutions from '../../data/solutions.json';
-import autopartsData from '../../data/autoparts.json';
+import categoriesData from '../../data/categories.json';
 import { getAssetUrl } from '../../utils/assetUrl';
 import './SetuHome.css';
 
-/* ── Custom Typewriter Hook ── */
-function useTypewriter(words, isEnabled = true) {
-  const [currentWordIndex, setCurrentWordIndex] = useState(0);
-  const [currentText, setCurrentText] = useState('');
-  const [isDeleting, setIsDeleting] = useState(false);
-
-  useEffect(() => {
-    if (!isEnabled || !words.length) return;
-
-    const fullText = words[currentWordIndex];
-    let timer;
-
-    if (!isDeleting) {
-      if (currentText.length < fullText.length) {
-        timer = setTimeout(() => {
-          setCurrentText(fullText.slice(0, currentText.length + 1));
-        }, 45);
-      } else {
-        timer = setTimeout(() => {
-          setIsDeleting(true);
-        }, 2400);
-      }
-    } else {
-      if (currentText.length > 0) {
-        timer = setTimeout(() => {
-          setCurrentText(fullText.slice(0, currentText.length - 1));
-        }, 22);
-      } else {
-        setIsDeleting(false);
-        setCurrentWordIndex((prev) => (prev + 1) % words.length);
-      }
-    }
-
-    return () => clearTimeout(timer);
-  }, [currentText, isDeleting, currentWordIndex, words, isEnabled]);
-
-  return currentText;
-}
-
-/* ── Stop Words for Natural Language Search ── */
-const STOP_WORDS = new Set([
-  'find', 'search', 'for', 'the', 'a', 'an', 'in', 'on', 'with', 'and', 'or',
-  'device', 'devices', 'hardware', 'tell', 'me', 'about', 'is', 'it', 'to',
-  'can', 'i', 'you', 'do', 'does', 'what', 'which', 'how', 'why', 'where', 'are',
-  'best', 'good', 'need', 'want', 'show'
-]);
-
-/* ── Comprehensive Fleet Knowledge Base for Setu AI Overview ── */
-const FLEET_KNOWLEDGE_BASE = [
-  {
-    id: 'ais140-mandate',
-    question: 'Which GPS tracker is government approved & mandatory for commercial vehicles?',
-    aliases: [
-      'government approved', 'ais 140', 'ais-140', 'rto', 'morth', 'sos button',
-      'panic button', 'commercial vehicle mandate', 'mandatory gps', 'arai', 'icat',
-      'which gps is mandatory', 'government certified', 'state rto', 'permit', 'rto approved'
-    ],
-    summary: 'AIS-140 certified GPS trackers (such as Prithvi 140) are legally mandated by MoRTH for all commercial vehicles, buses, taxis, and mining fleets across India.',
-    bullets: [
-      'MoRTH Compliance: Pre-certified by ARAI & ICAT with official VLTD national backend approval.',
-      'Emergency SOS: Built-in hardware panic button directly wired to state 112 emergency response systems.',
-      'Dual eSIMs: Internal embedded dual-profile telecom connectivity ensuring zero network blind spots.',
-      'Backup Battery: Minimum 4-hour internal battery backup during vehicle power disconnection.'
-    ],
-    recommended: {
-      name: 'T98 AIS 140 GPS Device',
-      slug: 'prithvi-140',
-      price: '₹3,800 + GST',
-      badge: 'Govt Certified AIS-140',
-      image: '/images/hardware/prithvi-140.svg',
-      path: '/hardware/prithvi-140'
-    },
-    followUps: [
-      'What are the bulk price slabs for AIS-140?',
-      'Does it include state RTO certificate approval?',
-      'How to connect panic button to state servers?'
-    ]
-  },
-  {
-    id: 'ai-dashcam-adas',
-    question: 'How to detect driver fatigue, drowsiness, and prevent road collisions?',
-    aliases: [
-      'driver fatigue', 'drowsiness', 'adas', 'dms', 'dashcam', 'collision',
-      'sleep', 'eyes closed', 'phone distraction', 'fatigue alerts', 'live video',
-      'ai camera', 'prevent accident', 'lane departure', 'camera', 'video'
-    ],
-    summary: 'The Falcon F1 AI Dashcam combines front-facing ADAS and driver-facing DMS computer vision to identify driver drowsiness, micro-sleeps, and distraction in real time.',
-    bullets: [
-      'DMS Driver Monitoring: Infrared camera monitors eye closure rate (PERCLOS), yawning, and mobile phone usage.',
-      'ADAS Active Safety: Real-time forward collision warning (FCW) and lane departure warning (LDW).',
-      'Instant In-Cabin Alarms: Voice and buzzer alerts immediately wake the driver before a crash occurs.',
-      '4G Live Streaming: Automatically uploads 10-second HD video clips of critical events to the cloud portal.'
-    ],
-    recommended: {
-      name: 'Mercetech Falcon F1 AI Camera',
-      slug: 'falcon-f1-ai-4g',
-      price: '₹11,200 + GST',
-      badge: 'ADAS + DMS Dual AI',
-      image: '/images/hardware/falcon-f1.svg',
-      path: '/hardware/falcon-f1-ai-4g'
-    },
-    followUps: [
-      'Can I watch 4G live streaming from multiple cameras?',
-      'Does it record in complete darkness using IR night vision?',
-      'How much cloud storage is included with the device?'
-    ]
-  },
-  {
-    id: 'fuel-theft-sensor',
-    question: 'How to monitor fuel levels and prevent diesel theft in commercial trucks?',
-    aliases: [
-      'fuel theft', 'fuel sensor', 'prevent fuel theft', 'diesel theft', 'sudden drop',
-      'fuel level', 'ble fuel', 'capacitive fuel', 'ultrasonic fuel', 'mileage fraud',
-      'how to stop fuel theft', 'diesel leak', 'fuel monitoring', 'fuel drainage'
-    ],
-    summary: 'Wireless BLE 5.0 and capacitive fuel level sensors (like SP-BLE4) measure fuel volume with 99.5% accuracy, triggering instant alarms on unauthorized tank cap opening or sudden diesel drainage.',
-    bullets: [
-      '99.5% Measurement Accuracy: Capacitive measuring rod or bottom-mounted non-invasive ultrasonic sensor.',
-      'Sudden Drop Alarms: Instant SMS, push notification, and portal alert within 30 seconds of fuel siphoning.',
-      'Wireless BLE Connectivity: Completely eliminates wiring from the diesel tank to cabin, preventing sparks.',
-      'Temperature Compensation: Automatically adjusts readings for fuel thermal expansion in summer.'
-    ],
-    recommended: {
-      name: 'LLS BLE-4 Fuel Sensor',
-      slug: 'sp-ble4-fuel',
-      price: '₹4,500 + GST',
-      badge: '99.5% Accuracy BLE',
-      image: '/images/hardware/sp-ble4-fuel.svg',
-      path: '/hardware/sp-ble4-fuel'
-    },
-    followUps: [
-      'Can I install the fuel sensor without drilling the tank?',
-      'How does the fuel theft alert get sent to my phone?',
-      'Does it work with standard GPS trackers via RS485 or Bluetooth?'
-    ]
-  },
-  {
-    id: 'plug-and-play-obd',
-    question: 'Are there GPS trackers that don’t require wire cutting or technician installation?',
-    aliases: [
-      'no wire cut', 'plug and play', 'obd', 'easy install', 'magnetic',
-      'diy installation', 'wireless gps', 'car tracker without wire', 'portable',
-      'battery tracker', 'zero wiring', 'plug & play'
-    ],
-    summary: 'Yes! OBD-II plug-and-play trackers (such as Eco5 Lite) insert straight into the car OBD diagnostic port in under 10 seconds. For unpowered cargo, heavy-duty magnetic GPS units attach with zero wiring.',
-    bullets: [
-      'Zero Wire Cutting: Completely preserves OEM vehicle warranty on new cars and electric vehicles.',
-      '10-Second Setup: Simply plug into the OBD-II port below the dashboard; power and diagnostics are automatic.',
-      'Live Telemetry: Reads speed, engine RPM, odometer, and diagnostic trouble codes (DTC).',
-      'Magnetic Alternative: GL500 4G magnetic tracker with up to 3 years battery life for trailers and containers.'
-    ],
-    recommended: {
-      name: 'Eco5 Lite OBD GPS Tracker',
-      slug: 'eco5-lite',
-      price: '₹1,800 + GST',
-      badge: 'Plug & Play OBD',
-      image: '/images/hardware/eco5-lite.svg',
-      path: '/hardware/eco5-lite'
-    },
-    followUps: [
-      'Where is the OBD port located in my car?',
-      'Does an OBD tracker void vehicle manufacturer warranty?',
-      'How long does the magnetic tracker battery last?'
-    ]
-  },
-  {
-    id: 'cargo-elock',
-    question: 'How to secure shipping containers and trucks during high-value transit?',
-    aliases: [
-      'container lock', 'e-lock', 'elock', 'cargo security', 'tamper alert',
-      'customs lock', 'remote unlock', 'otp unlock', 'rope cut', 'padlock',
-      'bonded truck', 'lock box', 'container tracker'
-    ],
-    summary: 'Heavy-duty GPS Smart E-Locks (like 7H E-Lock) provide IP68 waterproof physical padlock protection with steel wire ropes that can only be unlocked via authorized remote OTP or RFID cards.',
-    bullets: [
-      'Remote OTP Unlock: Command center or authorized driver enters one-time OTP via app or SMS to release lock.',
-      'Anti-Tamper & Rope Cut Siren: Instant siren and satellite alarm if the steel cable is cut or chassis opened.',
-      'Customs & Bonded Ready: Meets national excise and customs transit bond tracking specifications.',
-      'Rechargeable 15,000mAh Battery: Operates up to 45 days on a single USB charge with live location pings.'
-    ],
-    recommended: {
-      name: 'Magnet 7H E-Lock Container Tracker',
-      slug: '7h-elock',
-      price: '₹6,200 + GST',
-      badge: 'IP68 Padlock E-Lock',
-      image: '/images/hardware/7h-elock.svg',
-      path: '/hardware/7h-elock'
-    },
-    followUps: [
-      'Can the e-lock be unlocked when there is no cellular network?',
-      'How does geofence automated unlocking work at destination?',
-      'Is the locking cable reusable or disposable?'
-    ]
-  },
-  {
-    id: 'mdvr-multi-camera',
-    question: 'How to record and live stream video from 4 angles in heavy commercial vehicles?',
-    aliases: [
-      '4 camera', 'mdvr', 'mobile dvr', '360 video', 'blind spot',
-      'bus camera', 'truck camera', 'video recording', 'cctv for truck',
-      'multi camera', 'dvr', 't5324'
-    ],
-    summary: '4-Channel Mobile Digital Video Recorders (MDVRs such as T5324) record 4 Full HD cameras simultaneously (front road, driver cabin, side blind spots, and rear reverse) with 4G live cloud streaming.',
-    bullets: [
-      '4-Channel 1080P HD: Covers road ahead, driver behavior, cargo compartment, and rear reversing blind spots.',
-      '2TB Storage Support: Dual SD card or shockproof 2.5" SSD storage for up to 30 days continuous recording.',
-      'Built-in 4G & GPS: Live streaming video and real-time location tracking from any browser or mobile app.',
-      'Automotive Surge Protection: Withstands 8V–36V power fluctuations in heavy trucks and buses.'
-    ],
-    recommended: {
-      name: 'T98 SD Card MDVR',
-      slug: 't5324-mdvr',
-      price: '₹16,800 + GST',
-      badge: '4-Channel 4G MDVR',
-      image: '/images/hardware/t5324-mdvr.svg',
-      path: '/hardware/t5324-mdvr'
-    },
-    followUps: [
-      'How many hours of video can be stored on a 512GB SD card?',
-      'Can dispatchers talk back to the driver using 2-way audio?',
-      'Does it automatically upload incident footage upon crash?'
-    ]
-  },
-  {
-    id: 'autoparts-compatibility',
-    question: 'How do I find exact auto parts and spares that fit my car or truck?',
-    aliases: [
-      'parts that fit', 'vehicle number', 'number plate', 'compatibility', 'auto parts',
-      'brake pads', 'wiper', 'filter', 'engine oil', 'battery', 'spare parts', 'car parts',
-      'find parts', 'vin search'
-    ],
-    summary: 'Enter your Indian vehicle registration number (e.g. GJ 15 AT 7788) in Setu Auto Parts. The catalog automatically decodes your vehicle make, model, variant, and year to show 100% verified compatible parts.',
-    bullets: [
-      'Instant Plate Decoder: Fetches exact engine displacement, fuel type, and manufacturing year in 1 click.',
-      'Zero Fitment Error: Only parts guaranteed to fit your vehicle chassis and brake rotor specs are displayed.',
-      'OEM & Tier-1 Brands: Genuine Bosch, Brembo, Mann-Filter, Mobil 1, and OEM replacement components.',
-      'Direct Warranty: All spares backed by verified manufacturer warranties and GST invoices.'
-    ],
-    recommended: {
-      name: 'Vehicle Plate Compatibility Search',
-      slug: 'auto-parts',
-      price: 'Instant Fitment',
-      badge: '100% Verified Match',
-      image: '/images/autoparts/brake-pads.svg',
-      path: '/auto-parts'
-    },
-    followUps: [
-      'Can I search auto parts using chassis number / VIN?',
-      'How fast are auto parts delivered to commercial workshops?',
-      'Are GST invoices provided for commercial fleet maintenance?'
-    ]
-  },
-  {
-    id: 'finance-cibil-emi',
-    question: 'Can I buy fleet hardware on EMI without a CIBIL credit check?',
-    aliases: [
-      'emi', 'cibil', 'finance', 'loan', 'no cibil', 'hardware emi',
-      'pay later', 'monthly installment', 'credit limit', 'fleet finance',
-      'equipment financing', 'financing'
-    ],
-    summary: 'Yes! Setu Finance provides hardware equipment financing up to ₹2.5 Lakh with 12 to 24 month EMI terms. Credit limits are determined directly from your live fleet telematics and trip history with zero CIBIL score check.',
-    bullets: [
-      'Zero CIBIL Check: New and small fleet operators qualify based on vehicle count and active mileage.',
-      'Limits up to ₹2.5 Lakh: Covers GPS trackers, AI dashcams, fuel sensors, and annual software subscriptions.',
-      'Flexible 12–24 Month Tenures: Low monthly installments (e.g. ₹22,565/mo for ₹2.5 Lakh over 12 months).',
-      'Same-Day Approval: Digital KYC and instant equipment dispatch without bank branch visits.'
-    ],
-    recommended: {
-      name: 'Setu Fleet Equipment Finance',
-      slug: 'finance',
-      price: 'From ₹22,565/mo',
-      badge: 'Zero CIBIL EMI',
-      image: '/images/hardware/br06.svg',
-      path: '/finance'
-    },
-    followUps: [
-      'What documents are required for Setu Finance?',
-      'Can I pay off the EMI early without foreclosure charges?',
-      'How is my credit limit calculated from telematics data?'
-    ]
-  },
-  {
-    id: 'software-integration',
-    question: 'Which software platforms work out of the box with Setu hardware?',
-    aliases: [
-      'software', 'platform', 'trakzee', 'smartbus', 'taskeye', 'logio',
-      'telematics software', 'device integration', 'protocols', 'fleet software',
-      'white label', 'solutions'
-    ],
-    summary: 'All hardware purchased on Setu is pre-integrated with Uffizio’s suite of enterprise fleet management platforms (Trakzee, SmartBus, TaskEye, Logio) and supports 1,500+ standard GPS protocols.',
-    bullets: [
-      'Trakzee Suite: Live tracking, geo-fencing, speed control, maintenance schedules, and eco-driving analytics.',
-      'SmartBus Module: School bus safety, RFID student boarding alerts, and parent notification apps.',
-      'TaskEye Workforce: Field employee task allocation, route optimization, and digital proof-of-delivery.',
-      'Open REST APIs: Connects telematics streams directly into SAP, Oracle, and proprietary fleet ERPs.'
-    ],
-    recommended: {
-      name: 'Trakzee Fleet Management Suite',
-      slug: 'solutions',
-      price: 'From ₹99/vehicle/mo',
-      badge: 'Pre-Integrated Software',
-      image: '/images/hardware/vector-v2-ai.svg',
-      path: '/solutions'
-    },
-    followUps: [
-      'Can I white-label the software with my company logo and domain?',
-      'Is there a mobile app available for iOS and Android?',
-      'Can I connect third-party GPS devices I already own?'
-    ]
-  },
-  {
-    id: 'bulk-pricing-slabs',
-    question: 'How do bulk pricing discount slabs work for hardware?',
-    aliases: [
-      'bulk price', 'discount', 'slabs', 'bulk slab', 'volume discount',
-      'wholesale', 'how many units', 'bulk order', 'price tiers', 'dealer discount'
-    ],
-    summary: 'All hardware devices feature automated quantity tiers: 1–4 units (standard price), 5–20 units (5–10% discount), 21–50 units (12–15% discount), and 50+ units (wholesale enterprise pricing).',
-    bullets: [
-      'Instant Tier Calculation: Slabs apply automatically in your cart and product details page.',
-      'Volume Savings: Example: AIS-140 GPS drops from ₹3,800 to ₹3,325 on volume orders.',
-      'Complimentary Pre-Configured SIMs: High volume tiers include pre-activated multi-network eSIM cards.',
-      'Dedicated Account Manager: Orders of 50+ units receive dedicated technician onboarding support.'
-    ],
-    recommended: {
-      name: 'Bulk Tier Pricing Engine',
-      slug: 'hardware',
-      price: 'Up to 25% Off Slabs',
-      badge: 'Volume Discounts',
-      image: '/images/hardware/prithvi-140.svg',
-      path: '/hardware'
-    },
-    followUps: [
-      'Can I mix different hardware models to reach bulk discount slabs?',
-      'Are bulk purchases eligible for GST input tax credit (ITC)?',
-      'Do you offer dealer distributor pricing for resellers?'
-    ]
-  }
-];
-
-/* ── Smart AI Overview Generator ── */
-function generateAIOverview(query) {
-  if (!query || !query.trim()) return null;
-  const cleanQ = query.trim().toLowerCase();
-  const tokens = cleanQ.replace(/[^\w\s-]/g, ' ').split(/\s+/).filter(Boolean);
-
-  let bestMatch = null;
-  let bestScore = 0;
-
-  for (const item of FLEET_KNOWLEDGE_BASE) {
-    let score = 0;
-    const qLower = item.question.toLowerCase();
-    const sumLower = item.summary.toLowerCase();
-
-    // Exact phrase match
-    if (qLower.includes(cleanQ)) score += 30;
-    if (item.aliases.some(alias => cleanQ.includes(alias) || alias.includes(cleanQ))) {
-      score += 20;
-    }
-
-    // Token overlap
-    for (const token of tokens) {
-      if (token.length <= 2) continue;
-      if (qLower.includes(token)) score += 6;
-      if (sumLower.includes(token)) score += 3;
-      if (item.aliases.some(a => a.includes(token))) score += 5;
-    }
-
-    if (score > bestScore) {
-      bestScore = score;
-      bestMatch = item;
-    }
-  }
-
-  // If high quality match found
-  if (bestScore >= 5 && bestMatch) {
-    return bestMatch;
-  }
-
-  // Fallback AI synthesis based on catalog items
-  const matchedProd = products.find(p => {
-    const pText = `${p.name} ${p.shortDescription} ${(p.tags || []).join(' ')}`.toLowerCase();
-    return tokens.some(t => t.length > 2 && pText.includes(t));
-  });
-
-  if (matchedProd) {
-    return {
-      id: `ai-gen-${matchedProd.id}`,
-      question: `Setu AI Overview for "${query.trim()}"`,
-      summary: `${matchedProd.name} is an enterprise-grade telematics solution designed for commercial fleet operations. It delivers real-time telemetry, ${matchedProd.shortDescription.toLowerCase()}`,
-      bullets: [
-        `Key Features: ${(matchedProd.features || ['Live GPS tracking', 'Instant alerts', 'Cloud sync']).slice(0, 3).join(', ')}.`,
-        `Pricing: Starts at ₹${matchedProd.price?.toLocaleString('en-IN')} with wholesale volume discount slabs available.`,
-        'Connectivity: Pre-integrated with Uffizio software platforms and open REST APIs.',
-        'Warranty & Support: 1-Year manufacturer replacement warranty with 24/7 technical assistance.'
-      ],
-      recommended: {
-        name: matchedProd.name,
-        slug: matchedProd.slug,
-        price: `₹${matchedProd.price?.toLocaleString('en-IN')}`,
-        badge: matchedProd.tags?.[0] || 'Recommended',
-        image: matchedProd.image,
-        path: `/hardware/${matchedProd.slug}`
-      },
-      followUps: [
-        `What are the technical specifications of ${matchedProd.name}?`,
-        'How many units are required for wholesale bulk pricing?',
-        'Can this device be financed through Setu Finance?'
-      ]
-    };
-  }
-
-  return null;
-}
-
-/* ── Suggestions Pool below Search Bar ── */
-const RICH_SEARCH_SUGGESTIONS = [
-  { label: '✨ AIS-140 Govt GPS', query: 'Which GPS tracker is government approved & mandatory for commercial vehicles?' },
-  { label: '✨ ADAS AI Dashcam', query: 'How to detect driver fatigue and drowsiness with AI dashcam?' },
-  { label: '✨ Prevent Fuel Theft', query: 'How to monitor fuel levels and prevent diesel theft in trucks?' },
-  { label: '✨ Plug & Play OBD', query: 'Are there GPS trackers that don’t require wire cutting?' },
-  { label: '✨ EMI without CIBIL', query: 'Can I buy fleet hardware on EMI without a CIBIL credit check?' },
-  { label: '✨ Vehicle Plate Parts', query: 'How do I find exact auto parts that fit my vehicle number?' },
-  { label: '✨ 4G Live MDVR', query: 'How to record video from 4 angles in heavy commercial vehicles?' },
-  { label: '✨ Smart Cargo E-Lock', query: 'How to secure shipping containers and trucks during transit?' }
-];
-
-/* ── Search History Helpers ── */
-const DEFAULT_LAST_SEARCHES = [
-  { text: 'AIS-140 GPS Devices', query: 'AIS-140', category: 'Certified' },
-  { text: 'Falcon F1 AI Dashcam', query: 'Falcon F1', category: 'Video Telematics' },
-  { text: 'SP BLE-4 Fuel Sensor', query: 'Fuel Sensor', category: 'Sensors' },
-  { text: 'T5324 SD Card MDVR', query: 'MDVR', category: 'Video System' }
-];
-
-function getLastSearches() {
-  try {
-    const raw = localStorage.getItem('setu_last_searches');
-    if (!raw) return DEFAULT_LAST_SEARCHES;
-    const parsed = JSON.parse(raw);
-    if (Array.isArray(parsed) && parsed.length > 0) return parsed;
-  } catch (e) {}
-  return DEFAULT_LAST_SEARCHES;
-}
-
-function saveSearchTerm(term, category = 'Search') {
-  if (!term || !term.trim()) return;
-  const clean = term.trim();
-  try {
-    const existing = getLastSearches();
-    const filtered = existing.filter(item => (item.query || item.text).toLowerCase() !== clean.toLowerCase());
-    const updated = [{ text: clean, query: clean, category }, ...filtered].slice(0, 5);
-    localStorage.setItem('setu_last_searches', JSON.stringify(updated));
-    return updated;
-  } catch (e) {
-    return DEFAULT_LAST_SEARCHES;
-  }
-}
-
-function getProductBadge(product) {
-  if (product.subcategory === 'ais-gps-device' || (product.name && product.name.includes('140'))) {
-    return { label: 'AIS-140', color: '#10B981' };
-  }
-  if (product.subcategory === 'ai-dashcam') {
-    return { label: 'AI Dashcam', color: '#8B5CF6' };
-  }
-  if (product.subcategory === 'mdvr' || product.subcategory === 'adas-mdvr') {
-    return { label: 'MDVR', color: '#0284C7' };
-  }
-  if (product.subcategory === 'fuel-level-sensor') {
-    return { label: 'Fuel BLE', color: '#F59E0B' };
-  }
-  if (product.subcategory === 'e-lock-tracker') {
-    return { label: 'E-Lock', color: '#6366F1' };
-  }
-  if (product.subcategory === 'obd-gps-tracker') {
-    return { label: 'OBD Tracker', color: '#0EA5E9' };
-  }
-  if (product.category === 'vehicle-tracking') {
-    return { label: 'GPS Tracker', color: '#2563EB' };
-  }
-  return null;
-}
-
 /* ────────────────────────────────────────────────────────────
-   1. TOP MARKETING BANNER SLIDER (5 to 6 Banners at the Top)
+   1. HERO PRODUCT SHOWCASE DATA (Enterprise Showcase, ~40-45% Viewport)
 ──────────────────────────────────────────────────────────── */
-const TOP_MARKETING_BANNERS = [
+const HERO_SHOWCASE_PRODUCTS = [
   {
-    id: 'falcon-f1',
-    partnerBadge: 'Mercetech',
-    categoryBadge: 'VIDEO TELEMATICS',
-    categoryBadgeColor: '#FBBF24',
-    title: 'AI dashcam with ADAS\nand driver-fatigue alerts',
-    desc: 'Forward collision and lane departure warning, fatigue detection and live 4G video.',
-    btnText: 'View device →',
-    pricePrefix: 'Falcon F1 AI Camera from ',
-    priceAmount: '₹11,200',
-    priceSuffix: ' + GST',
-    image: '/images/hardware/falcon-f1.svg',
-    path: '/hardware/falcon-f1-ai-4g',
-    bgGradient: 'linear-gradient(115deg, #061338 0%, #0d2258 40%, #1e40af 80%, #1d4ed8 100%)',
-    spotlightGlow: 'radial-gradient(circle, rgba(255, 255, 255, 0.22) 0%, rgba(59, 130, 246, 0.38) 45%, transparent 70%)'
+    id: '7h-elock',
+    categoryBadge: 'CARGO SECURITY & LOGISTICS',
+    headline: 'Secure every shipment, wherever it goes.',
+    subheading: 'GPS-enabled cargo security with remote unlocking, tamper detection and real-time monitoring.',
+    primaryCta: 'Explore E-Lock',
+    primaryPath: '/hardware/7h-elock',
+    image: '/images/hardware/7h-elock.svg',
+    productSlug: '7h-elock',
+    statusIndicators: [
+      { label: '4G LTE Connected', status: 'online' },
+      { label: 'IP68 Padlock Seal', status: 'secure' },
+      { label: 'Battery 98% · 45 Days', status: 'battery' },
+      { label: 'Anti-Tamper Armed', status: 'shield' }
+    ],
+    quickSpecs: {
+      connectivity: '4G LTE Cat 1 with 2G GSM Fallback',
+      battery: '15,000mAh Rechargeable Li-ion (Up to 45 Days)',
+      security: 'Remote OTP Unlock, RFID Swipe, SMS Command',
+      housing: 'IP68 Heavy-Duty Waterproof Aluminum Alloy & Steel Rope',
+      alarms: 'Cable cut siren, Geofence breach, Chassis open tamper alert'
+    }
   },
   {
     id: 'prithvi-140',
-    partnerBadge: 'Prithvi Series',
-    categoryBadge: 'GOVERNMENT APPROVED',
-    categoryBadgeColor: '#38BDF8',
-    title: 'ARAI & ICAT Certified AIS-140\nGPS with Emergency SOS',
-    desc: 'Mandatory for commercial vehicles, transport buses & mining fleets with dual embedded eSIMs.',
-    btnText: 'Explore AIS-140 →',
-    pricePrefix: 'Prithvi 140 GPS from ',
-    priceAmount: '₹3,800',
-    priceSuffix: ' + GST (Bulk ₹3,325)',
+    categoryBadge: 'GOVERNMENT MANDATE · AIS-140',
+    headline: 'Mandatory AIS-140 GPS with Emergency SOS.',
+    subheading: 'MoRTH compliant with ARAI/ICAT certification, dual eSIMs, and direct state emergency 112 integration.',
+    primaryCta: 'Explore AIS-140',
+    primaryPath: '/hardware/prithvi-140',
     image: '/images/hardware/prithvi-140.svg',
-    path: '/hardware/prithvi-140',
-    bgGradient: 'linear-gradient(115deg, #031c33 0%, #063455 40%, #0284c7 80%, #0369a1 100%)',
-    spotlightGlow: 'radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, rgba(56, 189, 248, 0.35) 45%, transparent 70%)'
+    productSlug: 'prithvi-140',
+    statusIndicators: [
+      { label: 'ARAI & ICAT Certified', status: 'verified' },
+      { label: 'Dual eSIM Active', status: 'online' },
+      { label: 'Emergency 112 Ready', status: 'shield' },
+      { label: '4-Hour Internal Battery', status: 'battery' }
+    ],
+    quickSpecs: {
+      connectivity: '4G LTE with Dual Embedded M2M eSIM Profiles',
+      certification: 'AIS-140 Certified (MoRTH / ARAI / ICAT Approved)',
+      sosButton: 'Hardwired Emergency Panic Button for State 112 Server',
+      battery: 'Internal 850mAh Backup Battery (4+ Hours)',
+      inputsOutputs: '4 Digital Inputs, 2 Digital Outputs, 1 Analog In, RS232'
+    }
+  },
+  {
+    id: 'falcon-f1-ai-4g',
+    categoryBadge: 'AI VIDEO TELEMATICS',
+    headline: 'Detect fatigue & prevent collisions with AI vision.',
+    subheading: 'Front-facing ADAS and driver-facing DMS infrared vision alert drivers in real time before accidents occur.',
+    primaryCta: 'Explore AI Dashcam',
+    primaryPath: '/hardware/falcon-f1-ai-4g',
+    image: '/images/hardware/falcon-f1.svg',
+    productSlug: 'falcon-f1-ai-4g',
+    statusIndicators: [
+      { label: 'ADAS Road Vision', status: 'online' },
+      { label: 'DMS Driver Fatigue IR', status: 'verified' },
+      { label: '4G Cloud HD Upload', status: 'online' },
+      { label: 'Dual 1080P Cameras', status: 'secure' }
+    ],
+    quickSpecs: {
+      camera: 'Dual 1080P Full HD (Road Facing + Cabin Infrared DMS)',
+      aiModels: 'Forward Collision (FCW), Lane Departure (LDW), Fatigue & Drowsiness',
+      connectivity: '4G LTE with Wi-Fi Hotspot for in-cabin configuration',
+      storage: 'Supports dual MicroSD cards up to 512GB total capacity',
+      cloudSync: 'Auto-uploads 10s video clips on critical incident alarms'
+    }
   },
   {
     id: 'sp-ble4-fuel',
-    partnerBadge: 'SensePlus',
-    categoryBadge: 'FUEL TELEMATICS',
-    categoryBadgeColor: '#F59E0B',
-    title: 'Wireless BLE 5.0 Ultrasonic\n& Capacitive Fuel Sensor',
-    desc: '99.5% accuracy real-time fuel theft detection, sudden drop alerts and temperature monitoring.',
-    btnText: 'View sensor →',
-    pricePrefix: 'SP-BLE4 Sensor from ',
-    priceAmount: '₹4,500',
-    priceSuffix: ' + GST',
+    categoryBadge: 'PRECISION FUEL TELEMETRY',
+    headline: 'Capacitive & BLE sensors to prevent fuel theft.',
+    subheading: '99.5% measurement accuracy with instant siphoning detection and zero vehicle tank drilling.',
+    primaryCta: 'Explore Fuel Sensors',
+    primaryPath: '/hardware/sp-ble4-fuel',
     image: '/images/hardware/sp-ble4-fuel.svg',
-    path: '/hardware/sp-ble4-fuel',
-    bgGradient: 'linear-gradient(115deg, #1c1003 0%, #3a1e05 40%, #b45309 80%, #d97706 100%)',
-    spotlightGlow: 'radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, rgba(245, 158, 11, 0.35) 45%, transparent 70%)'
-  },
-  {
-    id: 't5324-mdvr',
-    partnerBadge: 'Sentinel',
-    categoryBadge: 'COMMERCIAL VIDEO',
-    categoryBadgeColor: '#C084FC',
-    title: '4G Full HD 4-Channel MDVR\nwith Live Video Streaming',
-    desc: 'Blind spot monitoring, 2TB SSD storage, multi-angle interior/exterior view for logistics fleets.',
-    btnText: 'View MDVR →',
-    pricePrefix: 'T5324 MDVR from ',
-    priceAmount: '₹16,800',
-    priceSuffix: ' + GST',
-    image: '/images/hardware/t5324-mdvr.svg',
-    path: '/hardware/t5324-mdvr',
-    bgGradient: 'linear-gradient(115deg, #15092a 0%, #290f52 40%, #6d28d9 80%, #7c3aed 100%)',
-    spotlightGlow: 'radial-gradient(circle, rgba(255, 255, 255, 0.22) 0%, rgba(192, 132, 252, 0.35) 45%, transparent 70%)'
-  },
-  {
-    id: '7h-elock',
-    partnerBadge: 'SecuTrack',
-    categoryBadge: 'CARGO SECURITY',
-    categoryBadgeColor: '#34D399',
-    title: 'Heavy-Duty GPS E-Lock\nwith Remote OTP Unlock',
-    desc: 'IP68 waterproof container lock with tamper alert, geofence trigger, and real-time transit tracking.',
-    btnText: 'View E-lock →',
-    pricePrefix: '7H Smart E-Lock from ',
-    priceAmount: '₹6,200',
-    priceSuffix: ' + GST',
-    image: '/images/hardware/7h-elock.svg',
-    path: '/hardware/7h-elock',
-    bgGradient: 'linear-gradient(115deg, #031e1c 0%, #063c37 40%, #059669 80%, #047857 100%)',
-    spotlightGlow: 'radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, rgba(52, 211, 153, 0.35) 45%, transparent 70%)'
-  },
-  {
-    id: 'trakzee-platform',
-    partnerBadge: 'Uffizio',
-    categoryBadge: 'FLEET MANAGEMENT SUITE',
-    categoryBadgeColor: '#FDE047',
-    title: 'All-in-One Cloud Fleet &\nTelematics Platform',
-    desc: 'Pre-integrated software with 1,500+ device protocols, driver behavior scoring, and automated reports.',
-    btnText: 'Explore software →',
-    pricePrefix: 'Free Trial · Plans from ',
-    priceAmount: '₹99',
-    priceSuffix: ' /vehicle/mo',
-    image: '/images/hardware/vector-v2-ai.svg',
-    path: '/solutions',
-    bgGradient: 'linear-gradient(115deg, #0a1738 0%, #14285e 40%, #2563eb 80%, #1d4ed8 100%)',
-    spotlightGlow: 'radial-gradient(circle, rgba(255, 255, 255, 0.22) 0%, rgba(59, 130, 246, 0.38) 45%, transparent 70%)'
+    productSlug: 'sp-ble4-fuel',
+    statusIndicators: [
+      { label: '99.5% Accuracy', status: 'verified' },
+      { label: 'Wireless BLE 5.0', status: 'online' },
+      { label: 'Instant Drop Alert', status: 'shield' },
+      { label: 'Explosion Proof IP67', status: 'secure' }
+    ],
+    quickSpecs: {
+      sensorType: 'Capacitive Fuel Level Probe & Wireless BLE 5.0 Beacon',
+      precision: 'Measurement error < 0.5% of total tank volume',
+      batteryLife: 'Internal industrial lithium battery with 5+ year lifespan',
+      temperatureComp: 'Automatic thermal expansion compensation (-40°C to +85°C)',
+      compatibility: 'Compatible with all standard GPS trackers via RS485 or BLE'
+    }
   }
 ];
 
-function TopMarketingBannerSlider() {
-  const navigate = useNavigate();
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-  const totalSlides = TOP_MARKETING_BANNERS.length;
+/* ────────────────────────────────────────────────────────────
+   2. SEARCH & DISCOVERY CONSTANTS
+──────────────────────────────────────────────────────────── */
+const POPULAR_SEARCHES = [
+  { label: 'AIS-140 GPS', query: 'AIS-140 GPS tracker' },
+  { label: 'AI Dashcam', query: 'AI Dashcam with DMS' },
+  { label: 'Fuel Monitoring', query: 'Fuel monitoring sensor' },
+  { label: 'Cargo E-Lock', query: 'GPS cargo e-lock' }
+];
+
+const SEARCH_BY_PROBLEM = [
+  { label: 'Prevent fuel theft', query: 'I need to prevent fuel theft' },
+  { label: 'Improve driver safety', query: 'Improve driver safety and fatigue detection' },
+  { label: 'Monitor cargo', query: 'Secure container and cargo tracking' },
+  { label: 'Track assets', query: 'Rechargeable wireless asset tracking' }
+];
+
+const TYPEWRITER_PLACEHOLDERS = [
+  'Search devices, models, features or describe what you need…',
+  'Try: "AIS-140 GPS tracker"',
+  'Try: "Fuel monitoring device to prevent diesel theft"',
+  'Try: "Camera with driver monitoring and ADAS"',
+  'Try: "GPS tracker for refrigerated trucks"',
+  'Try: "Device for school bus tracking with SOS button"',
+  'Try: "Hardware supporting CAN bus telemetry"'
+];
+
+/* ── Smart Finder Progressive Advisor Data ── */
+const SMART_FINDER_GOALS = [
+  { id: 'track-vehicles', label: 'Track vehicles', icon: '📍', desc: 'Real-time location, ignition & routes' },
+  { id: 'improve-safety', label: 'Improve driver safety', icon: '🛡️', desc: 'Drowsiness, fatigue & collision warnings' },
+  { id: 'prevent-fuel-theft', label: 'Prevent fuel theft', icon: '⛽', desc: 'Drainage alerts & consumption metrics' },
+  { id: 'monitor-cargo', label: 'Monitor cargo', icon: '📦', desc: 'Shipment protection & condition tracking' },
+  { id: 'video-monitoring', label: 'Video monitoring', icon: '📹', desc: 'Live multi-camera streaming & cloud MDVR' },
+  { id: 'track-temperature', label: 'Track temperature', icon: '❄️', desc: 'Cold-chain pharma & food logistics' },
+  { id: 'secure-containers', label: 'Secure containers', icon: '🔒', desc: 'GPS electronic padlocks & remote OTP' },
+  { id: 'asset-tracking', label: 'Asset tracking', icon: '🔋', desc: 'Long battery life magnetic trackers' },
+  { id: 'school-buses', label: 'Manage school buses', icon: '🚌', desc: 'Govt mandate, RFID & student safety' },
+  { id: 'can-data', label: 'Monitor CAN data', icon: '⚡', desc: 'Engine diagnostic codes & RPM telemetry' }
+];
+
+const SMART_FINDER_VEHICLES = [
+  { id: 'truck', label: 'Commercial Trucks', icon: '🚚', desc: 'Heavy haulage, trailers & rigid trucks' },
+  { id: 'bus', label: 'Passenger Buses', icon: '🚍', desc: 'Intercity, staff & school bus fleets' },
+  { id: 'car', label: 'Cars & Taxis', icon: '🚗', desc: 'Sedans, SUVs, cabs & rental cars' },
+  { id: 'heavy', label: 'Construction & Mining', icon: '🚜', desc: 'Excavators, dumpers & gensets' },
+  { id: 'mixed', label: 'Mixed Fleet', icon: '🔄', desc: 'Variety of commercial and passenger assets' }
+];
+
+const SMART_FINDER_DYNAMIC_QUESTIONS = {
+  'prevent-fuel-theft': {
+    title: 'What level of monitoring do you need?',
+    options: [
+      { id: 'level', label: 'Fuel level', desc: 'Continuous volumetric tank percentage readout' },
+      { id: 'filling', label: 'Fuel filling', desc: 'Exact fuel station refill audits and receipts' },
+      { id: 'draining', label: 'Fuel draining (Theft)', desc: 'Instant siren & SMS alert on sudden drop' },
+      { id: 'analytics', label: 'Complete fuel analytics', desc: 'Mileage correlation, drain alerts & tank calibration' }
+    ]
+  },
+  'improve-safety': {
+    title: 'What camera & safety coverage do you need?',
+    options: [
+      { id: 'adas', label: 'Forward Collision (ADAS)', desc: 'Road view warning for lane departures & tailgating' },
+      { id: 'dms', label: 'Driver Fatigue (DMS)', desc: 'Infrared facial camera for sleep & phone distraction' },
+      { id: 'dual', label: 'Dual Front + Cabin AI', desc: 'All-in-one compact AI dashcam for complete cockpit safety' },
+      { id: 'mdvr', label: '360° 4-Channel MDVR', desc: 'Four HD cameras covering road, driver, sides & reverse' }
+    ]
+  },
+  'video-monitoring': {
+    title: 'How many camera channels do you require?',
+    options: [
+      { id: 'dual', label: '2-Channel Dual Dashcam', desc: 'Front road + driver cabin video' },
+      { id: 'mdvr4', label: '4-Channel Mobile DVR', desc: 'Front, rear, left blind spot & right blind spot' },
+      { id: 'streaming', label: '4G Real-time Cloud Streaming', desc: 'Live dispatch viewing & automatic event clip uploads' },
+      { id: 'storage', label: 'High-Capacity Onboard Storage', desc: 'Up to 2TB SSD / Dual SD for 30+ days continuous loop' }
+    ]
+  },
+  'track-vehicles': {
+    title: 'What compliance or installation style do you prefer?',
+    options: [
+      { id: 'ais140', label: 'Govt AIS-140 Mandate', desc: 'ARAI/ICAT certified with RTO SOS panic button' },
+      { id: 'obd', label: 'Plug & Play OBD (No Wire Cut)', desc: 'Installs in 30 seconds into standard OBD-II diagnostic port' },
+      { id: 'wired', label: 'Hardwired 4-Wire Tracker', desc: 'Concealed installation with ignition detection & engine cut' },
+      { id: 'can', label: 'CAN Bus Telematics', desc: 'Reads odometer, fuel rate and engine trouble codes directly' }
+    ]
+  },
+  'secure-containers': {
+    title: 'What type of container security is required?',
+    options: [
+      { id: 'padlock', label: 'GPS Padlock E-Lock', desc: 'Heavy-duty steel rope lock with remote OTP unlocking' },
+      { id: 'door-sensor', label: 'Wireless Door Sensor', desc: 'BLE magnetic contact sensor for container door openings' },
+      { id: 'customs', label: 'Customs & Bonded Transit', desc: 'Tamper siren, satellite ping & excise compliance' },
+      { id: 'temp', label: 'Temperature + Lock Combo', desc: 'Monitors thermal seal alongside physical padlock' }
+    ]
+  },
+  'monitor-cargo': {
+    title: 'What type of cargo protection do you need?',
+    options: [
+      { id: 'elock', label: 'Electronic Padlock E-Lock', desc: 'Prevents en-route pilferage with remote OTP unlock' },
+      { id: 'portable', label: 'Magnetic Long-Life Tracker', desc: 'Slaps onto container chassis with up to 3 years battery' },
+      { id: 'temp', label: 'Cold-Chain Environmental Sensor', desc: 'Monitors refrigerated goods temperature & humidity' },
+      { id: 'tamper', label: 'Anti-Tamper & Light Sensor', desc: 'Detects if box or carton has been opened in transit' }
+    ]
+  },
+  'track-temperature': {
+    title: 'What temperature range and monitoring setup?',
+    options: [
+      { id: 'cold-reefer', label: 'Reefer Truck (-25°C to +25°C)', desc: 'High accuracy BLE probe for frozen goods and ice cream' },
+      { id: 'pharma', label: 'Pharma Ultra-Low (-80°C)', desc: 'Vaccine and clinical trial grade environmental logging' },
+      { id: 'multi-zone', label: 'Multi-Zone Chamber Sensor', desc: 'Up to 4 BLE sensors per vehicle for divided compartments' },
+      { id: 'door-temp', label: 'Combined Door + Temperature', desc: 'Logs temperature spikes caused by door opening duration' }
+    ]
+  },
+  'school-buses': {
+    title: 'What student safety features do you need?',
+    options: [
+      { id: 'mandate', label: 'AIS-140 + SOS Panic Button', desc: 'Mandatory government compliance for transport permits' },
+      { id: 'rfid', label: 'RFID Student Attendance', desc: 'Notifies parents when child board or deboards the bus' },
+      { id: 'cabin-camera', label: 'Internal Cabin Camera', desc: 'Live video monitoring of student behavior and safety' },
+      { id: 'speed-gov', label: 'Speed Governor Alerts', desc: 'Instant alerts on exceeding school zone speed limits' }
+    ]
+  },
+  'can-data': {
+    title: 'What vehicle data do you need to extract?',
+    options: [
+      { id: 'j1939', label: 'Heavy Truck J1939 CAN', desc: 'Engine load, RPM, coolant temperature & true odometer' },
+      { id: 'dtc', label: 'Engine Trouble Codes (DTC)', desc: 'Predictive maintenance warnings before breakdown' },
+      { id: 'fuel-rate', label: 'CAN Fuel Consumption', desc: 'ECU calculated liters per 100km fuel consumption' },
+      { id: 'driver-score', label: 'Harsh Acceleration & Braking', desc: 'Precise pedal position and driving style telemetry' }
+    ]
+  },
+  'asset-tracking': {
+    title: 'What battery life and mounting do you need?',
+    options: [
+      { id: 'magnetic-long', label: 'Magnetic Long-Life (1–3 Years)', desc: '10,000mAh+ battery with 1 ping per day for non-powered assets' },
+      { id: 'rechargeable', label: 'Rechargeable Portable (30–60 Days)', desc: 'Active tracking with USB recharging for equipment and tools' },
+      { id: 'solar', label: 'Solar-Powered Continuous', desc: 'Self-charging for flatbed trailers, railcars and barges' },
+      { id: 'disposable', label: 'Single-Trip Cargo Logger', desc: 'Low cost beacon for high-value one-way international air cargo' }
+    ]
+  }
+};
+
+/* ── 8 Modern Categories for "Explore Hardware" ── */
+const EXPLORE_CATEGORIES = [
+  {
+    id: 'vehicle-tracking',
+    title: 'GPS Tracking',
+    desc: 'Wired, OBD, CAN bus, and AIS-140 certified vehicle trackers.',
+    count: '11 devices',
+    path: '/hardware?category=vehicle-tracking',
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="11" width="18" height="10" rx="2" />
+        <circle cx="12" cy="5" r="2" />
+        <path d="M12 7v4" />
+        <line x1="8" y1="16" x2="8.01" y2="16" />
+        <line x1="12" y1="16" x2="12.01" y2="16" />
+        <line x1="16" y1="16" x2="16.01" y2="16" />
+      </svg>
+    )
+  },
+  {
+    id: 'video-telematics',
+    title: 'Video Telematics',
+    desc: 'AI dashcams, ADAS, driver DMS, and 4-channel mobile DVRs.',
+    count: '8 devices',
+    path: '/hardware?category=video-telematics',
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+        <path d="m22 8-6 4 6 4V8Z" />
+        <rect x="2" y="6" width="14" height="12" rx="2" />
+      </svg>
+    )
+  },
+  {
+    id: 'iot-sensors',
+    title: 'Sensors',
+    desc: 'Ultrasonic fuel, BLE temperature, door & humidity sensors.',
+    count: '6 devices',
+    path: '/hardware?category=iot-sensors',
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z" />
+      </svg>
+    )
+  },
+  {
+    id: 'fuel-sensors',
+    title: 'Fuel Monitoring',
+    desc: 'High-precision capacitive rods & anti-siphoning theft alerts.',
+    count: '3 devices',
+    path: '/hardware?category=fuel-sensors',
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M3 22h12" />
+        <path d="M4 9h10" />
+        <path d="M14 22V4a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v18" />
+        <path d="M14 13h2a2 2 0 0 1 2 2v2a2 2 0 0 0 2 2h0a2 2 0 0 0 2-2V9.83a2 2 0 0 0-.59-1.42L18 5" />
+      </svg>
+    )
+  },
+  {
+    id: 'cargo-security',
+    title: 'Cargo Security',
+    desc: 'Smart GPS e-locks, container padlocks & seal monitors.',
+    count: '3 devices',
+    path: '/hardware?category=asset-logistics',
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+      </svg>
+    )
+  },
+  {
+    id: 'driver-safety',
+    title: 'Driver Safety',
+    desc: 'Fatigue detection, panic SOS buttons & speed governors.',
+    count: '6 devices',
+    path: '/hardware?category=video-telematics',
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+      </svg>
+    )
+  },
+  {
+    id: 'obd-can',
+    title: 'OBD & CAN',
+    desc: 'Plug & play diagnostics, J1939 engine telemetry & fault codes.',
+    count: '4 devices',
+    path: '/hardware?category=vehicle-tracking',
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="2" y="6" width="20" height="12" rx="2" />
+        <path d="M6 12h4" />
+        <path d="M14 12h4" />
+      </svg>
+    )
+  },
+  {
+    id: 'accessories',
+    title: 'Accessories',
+    desc: 'Relays, immobilizers, wiring harnesses & RFID cards.',
+    count: '4 devices',
+    path: '/hardware?category=accessories',
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
+      </svg>
+    )
+  }
+];
+
+/* ── 4 Use Cases for "Find hardware by use case" ── */
+const USE_CASES = [
+  {
+    id: 'fuel-theft',
+    title: 'Prevent Fuel Theft',
+    desc: 'Find compatible sensors and tracking hardware.',
+    highlights: '99.5% accuracy · Instant drop alert · Wireless BLE',
+    filterQuery: 'fuel sensor theft drainage',
+    icon: '⛽',
+    badge: 'Popular Problem'
+  },
+  {
+    id: 'driver-safety',
+    title: 'Improve Driver Safety',
+    desc: 'Explore ADAS, DMS and AI camera solutions.',
+    highlights: 'Fatigue warning · Collision alert · HD 4G upload',
+    filterQuery: 'dashcam adas dms safety camera',
+    icon: '🛡️',
+    badge: 'High Impact'
+  },
+  {
+    id: 'secure-cargo',
+    title: 'Secure Cargo',
+    desc: 'Discover GPS locks, sensors and security devices.',
+    highlights: 'Remote OTP unlock · Cable cut siren · IP68 seal',
+    filterQuery: 'e-lock container padlock cargo',
+    icon: '🔒',
+    badge: 'Transit Protection'
+  },
+  {
+    id: 'cold-chain',
+    title: 'Monitor Cold Chain',
+    desc: 'Find temperature and environmental sensors.',
+    highlights: '±0.3°C precision · Multi-zone BLE · Expiry prevention',
+    filterQuery: 'temperature sensor cold chain',
+    icon: '❄️',
+    badge: 'Pharma & Food'
+  }
+];
+
+/* ────────────────────────────────────────────────────────────
+   3. TYPEWRITER HOOK FOR UNIVERSAL SEARCH
+──────────────────────────────────────────────────────────── */
+function useTypewriter(words, isEnabled = true) {
+  const [index, setIndex] = useState(0);
+  const [text, setText] = useState('');
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
-    if (isPaused) return;
+    if (!isEnabled || !words.length) return;
+    const current = words[index];
+    let timer;
+
+    if (!deleting) {
+      if (text.length < current.length) {
+        timer = setTimeout(() => setText(current.slice(0, text.length + 1)), 35);
+      } else {
+        timer = setTimeout(() => setDeleting(true), 2500);
+      }
+    } else {
+      if (text.length > 0) {
+        timer = setTimeout(() => setText(current.slice(0, text.length - 1)), 18);
+      } else {
+        setDeleting(false);
+        setIndex((prev) => (prev + 1) % words.length);
+      }
+    }
+    return () => clearTimeout(timer);
+  }, [text, deleting, index, words, isEnabled]);
+
+  return text;
+}
+
+/* ────────────────────────────────────────────────────────────
+   4. HERO COMPONENT: PRODUCT SHOWCASE (~40-45% Viewport)
+──────────────────────────────────────────────────────────── */
+function HeroProductShowcase({ onOpenSpecs }) {
+  const navigate = useNavigate();
+  const [slide, setSlide] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const total = HERO_SHOWCASE_PRODUCTS.length;
+
+  useEffect(() => {
+    if (paused) return;
     const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % totalSlides);
-    }, 5500);
+      setSlide((prev) => (prev + 1) % total);
+    }, 6000);
     return () => clearInterval(timer);
-  }, [isPaused, totalSlides]);
+  }, [paused, total]);
 
-  const activeBanner = TOP_MARKETING_BANNERS[currentSlide];
-
-  const handlePrev = (e) => {
-    e.stopPropagation();
-    setCurrentSlide((prev) => (prev - 1 + totalSlides) % totalSlides);
-  };
-
-  const handleNext = (e) => {
-    e.stopPropagation();
-    setCurrentSlide((prev) => (prev + 1) % totalSlides);
-  };
+  const active = HERO_SHOWCASE_PRODUCTS[slide];
 
   return (
-    <div 
-      className="top-marketing-banner-container"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
+    <section 
+      className="hero-showcase"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      aria-label="Featured Hardware Showcase"
     >
-      <div 
-        className="top-marketing-banner-card"
-        style={{ background: activeBanner.bgGradient }}
-        onClick={() => navigate(activeBanner.path)}
-      >
-        {/* Top-Right Sponsored Badge */}
-        <div className="top-marketing-sponsored-badge">
-          <span>Sponsored</span>
-        </div>
-
-        {/* Left Column: Marketing Copy */}
-        <div className="top-marketing-left-col">
-          <div className="top-marketing-badges-row">
-            <span className="top-marketing-partner-pill">
-              {activeBanner.partnerBadge}
-            </span>
-            <span 
-              className="top-marketing-cat-tag"
-              style={{ color: activeBanner.categoryBadgeColor }}
-            >
-              {activeBanner.categoryBadge}
-            </span>
+      <div className="hero-showcase__content">
+        {/* Left Column: Product Information & Actions */}
+        <div className="hero-showcase__info">
+          <div className="hero-showcase__badge-row">
+            <span className="hero-showcase__badge">{active.categoryBadge}</span>
+            <span className="hero-showcase__slide-counter">{slide + 1} of {total}</span>
           </div>
 
-          <h1 className="top-marketing-heading">
-            {activeBanner.title.split('\n').map((line, i) => (
-              <span key={i} className="top-marketing-heading-line">{line}</span>
-            ))}
+          <h1 className="hero-showcase__headline">
+            {active.headline}
           </h1>
 
-          <p className="top-marketing-desc">
-            {activeBanner.desc}
+          <p className="hero-showcase__subheading">
+            {active.subheading}
           </p>
 
-          <div className="top-marketing-cta-row">
+          <div className="hero-showcase__actions">
             <button
               type="button"
-              className="top-marketing-cta-btn"
-              onClick={(e) => {
-                e.stopPropagation();
-                navigate(activeBanner.path);
-              }}
+              className="hero-showcase__btn-primary"
+              onClick={() => navigate(active.primaryPath)}
             >
-              {activeBanner.btnText}
+              <span>{active.primaryCta}</span>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg>
             </button>
-            <div className="top-marketing-price-text">
-              <span>{activeBanner.pricePrefix}</span>
-              <strong className="top-marketing-price-strong">{activeBanner.priceAmount}</strong>
-              <span>{activeBanner.priceSuffix}</span>
-            </div>
+
+            <button
+              type="button"
+              className="hero-showcase__btn-secondary"
+              onClick={() => onOpenSpecs(active)}
+            >
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+              </svg>
+              <span>View specifications</span>
+            </button>
           </div>
-        </div>
 
-        {/* Right Column: Floating Product Spotlight */}
-        <div className="top-marketing-right-col">
-          <div 
-            className="top-marketing-spotlight"
-            style={{ background: activeBanner.spotlightGlow }}
-          >
-            <img 
-              src={getAssetUrl(activeBanner.image)} 
-              alt={activeBanner.partnerBadge} 
-              className="top-marketing-product-img"
-            />
-          </div>
-        </div>
-
-        {/* Bottom-Right Controls */}
-        <div className="top-marketing-controls" onClick={(e) => e.stopPropagation()}>
-          <button 
-            type="button" 
-            className="top-marketing-arrow-btn" 
-            onClick={handlePrev}
-            aria-label="Previous slide"
-          >
-            ‹
-          </button>
-
-          <div className="top-marketing-dashes">
-            {TOP_MARKETING_BANNERS.map((banner, idx) => (
+          {/* Minimal Slide Indicators */}
+          <div className="hero-showcase__dots">
+            {HERO_SHOWCASE_PRODUCTS.map((prod, idx) => (
               <button
-                key={banner.id}
+                key={prod.id}
                 type="button"
-                className={`top-marketing-dash ${currentSlide === idx ? 'top-marketing-dash--active' : ''}`}
-                onClick={() => setCurrentSlide(idx)}
-                aria-label={`Go to slide ${idx + 1}`}
-                title={banner.partnerBadge}
+                className={`hero-showcase__dot ${idx === slide ? 'hero-showcase__dot--active' : ''}`}
+                onClick={() => setSlide(idx)}
+                aria-label={`Go to slide ${idx + 1}: ${prod.categoryBadge}`}
               />
             ))}
           </div>
+        </div>
 
-          <button 
-            type="button" 
-            className="top-marketing-arrow-btn" 
-            onClick={handleNext}
-            aria-label="Next slide"
-          >
-            ›
-          </button>
+        {/* Right Column: Hardware Product Visual & Contextual Status Accents */}
+        <div className="hero-showcase__visual-wrap">
+          <div className="hero-showcase__stage">
+            <div className="hero-showcase__device-glow" />
+            <img 
+              src={getAssetUrl(active.image)} 
+              alt={active.headline} 
+              className="hero-showcase__device-img" 
+            />
+
+            {/* Subtle contextual status indicators */}
+            <div className="hero-showcase__indicators-row">
+              {active.statusIndicators.map((ind, i) => (
+                <div key={i} className={`hero-showcase__indicator hero-showcase__indicator--${ind.status}`}>
+                  <span className="hero-showcase__indicator-dot" />
+                  <span className="hero-showcase__indicator-label">{ind.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 
 /* ────────────────────────────────────────────────────────────
-   2. FLOATING ADVANCED SEARCH CARD WITH GOOGLE-LIKE AI MODE
-   (Category tabs removed as requested; AI Mode + Suggestions added)
+   5. UNIVERSAL SEARCH + SMART FINDER + ADVANCED FILTERS
 ──────────────────────────────────────────────────────────── */
-const AI_TYPEWRITER_PROMPTS = [
-  'Ask Setu AI: "Which GPS tracker is government approved & mandatory?"',
-  'Ask Setu AI: "How to detect driver fatigue and road collisions?"',
-  'Ask Setu AI: "How to monitor fuel levels and stop diesel theft in trucks?"',
-  'Ask Setu AI: "Can I buy fleet hardware on EMI without a CIBIL check?"',
-  'Ask Setu AI: "How to find verified auto parts by vehicle registration number?"',
-  'Ask Setu AI: "Which software connects with these GPS devices?"'
-];
-
-function FloatingSearchCard() {
+function UniversalSearchModule({ onOpenAdvancedFilters, activeFilterCount, onSelectProductForCompare, selectedCompareIds }) {
   const navigate = useNavigate();
-  const [isAiMode, setIsAiMode] = useState(true); // AI Mode ON by default like Google AI Overview
+  const [mode, setMode] = useState('search'); // 'search' | 'finder'
   const [query, setQuery] = useState('');
   const [isFocused, setIsFocused] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [lastSearches, setLastSearches] = useState(getLastSearches);
+  const [activeIndex, setActiveIndex] = useState(-1);
   const containerRef = useRef(null);
   const inputRef = useRef(null);
 
-  const animatedPlaceholder = useTypewriter(AI_TYPEWRITER_PROMPTS, !query);
+  // Typewriter placeholder for search field
+  const placeholderText = useTypewriter(TYPEWRITER_PLACEHOLDERS, !query && mode === 'search');
+
+  // Smart Finder State (3-4 Progressive Business Steps)
+  const [finderStep, setFinderStep] = useState(1);
+  const [finderAnswers, setFinderAnswers] = useState({
+    goal: null,
+    vehicle: null,
+    specific: null,
+    existingGps: null
+  });
+  const [finderSubmitted, setFinderSubmitted] = useState(false);
+  const [whyExpanded, setWhyExpanded] = useState(false);
 
   // Close dropdown on outside click
   useEffect(() => {
     function handleClickOutside(e) {
       if (containerRef.current && !containerRef.current.contains(e.target)) {
-        setIsDropdownOpen(false);
         setIsFocused(false);
+        setActiveIndex(-1);
       }
     }
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const handleRecordSearch = (term, cat = 'Search') => {
-    const updated = saveSearchTerm(term, cat);
-    if (updated) setLastSearches(updated);
-  };
-
-  // Google-Style AI Overview match
-  const aiOverview = useMemo(() => {
+  /* ── Command Palette Grouped Results ── */
+  const commandPaletteResults = useMemo(() => {
     if (!query.trim()) return null;
-    return generateAIOverview(query);
-  }, [query]);
+    const q = query.trim().toLowerCase();
+    const tokens = q.split(/\s+/).filter(Boolean);
 
-  // Matching Hardware Products
-  const matchingHardware = useMemo(() => {
-    if (!query.trim()) return [];
-    const cleanQ = query.trim().toLowerCase();
-    const rawTokens = cleanQ.replace(/[^\w\s-]/g, ' ').split(/\s+/).filter(Boolean);
-    const keywords = rawTokens.filter(t => !STOP_WORDS.has(t));
-    const tokens = keywords.length > 0 ? keywords : rawTokens;
-
-    return products.filter(p => {
-      const pName = p.name.toLowerCase();
-      const pSlug = p.slug.toLowerCase();
-      const pCat = (p.category || '').toLowerCase();
-      const pSub = (p.subcategory || '').toLowerCase();
-      const pDesc = (p.shortDescription || '').toLowerCase();
-
-      if (pName.includes(cleanQ) || pSlug.includes(cleanQ)) return true;
-      const fullText = `${pName} ${pSlug} ${pCat} ${pSub} ${pDesc}`;
-      return tokens.every(token => fullText.includes(token));
+    // 1. Products
+    const matchingProds = products.filter(p => {
+      const text = `${p.name} ${p.slug} ${p.category} ${p.subcategory} ${p.shortDescription} ${(p.tags || []).join(' ')}`.toLowerCase();
+      return tokens.every(t => text.includes(t));
     }).slice(0, 4);
-  }, [query]);
 
-  // Matching Software Solutions
-  const matchingSolutions = useMemo(() => {
-    if (!query.trim()) return [];
-    const cleanQ = query.trim().toLowerCase();
-    return solutions.filter(s => {
-      return s.name.toLowerCase().includes(cleanQ) || (s.description || '').toLowerCase().includes(cleanQ);
-    }).slice(0, 2);
-  }, [query]);
-
-  // Matching Auto Parts
-  const matchingParts = useMemo(() => {
-    if (!query.trim()) return [];
-    const cleanQ = query.trim().toLowerCase();
-    const partsList = autopartsData.parts || [];
-    return partsList.filter(p => {
-      return p.name.toLowerCase().includes(cleanQ) || (p.category || '').toLowerCase().includes(cleanQ) || (p.brand || '').toLowerCase().includes(cleanQ);
+    // 2. Categories
+    const matchingCats = (categoriesData || []).filter(c => {
+      const text = `${c.label} ${c.id} ${(c.children || []).map(ch => ch.label).join(' ')}`.toLowerCase();
+      return tokens.some(t => text.includes(t));
     }).slice(0, 3);
+
+    // 3. Features
+    const allFeatures = [
+      { name: 'Fuel Monitoring', slug: 'fuel-sensors', desc: 'Real-time volumetric level and drainage alerts' },
+      { name: 'Driver Monitoring (DMS)', slug: 'video-telematics', desc: 'Facial computer vision for fatigue and distraction' },
+      { name: 'Forward Collision (ADAS)', slug: 'video-telematics', desc: 'Active road safety and lane departure warnings' },
+      { name: 'CAN Bus Integration', slug: 'vehicle-tracking', desc: 'Engine diagnostic codes, RPM and odometer telemetry' },
+      { name: 'Remote Immobilization', slug: 'vehicle-tracking', desc: 'Over-the-air ignition fuel pump cutoff relay' },
+      { name: 'Temperature & Humidity', slug: 'iot-sensors', desc: 'Cold chain compliance for food and pharma' }
+    ];
+    const matchingFeatures = allFeatures.filter(f => {
+      return tokens.some(t => f.name.toLowerCase().includes(t) || f.desc.toLowerCase().includes(t));
+    }).slice(0, 3);
+
+    // 4. Use Cases
+    const matchingUseCases = USE_CASES.filter(u => {
+      return tokens.some(t => u.title.toLowerCase().includes(t) || u.desc.toLowerCase().includes(t) || u.filterQuery.toLowerCase().includes(t));
+    }).slice(0, 3);
+
+    return {
+      products: matchingProds,
+      categories: matchingCats,
+      features: matchingFeatures,
+      useCases: matchingUseCases,
+      totalCount: matchingProds.length + matchingCats.length + matchingFeatures.length + matchingUseCases.length
+    };
   }, [query]);
 
-  const handleSelectSuggestion = (suggestionQuery) => {
-    setQuery(suggestionQuery);
-    setIsDropdownOpen(true);
-    handleRecordSearch(suggestionQuery, 'AI Suggestion');
-    if (inputRef.current) inputRef.current.focus();
-  };
+  // Flattened items for keyboard navigation
+  const flatSelectableItems = useMemo(() => {
+    if (!commandPaletteResults) return [];
+    const list = [];
+    commandPaletteResults.products.forEach(p => list.push({ type: 'product', data: p }));
+    commandPaletteResults.categories.forEach(c => list.push({ type: 'category', data: c }));
+    commandPaletteResults.features.forEach(f => list.push({ type: 'feature', data: f }));
+    commandPaletteResults.useCases.forEach(u => list.push({ type: 'useCase', data: u }));
+    return list;
+  }, [commandPaletteResults]);
 
-  const handleSubmit = (e) => {
-    if (e) e.preventDefault();
-    if (!query.trim()) return;
-    handleRecordSearch(query.trim(), 'AI Search');
-    setIsDropdownOpen(false);
+  const handleKeyDown = (e) => {
+    if (!isFocused || !commandPaletteResults) return;
 
-    if (aiOverview && aiOverview.recommended && aiOverview.recommended.path) {
-      navigate(aiOverview.recommended.path);
-    } else if (matchingHardware.length > 0) {
-      navigate(`/hardware/${matchingHardware[0].slug}`);
-    } else {
-      navigate(`/hardware?search=${encodeURIComponent(query.trim())}`);
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setActiveIndex(prev => (prev + 1) % flatSelectableItems.length);
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setActiveIndex(prev => (prev - 1 + flatSelectableItems.length) % flatSelectableItems.length);
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      if (activeIndex >= 0 && activeIndex < flatSelectableItems.length) {
+        const item = flatSelectableItems[activeIndex];
+        handleSelectItem(item);
+      } else {
+        handleSearchSubmit();
+      }
+    } else if (e.key === 'Escape') {
+      setIsFocused(false);
+      setActiveIndex(-1);
     }
   };
 
-  return (
-    <div className="floating-search-card" ref={containerRef}>
-      {/* Title */}
-      <h2 className="floating-search-title">
-        Everything your fleet runs on, in one place.
-      </h2>
+  const handleSelectItem = (item) => {
+    setIsFocused(false);
+    if (item.type === 'product') {
+      navigate(`/hardware/${item.data.slug}`);
+    } else if (item.type === 'category') {
+      navigate(`/hardware?category=${item.data.id}`);
+    } else if (item.type === 'feature') {
+      navigate(`/hardware?category=${item.data.slug}`);
+    } else if (item.type === 'useCase') {
+      navigate(`/hardware?search=${encodeURIComponent(item.data.filterQuery)}`);
+    }
+  };
 
-      {/* Main Search Input Box with Google-style AI Mode */}
-      <form 
-        className={`floating-search-input-box ${isAiMode ? 'floating-search-input-box--ai' : ''} ${isFocused ? 'floating-search-input-box--focused' : ''}`}
-        onSubmit={handleSubmit}
-      >
-        {/* Left Icon: Sparkle in AI Mode or Standard Search Icon */}
-        <div className="floating-search-left-icon">
-          {isAiMode ? (
-            <span className="floating-search-sparkle-icon" title="Setu AI Mode Active">✨</span>
-          ) : (
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748B" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+  const handleSearchSubmit = (e) => {
+    if (e) e.preventDefault();
+    if (!query.trim()) return;
+    setIsFocused(false);
+    navigate(`/hardware?search=${encodeURIComponent(query.trim())}`);
+  };
+
+  /* ── Smart Finder Advisor Logic ── */
+  const currentDynamicQuestion = useMemo(() => {
+    if (!finderAnswers.goal) return null;
+    return SMART_FINDER_DYNAMIC_QUESTIONS[finderAnswers.goal.id] || {
+      title: 'What specific capability is most critical for your deployment?',
+      options: [
+        { id: 'standard', label: 'Standard Enterprise Grade', desc: 'Reliable telemetry with nationwide network connectivity' },
+        { id: 'high-precision', label: 'High-Precision Accuracy', desc: 'Sub-meter GNSS positioning and advanced reporting' },
+        { id: 'rugged', label: 'Ruggedized IP67/IP68 Housing', desc: 'Harsh environmental resistance against dust and water' },
+        { id: 'low-cost', label: 'Optimized Fleet Cost', desc: 'Economical bulk deployment for large vehicle fleets' }
+      ]
+    };
+  }, [finderAnswers.goal]);
+
+  const handleSelectGoal = (goal) => {
+    setFinderAnswers(prev => ({ ...prev, goal, specific: null }));
+    setFinderStep(2);
+  };
+
+  const handleSelectVehicle = (vehicle) => {
+    setFinderAnswers(prev => ({ ...prev, vehicle }));
+    setFinderStep(3);
+  };
+
+  const handleSelectSpecific = (specific) => {
+    setFinderAnswers(prev => ({ ...prev, specific }));
+    setFinderStep(4);
+  };
+
+  const handleSelectExistingGps = (ans) => {
+    setFinderAnswers(prev => ({ ...prev, existingGps: ans }));
+    setFinderSubmitted(true);
+  };
+
+  const handleResetFinder = () => {
+    setFinderAnswers({ goal: null, vehicle: null, specific: null, existingGps: null });
+    setFinderStep(1);
+    setFinderSubmitted(false);
+    setWhyExpanded(false);
+  };
+
+  // Top 3 Recommended Products computation based on Smart Finder criteria
+  const smartRecommendations = useMemo(() => {
+    if (!finderSubmitted) return [];
+
+    const goalId = finderAnswers.goal?.id || '';
+    const vehicleId = finderAnswers.vehicle?.id || '';
+    const specificId = finderAnswers.specific?.id || '';
+
+    // Specialized mappings based on business criteria
+    if (goalId === 'prevent-fuel-theft') {
+      return [
+        {
+          product: products.find(p => p.slug === 'sp-ble4-fuel') || products[0],
+          matchPercent: 96,
+          whyBullets: [
+            'Wireless BLE 5.0 eliminates drilling and in-tank sparking hazards',
+            'Triggers instant drainage alert on sudden drop within 30 seconds',
+            'Compatible with commercial trucks, haulers and heavy machinery',
+            '99.5% accuracy with automatic fuel thermal compensation'
+          ]
+        },
+        {
+          product: products.find(p => p.slug === 'v5-4g') || products[1],
+          matchPercent: 91,
+          whyBullets: [
+            'Direct RS485 & Bluetooth integration with capacitive fuel rods',
+            '4G LTE Cat 1 real-time telemetry to Setu/Trakzee cloud',
+            'Supports ignition-status tracking to catch idling fuel waste',
+            'Internal backup battery safeguards against battery disconnects'
+          ]
+        },
+        {
+          product: products.find(p => p.slug === 'prithvi-140') || products[2],
+          matchPercent: 88,
+          whyBullets: [
+            'Dual eSIM telematics with auxiliary analog inputs for fuel probes',
+            'Government AIS-140 compliance if operating interstate transit trucks',
+            'Tamper-proof IP65 casing tested for heavy commercial transport',
+            'Generates hourly fuel refill vs consumption audit reports'
+          ]
+        }
+      ];
+    } else if (goalId === 'improve-safety' || goalId === 'video-monitoring') {
+      return [
+        {
+          product: products.find(p => p.slug === 'falcon-f1-ai-4g') || products[0],
+          matchPercent: 95,
+          whyBullets: [
+            'Dual 1080P cameras covering road ahead and driver cockpit',
+            'AI DMS infrared camera detects fatigue, micro-sleep & phone use',
+            'Active ADAS alerts for forward collision and lane departures',
+            '4G LTE uploads 10s video evidence clips automatically on events'
+          ]
+        },
+        {
+          product: products.find(p => p.slug === 't5324-mdvr') || products[1],
+          matchPercent: 92,
+          whyBullets: [
+            '4-channel MDVR provides 360° blind spot and reverse monitoring',
+            'Heavy vehicle automotive surge protection rated 8V–36V DC',
+            'High-capacity storage supports continuous recording up to 30 days',
+            'Live multi-camera streaming to fleet dispatch dashboard'
+          ]
+        },
+        {
+          product: products.find(p => p.slug === 'titan-t4-ai-4g') || products[2],
+          matchPercent: 87,
+          whyBullets: [
+            'Enterprise AI dashcam with integrated GPS and in-cabin voice alarms',
+            'Driver coaching buzzer sounds before impact occurs',
+            'Compact tamper-resistant windshield mount with locking cover',
+            'Compatible with both light commercial vans and heavy trucks'
+          ]
+        }
+      ];
+    } else if (goalId === 'secure-containers' || goalId === 'monitor-cargo') {
+      return [
+        {
+          product: products.find(p => p.slug === '7h-elock') || products[0],
+          matchPercent: 97,
+          whyBullets: [
+            'IP68 waterproof electronic padlock with steel cable security',
+            'Unlocks only via authorized remote OTP or verified RFID card',
+            'Instant siren alarm if steel cable is cut or chassis tampered',
+            '15,000mAh battery runs up to 45 days on a single USB charge'
+          ]
+        },
+        {
+          product: products.find(p => p.slug === 'gl500-4g') || products[1],
+          matchPercent: 93,
+          whyBullets: [
+            'High-strength 4G smart electronic seal for customs transit',
+            'Continuous satellite location tracking with geofence auto-alerts',
+            'Real-time locking and unlocking audit logs with timestamps',
+            'Meets national excise and bonded cargo compliance standards'
+          ]
+        },
+        {
+          product: products.find(p => p.slug === 'v5-4g') || products[2],
+          matchPercent: 86,
+          whyBullets: [
+            'Pairs with wireless BLE door magnetic contact sensors',
+            'Monitors container temperature and door open/close events',
+            'Provides live truck location alongside trailer status',
+            'Industrial casing designed for vibrations and rough transit'
+          ]
+        }
+      ];
+    } else {
+      // Default / General Vehicle Tracking & Compliance
+      return [
+        {
+          product: products.find(p => p.slug === 'prithvi-140') || products[0],
+          matchPercent: 94,
+          whyBullets: [
+            'Certified AIS-140 compliant by ARAI & ICAT with national backend',
+            'Hardwired emergency SOS panic button wired to state 112 emergency',
+            'Dual embedded M2M eSIM profiles guarantee 99.9% uptime',
+            'Required by law for all commercial transport, buses and taxis'
+          ]
+        },
+        {
+          product: products.find(p => p.slug === 'v5-4g') || products[1],
+          matchPercent: 90,
+          whyBullets: [
+            'Compact 4G LTE tracker with ignition on/off & remote immobilizer',
+            'Lowest failure rate in commercial light and heavy vehicle fleets',
+            'Surge protected power supply handles voltage spikes up to 36V',
+            'Rapid installation with color-coded automotive wiring harness'
+          ]
+        },
+        {
+          product: products.find(p => p.slug === 'eco5-lite') || products[2],
+          matchPercent: 88,
+          whyBullets: [
+            'Plug & play OBD installation into standard port in 30 seconds',
+            'Zero vehicle wire cutting prevents factory warranty voiding',
+            'Reads real-time vehicle speed, engine status and trip history',
+            'Ideal for passenger cars, rental vehicles and sales fleets'
+          ]
+        }
+      ];
+    }
+  }, [finderSubmitted, finderAnswers]);
+
+  return (
+    <section className="search-section" ref={containerRef}>
+      {/* Search Header */}
+      <div className="search-section__header">
+        <h2 className="search-section__title">What are you looking for?</h2>
+        <p className="search-section__sub">Search by hardware, requirement, vehicle type or use case.</p>
+      </div>
+
+      {/* Mode Selector & Filter Trigger Bar */}
+      <div className="search-modes-bar">
+        <div className="search-modes-tabs">
+          <button
+            type="button"
+            className={`search-mode-tab ${mode === 'search' ? 'search-mode-tab--active' : ''}`}
+            onClick={() => setMode('search')}
+          >
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
               <circle cx="11" cy="11" r="8" />
               <line x1="21" y1="21" x2="16.65" y2="16.65" />
             </svg>
-          )}
-        </div>
+            <span>Search</span>
+          </button>
 
-        {/* Input */}
-        <input
-          ref={inputRef}
-          type="text"
-          className="floating-search-input"
-          value={query}
-          placeholder={query ? '' : animatedPlaceholder}
-          onChange={(e) => {
-            setQuery(e.target.value);
-            setIsDropdownOpen(true);
-          }}
-          onFocus={() => {
-            setIsFocused(true);
-            setIsDropdownOpen(true);
-          }}
-          aria-label="Ask Setu AI anything about fleet hardware, software, or parts"
-        />
-
-        {/* Clear Button */}
-        {query.trim().length > 0 && (
           <button
             type="button"
-            className="floating-search-clear-btn"
+            className={`search-mode-tab ${mode === 'finder' ? 'search-mode-tab--active' : ''}`}
             onClick={() => {
-              setQuery('');
-              if (inputRef.current) inputRef.current.focus();
+              setMode('finder');
+              setIsFocused(false);
             }}
-            title="Clear search"
           >
-            ✕
+            <span className="search-mode-tab__sparkle">✦</span>
+            <span>Smart Finder</span>
+            <span className="search-mode-tab__hint">Help me choose</span>
           </button>
-        )}
+        </div>
 
-        {/* Google-Style AI Mode Toggle Button */}
+        {/* Advanced Filters Button */}
         <button
           type="button"
-          className={`floating-search-ai-toggle ${isAiMode ? 'floating-search-ai-toggle--active' : 'floating-search-ai-toggle--inactive'}`}
-          onClick={() => {
-            setIsAiMode(!isAiMode);
-            if (inputRef.current) inputRef.current.focus();
-          }}
-          title={isAiMode ? 'AI Mode is ON (Click to switch to standard search)' : 'Turn ON AI Mode'}
+          className="search-advanced-filters-btn"
+          onClick={onOpenAdvancedFilters}
         >
-          <span className="floating-search-ai-toggle-sparkle">✨</span>
-          <span>AI Mode</span>
-        </button>
-
-        {/* Submit Search Button */}
-        <button 
-          type="submit" 
-          className="floating-search-submit-btn"
-          title="Search"
-        >
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-            <circle cx="11" cy="11" r="8" />
-            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+            <line x1="4" y1="21" x2="4" y2="14" />
+            <line x1="4" y1="10" x2="4" y2="3" />
+            <line x1="12" y1="21" x2="12" y2="12" />
+            <line x1="12" y1="8" x2="12" y2="3" />
+            <line x1="20" y1="21" x2="20" y2="16" />
+            <line x1="20" y1="12" x2="20" y2="3" />
+            <line x1="1" y1="14" x2="7" y2="14" />
+            <line x1="9" y1="8" x2="15" y2="8" />
+            <line x1="17" y1="16" x2="23" y2="16" />
           </svg>
+          <span>Advanced filters</span>
+          {activeFilterCount > 0 && (
+            <span className="search-advanced-filters-badge">{activeFilterCount}</span>
+          )}
         </button>
-      </form>
-
-      {/* ── Suggestions Row Directly Below Search ── */}
-      <div className="floating-search-suggestions-row">
-        <span className="floating-search-suggestions-label">
-          <span>Suggestions:</span>
-        </span>
-        <div className="floating-search-suggestions-list">
-          {RICH_SEARCH_SUGGESTIONS.map((item) => (
-            <button
-              key={item.label}
-              type="button"
-              className="floating-search-suggestion-chip"
-              onClick={() => handleSelectSuggestion(item.query)}
-            >
-              {item.label}
-            </button>
-          ))}
-        </div>
       </div>
 
-      {/* ── Dropdown Panel (Google-Style AI Overview + Results) ── */}
-      {isDropdownOpen && (
-        <div className="floating-search-dropdown">
+      {/* ── MODE 1: UNIVERSAL INTELLIGENT SEARCH INPUT ── */}
+      {mode === 'search' && (
+        <div className="search-input-card">
+          <form 
+            className={`search-input-box ${isFocused ? 'search-input-box--focused' : ''}`}
+            onSubmit={handleSearchSubmit}
+          >
+            <div className="search-input-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748B" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              </svg>
+            </div>
 
-          {/* 1. Google-Style ✨ Setu AI Overview */}
-          {isAiMode && aiOverview && (
-            <div className="search-dropdown-ai-overview">
-              <div className="search-dropdown-ai-header">
-                <span className="search-dropdown-ai-badge">
-                  <span>✨</span>
-                  <span>Setu AI Overview</span>
-                </span>
-                <span className="search-dropdown-ai-mode-tag">Generative AI</span>
-              </div>
+            <input
+              ref={inputRef}
+              type="text"
+              className="search-input-field"
+              value={query}
+              placeholder={query ? '' : placeholderText}
+              onChange={(e) => {
+                setQuery(e.target.value);
+                setIsFocused(true);
+                setActiveIndex(-1);
+              }}
+              onFocus={() => setIsFocused(true)}
+              onKeyDown={handleKeyDown}
+              aria-label="Search devices, models, features or describe what you need"
+            />
 
-              <h3 className="search-dropdown-ai-question">{aiOverview.question}</h3>
-              <p className="search-dropdown-ai-text">{aiOverview.summary}</p>
+            {query.length > 0 && (
+              <button
+                type="button"
+                className="search-input-clear-btn"
+                onClick={() => {
+                  setQuery('');
+                  setActiveIndex(-1);
+                  if (inputRef.current) inputRef.current.focus();
+                }}
+                title="Clear query"
+              >
+                ✕
+              </button>
+            )}
 
-              {/* Key Takeaways */}
-              {aiOverview.bullets && aiOverview.bullets.length > 0 && (
-                <ul className="search-dropdown-ai-bullets">
-                  {aiOverview.bullets.map((b, idx) => {
-                    const parts = b.split(':');
-                    return (
-                      <li key={idx}>
-                        {parts.length > 1 ? (
-                          <>
-                            <strong>{parts[0]}:</strong>
-                            <span>{parts.slice(1).join(':')}</span>
-                          </>
-                        ) : (
-                          <span>{b}</span>
-                        )}
-                      </li>
-                    );
-                  })}
-                </ul>
-              )}
+            <button type="submit" className="search-input-submit-btn" title="Submit search">
+              <span>Find hardware</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round">
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg>
+            </button>
+          </form>
 
-              {/* Recommended Solution Card */}
-              {aiOverview.recommended && (
-                <div 
-                  className="search-dropdown-ai-recom-card"
-                  onClick={() => {
-                    handleRecordSearch(aiOverview.question, 'AI Overview');
-                    setIsDropdownOpen(false);
-                    navigate(aiOverview.recommended.path);
-                  }}
-                >
-                  <div className="search-dropdown-ai-recom-thumb">
-                    <img 
-                      src={getAssetUrl(aiOverview.recommended.image)} 
-                      alt={aiOverview.recommended.name} 
-                    />
-                  </div>
-                  <div className="search-dropdown-ai-recom-info">
-                    <span className="search-dropdown-ai-recom-tag">{aiOverview.recommended.badge}</span>
-                    <span className="search-dropdown-ai-recom-name">{aiOverview.recommended.name}</span>
-                    <span className="search-dropdown-ai-recom-price">{aiOverview.recommended.price}</span>
-                  </div>
-                  <button type="button" className="search-dropdown-ai-recom-btn">
-                    View Details →
-                  </button>
-                </div>
-              )}
-
-              {/* Follow-up Questions (Like Google AI Mode) */}
-              {aiOverview.followUps && (
-                <div className="search-dropdown-ai-followups">
-                  <span className="search-dropdown-ai-followup-label">Ask a follow up:</span>
-                  {aiOverview.followUps.map((fu, idx) => (
+          {/* Search Suggestions when field is empty */}
+          {!query.trim() && (
+            <div className="search-suggestions-container">
+              <div className="search-suggestions-group">
+                <span className="search-suggestions-label">Popular searches:</span>
+                <div className="search-suggestions-chips">
+                  {POPULAR_SEARCHES.map(item => (
                     <button
-                      key={idx}
+                      key={item.label}
                       type="button"
-                      className="search-dropdown-ai-followup-chip"
-                      onClick={() => handleSelectSuggestion(fu)}
+                      className="search-suggestion-chip"
+                      onClick={() => {
+                        setQuery(item.query);
+                        setIsFocused(true);
+                      }}
                     >
-                      {fu}
+                      {item.label}
                     </button>
                   ))}
                 </div>
-              )}
-            </div>
-          )}
-
-          {/* 2. Direct Matching Hardware Products */}
-          {query.trim().length > 0 && matchingHardware.length > 0 && (
-            <div className="search-dropdown-section">
-              <div className="search-dropdown-section-header">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-                  <rect x="2" y="7" width="20" height="14" rx="2" />
-                  <path d="M16 7V5a2 2 0 0 0-4 0v2" />
-                </svg>
-                <span>Matching Hardware ({matchingHardware.length})</span>
               </div>
-              <div className="search-dropdown-items-list">
-                {matchingHardware.map((prod) => {
-                  const badge = getProductBadge(prod);
-                  return (
-                    <div
-                      key={prod.id}
-                      className="search-dropdown-item"
+
+              <div className="search-suggestions-group">
+                <span className="search-suggestions-label">Or search by problem:</span>
+                <div className="search-suggestions-chips">
+                  {SEARCH_BY_PROBLEM.map(item => (
+                    <button
+                      key={item.label}
+                      type="button"
+                      className="search-suggestion-chip search-suggestion-chip--problem"
                       onClick={() => {
-                        handleRecordSearch(prod.name, prod.category || 'Hardware');
-                        setIsDropdownOpen(false);
-                        navigate(`/hardware/${prod.slug}`);
+                        setQuery(item.query);
+                        setIsFocused(true);
                       }}
                     >
-                      <div className="search-dropdown-thumb">
-                        <img src={getAssetUrl(prod.image)} alt={prod.name} />
-                      </div>
-                      <div className="search-dropdown-info">
-                        <div className="search-dropdown-title-row">
-                          <span className="search-dropdown-title">{prod.name}</span>
-                          {badge && (
-                            <span className="search-dropdown-badge" style={{ background: badge.color }}>
-                              {badge.label}
-                            </span>
-                          )}
-                        </div>
-                        <span className="search-dropdown-desc">{prod.shortDescription}</span>
-                      </div>
-                      <span className="search-dropdown-price">₹{prod.price?.toLocaleString('en-IN')}</span>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-          {/* 3. Direct Matching Software Solutions */}
-          {query.trim().length > 0 && matchingSolutions.length > 0 && (
-            <div className="search-dropdown-section">
-              <div className="search-dropdown-section-header">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-                  <rect x="3" y="3" width="18" height="18" rx="2" />
-                  <path d="M9 9h6v6H9z" />
-                </svg>
-                <span>Telematics Platforms</span>
-              </div>
-              <div className="search-dropdown-items-list">
-                {matchingSolutions.map((sol) => (
-                  <div
-                    key={sol.id}
-                    className="search-dropdown-item"
-                    onClick={() => {
-                      handleRecordSearch(sol.name, 'Software');
-                      setIsDropdownOpen(false);
-                      navigate(`/solutions`);
-                    }}
-                  >
-                    <div className="search-dropdown-thumb" style={{ background: sol.color + '15' }}>
-                      <span style={{ fontSize: '18px' }}>{sol.icon}</span>
-                    </div>
-                    <div className="search-dropdown-info">
-                      <span className="search-dropdown-title">{sol.name}</span>
-                      <span className="search-dropdown-desc">{sol.description}</span>
-                    </div>
-                    <span className="search-dropdown-link-text">Explore →</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* 4. Matching Auto Parts */}
-          {query.trim().length > 0 && matchingParts.length > 0 && (
-            <div className="search-dropdown-section">
-              <div className="search-dropdown-section-header">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-                  <circle cx="12" cy="12" r="9" />
-                  <path d="M12 3v3m0 12v3M3 12h3m12 0h3" />
-                </svg>
-                <span>Verified Auto Parts</span>
-              </div>
-              <div className="search-dropdown-items-list">
-                {matchingParts.map((part) => (
-                  <div
-                    key={part.id}
-                    className="search-dropdown-item"
-                    onClick={() => {
-                      handleRecordSearch(part.name, 'Auto Parts');
-                      setIsDropdownOpen(false);
-                      navigate(`/auto-parts/${part.slug}`);
-                    }}
-                  >
-                    <div className="search-dropdown-thumb">
-                      <img src={getAssetUrl(part.image)} alt={part.name} />
-                    </div>
-                    <div className="search-dropdown-info">
-                      <span className="search-dropdown-title">{part.name}</span>
-                      <span className="search-dropdown-desc">{part.brand} · Part #{part.partNumber}</span>
-                    </div>
-                    <span className="search-dropdown-price">₹{part.price?.toLocaleString('en-IN')}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* 5. Recommended AI Queries & Recent Searches when Empty */}
-          {query.trim().length === 0 && (
-            <div className="search-dropdown-section">
-              <div className="search-dropdown-section-header">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-                  <circle cx="12" cy="12" r="10" />
-                  <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
-                  <line x1="12" y1="17" x2="12.01" y2="17" />
-                </svg>
-                <span>Trending AI Questions You Can Ask</span>
-              </div>
-              <div className="search-dropdown-faq-list">
-                {FLEET_KNOWLEDGE_BASE.slice(0, 4).map((faq) => (
-                  <button
-                    key={faq.id}
-                    type="button"
-                    className="search-dropdown-faq-btn"
-                    onClick={() => handleSelectSuggestion(faq.question)}
-                  >
-                    <span className="search-dropdown-faq-icon">✨</span>
-                    <span className="search-dropdown-faq-text">{faq.question}</span>
-                  </button>
-                ))}
-              </div>
-
-              {lastSearches.length > 0 && (
-                <div className="search-dropdown-last-searches">
-                  <div className="search-dropdown-subhead">
-                    <span>Recent Searches</span>
-                    <button 
-                      type="button" 
-                      className="search-dropdown-clear-btn"
-                      onClick={() => {
-                        try { localStorage.removeItem('setu_last_searches'); } catch (e) {}
-                        setLastSearches([]);
-                      }}
-                    >
-                      Clear
+                      <span className="search-suggestion-chip__dot" />
+                      <span>{item.label}</span>
                     </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* ── COMMAND PALETTE DROPDOWN (When Typing) ── */}
+          {isFocused && query.trim() && commandPaletteResults && (
+            <div className="command-palette-dropdown">
+              {commandPaletteResults.totalCount === 0 ? (
+                <div className="command-palette-empty">
+                  <p>No direct matches found for "<strong>{query}</strong>"</p>
+                  <span>Press Enter to run broad catalog search or try our Smart Finder advisor.</span>
+                </div>
+              ) : (
+                <div className="command-palette-groups">
+                  {/* 1. Products */}
+                  {commandPaletteResults.products.length > 0 && (
+                    <div className="command-palette-group">
+                      <div className="command-palette-group-title">
+                        <span>Products</span>
+                        <span className="command-palette-group-count">{commandPaletteResults.products.length}</span>
+                      </div>
+                      {commandPaletteResults.products.map(prod => {
+                        return (
+                          <div
+                            key={prod.id}
+                            className="command-palette-item"
+                            onClick={() => {
+                              setIsFocused(false);
+                              navigate(`/hardware/${prod.slug}`);
+                            }}
+                          >
+                            <img src={getAssetUrl(prod.image)} alt={prod.name} className="command-palette-item__thumb" />
+                            <div className="command-palette-item__info">
+                              <div className="command-palette-item__title-row">
+                                <span className="command-palette-item__name">{prod.name}</span>
+                                <span className="command-palette-item__cat-pill">{prod.category}</span>
+                              </div>
+                              <span className="command-palette-item__desc">{prod.shortDescription}</span>
+                            </div>
+                            <div className="command-palette-item__right">
+                              <span className="command-palette-item__price">₹{prod.price?.toLocaleString('en-IN')}</span>
+                              <span className="command-palette-item__arrow">→</span>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+
+                  {/* 2. Categories */}
+                  {commandPaletteResults.categories.length > 0 && (
+                    <div className="command-palette-group">
+                      <div className="command-palette-group-title">Categories</div>
+                      {commandPaletteResults.categories.map(cat => (
+                        <div
+                          key={cat.id}
+                          className="command-palette-item command-palette-item--compact"
+                          onClick={() => {
+                            setIsFocused(false);
+                            navigate(`/hardware?category=${cat.id}`);
+                          }}
+                        >
+                          <div className="command-palette-item__icon-box">📁</div>
+                          <div className="command-palette-item__info">
+                            <span className="command-palette-item__name">{cat.label}</span>
+                            <span className="command-palette-item__subtext">
+                              {(cat.children || []).map(c => c.label).slice(0, 3).join(' · ')}
+                            </span>
+                          </div>
+                          <span className="command-palette-item__arrow">View Category →</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* 3. Features */}
+                  {commandPaletteResults.features.length > 0 && (
+                    <div className="command-palette-group">
+                      <div className="command-palette-group-title">Features</div>
+                      {commandPaletteResults.features.map(f => (
+                        <div
+                          key={f.name}
+                          className="command-palette-item command-palette-item--compact"
+                          onClick={() => {
+                            setIsFocused(false);
+                            navigate(`/hardware?category=${f.slug}`);
+                          }}
+                        >
+                          <div className="command-palette-item__icon-box">⚙️</div>
+                          <div className="command-palette-item__info">
+                            <span className="command-palette-item__name">{f.name}</span>
+                            <span className="command-palette-item__subtext">{f.desc}</span>
+                          </div>
+                          <span className="command-palette-item__arrow">Explore →</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* 4. Use Cases */}
+                  {commandPaletteResults.useCases.length > 0 && (
+                    <div className="command-palette-group">
+                      <div className="command-palette-group-title">Use Cases</div>
+                      {commandPaletteResults.useCases.map(uc => (
+                        <div
+                          key={uc.id}
+                          className="command-palette-item command-palette-item--compact"
+                          onClick={() => {
+                            setIsFocused(false);
+                            navigate(`/hardware?search=${encodeURIComponent(uc.filterQuery)}`);
+                          }}
+                        >
+                          <div className="command-palette-item__icon-box">{uc.icon}</div>
+                          <div className="command-palette-item__info">
+                            <span className="command-palette-item__name">{uc.title}</span>
+                            <span className="command-palette-item__subtext">{uc.desc}</span>
+                          </div>
+                          <span className="command-palette-item__arrow">Match Hardware →</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Command Palette Footer */}
+              <div className="command-palette-footer">
+                <span className="command-palette-footer__hint">Press <strong>Enter</strong> to view all results or use <strong>↑</strong> <strong>↓</strong> to navigate</span>
+                <button
+                  type="button"
+                  className="command-palette-footer__btn"
+                  onClick={handleSearchSubmit}
+                >
+                  View full search results for "{query}" →
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* ── MODE 2: SMART FINDER (Guided AI Hardware Advisor) ── */}
+      {mode === 'finder' && (
+        <div className="smart-finder-card">
+          {!finderSubmitted ? (
+            <div className="smart-finder-wizard">
+              {/* Progress & Header */}
+              <div className="smart-finder-header">
+                <div className="smart-finder-badge">
+                  <span>✦</span>
+                  <span>AI Hardware Advisor</span>
+                </div>
+                <div className="smart-finder-step-meta">
+                  <span>Step {finderStep} of 4</span>
+                  <div className="smart-finder-progress-track">
+                    <div 
+                      className="smart-finder-progress-bar" 
+                      style={{ width: `${(finderStep / 4) * 100}%` }}
+                    />
                   </div>
-                  <div className="search-dropdown-recent-chips">
-                    {lastSearches.map((item, idx) => (
+                </div>
+              </div>
+
+              {/* Step 1: Goal */}
+              {finderStep === 1 && (
+                <div className="smart-finder-step">
+                  <h3 className="smart-finder-question">What are you trying to achieve?</h3>
+                  <p className="smart-finder-caption">Select the primary business goal for your fleet or asset deployment.</p>
+                  
+                  <div className="smart-finder-grid-goals">
+                    {SMART_FINDER_GOALS.map(goal => (
                       <button
-                        key={idx}
+                        key={goal.id}
                         type="button"
-                        className="search-dropdown-recent-chip"
-                        onClick={() => handleSelectSuggestion(item.query || item.text)}
+                        className={`smart-finder-chip-card ${finderAnswers.goal?.id === goal.id ? 'smart-finder-chip-card--active' : ''}`}
+                        onClick={() => handleSelectGoal(goal)}
                       >
-                        {item.text}
+                        <span className="smart-finder-chip-card__icon">{goal.icon}</span>
+                        <div className="smart-finder-chip-card__content">
+                          <span className="smart-finder-chip-card__title">{goal.label}</span>
+                          <span className="smart-finder-chip-card__desc">{goal.desc}</span>
+                        </div>
                       </button>
                     ))}
                   </div>
                 </div>
               )}
-            </div>
-          )}
 
-          {/* Footer View All */}
-          {query.trim().length > 0 && (
-            <div className="search-dropdown-footer">
-              <button
-                type="button"
-                className="search-dropdown-see-all"
-                onClick={handleSubmit}
-              >
-                Search all catalog items matching "{query}" →
-              </button>
-            </div>
-          )}
-
-        </div>
-      )}
-    </div>
-  );
-}
-
-/* ────────────────────────────────────────────────────────────
-   3. CATEGORY ICONS & SHOP BY CATEGORY SECTION
-──────────────────────────────────────────────────────────── */
-function VehicleTrackingIcon() {
-  return (
-    <svg width="30" height="30" viewBox="0 0 32 32" fill="none">
-      <rect x="7" y="6" width="18" height="15" rx="3" fill="#1E293B" stroke="#0F172A" strokeWidth="1.2"/>
-      <circle cx="11" cy="10" r="1.2" fill="#10B981"/>
-      <circle cx="15" cy="10" r="1.2" fill="#3B82F6"/>
-      <circle cx="19" cy="10" r="1.2" fill="#EF4444"/>
-      <rect x="10" y="14" width="12" height="3.5" rx="1" fill="#334155"/>
-      <path d="M10 21v4.5c0 1.2-1 2-2.5 2.5" stroke="#EF4444" strokeWidth="1.8" strokeLinecap="round"/>
-      <path d="M13 21v3.5c0 1.2-.6 2-1.8 2.5" stroke="#F59E0B" strokeWidth="1.8" strokeLinecap="round"/>
-      <path d="M16 21v5.5c0 1.2.6 1.8 1.8 2" stroke="#3B82F6" strokeWidth="1.8" strokeLinecap="round"/>
-      <path d="M19 21v4.5c0 1.2 1 2 2.5 2.5" stroke="#0F172A" strokeWidth="1.8" strokeLinecap="round"/>
-    </svg>
-  );
-}
-
-function VideoTelematicsIcon() {
-  return (
-    <svg width="30" height="30" viewBox="0 0 32 32" fill="none">
-      <rect x="4" y="8" width="24" height="16" rx="4" fill="#0F172A" stroke="#1E293B" strokeWidth="1.2"/>
-      <path d="M12 8V5a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v3" fill="#334155"/>
-      <circle cx="16" cy="16" r="6" fill="#1E293B" stroke="#0284C7" strokeWidth="1.5"/>
-      <circle cx="16" cy="16" r="3.5" fill="#0369A1"/>
-      <circle cx="14.8" cy="14.8" r="1.2" fill="#BAE6FD"/>
-      <circle cx="24" cy="11.5" r="1" fill="#EF4444"/>
-    </svg>
-  );
-}
-
-function AssetTrackingIcon() {
-  return (
-    <svg width="30" height="30" viewBox="0 0 32 32" fill="none">
-      <path d="M10 13V9a6 6 0 1 1 12 0v4" stroke="#94A3B8" strokeWidth="2.8" strokeLinecap="round"/>
-      <rect x="7" y="13" width="18" height="14" rx="3.5" fill="#2563EB" stroke="#1D4ED8" strokeWidth="1.2"/>
-      <rect x="13.5" y="17" width="5" height="5" rx="1.5" fill="#93C5FD"/>
-      <path d="M16 22v2.5" stroke="#1D4ED8" strokeWidth="1.8" strokeLinecap="round"/>
-    </svg>
-  );
-}
-
-function PersonalSafetyIcon() {
-  return (
-    <svg width="30" height="30" viewBox="0 0 32 32" fill="none">
-      <path d="M14 4h4v3h-4z" fill="#2563EB" rx="1"/>
-      <rect x="9" y="7" width="14" height="20" rx="4" fill="#FFFFFF" stroke="#CBD5E1" strokeWidth="1.5"/>
-      <line x1="13" y1="11" x2="19" y2="11" stroke="#94A3B8" strokeWidth="1.2" strokeLinecap="round"/>
-      <line x1="14" y1="13.5" x2="18" y2="13.5" stroke="#94A3B8" strokeWidth="1.2" strokeLinecap="round"/>
-      <circle cx="16" cy="19.5" r="3.5" fill="#EF4444"/>
-      <circle cx="16" cy="19.5" r="1.5" fill="#FFFFFF"/>
-    </svg>
-  );
-}
-
-function FuelSensorsIcon() {
-  return (
-    <svg width="30" height="30" viewBox="0 0 32 32" fill="none">
-      <rect x="11" y="5" width="10" height="7" rx="2" fill="#F97316" stroke="#EA580C" strokeWidth="1.2"/>
-      <rect x="13" y="12" width="6" height="2" fill="#C2410C"/>
-      <line x1="16" y1="14" x2="16" y2="28" stroke="#0284C7" strokeWidth="3" strokeLinecap="round"/>
-      <line x1="14" y1="18" x2="18" y2="18" stroke="#BAE6FD" strokeWidth="1.2"/>
-      <line x1="14" y1="22" x2="18" y2="22" stroke="#BAE6FD" strokeWidth="1.2"/>
-      <line x1="14" y1="26" x2="18" y2="26" stroke="#BAE6FD" strokeWidth="1.2"/>
-    </svg>
-  );
-}
-
-function IoTSensorsIcon() {
-  return (
-    <svg width="30" height="30" viewBox="0 0 32 32" fill="none">
-      <rect x="7" y="10" width="18" height="15" rx="3" fill="#0EA5E9" stroke="#0284C7" strokeWidth="1.2"/>
-      <circle cx="16" cy="17" r="4" fill="#FFFFFF"/>
-      <circle cx="16" cy="17" r="2" fill="#0284C7"/>
-      <path d="M12 7a6 6 0 0 1 8 0" stroke="#0284C7" strokeWidth="1.6" strokeLinecap="round"/>
-      <path d="M9 4.5a10 10 0 0 1 14 0" stroke="#38BDF8" strokeWidth="1.6" strokeLinecap="round"/>
-      <circle cx="21" cy="13" r="1" fill="#10B981"/>
-    </svg>
-  );
-}
-
-function AccessoriesIcon() {
-  return (
-    <svg width="30" height="30" viewBox="0 0 32 32" fill="none">
-      <rect x="6" y="9" width="13" height="14" rx="2.5" fill="#1E293B" stroke="#0F172A" strokeWidth="1.2"/>
-      <line x1="9" y1="23" x2="9" y2="27" stroke="#F59E0B" strokeWidth="1.8" strokeLinecap="round"/>
-      <line x1="13" y1="23" x2="13" y2="27" stroke="#F59E0B" strokeWidth="1.8" strokeLinecap="round"/>
-      <line x1="16" y1="23" x2="16" y2="27" stroke="#F59E0B" strokeWidth="1.8" strokeLinecap="round"/>
-      <path d="M22 6v17" stroke="#006EFF" strokeWidth="2.2" strokeLinecap="round"/>
-      <circle cx="22" cy="5" r="2" fill="#006EFF"/>
-      <path d="M22 23c0 2 2 4 4 4" stroke="#EF4444" strokeWidth="1.6" strokeLinecap="round"/>
-    </svg>
-  );
-}
-
-function AllSolutionsIcon() {
-  return (
-    <svg width="30" height="30" viewBox="0 0 32 32" fill="none">
-      <rect x="6" y="6" width="8.5" height="8.5" rx="2.5" fill="#2563EB"/>
-      <rect x="17.5" y="6" width="8.5" height="8.5" rx="2.5" fill="#0EA5E9"/>
-      <rect x="6" y="17.5" width="8.5" height="8.5" rx="2.5" fill="#F59E0B"/>
-      <rect x="17.5" y="17.5" width="8.5" height="8.5" rx="2.5" fill="#10B981"/>
-    </svg>
-  );
-}
-
-function renderCategoryIcon(iconType) {
-  switch (iconType) {
-    case 'vehicle-tracking': return <VehicleTrackingIcon />;
-    case 'video-telematics': return <VideoTelematicsIcon />;
-    case 'asset-tracking': return <AssetTrackingIcon />;
-    case 'personal-safety': return <PersonalSafetyIcon />;
-    case 'fuel-sensors': return <FuelSensorsIcon />;
-    case 'iot-sensors': return <IoTSensorsIcon />;
-    case 'accessories': return <AccessoriesIcon />;
-    case 'all': return <AllSolutionsIcon />;
-    default: return <VehicleTrackingIcon />;
-  }
-}
-
-const CATEGORIES_DATA = [
-  {
-    id: 'vehicle-tracking',
-    title: 'Vehicle Tracking Devices',
-    count: '11 products',
-    path: '/hardware?category=vehicle-tracking',
-    iconType: 'vehicle-tracking'
-  },
-  {
-    id: 'video-telematics',
-    title: 'Video Telematics',
-    count: '8 products',
-    path: '/hardware?category=video-telematics',
-    iconType: 'video-telematics'
-  },
-  {
-    id: 'asset-logistics',
-    title: 'Asset & Logistics Tracking',
-    count: '3 products',
-    path: '/hardware?category=asset-logistics',
-    iconType: 'asset-tracking'
-  },
-  {
-    id: 'personal-safety',
-    title: 'Personal & Safety Tracking',
-    count: 'Available Soon',
-    path: '/hardware?category=personal-safety',
-    iconType: 'personal-safety'
-  },
-  {
-    id: 'fuel-sensors',
-    title: 'Fuel & Vehicle Sensors',
-    count: '1 product',
-    path: '/hardware?category=fuel-sensors',
-    iconType: 'fuel-sensors'
-  },
-  {
-    id: 'iot-sensors',
-    title: 'IoT Sensors',
-    count: 'Available Soon',
-    path: '/hardware?category=iot-sensors',
-    iconType: 'iot-sensors'
-  },
-  {
-    id: 'accessories',
-    title: 'Accessories',
-    count: 'Available Soon',
-    path: '/hardware?category=accessories',
-    iconType: 'accessories'
-  },
-  {
-    id: 'all',
-    title: 'All Hardware Solutions',
-    count: '23 products',
-    path: '/hardware',
-    iconType: 'all'
-  }
-];
-
-function ShopByCategorySection() {
-  const navigate = useNavigate();
-
-  return (
-    <div className="shop-category-section">
-      <div className="shop-category-section__header">
-        <div>
-          <h2 className="shop-category-section__title">Shop by category</h2>
-          <p className="shop-category-section__sub">
-            Everything a fleet needs, from the device to the licence to the technician.
-          </p>
-        </div>
-      </div>
-
-      <div className="shop-category-grid">
-        {CATEGORIES_DATA.map((cat) => (
-          <div
-            key={cat.id}
-            className="shop-category-card"
-            onClick={() => navigate(cat.path)}
-            title={`Browse ${cat.title}`}
-          >
-            <div className="shop-category-icon-box">
-              {renderCategoryIcon(cat.iconType)}
-            </div>
-            <div className="shop-category-info">
-              <h3 className="shop-category-name">{cat.title}</h3>
-              <p className="shop-category-count">{cat.count}</p>
-            </div>
-            <div className="shop-category-arrow">
-              <svg width="7" height="11" viewBox="0 0 7 11" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="1.5 1.5 5.5 5.5 1.5 9.5" />
-              </svg>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-/* ────────────────────────────────────────────────────────────
-   4. SECONDARY PROGRAMS & SOLUTIONS SLIDER (Below Categories)
-──────────────────────────────────────────────────────────── */
-const HOME_BANNERS = [
-  {
-    id: 'finance',
-    tag: 'SETU FINANCE',
-    tagColor: '#FBBF24',
-    title: 'Buy hardware now, pay in EMIs. No CIBIL check.',
-    desc: 'Your limit is set from live fleet data through system integration, so new and small fleet owners qualify too.',
-    type: 'pricing',
-    amount: '₹22,565',
-    subText: '/month for ₹2.5 lakh over 12 months',
-    btnText: 'Check my limit →',
-    path: '/finance',
-    cardClass: 'home-banner-card--finance'
-  },
-  {
-    id: 'autoparts',
-    tag: 'AUTO PARTS · BETA',
-    tagColor: '#34D399',
-    title: 'Enter a vehicle number. See every part that fits.',
-    desc: 'From a single screw to the front bumper, matched to the exact make, model and year.',
-    type: 'plate-search',
-    btnText: 'Find parts',
-    path: '/auto-parts',
-    cardClass: 'home-banner-card--autoparts'
-  },
-  {
-    id: 'ais140',
-    tag: 'GOVERNMENT APPROVED · AIS-140',
-    tagColor: '#38BDF8',
-    title: 'ARAI & ICAT Certified AIS-140 GPS with Emergency SOS.',
-    desc: 'Mandatory for commercial vehicles, transport buses & mining fleets with dual embedded eSIMs and panic buttons.',
-    type: 'pricing',
-    amount: '₹3,800',
-    subText: '/device · Bulk slabs start at ₹3,325',
-    btnText: 'Explore AIS-140 →',
-    path: '/hardware?category=vehicle-tracking',
-    cardClass: 'home-banner-card--ais140'
-  },
-  {
-    id: 'video',
-    tag: 'AI VIDEO TELEMATICS · SMART CAMERAS',
-    tagColor: '#C084FC',
-    title: 'Detect fatigue & prevent collisions with ADAS & DMS.',
-    desc: 'Dual-facing 4G AI cameras detecting driver drowsiness, phone use, and forward collision in real time.',
-    type: 'pricing',
-    amount: '₹8,900',
-    subText: '/unit · Includes 4G cloud live streaming',
-    btnText: 'View AI Dashcams →',
-    path: '/hardware?category=video-telematics',
-    cardClass: 'home-banner-card--video'
-  },
-  {
-    id: 'solutions',
-    tag: 'TELEMATICS PLATFORMS · 10+ SOLUTIONS',
-    tagColor: '#FDE047',
-    title: 'Pre-integrated with Trakzee, SmartBus & TaskEye.',
-    desc: 'Zero configuration needed. Devices connect automatically out of the box with ready-to-use cloud telematics and APIs.',
-    type: 'pricing',
-    amount: 'Instant Sync',
-    subText: 'Over-the-air firmware updates & lifetime API access',
-    btnText: 'Explore Solutions →',
-    path: '/solutions',
-    cardClass: 'home-banner-card--solutions'
-  }
-];
-
-function HomeBannerSlider() {
-  const navigate = useNavigate();
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [vehiclePlate, setVehiclePlate] = useState('');
-  const [isPaused, setIsPaused] = useState(false);
-  const totalBanners = HOME_BANNERS.length;
-
-  useEffect(() => {
-    if (isPaused) return;
-    const timer = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % totalBanners);
-    }, 5000);
-    return () => clearInterval(timer);
-  }, [isPaused, totalBanners]);
-
-  const handlePrev = () => {
-    setCurrentIndex((prev) => (prev - 1 + totalBanners) % totalBanners);
-  };
-
-  const handleNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % totalBanners);
-  };
-
-  const handlePlateSearch = (e) => {
-    if (e) e.preventDefault();
-    const cleanPlate = vehiclePlate.trim() || 'GJ 15 AT 7788';
-    navigate(`/auto-parts?reg=${encodeURIComponent(cleanPlate.replace(/\s+/g, ''))}`);
-  };
-
-  const sliderCards = [...HOME_BANNERS, ...HOME_BANNERS.slice(0, 2)];
-
-  return (
-    <section 
-      className="home-banner-slider-section"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
-      aria-label="Programs & Solutions Banners"
-    >
-      <div className="home-banner-slider-header">
-        <div>
-          <h2 className="home-banner-slider-title">Programs &amp; Solutions</h2>
-          <p className="home-banner-slider-sub">
-            Financing, vehicle compatibility search, certified hardware, and fleet software
-          </p>
-        </div>
-
-        <div className="home-banner-slider-controls">
-          <button 
-            type="button" 
-            className="home-banner-slider-btn" 
-            onClick={handlePrev}
-            aria-label="Previous banners"
-            title="Previous"
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="15 18 9 12 15 6" />
-            </svg>
-          </button>
-          <button 
-            type="button" 
-            className="home-banner-slider-btn" 
-            onClick={handleNext}
-            aria-label="Next banners"
-            title="Next"
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="9 18 15 12 9 6" />
-            </svg>
-          </button>
-        </div>
-      </div>
-
-      <div className="home-banner-slider-viewport">
-        <div 
-          className="home-banner-slider-track"
-          style={{ '--slide-index': currentIndex }}
-        >
-          {sliderCards.map((banner, idx) => (
-            <div 
-              key={`${banner.id}-${idx}`}
-              className={`home-banner-card ${banner.cardClass}`}
-              onClick={() => {
-                if (banner.type !== 'plate-search') {
-                  navigate(banner.path);
-                }
-              }}
-            >
-              <div className="home-banner-card__top">
-                <span className="home-banner-card__tag" style={{ color: banner.tagColor }}>
-                  {banner.tag}
-                </span>
-                <h3 className="home-banner-card__title">{banner.title}</h3>
-                <p className="home-banner-card__desc">{banner.desc}</p>
-              </div>
-
-              <div className="home-banner-card__bottom">
-                {banner.type === 'plate-search' ? (
-                  <form 
-                    className="home-banner-plate-box" 
-                    onSubmit={handlePlateSearch} 
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <div className="home-banner-plate-input-wrap">
-                      <div className="home-banner-plate-ind">
-                        <span className="home-banner-plate-chakra">☸</span>
-                        <span className="home-banner-plate-ind-text">IND</span>
-                      </div>
-                      <input
-                        type="text"
-                        className="home-banner-plate-input"
-                        placeholder="GJ 15 AT 7788"
-                        value={vehiclePlate}
-                        onChange={(e) => setVehiclePlate(e.target.value)}
-                        aria-label="Enter vehicle number"
-                      />
-                    </div>
-                    <button type="submit" className="home-banner-plate-btn">
-                      {banner.btnText}
+              {/* Step 2: Vehicle Type */}
+              {finderStep === 2 && (
+                <div className="smart-finder-step">
+                  <div className="smart-finder-nav-row">
+                    <button type="button" className="smart-finder-back-btn" onClick={() => setFinderStep(1)}>
+                      ← Back
                     </button>
-                  </form>
-                ) : (
-                  <div className="home-banner-price-row">
-                    <div className="home-banner-price-info">
-                      <span className="home-banner-amount">{banner.amount}</span>
-                      <span className="home-banner-subtext">{banner.subText}</span>
-                    </div>
+                    <button type="button" className="smart-finder-skip-btn" onClick={() => setFinderStep(3)}>
+                      Skip question →
+                    </button>
+                  </div>
+
+                  <h3 className="smart-finder-question">What type of vehicles do you operate?</h3>
+                  <p className="smart-finder-caption">Hardware recommendations will filter for proper voltage ratings and mounting specs.</p>
+
+                  <div className="smart-finder-grid-vehicles">
+                    {SMART_FINDER_VEHICLES.map(v => (
+                      <button
+                        key={v.id}
+                        type="button"
+                        className={`smart-finder-chip-card ${finderAnswers.vehicle?.id === v.id ? 'smart-finder-chip-card--active' : ''}`}
+                        onClick={() => handleSelectVehicle(v)}
+                      >
+                        <span className="smart-finder-chip-card__icon">{v.icon}</span>
+                        <div className="smart-finder-chip-card__content">
+                          <span className="smart-finder-chip-card__title">{v.label}</span>
+                          <span className="smart-finder-chip-card__desc">{v.desc}</span>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Step 3: Dynamic Question */}
+              {finderStep === 3 && currentDynamicQuestion && (
+                <div className="smart-finder-step">
+                  <div className="smart-finder-nav-row">
+                    <button type="button" className="smart-finder-back-btn" onClick={() => setFinderStep(2)}>
+                      ← Back
+                    </button>
+                    <button type="button" className="smart-finder-skip-btn" onClick={() => setFinderStep(4)}>
+                      Skip question →
+                    </button>
+                  </div>
+
+                  <h3 className="smart-finder-question">{currentDynamicQuestion.title}</h3>
+                  <p className="smart-finder-caption">Fine-tune the exact features required for your operational scenario.</p>
+
+                  <div className="smart-finder-grid-specific">
+                    {currentDynamicQuestion.options.map(opt => (
+                      <button
+                        key={opt.id}
+                        type="button"
+                        className={`smart-finder-chip-card ${finderAnswers.specific?.id === opt.id ? 'smart-finder-chip-card--active' : ''}`}
+                        onClick={() => handleSelectSpecific(opt)}
+                      >
+                        <div className="smart-finder-chip-card__content">
+                          <span className="smart-finder-chip-card__title">{opt.label}</span>
+                          <span className="smart-finder-chip-card__desc">{opt.desc}</span>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Step 4: Existing GPS Setup */}
+              {finderStep === 4 && (
+                <div className="smart-finder-step">
+                  <div className="smart-finder-nav-row">
+                    <button type="button" className="smart-finder-back-btn" onClick={() => setFinderStep(3)}>
+                      ← Back
+                    </button>
+                  </div>
+
+                  <h3 className="smart-finder-question">Do you already use GPS hardware?</h3>
+                  <p className="smart-finder-caption">Helps determine whether you need standalone sensors, retrofit kits, or full tracker devices.</p>
+
+                  <div className="smart-finder-grid-existing">
                     <button
                       type="button"
-                      className="home-banner-cta-btn"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        navigate(banner.path);
-                      }}
+                      className="smart-finder-chip-card"
+                      onClick={() => handleSelectExistingGps('yes')}
                     >
-                      {banner.btnText}
+                      <div className="smart-finder-chip-card__content">
+                        <span className="smart-finder-chip-card__title">Yes, already installed</span>
+                        <span className="smart-finder-chip-card__desc">Looking for compatible add-on sensors, dashcams, or electronic locks</span>
+                      </div>
                     </button>
+
+                    <button
+                      type="button"
+                      className="smart-finder-chip-card"
+                      onClick={() => handleSelectExistingGps('no')}
+                    >
+                      <div className="smart-finder-chip-card__content">
+                        <span className="smart-finder-chip-card__title">No, fresh deployment</span>
+                        <span className="smart-finder-chip-card__desc">Need complete ready-to-run telematics hardware packages</span>
+                      </div>
+                    </button>
+
+                    <button
+                      type="button"
+                      className="smart-finder-chip-card"
+                      onClick={() => handleSelectExistingGps('not-sure')}
+                    >
+                      <div className="smart-finder-chip-card__content">
+                        <span className="smart-finder-chip-card__title">Not sure / Mixed setup</span>
+                        <span className="smart-finder-chip-card__desc">Show best-fit all-in-one recommendations</span>
+                      </div>
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : (
+            /* ── Smart Finder Recommendations Result ── */
+            <div className="smart-finder-results">
+              <div className="smart-finder-results__top">
+                <div className="smart-finder-results__title-box">
+                  <div className="smart-finder-badge">
+                    <span>✦</span>
+                    <span>Intelligent Match</span>
+                  </div>
+                  <h3 className="smart-finder-results__title">Recommended for your requirement</h3>
+                  <p className="smart-finder-results__summary">
+                    Based on your criteria: <strong>{finderAnswers.goal?.label}</strong>
+                    {finderAnswers.vehicle?.label && <span> · {finderAnswers.vehicle?.label}</span>}
+                    {finderAnswers.specific?.label && <span> · {finderAnswers.specific?.label}</span>}
+                  </p>
+                </div>
+
+                <button
+                  type="button"
+                  className="smart-finder-reset-btn"
+                  onClick={handleResetFinder}
+                >
+                  <span>Modify Criteria</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2" />
+                  </svg>
+                </button>
+              </div>
+
+              {/* 3 Top Recommendation Cards */}
+              <div className="smart-finder-cards-grid">
+                {smartRecommendations.map((rec, idx) => {
+                  const isCompared = selectedCompareIds.includes(rec.product.id);
+                  return (
+                    <div key={rec.product.id} className="smart-recom-card">
+                      <div className="smart-recom-card__header">
+                        <span className="smart-recom-card__match-pill">
+                          <span>✦</span> {rec.matchPercent}% Match
+                        </span>
+                        <span className="smart-recom-card__cat">{rec.product.category}</span>
+                      </div>
+
+                      <div className="smart-recom-card__body">
+                        <div className="smart-recom-card__img-box">
+                          <img src={getAssetUrl(rec.product.image)} alt={rec.product.name} />
+                        </div>
+                        <h4 className="smart-recom-card__name">{rec.product.name}</h4>
+                        <span className="smart-recom-card__price">₹{rec.product.price?.toLocaleString('en-IN')} <small>+ GST</small></span>
+
+                        {/* "Why it fits" bullets */}
+                        <div className="smart-recom-card__why-box">
+                          <span className="smart-recom-card__why-title">Why it fits:</span>
+                          <ul className="smart-recom-card__why-list">
+                            {rec.whyBullets.map((bullet, bIdx) => (
+                              <li key={bIdx}>{bullet}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+
+                      <div className="smart-recom-card__footer">
+                        <button
+                          type="button"
+                          className="smart-recom-card__btn-view"
+                          onClick={() => navigate(`/hardware/${rec.product.slug}`)}
+                        >
+                          View Product →
+                        </button>
+
+                        <button
+                          type="button"
+                          className={`smart-recom-card__btn-compare ${isCompared ? 'smart-recom-card__btn-compare--active' : ''}`}
+                          onClick={() => onSelectProductForCompare(rec.product)}
+                        >
+                          {isCompared ? '✓ Added' : '+ Compare'}
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Explainable AI Toggle: "Why are these recommended?" */}
+              <div className="smart-finder-explainable">
+                <button
+                  type="button"
+                  className="smart-finder-explainable__toggle"
+                  onClick={() => setWhyExpanded(!whyExpanded)}
+                >
+                  <span>✦ Why are these recommended?</span>
+                  <span className="smart-finder-explainable__chevron">{whyExpanded ? '▲' : '▼'}</span>
+                </button>
+
+                {whyExpanded && (
+                  <div className="smart-finder-explainable__content">
+                    <p>
+                      Setu's recommendation model evaluated 23 enterprise telematics devices against your input requirements.
+                      Products are scored based on four technical pillars:
+                    </p>
+                    <div className="smart-finder-explainable__grid">
+                      <div className="smart-finder-explainable__item">
+                        <strong>1. Protocol & Voltage Compatibility</strong>
+                        <span>Matches your vehicle type's electrical range (9V–36V) and protocol requirements (J1939, BLE 5.0, RS485).</span>
+                      </div>
+                      <div className="smart-finder-explainable__item">
+                        <strong>2. Environmental Casing</strong>
+                        <span>Ensures necessary IP65, IP67 or IP68 water/dust ingress protection for harsh road conditions.</span>
+                      </div>
+                      <div className="smart-finder-explainable__item">
+                        <strong>3. Telematics Cloud Integration</strong>
+                        <span>Pre-integrated firmware drivers with zero manual protocol mapping needed for standard fleet platforms.</span>
+                      </div>
+                      <div className="smart-finder-explainable__item">
+                        <strong>4. Statutory Regulatory Adherence</strong>
+                        <span>Verifies state transport and MoRTH AIS-140 compliance when commercial passenger or mining use cases are selected.</span>
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>
             </div>
-          ))}
+          )}
+        </div>
+      )}
+    </section>
+  );
+}
+
+/* ────────────────────────────────────────────────────────────
+   6. ADVANCED FILTERS SLIDE-OVER DRAWER
+──────────────────────────────────────────────────────────── */
+function AdvancedFiltersDrawer({ isOpen, onClose, filters, setFilters, onApply }) {
+  if (!isOpen) return null;
+
+  const CATEGORY_OPTIONS = [
+    { id: 'vehicle-tracking', label: 'GPS Tracker' },
+    { id: 'video-telematics', label: 'Camera / MDVR' },
+    { id: 'fuel-sensors', label: 'Fuel Sensor' },
+    { id: 'iot-sensors', label: 'IoT Sensor' },
+    { id: 'asset-logistics', label: 'E-Lock & Asset' },
+    { id: 'obd-gps-tracker', label: 'OBD Device' },
+    { id: 'accessories', label: 'Accessories' }
+  ];
+
+  const VEHICLE_OPTIONS = ['Commercial Truck', 'Passenger Bus', 'Car / Taxi', 'Heavy Equipment', 'Container / Cargo', 'Two Wheeler'];
+  const CONNECTIVITY_OPTIONS = ['4G LTE', '2G GSM', 'Bluetooth (BLE)', 'Wi-Fi', 'GNSS / GPS'];
+  const PROTOCOL_OPTIONS = ['TCP / UDP', 'MQTT', 'CAN J1939', 'RS485', 'RS232', 'BLE 5.0'];
+  const CAPABILITY_OPTIONS = ['Live GPS Tracking', 'Fuel Level & Theft', 'Driver Fatigue (DMS)', 'Collision Warning (ADAS)', 'Emergency SOS Panic', 'Remote Immobilization', 'Temperature & Cold Chain', 'Remote OTP Unlocking'];
+  const CERTIFICATION_OPTIONS = ['ARAI AIS-140', 'ICAT Certified', 'MoRTH Approved', 'IP67 Waterproof', 'IP68 Waterproof', 'CE Certified'];
+
+  const toggleArrayFilter = (field, value) => {
+    setFilters(prev => {
+      const current = prev[field] || [];
+      const updated = current.includes(value)
+        ? current.filter(v => v !== value)
+        : [...current, value];
+      return { ...prev, [field]: updated };
+    });
+  };
+
+  const handleClearAll = () => {
+    setFilters({
+      categories: [],
+      vehicles: [],
+      connectivity: [],
+      protocols: [],
+      capabilities: [],
+      certifications: []
+    });
+  };
+
+  // Compute matching products count
+  const matchingCount = products.filter(p => {
+    if (filters.categories?.length > 0 && !filters.categories.includes(p.category) && !filters.categories.includes(p.subcategory)) return false;
+    return true;
+  }).length;
+
+  return (
+    <div className="filter-drawer-overlay" onClick={onClose}>
+      <div className="filter-drawer" onClick={(e) => e.stopPropagation()}>
+        {/* Drawer Header */}
+        <div className="filter-drawer__header">
+          <div>
+            <h3 className="filter-drawer__title">Advanced Hardware Filters</h3>
+            <span className="filter-drawer__subtitle">Filter by structured engineering specifications</span>
+          </div>
+          <button type="button" className="filter-drawer__close-btn" onClick={onClose}>✕</button>
+        </div>
+
+        {/* Drawer Body with Filter Facets */}
+        <div className="filter-drawer__body">
+          {/* Section: Category */}
+          <div className="filter-drawer__section">
+            <h4 className="filter-drawer__section-title">Hardware Category</h4>
+            <div className="filter-drawer__chips">
+              {CATEGORY_OPTIONS.map(c => {
+                const active = (filters.categories || []).includes(c.id);
+                return (
+                  <button
+                    key={c.id}
+                    type="button"
+                    className={`filter-chip ${active ? 'filter-chip--active' : ''}`}
+                    onClick={() => toggleArrayFilter('categories', c.id)}
+                  >
+                    {c.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Section: Vehicle / Asset Type */}
+          <div className="filter-drawer__section">
+            <h4 className="filter-drawer__section-title">Vehicle &amp; Asset Type</h4>
+            <div className="filter-drawer__chips">
+              {VEHICLE_OPTIONS.map(v => {
+                const active = (filters.vehicles || []).includes(v);
+                return (
+                  <button
+                    key={v}
+                    type="button"
+                    className={`filter-chip ${active ? 'filter-chip--active' : ''}`}
+                    onClick={() => toggleArrayFilter('vehicles', v)}
+                  >
+                    {v}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Section: Connectivity */}
+          <div className="filter-drawer__section">
+            <h4 className="filter-drawer__section-title">Connectivity</h4>
+            <div className="filter-drawer__chips">
+              {CONNECTIVITY_OPTIONS.map(c => {
+                const active = (filters.connectivity || []).includes(c);
+                return (
+                  <button
+                    key={c}
+                    type="button"
+                    className={`filter-chip ${active ? 'filter-chip--active' : ''}`}
+                    onClick={() => toggleArrayFilter('connectivity', c)}
+                  >
+                    {c}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Section: Key Capabilities */}
+          <div className="filter-drawer__section">
+            <h4 className="filter-drawer__section-title">Key Capabilities</h4>
+            <div className="filter-drawer__chips">
+              {CAPABILITY_OPTIONS.map(cap => {
+                const active = (filters.capabilities || []).includes(cap);
+                return (
+                  <button
+                    key={cap}
+                    type="button"
+                    className={`filter-chip ${active ? 'filter-chip--active' : ''}`}
+                    onClick={() => toggleArrayFilter('capabilities', cap)}
+                  >
+                    {cap}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Section: Protocols & Interfaces */}
+          <div className="filter-drawer__section">
+            <h4 className="filter-drawer__section-title">Protocol / Interfaces</h4>
+            <div className="filter-drawer__chips">
+              {PROTOCOL_OPTIONS.map(proto => {
+                const active = (filters.protocols || []).includes(proto);
+                return (
+                  <button
+                    key={proto}
+                    type="button"
+                    className={`filter-chip ${active ? 'filter-chip--active' : ''}`}
+                    onClick={() => toggleArrayFilter('protocols', proto)}
+                  >
+                    {proto}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Section: Certifications */}
+          <div className="filter-drawer__section">
+            <h4 className="filter-drawer__section-title">Certifications</h4>
+            <div className="filter-drawer__chips">
+              {CERTIFICATION_OPTIONS.map(cert => {
+                const active = (filters.certifications || []).includes(cert);
+                return (
+                  <button
+                    key={cert}
+                    type="button"
+                    className={`filter-chip ${active ? 'filter-chip--active' : ''}`}
+                    onClick={() => toggleArrayFilter('certifications', cert)}
+                  >
+                    {cert}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* Drawer Footer */}
+        <div className="filter-drawer__footer">
+          <button type="button" className="filter-drawer__clear-btn" onClick={handleClearAll}>
+            Clear all
+          </button>
+          <button type="button" className="filter-drawer__apply-btn" onClick={onApply}>
+            Show {matchingCount} Matching Devices →
+          </button>
         </div>
       </div>
+    </div>
+  );
+}
 
-      <div className="home-banner-slider-dots">
-        {HOME_BANNERS.map((banner, idx) => (
-          <button
-            key={banner.id}
-            type="button"
-            className={`home-banner-slider-dot ${currentIndex === idx ? 'home-banner-slider-dot--active' : ''}`}
-            onClick={() => setCurrentIndex(idx)}
-            aria-label={`Go to slide ${idx + 1}: ${banner.tag}`}
-            title={banner.tag}
-          />
+/* ────────────────────────────────────────────────────────────
+   7. EXPLORE HARDWARE (8 Modern B2B SaaS Category Cards)
+──────────────────────────────────────────────────────────── */
+function ExploreHardwareSection() {
+  const navigate = useNavigate();
+
+  return (
+    <section className="explore-hardware-section">
+      <div className="section-header">
+        <div>
+          <h2 className="section-title">Explore Hardware</h2>
+          <p className="section-subtitle">Browse devices based on what your operation needs.</p>
+        </div>
+        <button
+          type="button"
+          className="section-link-btn"
+          onClick={() => navigate('/hardware')}
+        >
+          <span>All Hardware (23)</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+            <path d="M5 12h14" />
+            <path d="m12 5 7 7-7 7" />
+          </svg>
+        </button>
+      </div>
+
+      <div className="explore-hardware-grid">
+        {EXPLORE_CATEGORIES.map(cat => (
+          <div
+            key={cat.id}
+            className="explore-hardware-card"
+            onClick={() => navigate(cat.path)}
+          >
+            <div className="explore-hardware-card__icon-box">
+              {cat.icon}
+            </div>
+            <div className="explore-hardware-card__content">
+              <div className="explore-hardware-card__title-row">
+                <h3 className="explore-hardware-card__title">{cat.title}</h3>
+                <span className="explore-hardware-card__count">{cat.count}</span>
+              </div>
+              <p className="explore-hardware-card__desc">{cat.desc}</p>
+            </div>
+            <div className="explore-hardware-card__arrow">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg>
+            </div>
+          </div>
         ))}
       </div>
     </section>
@@ -1669,24 +1705,624 @@ function HomeBannerSlider() {
 }
 
 /* ────────────────────────────────────────────────────────────
-   5. MAIN SETU HOME PAGE
+   8. USE-CASE DISCOVERY SECTION (Find Hardware by Use Case)
+──────────────────────────────────────────────────────────── */
+function UseCaseDiscoverySection() {
+  const navigate = useNavigate();
+
+  return (
+    <section className="use-case-section">
+      <div className="section-header">
+        <div>
+          <h2 className="section-title">Find hardware by use case</h2>
+          <p className="section-subtitle">Purpose-built hardware packages designed around your operational challenges.</p>
+        </div>
+      </div>
+
+      <div className="use-case-grid">
+        {USE_CASES.map(uc => (
+          <div
+            key={uc.id}
+            className="use-case-card"
+            onClick={() => navigate(`/hardware?search=${encodeURIComponent(uc.filterQuery)}`)}
+          >
+            <div className="use-case-card__top">
+              <span className="use-case-card__icon">{uc.icon}</span>
+              <span className="use-case-card__badge">{uc.badge}</span>
+            </div>
+            <h3 className="use-case-card__title">{uc.title}</h3>
+            <p className="use-case-card__desc">{uc.desc}</p>
+            <div className="use-case-card__highlights">
+              <span>{uc.highlights}</span>
+            </div>
+            <div className="use-case-card__footer">
+              <span className="use-case-card__action">Explore matching hardware →</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/* ────────────────────────────────────────────────────────────
+   9. RECOMMENDED & POPULAR HARDWARE (Modernized Product Cards)
+──────────────────────────────────────────────────────────── */
+function RecommendedHardwareSection({ onSelectForCompare, selectedCompareIds, onSaveProduct, savedProductIds }) {
+  const navigate = useNavigate();
+
+  // Curated showcase products
+  const featured = useMemo(() => {
+    const featuredSlugs = [
+      'prithvi-140',
+      'falcon-f1-ai-4g',
+      'sp-ble4-fuel',
+      '7h-elock',
+      'v5-4g',
+      't5324-mdvr',
+      'eco5-lite',
+      'advance-4wire'
+    ];
+    return featuredSlugs.map(slug => products.find(p => p.slug === slug)).filter(Boolean);
+  }, []);
+
+  return (
+    <section className="recommended-hardware-section">
+      <div className="section-header">
+        <div>
+          <h2 className="section-title">Recommended &amp; Popular Hardware</h2>
+          <p className="section-subtitle">Enterprise-grade telematics hardware tested with over 1,500 fleet protocols.</p>
+        </div>
+        <button
+          type="button"
+          className="section-link-btn"
+          onClick={() => navigate('/hardware')}
+        >
+          <span>View all 23 devices</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+            <path d="M5 12h14" />
+            <path d="m12 5 7 7-7 7" />
+          </svg>
+        </button>
+      </div>
+
+      <div className="recommended-hardware-grid">
+        {featured.map(prod => {
+          const isCompared = selectedCompareIds.includes(prod.id);
+          const isSaved = savedProductIds.includes(prod.id);
+
+          // Extract 3 prominent specifications
+          const spec1 = prod.tags?.[0] || '4G LTE';
+          const spec2 = prod.specifications?.inputVoltage || '9V–36V DC';
+          const spec3 = prod.tags?.[1] || prod.subcategory?.replace(/-/g, ' ') || 'Telematics';
+
+          // Extract certification
+          const cert = prod.slug.includes('prithvi') ? 'ARAI AIS-140 Certified'
+            : prod.slug.includes('7h') ? 'IP68 Padlock'
+            : prod.slug.includes('sp-ble4') ? '99.5% Accuracy'
+            : prod.slug.includes('falcon') ? 'Dual AI Computer Vision'
+            : null;
+
+          return (
+            <div key={prod.id} className="hardware-b2b-card">
+              {/* Card Top: Category & Save Icon */}
+              <div className="hardware-b2b-card__top">
+                <span className="hardware-b2b-card__category">{prod.category}</span>
+                <button
+                  type="button"
+                  className={`hardware-b2b-card__save-btn ${isSaved ? 'hardware-b2b-card__save-btn--active' : ''}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onSaveProduct(prod.id);
+                  }}
+                  title={isSaved ? 'Saved to bookmarks' : 'Save device'}
+                >
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill={isSaved ? '#2563EB' : 'none'} stroke={isSaved ? '#2563EB' : '#94A3B8'} strokeWidth="2">
+                    <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+                  </svg>
+                </button>
+              </div>
+
+              {/* Product Visual */}
+              <div 
+                className="hardware-b2b-card__img-wrap"
+                onClick={() => navigate(`/hardware/${prod.slug}`)}
+              >
+                <img src={getAssetUrl(prod.image)} alt={prod.name} loading="lazy" />
+              </div>
+
+              {/* Product Info */}
+              <div className="hardware-b2b-card__body">
+                <h3 
+                  className="hardware-b2b-card__name"
+                  onClick={() => navigate(`/hardware/${prod.slug}`)}
+                >
+                  {prod.name}
+                </h3>
+
+                {cert && (
+                  <span className="hardware-b2b-card__cert-badge">{cert}</span>
+                )}
+
+                {/* 3 Important Specs */}
+                <div className="hardware-b2b-card__specs-row">
+                  <span className="hardware-b2b-card__spec-pill">{spec1}</span>
+                  <span className="hardware-b2b-card__spec-pill">{spec2}</span>
+                  <span className="hardware-b2b-card__spec-pill">{spec3}</span>
+                </div>
+
+                <p className="hardware-b2b-card__compat">
+                  <strong>Fit: </strong>
+                  {prod.specifications?.compatibility ? 'Compatible with commercial fleet platforms' : 'Commercial trucks, buses & mixed fleets'}
+                </p>
+
+                <div className="hardware-b2b-card__price-row">
+                  <span className="hardware-b2b-card__price">₹{prod.price?.toLocaleString('en-IN')}</span>
+                  <span className="hardware-b2b-card__price-tax">+ GST</span>
+                </div>
+              </div>
+
+              {/* Card Actions */}
+              <div className="hardware-b2b-card__actions">
+                <button
+                  type="button"
+                  className="hardware-b2b-card__btn-details"
+                  onClick={() => navigate(`/hardware/${prod.slug}`)}
+                >
+                  View details
+                </button>
+
+                <button
+                  type="button"
+                  className={`hardware-b2b-card__btn-compare ${isCompared ? 'hardware-b2b-card__btn-compare--active' : ''}`}
+                  onClick={() => onSelectForCompare(prod)}
+                >
+                  {isCompared ? '✓ Added' : '+ Compare'}
+                </button>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+/* ────────────────────────────────────────────────────────────
+   10. RECENTLY VIEWED HARDWARE (If User History is Available)
+──────────────────────────────────────────────────────────── */
+function RecentlyViewedSection({ onSelectForCompare, selectedCompareIds }) {
+  const navigate = useNavigate();
+  const [recentSlugs, setRecentSlugs] = useState([]);
+
+  useEffect(() => {
+    try {
+      const stored = JSON.parse(localStorage.getItem('setu_recent_products') || '[]');
+      if (Array.isArray(stored) && stored.length > 0) {
+        setRecentSlugs(stored);
+      } else {
+        // Fallback default sample history
+        setRecentSlugs(['prithvi-140', 'sp-ble4-fuel', 'falcon-f1-ai-4g', '7h-elock']);
+      }
+    } catch (e) {
+      setRecentSlugs(['prithvi-140', 'sp-ble4-fuel']);
+    }
+  }, []);
+
+  const recentProducts = useMemo(() => {
+    return recentSlugs.map(slug => products.find(p => p.slug === slug || p.id === slug)).filter(Boolean).slice(0, 4);
+  }, [recentSlugs]);
+
+  if (!recentProducts.length) return null;
+
+  return (
+    <section className="recently-viewed-section">
+      <div className="section-header">
+        <div>
+          <h2 className="section-title">Recently Viewed</h2>
+          <p className="section-subtitle">Quick access to devices recently explored by your team.</p>
+        </div>
+      </div>
+
+      <div className="recently-viewed-grid">
+        {recentProducts.map(prod => {
+          const isCompared = selectedCompareIds.includes(prod.id);
+          return (
+            <div 
+              key={prod.id} 
+              className="recent-product-card"
+              onClick={() => navigate(`/hardware/${prod.slug}`)}
+            >
+              <img src={getAssetUrl(prod.image)} alt={prod.name} className="recent-product-card__thumb" />
+              <div className="recent-product-card__info">
+                <span className="recent-product-card__name">{prod.name}</span>
+                <span className="recent-product-card__price">₹{prod.price?.toLocaleString('en-IN')}</span>
+              </div>
+              <button
+                type="button"
+                className={`recent-product-card__btn-compare ${isCompared ? 'recent-product-card__btn-compare--active' : ''}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onSelectForCompare(prod);
+                }}
+              >
+                {isCompared ? '✓' : '+ Compare'}
+              </button>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+/* ────────────────────────────────────────────────────────────
+   11. STICKY COMPARISON BAR & COMPARISON MODAL
+──────────────────────────────────────────────────────────── */
+function ComparisonBarAndModal({ compareList, onRemoveCompare, onClearCompare }) {
+  const [modalOpen, setModalOpen] = useState(false);
+  const navigate = useNavigate();
+
+  if (!compareList.length) return null;
+
+  return (
+    <>
+      {/* Sticky Bottom Bar */}
+      <div className="sticky-compare-bar">
+        <div className="sticky-compare-bar__container">
+          <div className="sticky-compare-bar__left">
+            <span className="sticky-compare-bar__count-badge">{compareList.length} / 4</span>
+            <span className="sticky-compare-bar__label">
+              {compareList.length === 1 ? '1 product selected for comparison' : `${compareList.length} products selected for comparison`}
+            </span>
+          </div>
+
+          <div className="sticky-compare-bar__thumbs">
+            {compareList.map(prod => (
+              <div key={prod.id} className="sticky-compare-bar__thumb-pill">
+                <img src={getAssetUrl(prod.image)} alt={prod.name} />
+                <span className="sticky-compare-bar__thumb-name">{prod.name}</span>
+                <button
+                  type="button"
+                  className="sticky-compare-bar__thumb-remove"
+                  onClick={() => onRemoveCompare(prod.id)}
+                  title="Remove from comparison"
+                >
+                  ✕
+                </button>
+              </div>
+            ))}
+          </div>
+
+          <div className="sticky-compare-bar__actions">
+            <button
+              type="button"
+              className="sticky-compare-bar__clear-btn"
+              onClick={onClearCompare}
+            >
+              Clear all
+            </button>
+            <button
+              type="button"
+              className="sticky-compare-bar__compare-btn"
+              onClick={() => setModalOpen(true)}
+            >
+              Compare products ({compareList.length}) →
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Comparison Modal */}
+      {modalOpen && (
+        <div className="compare-modal-overlay" onClick={() => setModalOpen(false)}>
+          <div className="compare-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="compare-modal__header">
+              <div>
+                <h3 className="compare-modal__title">Hardware Specification Comparison</h3>
+                <span className="compare-modal__subtitle">Side-by-side engineering evaluation</span>
+              </div>
+              <button type="button" className="compare-modal__close-btn" onClick={() => setModalOpen(false)}>✕</button>
+            </div>
+
+            <div className="compare-modal__table-wrap">
+              <table className="compare-table">
+                <thead>
+                  <tr>
+                    <th className="compare-table__feature-col">Parameters</th>
+                    {compareList.map(prod => (
+                      <th key={prod.id} className="compare-table__product-col">
+                        <div className="compare-table__header-card">
+                          <img src={getAssetUrl(prod.image)} alt={prod.name} className="compare-table__thumb" />
+                          <h4 className="compare-table__name">{prod.name}</h4>
+                          <span className="compare-table__price">₹{prod.price?.toLocaleString('en-IN')} <small>+ GST</small></span>
+                          <button
+                            type="button"
+                            className="compare-table__btn-view"
+                            onClick={() => {
+                              setModalOpen(false);
+                              navigate(`/hardware/${prod.slug}`);
+                            }}
+                          >
+                            Product Page →
+                          </button>
+                        </div>
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td className="compare-table__feature-name">Connectivity</td>
+                    {compareList.map(prod => (
+                      <td key={prod.id}>
+                        {prod.technicalSpecs?.connectivity || prod.tags?.[0] || '4G LTE / 2G GSM'}
+                      </td>
+                    ))}
+                  </tr>
+                  <tr>
+                    <td className="compare-table__feature-name">Supported Vehicles</td>
+                    {compareList.map(prod => (
+                      <td key={prod.id}>
+                        {prod.specifications?.productCapacity || 'Commercial Trucks, Buses, Cars & Gensets'}
+                      </td>
+                    ))}
+                  </tr>
+                  <tr>
+                    <td className="compare-table__feature-name">Major Features</td>
+                    {compareList.map(prod => (
+                      <td key={prod.id}>
+                        <ul className="compare-table__bullet-list">
+                          {(prod.features || ['Live GPS tracking', 'Ignition detection', 'Geofence alerts']).slice(0, 4).map((f, i) => (
+                            <li key={i}>{f}</li>
+                          ))}
+                        </ul>
+                      </td>
+                    ))}
+                  </tr>
+                  <tr>
+                    <td className="compare-table__feature-name">Inputs / Outputs</td>
+                    {compareList.map(prod => (
+                      <td key={prod.id}>
+                        {prod.specifications?.inputVoltage ? `${prod.specifications.inputVoltage} · Multi-IO` : 'Digital Input, Analog In, Relay Output'}
+                      </td>
+                    ))}
+                  </tr>
+                  <tr>
+                    <td className="compare-table__feature-name">Protocols</td>
+                    {compareList.map(prod => (
+                      <td key={prod.id}>
+                        {prod.technicalSpecs?.communication || 'TCP/UDP, SMS, MQTT'}
+                      </td>
+                    ))}
+                  </tr>
+                  <tr>
+                    <td className="compare-table__feature-name">Certifications</td>
+                    {compareList.map(prod => (
+                      <td key={prod.id}>
+                        {prod.slug.includes('prithvi') ? 'ARAI AIS-140 · ICAT · MoRTH'
+                          : prod.slug.includes('7h') ? 'IP68 Waterproof · RoHS'
+                          : prod.slug.includes('sp-ble4') ? 'BLE 5.0 · IP67 Explosion Proof'
+                          : 'CE · RoHS · IP65'}
+                      </td>
+                    ))}
+                  </tr>
+                  <tr>
+                    <td className="compare-table__feature-name">Platform Compatibility</td>
+                    {compareList.map(prod => (
+                      <td key={prod.id}>
+                        Pre-integrated with Setu, Trakzee, SmartBus and 1,500+ standard protocols
+                      </td>
+                    ))}
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
+
+/* ────────────────────────────────────────────────────────────
+   12. QUICK SPECIFICATIONS MODAL (Hero "View specifications")
+──────────────────────────────────────────────────────────── */
+function QuickSpecsModal({ showcaseItem, onClose }) {
+  const navigate = useNavigate();
+  if (!showcaseItem) return null;
+
+  return (
+    <div className="specs-modal-overlay" onClick={onClose}>
+      <div className="specs-modal" onClick={(e) => e.stopPropagation()}>
+        <div className="specs-modal__header">
+          <div>
+            <span className="specs-modal__badge">{showcaseItem.categoryBadge}</span>
+            <h3 className="specs-modal__title">{showcaseItem.headline}</h3>
+          </div>
+          <button type="button" className="specs-modal__close-btn" onClick={onClose}>✕</button>
+        </div>
+
+        <div className="specs-modal__body">
+          <div className="specs-modal__visual-row">
+            <img src={getAssetUrl(showcaseItem.image)} alt={showcaseItem.headline} className="specs-modal__img" />
+            <div className="specs-modal__summary">
+              <p>{showcaseItem.subheading}</p>
+              <div className="specs-modal__status-list">
+                {showcaseItem.statusIndicators.map((ind, i) => (
+                  <div key={i} className="specs-modal__status-item">
+                    <span className="specs-modal__status-dot" />
+                    <span>{ind.label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <h4 className="specs-modal__section-heading">Technical Specifications</h4>
+          <div className="specs-modal__specs-grid">
+            {Object.entries(showcaseItem.quickSpecs).map(([key, val]) => (
+              <div key={key} className="specs-modal__spec-row">
+                <span className="specs-modal__spec-key">{key.replace(/([A-Z])/g, ' $1').toUpperCase()}</span>
+                <span className="specs-modal__spec-val">{val}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="specs-modal__footer">
+          <button type="button" className="specs-modal__btn-secondary" onClick={onClose}>
+            Close
+          </button>
+          <button
+            type="button"
+            className="specs-modal__btn-primary"
+            onClick={() => {
+              onClose();
+              navigate(showcaseItem.primaryPath);
+            }}
+          >
+            Go to Product Page →
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ────────────────────────────────────────────────────────────
+   13. MAIN REDESIGNED HOMEPAGE COMPONENT
 ──────────────────────────────────────────────────────────── */
 export default function SetuHome() {
+  const navigate = useNavigate();
+
+  // Specs Modal for Hero
+  const [activeSpecsItem, setActiveSpecsItem] = useState(null);
+
+  // Advanced Filters Drawer State
+  const [filtersDrawerOpen, setFiltersDrawerOpen] = useState(false);
+  const [advancedFilters, setAdvancedFilters] = useState({
+    categories: [],
+    vehicles: [],
+    connectivity: [],
+    protocols: [],
+    capabilities: [],
+    certifications: []
+  });
+
+  // Calculate active filter count
+  const activeFilterCount = useMemo(() => {
+    return Object.values(advancedFilters).reduce((acc, arr) => acc + (arr ? arr.length : 0), 0);
+  }, [advancedFilters]);
+
+  const handleApplyAdvancedFilters = () => {
+    setFiltersDrawerOpen(false);
+    const params = new URLSearchParams();
+    if (advancedFilters.categories.length) {
+      params.set('category', advancedFilters.categories[0]);
+    }
+    navigate(`/hardware?${params.toString()}`);
+  };
+
+  // Compare List (up to 4 products)
+  const [compareList, setCompareList] = useState([]);
+  const selectedCompareIds = useMemo(() => compareList.map(p => p.id), [compareList]);
+
+  const handleSelectForCompare = useCallback((product) => {
+    setCompareList(prev => {
+      if (prev.some(p => p.id === product.id)) {
+        return prev.filter(p => p.id !== product.id);
+      }
+      if (prev.length >= 4) {
+        return [...prev.slice(1), product];
+      }
+      return [...prev, product];
+    });
+  }, []);
+
+  const handleRemoveCompare = useCallback((productId) => {
+    setCompareList(prev => prev.filter(p => p.id !== productId));
+  }, []);
+
+  const handleClearCompare = useCallback(() => {
+    setCompareList([]);
+  }, []);
+
+  // Bookmarked / Saved products in localStorage
+  const [savedProductIds, setSavedProductIds] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem('setu_saved_products') || '[]');
+    } catch (e) {
+      return [];
+    }
+  });
+
+  const handleSaveProduct = useCallback((productId) => {
+    setSavedProductIds(prev => {
+      const updated = prev.includes(productId) ? prev.filter(id => id !== productId) : [...prev, productId];
+      try {
+        localStorage.setItem('setu_saved_products', JSON.stringify(updated));
+      } catch (e) {}
+      return updated;
+    });
+  }, []);
+
   return (
-    <div className="dashboard">
-      <div className="dashboard__page-container">
+    <div className="b2b-portal-root">
+      <div className="b2b-portal-container">
 
-        {/* ── 1. Top Marketing Banner Slider (6 Banners with Sliders) ── */}
-        <TopMarketingBannerSlider />
+        {/* ── 1. Hero Product Showcase (~40-45% Viewport) ── */}
+        <HeroProductShowcase onOpenSpecs={(item) => setActiveSpecsItem(item)} />
 
-        {/* ── 2. Floating Search Card with Google-like AI Mode & Suggestions (Categories removed) ── */}
-        <FloatingSearchCard />
+        {/* ── 2. Universal Search + Smart Finder + Advanced Filters ── */}
+        <UniversalSearchModule
+          onOpenAdvancedFilters={() => setFiltersDrawerOpen(true)}
+          activeFilterCount={activeFilterCount}
+          onSelectProductForCompare={handleSelectForCompare}
+          selectedCompareIds={selectedCompareIds}
+        />
 
-        {/* ── 3. Shop by Category Section ── */}
-        <ShopByCategorySection />
+        {/* ── 3. Explore Hardware (8 Modern SaaS Category Cards) ── */}
+        <ExploreHardwareSection />
 
-        {/* ── 4. Secondary Programs & Solutions Slider ── */}
-        <HomeBannerSlider />
+        {/* ── 4. Find Hardware by Use Case (4 Practical Operational Cards) ── */}
+        <UseCaseDiscoverySection />
+
+        {/* ── 5. Recommended & Popular Hardware (Modern Product Cards) ── */}
+        <RecommendedHardwareSection
+          onSelectForCompare={handleSelectForCompare}
+          selectedCompareIds={selectedCompareIds}
+          onSaveProduct={handleSaveProduct}
+          savedProductIds={savedProductIds}
+        />
+
+        {/* ── 6. Recently Viewed Hardware ── */}
+        <RecentlyViewedSection
+          onSelectForCompare={handleSelectForCompare}
+          selectedCompareIds={selectedCompareIds}
+        />
+
+        {/* ── 7. Sticky Comparison Bar & Side-by-Side Modal ── */}
+        <ComparisonBarAndModal
+          compareList={compareList}
+          onRemoveCompare={handleRemoveCompare}
+          onClearCompare={handleClearCompare}
+        />
+
+        {/* ── 8. Advanced Filters Slide-Over Drawer ── */}
+        <AdvancedFiltersDrawer
+          isOpen={filtersDrawerOpen}
+          onClose={() => setFiltersDrawerOpen(false)}
+          filters={advancedFilters}
+          setFilters={setAdvancedFilters}
+          onApply={handleApplyAdvancedFilters}
+        />
+
+        {/* ── 9. Quick Specs Modal (from Hero) ── */}
+        <QuickSpecsModal
+          showcaseItem={activeSpecsItem}
+          onClose={() => setActiveSpecsItem(null)}
+        />
 
       </div>
     </div>
