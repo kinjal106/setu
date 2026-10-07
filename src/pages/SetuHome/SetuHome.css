@@ -250,7 +250,7 @@
 
 /* ────────────────────────────────────────
    2. Floating Search Card (Overlapping Banner)
-   Matches Red Highlighted Box in media_1791351162028.png
+   (Category Tabs Removed; Google-style AI Mode Added)
 ──────────────────────────────────────── */
 .floating-search-card {
   position: relative;
@@ -261,94 +261,41 @@
   background: #FFFFFF;
   border: 1px solid #E2E8F0;
   border-radius: 16px;
-  padding: 20px 24px 18px;
+  padding: 22px 26px 20px;
   box-shadow: 0 16px 40px rgba(15, 23, 42, 0.12), 0 2px 6px rgba(15, 23, 42, 0.04);
   box-sizing: border-box;
 }
 
 .floating-search-title {
-  font-size: 18px;
+  font-size: 19px;
   font-weight: 700;
   color: #0F172A;
-  margin: 0 0 14px 0;
-  letter-spacing: -0.2px;
+  margin: 0 0 16px 0;
+  letter-spacing: -0.3px;
   line-height: 1.3;
-}
-
-/* Category Tabs */
-.floating-search-tabs {
-  display: flex;
-  align-items: center;
-  gap: 22px;
-  border-bottom: 1px solid #E2E8F0;
-  margin-bottom: 14px;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-
-.floating-search-tabs::-webkit-scrollbar {
-  display: none;
-}
-
-.floating-search-tab {
-  position: relative;
-  background: none;
-  border: none;
-  padding: 0 0 10px 0;
-  font-size: 14px;
-  font-weight: 500;
-  color: #64748B;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-family: inherit;
-  transition: color 150ms ease;
-  white-space: nowrap;
-}
-
-.floating-search-tab:hover {
-  color: #0F172A;
-}
-
-.floating-search-tab--active {
-  color: #2563EB;
-  font-weight: 700;
-}
-
-.floating-search-tab-underline {
-  position: absolute;
-  bottom: -1px;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: #2563EB;
-  border-radius: 2px;
-}
-
-.floating-search-badge-new {
-  background: #FBBF24;
-  color: #0F172A;
-  font-size: 10px;
-  font-weight: 800;
-  padding: 2px 5px;
-  border-radius: 4px;
-  line-height: 1;
-  letter-spacing: 0.3px;
 }
 
 /* Search Input Box */
 .floating-search-input-box {
   display: flex;
   align-items: center;
-  height: 48px;
+  height: 50px;
   border: 1px solid #CBD5E1;
-  border-radius: 10px;
+  border-radius: 12px;
   padding: 0 8px 0 14px;
   background: #FFFFFF;
-  transition: all 180ms ease;
+  transition: all 200ms ease;
   position: relative;
-  gap: 8px;
+  gap: 10px;
+}
+
+/* Google-style AI Mode Shimmer Border */
+.floating-search-input-box--ai {
+  border: 1.5px solid transparent;
+  background:
+    linear-gradient(#FFFFFF, #FFFFFF) padding-box,
+    linear-gradient(135deg, #3B82F6 0%, #8B5CF6 50%, #EC4899 100%) border-box;
+  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.12);
 }
 
 .floating-search-input-box--focused {
@@ -356,8 +303,26 @@
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
 }
 
-.floating-search-icon {
+.floating-search-input-box--ai.floating-search-input-box--focused {
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.18), 0 4px 20px rgba(99, 102, 241, 0.15);
+}
+
+.floating-search-left-icon {
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.floating-search-sparkle-icon {
+  font-size: 16px;
+  line-height: 1;
+  animation: pulseSparkle 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes pulseSparkle {
+  0% { transform: scale(1); filter: drop-shadow(0 0 2px #8B5CF6); }
+  100% { transform: scale(1.15); filter: drop-shadow(0 0 6px #EC4899); }
 }
 
 .floating-search-input {
@@ -366,7 +331,7 @@
   border: none;
   outline: none;
   background: transparent;
-  font-size: 14px;
+  font-size: 14.5px;
   color: #0F172A;
   font-family: inherit;
   font-weight: 500;
@@ -393,9 +358,49 @@
   background: #F1F5F9;
 }
 
+/* Google AI Mode Toggle Pill Button */
+.floating-search-ai-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 180ms ease;
+  font-family: inherit;
+  white-space: nowrap;
+  border: 1px solid transparent;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.floating-search-ai-toggle--active {
+  background: linear-gradient(135deg, #1E40AF 0%, #6366F1 50%, #8B5CF6 100%);
+  color: #FFFFFF;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.35);
+}
+
+.floating-search-ai-toggle--inactive {
+  background: #F1F5F9;
+  color: #64748B;
+  border-color: #E2E8F0;
+}
+
+.floating-search-ai-toggle--inactive:hover {
+  background: #E2E8F0;
+  color: #0F172A;
+}
+
+.floating-search-ai-toggle-sparkle {
+  font-size: 12px;
+  line-height: 1;
+}
+
 .floating-search-submit-btn {
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
   border-radius: 8px;
   background: #2563EB;
   color: #FFFFFF;
@@ -412,50 +417,56 @@
   background: #1D4ED8;
 }
 
-/* Popular Chips Row */
-.floating-search-popular-row {
+/* Suggestions Row Directly Below Search */
+.floating-search-suggestions-row {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-top: 12px;
+  margin-top: 14px;
   flex-wrap: wrap;
 }
 
-.floating-search-popular-label {
+.floating-search-suggestions-label {
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
   color: #64748B;
   flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
 
-.floating-search-chips-list {
+.floating-search-suggestions-list {
   display: flex;
   align-items: center;
   gap: 8px;
   flex-wrap: wrap;
 }
 
-.floating-search-chip {
+.floating-search-suggestion-chip {
   background: #FFFFFF;
   border: 1px solid #E2E8F0;
   border-radius: 9999px;
-  padding: 4px 12px;
+  padding: 5px 13px;
   font-size: 12px;
-  color: #334155;
+  color: #1E293B;
   font-weight: 500;
   cursor: pointer;
-  transition: all 150ms ease;
+  transition: all 160ms ease;
   font-family: inherit;
+  white-space: nowrap;
 }
 
-.floating-search-chip:hover {
-  background: #EFF6FF;
-  border-color: #BFDBFE;
-  color: #2563EB;
+.floating-search-suggestion-chip:hover {
+  background: #F0F9FF;
+  border-color: #38BDF8;
+  color: #0284C7;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(56, 189, 248, 0.18);
 }
 
 /* ────────────────────────────────────────
-   Dropdown & Intelligent Question Engine
+   Dropdown: Google-Style AI Overview & Catalog
 ──────────────────────────────────────── */
 .floating-search-dropdown {
   position: absolute;
@@ -466,59 +477,88 @@
   border: 1px solid #E2E8F0;
   border-radius: 14px;
   box-shadow: 0 20px 48px rgba(15, 23, 42, 0.16);
-  max-height: 480px;
+  max-height: 520px;
   overflow-y: auto;
   z-index: 50;
-  padding: 14px;
+  padding: 16px;
   box-sizing: border-box;
 }
 
-/* 1. Verified Instant Answer Card */
-.search-dropdown-answer-card {
-  background: linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 100%);
-  border: 1px solid #BAE6FD;
-  border-radius: 12px;
-  padding: 16px;
-  margin-bottom: 14px;
+/* Google-Style Setu AI Overview Box */
+.search-dropdown-ai-overview {
+  background: linear-gradient(135deg, #F8FAFC 0%, #F0F9FF 50%, #FAF5FF 100%);
+  border: 1px solid #C7D2FE;
+  border-radius: 14px;
+  padding: 18px 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.08);
+  position: relative;
+  overflow: hidden;
 }
 
-.search-dropdown-answer-header {
+.search-dropdown-ai-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
-.search-dropdown-answer-badge {
-  font-size: 11px;
+.search-dropdown-ai-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
   font-weight: 800;
-  color: #0284C7;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  background: linear-gradient(135deg, #2563EB 0%, #7C3AED 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.2px;
 }
 
-.search-dropdown-answer-cat {
+.search-dropdown-ai-mode-tag {
   font-size: 11px;
-  font-weight: 600;
-  color: #64748B;
+  font-weight: 700;
+  color: #6366F1;
+  background: rgba(99, 102, 241, 0.1);
+  padding: 2px 8px;
+  border-radius: 6px;
 }
 
-.search-dropdown-answer-q {
-  font-size: 15px;
+.search-dropdown-ai-question {
+  font-size: 16px;
   font-weight: 700;
   color: #0F172A;
-  margin: 0 0 8px 0;
+  margin: 0 0 10px 0;
   line-height: 1.35;
 }
 
-.search-dropdown-answer-text {
-  font-size: 13px;
+.search-dropdown-ai-text {
+  font-size: 13.5px;
   color: #334155;
-  line-height: 1.5;
-  margin: 0 0 12px 0;
+  line-height: 1.6;
+  margin: 0 0 14px 0;
 }
 
-.search-dropdown-answer-recom {
+.search-dropdown-ai-bullets {
+  margin: 0 0 16px 0;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.search-dropdown-ai-bullets li {
+  font-size: 13px;
+  color: #475569;
+  line-height: 1.45;
+}
+
+.search-dropdown-ai-bullets strong {
+  color: #0F172A;
+}
+
+/* Recommended Solution Card */
+.search-dropdown-ai-recom-card {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -530,12 +570,12 @@
   transition: all 180ms ease;
 }
 
-.search-dropdown-answer-recom:hover {
+.search-dropdown-ai-recom-card:hover {
   border-color: #2563EB;
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.12);
 }
 
-.search-dropdown-answer-recom-thumb {
+.search-dropdown-ai-recom-thumb {
   width: 44px;
   height: 44px;
   border-radius: 8px;
@@ -547,26 +587,26 @@
   flex-shrink: 0;
 }
 
-.search-dropdown-answer-recom-thumb img {
+.search-dropdown-ai-recom-thumb img {
   width: 34px;
   height: 34px;
   object-fit: contain;
 }
 
-.search-dropdown-answer-recom-info {
+.search-dropdown-ai-recom-info {
   flex: 1;
   min-width: 0;
   display: flex;
   flex-direction: column;
 }
 
-.search-dropdown-answer-recom-tag {
+.search-dropdown-ai-recom-tag {
   font-size: 10px;
   font-weight: 700;
   color: #2563EB;
 }
 
-.search-dropdown-answer-recom-name {
+.search-dropdown-ai-recom-name {
   font-size: 13px;
   font-weight: 700;
   color: #0F172A;
@@ -575,13 +615,13 @@
   text-overflow: ellipsis;
 }
 
-.search-dropdown-answer-recom-price {
+.search-dropdown-ai-recom-price {
   font-size: 12px;
   font-weight: 600;
   color: #10B981;
 }
 
-.search-dropdown-answer-recom-btn {
+.search-dropdown-ai-recom-btn {
   background: #2563EB;
   color: #FFFFFF;
   font-size: 12px;
@@ -593,6 +633,43 @@
   white-space: nowrap;
   flex-shrink: 0;
   font-family: inherit;
+}
+
+/* Follow-up Questions Row */
+.search-dropdown-ai-followups {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(199, 210, 254, 0.6);
+}
+
+.search-dropdown-ai-followup-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #64748B;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.search-dropdown-ai-followup-chip {
+  background: #FFFFFF;
+  border: 1px solid #CBD5E1;
+  border-radius: 9999px;
+  padding: 4px 10px;
+  font-size: 12px;
+  color: #334155;
+  cursor: pointer;
+  transition: all 140ms ease;
+  font-family: inherit;
+}
+
+.search-dropdown-ai-followup-chip:hover {
+  background: #EFF6FF;
+  border-color: #2563EB;
+  color: #2563EB;
 }
 
 /* Sections & Results */
@@ -1179,10 +1256,20 @@
   box-shadow: 0 2px 8px rgba(56, 189, 248, 0.25);
 }
 
+.home-banner-card--ais140 .home-banner-cta-btn:hover {
+  background: #0EA5E9;
+  transform: translateY(-1px);
+}
+
 .home-banner-card--video .home-banner-cta-btn {
   background: #C084FC;
   color: #1E0A3C;
   box-shadow: 0 2px 8px rgba(192, 132, 252, 0.25);
+}
+
+.home-banner-card--video .home-banner-cta-btn:hover {
+  background: #A855F7;
+  transform: translateY(-1px);
 }
 
 .home-banner-card--solutions .home-banner-cta-btn {
@@ -1349,8 +1436,8 @@
     padding: 16px 16px 14px;
   }
 
-  .floating-search-tabs {
-    gap: 16px;
+  .floating-search-suggestions-row {
+    gap: 6px;
   }
 
   .home-banner-slider-track {

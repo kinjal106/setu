@@ -22,17 +22,17 @@ function useTypewriter(words, isEnabled = true) {
       if (currentText.length < fullText.length) {
         timer = setTimeout(() => {
           setCurrentText(fullText.slice(0, currentText.length + 1));
-        }, 50);
+        }, 45);
       } else {
         timer = setTimeout(() => {
           setIsDeleting(true);
-        }, 2200);
+        }, 2400);
       }
     } else {
       if (currentText.length > 0) {
         timer = setTimeout(() => {
           setCurrentText(fullText.slice(0, currentText.length - 1));
-        }, 25);
+        }, 22);
       } else {
         setIsDeleting(false);
         setCurrentWordIndex((prev) => (prev + 1) % words.length);
@@ -49,10 +49,11 @@ function useTypewriter(words, isEnabled = true) {
 const STOP_WORDS = new Set([
   'find', 'search', 'for', 'the', 'a', 'an', 'in', 'on', 'with', 'and', 'or',
   'device', 'devices', 'hardware', 'tell', 'me', 'about', 'is', 'it', 'to',
-  'can', 'i', 'you', 'do', 'does', 'what', 'which', 'how', 'why', 'where', 'are'
+  'can', 'i', 'you', 'do', 'does', 'what', 'which', 'how', 'why', 'where', 'are',
+  'best', 'good', 'need', 'want', 'show'
 ]);
 
-/* ── Comprehensive Fleet Knowledge & Question-Answering Database ── */
+/* ── Comprehensive Fleet Knowledge Base for Setu AI Overview ── */
 const FLEET_KNOWLEDGE_BASE = [
   {
     id: 'ais140-mandate',
@@ -60,39 +61,57 @@ const FLEET_KNOWLEDGE_BASE = [
     aliases: [
       'government approved', 'ais 140', 'ais-140', 'rto', 'morth', 'sos button',
       'panic button', 'commercial vehicle mandate', 'mandatory gps', 'arai', 'icat',
-      'which gps is mandatory', 'government certified', 'state rto', 'permit'
+      'which gps is mandatory', 'government certified', 'state rto', 'permit', 'rto approved'
     ],
-    answer: 'AIS-140 certified GPS trackers (such as Prithvi 140) are legally mandated by MoRTH for all commercial vehicles, buses, taxis, and mining fleets. They feature dual embedded eSIMs, internal battery backup, and emergency SOS panic buttons linked to state emergency command centers.',
+    summary: 'AIS-140 certified GPS trackers (such as Prithvi 140) are legally mandated by MoRTH for all commercial vehicles, buses, taxis, and mining fleets across India.',
+    bullets: [
+      'MoRTH Compliance: Pre-certified by ARAI & ICAT with official VLTD national backend approval.',
+      'Emergency SOS: Built-in hardware panic button directly wired to state 112 emergency response systems.',
+      'Dual eSIMs: Internal embedded dual-profile telecom connectivity ensuring zero network blind spots.',
+      'Backup Battery: Minimum 4-hour internal battery backup during vehicle power disconnection.'
+    ],
     recommended: {
       name: 'T98 AIS 140 GPS Device',
       slug: 'prithvi-140',
-      price: '₹3,800',
-      badge: 'Govt Certified',
+      price: '₹3,800 + GST',
+      badge: 'Govt Certified AIS-140',
       image: '/images/hardware/prithvi-140.svg',
       path: '/hardware/prithvi-140'
     },
-    category: 'Hardware',
-    actionText: 'Explore AIS-140 Devices →'
+    followUps: [
+      'What are the bulk price slabs for AIS-140?',
+      'Does it include state RTO certificate approval?',
+      'How to connect panic button to state servers?'
+    ]
   },
   {
     id: 'ai-dashcam-adas',
-    question: 'How to detect driver fatigue, drowsiness, and prevent vehicle collisions?',
+    question: 'How to detect driver fatigue, drowsiness, and prevent road collisions?',
     aliases: [
       'driver fatigue', 'drowsiness', 'adas', 'dms', 'dashcam', 'collision',
       'sleep', 'eyes closed', 'phone distraction', 'fatigue alerts', 'live video',
-      'ai camera', 'prevent accident', 'lane departure'
+      'ai camera', 'prevent accident', 'lane departure', 'camera', 'video'
     ],
-    answer: 'The Falcon F1 AI Dashcam combines front ADAS (Forward Collision & Lane Departure Warnings) with driver-facing DMS to monitor eye blinks, yawning, and phone use in real time. It triggers immediate in-cabin audio alarms and streams 4G video evidence directly to the fleet portal.',
+    summary: 'The Falcon F1 AI Dashcam combines front-facing ADAS and driver-facing DMS computer vision to identify driver drowsiness, micro-sleeps, and distraction in real time.',
+    bullets: [
+      'DMS Driver Monitoring: Infrared camera monitors eye closure rate (PERCLOS), yawning, and mobile phone usage.',
+      'ADAS Active Safety: Real-time forward collision warning (FCW) and lane departure warning (LDW).',
+      'Instant In-Cabin Alarms: Voice and buzzer alerts immediately wake the driver before a crash occurs.',
+      '4G Live Streaming: Automatically uploads 10-second HD video clips of critical events to the cloud portal.'
+    ],
     recommended: {
       name: 'Mercetech Falcon F1 AI Camera',
       slug: 'falcon-f1-ai-4g',
-      price: '₹11,200',
-      badge: 'ADAS + DMS',
+      price: '₹11,200 + GST',
+      badge: 'ADAS + DMS Dual AI',
       image: '/images/hardware/falcon-f1.svg',
       path: '/hardware/falcon-f1-ai-4g'
     },
-    category: 'Hardware',
-    actionText: 'View AI Dashcam →'
+    followUps: [
+      'Can I watch 4G live streaming from multiple cameras?',
+      'Does it record in complete darkness using IR night vision?',
+      'How much cloud storage is included with the device?'
+    ]
   },
   {
     id: 'fuel-theft-sensor',
@@ -100,19 +119,28 @@ const FLEET_KNOWLEDGE_BASE = [
     aliases: [
       'fuel theft', 'fuel sensor', 'prevent fuel theft', 'diesel theft', 'sudden drop',
       'fuel level', 'ble fuel', 'capacitive fuel', 'ultrasonic fuel', 'mileage fraud',
-      'how to stop fuel theft', 'diesel leak', 'fuel monitoring'
+      'how to stop fuel theft', 'diesel leak', 'fuel monitoring', 'fuel drainage'
     ],
-    answer: 'Wireless BLE 5.0 and capacitive fuel level sensors (like SP-BLE4) monitor tank levels with 99.5% accuracy. They trigger instant SMS and dashboard alarms upon sudden fuel drops, drainage, or unauthorized tank cap opening without any wire cutting.',
+    summary: 'Wireless BLE 5.0 and capacitive fuel level sensors (like SP-BLE4) measure fuel volume with 99.5% accuracy, triggering instant alarms on unauthorized tank cap opening or sudden diesel drainage.',
+    bullets: [
+      '99.5% Measurement Accuracy: Capacitive measuring rod or bottom-mounted non-invasive ultrasonic sensor.',
+      'Sudden Drop Alarms: Instant SMS, push notification, and portal alert within 30 seconds of fuel siphoning.',
+      'Wireless BLE Connectivity: Completely eliminates wiring from the diesel tank to cabin, preventing sparks.',
+      'Temperature Compensation: Automatically adjusts readings for fuel thermal expansion in summer.'
+    ],
     recommended: {
       name: 'LLS BLE-4 Fuel Sensor',
       slug: 'sp-ble4-fuel',
-      price: '₹4,500',
-      badge: '99.5% Accuracy',
+      price: '₹4,500 + GST',
+      badge: '99.5% Accuracy BLE',
       image: '/images/hardware/sp-ble4-fuel.svg',
       path: '/hardware/sp-ble4-fuel'
     },
-    category: 'Hardware',
-    actionText: 'View Fuel Sensor →'
+    followUps: [
+      'Can I install the fuel sensor without drilling the tank?',
+      'How does the fuel theft alert get sent to my phone?',
+      'Does it work with standard GPS trackers via RS485 or Bluetooth?'
+    ]
   },
   {
     id: 'plug-and-play-obd',
@@ -120,19 +148,28 @@ const FLEET_KNOWLEDGE_BASE = [
     aliases: [
       'no wire cut', 'plug and play', 'obd', 'easy install', 'magnetic',
       'diy installation', 'wireless gps', 'car tracker without wire', 'portable',
-      'battery tracker', 'zero wiring'
+      'battery tracker', 'zero wiring', 'plug & play'
     ],
-    answer: 'Yes! OBD-II plug-and-play trackers plug straight into your vehicle’s diagnostic port under the dashboard in 10 seconds. For unpowered assets, heavy-duty magnetic trackers (like GL500 4G) attach magnetically to chassis with up to 3 years standby battery life.',
+    summary: 'Yes! OBD-II plug-and-play trackers (such as Eco5 Lite) insert straight into the car OBD diagnostic port in under 10 seconds. For unpowered cargo, heavy-duty magnetic GPS units attach with zero wiring.',
+    bullets: [
+      'Zero Wire Cutting: Completely preserves OEM vehicle warranty on new cars and electric vehicles.',
+      '10-Second Setup: Simply plug into the OBD-II port below the dashboard; power and diagnostics are automatic.',
+      'Live Telemetry: Reads speed, engine RPM, odometer, and diagnostic trouble codes (DTC).',
+      'Magnetic Alternative: GL500 4G magnetic tracker with up to 3 years battery life for trailers and containers.'
+    ],
     recommended: {
       name: 'Eco5 Lite OBD GPS Tracker',
       slug: 'eco5-lite',
-      price: '₹1,800',
-      badge: 'Plug & Play',
+      price: '₹1,800 + GST',
+      badge: 'Plug & Play OBD',
       image: '/images/hardware/eco5-lite.svg',
       path: '/hardware/eco5-lite'
     },
-    category: 'Hardware',
-    actionText: 'View OBD Tracker →'
+    followUps: [
+      'Where is the OBD port located in my car?',
+      'Does an OBD tracker void vehicle manufacturer warranty?',
+      'How long does the magnetic tracker battery last?'
+    ]
   },
   {
     id: 'cargo-elock',
@@ -140,19 +177,28 @@ const FLEET_KNOWLEDGE_BASE = [
     aliases: [
       'container lock', 'e-lock', 'elock', 'cargo security', 'tamper alert',
       'customs lock', 'remote unlock', 'otp unlock', 'rope cut', 'padlock',
-      'bonded truck', 'lock box'
+      'bonded truck', 'lock box', 'container tracker'
     ],
-    answer: 'Smart GPS E-Locks (like 7H E-Lock) feature an IP68 waterproof heavy-duty body with a stainless steel locking cable. They unlock exclusively via authorized remote OTP or RFID cards and send instant emergency sirens if the cable is cut or tampered.',
+    summary: 'Heavy-duty GPS Smart E-Locks (like 7H E-Lock) provide IP68 waterproof physical padlock protection with steel wire ropes that can only be unlocked via authorized remote OTP or RFID cards.',
+    bullets: [
+      'Remote OTP Unlock: Command center or authorized driver enters one-time OTP via app or SMS to release lock.',
+      'Anti-Tamper & Rope Cut Siren: Instant siren and satellite alarm if the steel cable is cut or chassis opened.',
+      'Customs & Bonded Ready: Meets national excise and customs transit bond tracking specifications.',
+      'Rechargeable 15,000mAh Battery: Operates up to 45 days on a single USB charge with live location pings.'
+    ],
     recommended: {
       name: 'Magnet 7H E-Lock Container Tracker',
       slug: '7h-elock',
-      price: '₹6,200',
-      badge: 'IP68 Padlock',
+      price: '₹6,200 + GST',
+      badge: 'IP68 Padlock E-Lock',
       image: '/images/hardware/7h-elock.svg',
       path: '/hardware/7h-elock'
     },
-    category: 'Hardware',
-    actionText: 'View Smart E-Lock →'
+    followUps: [
+      'Can the e-lock be unlocked when there is no cellular network?',
+      'How does geofence automated unlocking work at destination?',
+      'Is the locking cable reusable or disposable?'
+    ]
   },
   {
     id: 'mdvr-multi-camera',
@@ -160,19 +206,28 @@ const FLEET_KNOWLEDGE_BASE = [
     aliases: [
       '4 camera', 'mdvr', 'mobile dvr', '360 video', 'blind spot',
       'bus camera', 'truck camera', 'video recording', 'cctv for truck',
-      'multi camera', 'dvr'
+      'multi camera', 'dvr', 't5324'
     ],
-    answer: '4-Channel Mobile DVRs (like T5324 MDVR) record 4 Full HD cameras simultaneously (front road, driver cabin, side blind spots, and rear reverse) onto dual SD/SSD cards with 4G live streaming back to your command center.',
+    summary: '4-Channel Mobile Digital Video Recorders (MDVRs such as T5324) record 4 Full HD cameras simultaneously (front road, driver cabin, side blind spots, and rear reverse) with 4G live cloud streaming.',
+    bullets: [
+      '4-Channel 1080P HD: Covers road ahead, driver behavior, cargo compartment, and rear reversing blind spots.',
+      '2TB Storage Support: Dual SD card or shockproof 2.5" SSD storage for up to 30 days continuous recording.',
+      'Built-in 4G & GPS: Live streaming video and real-time location tracking from any browser or mobile app.',
+      'Automotive Surge Protection: Withstands 8V–36V power fluctuations in heavy trucks and buses.'
+    ],
     recommended: {
       name: 'T98 SD Card MDVR',
       slug: 't5324-mdvr',
-      price: '₹16,800',
-      badge: '4-Channel 4G',
+      price: '₹16,800 + GST',
+      badge: '4-Channel 4G MDVR',
       image: '/images/hardware/t5324-mdvr.svg',
       path: '/hardware/t5324-mdvr'
     },
-    category: 'Hardware',
-    actionText: 'View 4-Channel MDVR →'
+    followUps: [
+      'How many hours of video can be stored on a 512GB SD card?',
+      'Can dispatchers talk back to the driver using 2-way audio?',
+      'Does it automatically upload incident footage upon crash?'
+    ]
   },
   {
     id: 'autoparts-compatibility',
@@ -180,19 +235,28 @@ const FLEET_KNOWLEDGE_BASE = [
     aliases: [
       'parts that fit', 'vehicle number', 'number plate', 'compatibility', 'auto parts',
       'brake pads', 'wiper', 'filter', 'engine oil', 'battery', 'spare parts', 'car parts',
-      'find parts'
+      'find parts', 'vin search'
     ],
-    answer: 'Enter your Indian vehicle registration number (e.g. GJ 15 AT 7788) in Setu Auto Parts. Our catalog automatically decodes your vehicle’s make, model, variant, and manufacturing year to show 100% verified compatible OEM & aftermarket parts.',
+    summary: 'Enter your Indian vehicle registration number (e.g. GJ 15 AT 7788) in Setu Auto Parts. The catalog automatically decodes your vehicle make, model, variant, and year to show 100% verified compatible parts.',
+    bullets: [
+      'Instant Plate Decoder: Fetches exact engine displacement, fuel type, and manufacturing year in 1 click.',
+      'Zero Fitment Error: Only parts guaranteed to fit your vehicle chassis and brake rotor specs are displayed.',
+      'OEM & Tier-1 Brands: Genuine Bosch, Brembo, Mann-Filter, Mobil 1, and OEM replacement components.',
+      'Direct Warranty: All spares backed by verified manufacturer warranties and GST invoices.'
+    ],
     recommended: {
-      name: 'Vehicle Registration Filter',
+      name: 'Vehicle Plate Compatibility Search',
       slug: 'auto-parts',
-      price: 'Instant Match',
-      badge: 'Plate Match',
+      price: 'Instant Fitment',
+      badge: '100% Verified Match',
       image: '/images/autoparts/brake-pads.svg',
       path: '/auto-parts'
     },
-    category: 'Auto Parts',
-    actionText: 'Search Parts by Vehicle No. →'
+    followUps: [
+      'Can I search auto parts using chassis number / VIN?',
+      'How fast are auto parts delivered to commercial workshops?',
+      'Are GST invoices provided for commercial fleet maintenance?'
+    ]
   },
   {
     id: 'finance-cibil-emi',
@@ -200,19 +264,28 @@ const FLEET_KNOWLEDGE_BASE = [
     aliases: [
       'emi', 'cibil', 'finance', 'loan', 'no cibil', 'hardware emi',
       'pay later', 'monthly installment', 'credit limit', 'fleet finance',
-      'equipment financing'
+      'equipment financing', 'financing'
     ],
-    answer: 'Yes, Setu Finance provides equipment financing up to ₹2.5 Lakh with 12 to 24 month EMI terms. Credit limits are determined directly from your live fleet telematics and trip history, enabling new and small fleet operators to qualify without a traditional CIBIL check.',
+    summary: 'Yes! Setu Finance provides hardware equipment financing up to ₹2.5 Lakh with 12 to 24 month EMI terms. Credit limits are determined directly from your live fleet telematics and trip history with zero CIBIL score check.',
+    bullets: [
+      'Zero CIBIL Check: New and small fleet operators qualify based on vehicle count and active mileage.',
+      'Limits up to ₹2.5 Lakh: Covers GPS trackers, AI dashcams, fuel sensors, and annual software subscriptions.',
+      'Flexible 12–24 Month Tenures: Low monthly installments (e.g. ₹22,565/mo for ₹2.5 Lakh over 12 months).',
+      'Same-Day Approval: Digital KYC and instant equipment dispatch without bank branch visits.'
+    ],
     recommended: {
-      name: 'Setu Fleet Finance',
+      name: 'Setu Fleet Equipment Finance',
       slug: 'finance',
-      price: '₹22,565/mo for ₹2.5L',
-      badge: 'Zero CIBIL',
+      price: 'From ₹22,565/mo',
+      badge: 'Zero CIBIL EMI',
       image: '/images/hardware/br06.svg',
       path: '/finance'
     },
-    category: 'Finance',
-    actionText: 'Check My Finance Limit →'
+    followUps: [
+      'What documents are required for Setu Finance?',
+      'Can I pay off the EMI early without foreclosure charges?',
+      'How is my credit limit calculated from telematics data?'
+    ]
   },
   {
     id: 'software-integration',
@@ -220,38 +293,28 @@ const FLEET_KNOWLEDGE_BASE = [
     aliases: [
       'software', 'platform', 'trakzee', 'smartbus', 'taskeye', 'logio',
       'telematics software', 'device integration', 'protocols', 'fleet software',
-      'white label'
+      'white label', 'solutions'
     ],
-    answer: 'All hardware devices purchased on Setu come pre-configured for instant plug-and-play synchronization with Uffizio’s Trakzee, SmartBus, TaskEye, and Logio platforms, as well as open REST APIs for custom enterprise ERPs.',
+    summary: 'All hardware purchased on Setu is pre-integrated with Uffizio’s suite of enterprise fleet management platforms (Trakzee, SmartBus, TaskEye, Logio) and supports 1,500+ standard GPS protocols.',
+    bullets: [
+      'Trakzee Suite: Live tracking, geo-fencing, speed control, maintenance schedules, and eco-driving analytics.',
+      'SmartBus Module: School bus safety, RFID student boarding alerts, and parent notification apps.',
+      'TaskEye Workforce: Field employee task allocation, route optimization, and digital proof-of-delivery.',
+      'Open REST APIs: Connects telematics streams directly into SAP, Oracle, and proprietary fleet ERPs.'
+    ],
     recommended: {
       name: 'Trakzee Fleet Management Suite',
       slug: 'solutions',
-      price: 'From ₹99/mo',
-      badge: 'Pre-Integrated',
+      price: 'From ₹99/vehicle/mo',
+      badge: 'Pre-Integrated Software',
       image: '/images/hardware/vector-v2-ai.svg',
       path: '/solutions'
     },
-    category: 'Software',
-    actionText: 'Explore Software Solutions →'
-  },
-  {
-    id: 'fastag-fuel-integration',
-    question: 'How does Setu FASTag and fleet fuel card integration work?',
-    aliases: [
-      'fastag', 'toll', 'fuel card', 'hpcl', 'iocl', 'toll expense',
-      'fastag & fuel', 'automated toll', 'toll leak', 'fuel card'
-    ],
-    answer: 'Setu FASTag & Fuel integrates electronic toll deduction and HPCL/IOCL fleet fuel cards directly with your vehicle’s GPS odometer telemetry, eliminating driver reimbursement fraud and providing automated toll expense reports.',
-    recommended: {
-      name: 'Setu FASTag & Fleet Fuel',
-      slug: 'solutions',
-      price: 'Integrated API',
-      badge: 'Automated',
-      image: '/images/hardware/v5-4g.svg',
-      path: '/solutions'
-    },
-    category: 'FASTag & Fuel',
-    actionText: 'View FASTag Integration →'
+    followUps: [
+      'Can I white-label the software with my company logo and domain?',
+      'Is there a mobile app available for iOS and Android?',
+      'Can I connect third-party GPS devices I already own?'
+    ]
   },
   {
     id: 'bulk-pricing-slabs',
@@ -260,22 +323,31 @@ const FLEET_KNOWLEDGE_BASE = [
       'bulk price', 'discount', 'slabs', 'bulk slab', 'volume discount',
       'wholesale', 'how many units', 'bulk order', 'price tiers', 'dealer discount'
     ],
-    answer: 'All hardware devices feature volume tiers: 1–4 units (standard price), 5–20 units (5–10% discount), 21–50 units (12–15% discount), and 50+ units (wholesale enterprise pricing with free SIM connectivity and deployment onboarding).',
+    summary: 'All hardware devices feature automated quantity tiers: 1–4 units (standard price), 5–20 units (5–10% discount), 21–50 units (12–15% discount), and 50+ units (wholesale enterprise pricing).',
+    bullets: [
+      'Instant Tier Calculation: Slabs apply automatically in your cart and product details page.',
+      'Volume Savings: Example: AIS-140 GPS drops from ₹3,800 to ₹3,325 on volume orders.',
+      'Complimentary Pre-Configured SIMs: High volume tiers include pre-activated multi-network eSIM cards.',
+      'Dedicated Account Manager: Orders of 50+ units receive dedicated technician onboarding support.'
+    ],
     recommended: {
-      name: 'Bulk Tier Pricing',
+      name: 'Bulk Tier Pricing Engine',
       slug: 'hardware',
-      price: 'Up to 25% Off',
-      badge: 'Volume Slabs',
+      price: 'Up to 25% Off Slabs',
+      badge: 'Volume Discounts',
       image: '/images/hardware/prithvi-140.svg',
       path: '/hardware'
     },
-    category: 'Hardware',
-    actionText: 'View Hardware Catalog →'
+    followUps: [
+      'Can I mix different hardware models to reach bulk discount slabs?',
+      'Are bulk purchases eligible for GST input tax credit (ITC)?',
+      'Do you offer dealer distributor pricing for resellers?'
+    ]
   }
 ];
 
-/* ── Smart Knowledge Matcher ── */
-function findRelevantAnswer(query, activeCategory = 'Hardware') {
+/* ── Smart AI Overview Generator ── */
+function generateAIOverview(query) {
   if (!query || !query.trim()) return null;
   const cleanQ = query.trim().toLowerCase();
   const tokens = cleanQ.replace(/[^\w\s-]/g, ' ').split(/\s+/).filter(Boolean);
@@ -286,25 +358,20 @@ function findRelevantAnswer(query, activeCategory = 'Hardware') {
   for (const item of FLEET_KNOWLEDGE_BASE) {
     let score = 0;
     const qLower = item.question.toLowerCase();
-    const ansLower = item.answer.toLowerCase();
+    const sumLower = item.summary.toLowerCase();
 
     // Exact phrase match
-    if (qLower.includes(cleanQ)) score += 25;
+    if (qLower.includes(cleanQ)) score += 30;
     if (item.aliases.some(alias => cleanQ.includes(alias) || alias.includes(cleanQ))) {
-      score += 18;
+      score += 20;
     }
 
     // Token overlap
     for (const token of tokens) {
       if (token.length <= 2) continue;
       if (qLower.includes(token)) score += 6;
-      if (ansLower.includes(token)) score += 2;
+      if (sumLower.includes(token)) score += 3;
       if (item.aliases.some(a => a.includes(token))) score += 5;
-    }
-
-    // Boost if matching active category
-    if (activeCategory && item.category.toLowerCase() === activeCategory.toLowerCase()) {
-      score += 4;
     }
 
     if (score > bestScore) {
@@ -313,8 +380,58 @@ function findRelevantAnswer(query, activeCategory = 'Hardware') {
     }
   }
 
-  return bestScore >= 6 ? bestMatch : null;
+  // If high quality match found
+  if (bestScore >= 5 && bestMatch) {
+    return bestMatch;
+  }
+
+  // Fallback AI synthesis based on catalog items
+  const matchedProd = products.find(p => {
+    const pText = `${p.name} ${p.shortDescription} ${(p.tags || []).join(' ')}`.toLowerCase();
+    return tokens.some(t => t.length > 2 && pText.includes(t));
+  });
+
+  if (matchedProd) {
+    return {
+      id: `ai-gen-${matchedProd.id}`,
+      question: `Setu AI Overview for "${query.trim()}"`,
+      summary: `${matchedProd.name} is an enterprise-grade telematics solution designed for commercial fleet operations. It delivers real-time telemetry, ${matchedProd.shortDescription.toLowerCase()}`,
+      bullets: [
+        `Key Features: ${(matchedProd.features || ['Live GPS tracking', 'Instant alerts', 'Cloud sync']).slice(0, 3).join(', ')}.`,
+        `Pricing: Starts at ₹${matchedProd.price?.toLocaleString('en-IN')} with wholesale volume discount slabs available.`,
+        'Connectivity: Pre-integrated with Uffizio software platforms and open REST APIs.',
+        'Warranty & Support: 1-Year manufacturer replacement warranty with 24/7 technical assistance.'
+      ],
+      recommended: {
+        name: matchedProd.name,
+        slug: matchedProd.slug,
+        price: `₹${matchedProd.price?.toLocaleString('en-IN')}`,
+        badge: matchedProd.tags?.[0] || 'Recommended',
+        image: matchedProd.image,
+        path: `/hardware/${matchedProd.slug}`
+      },
+      followUps: [
+        `What are the technical specifications of ${matchedProd.name}?`,
+        'How many units are required for wholesale bulk pricing?',
+        'Can this device be financed through Setu Finance?'
+      ]
+    };
+  }
+
+  return null;
 }
+
+/* ── Suggestions Pool below Search Bar ── */
+const RICH_SEARCH_SUGGESTIONS = [
+  { label: '✨ AIS-140 Govt GPS', query: 'Which GPS tracker is government approved & mandatory for commercial vehicles?' },
+  { label: '✨ ADAS AI Dashcam', query: 'How to detect driver fatigue and drowsiness with AI dashcam?' },
+  { label: '✨ Prevent Fuel Theft', query: 'How to monitor fuel levels and prevent diesel theft in trucks?' },
+  { label: '✨ Plug & Play OBD', query: 'Are there GPS trackers that don’t require wire cutting?' },
+  { label: '✨ EMI without CIBIL', query: 'Can I buy fleet hardware on EMI without a CIBIL credit check?' },
+  { label: '✨ Vehicle Plate Parts', query: 'How do I find exact auto parts that fit my vehicle number?' },
+  { label: '✨ 4G Live MDVR', query: 'How to record video from 4 angles in heavy commercial vehicles?' },
+  { label: '✨ Smart Cargo E-Lock', query: 'How to secure shipping containers and trucks during transit?' }
+];
 
 /* ── Search History Helpers ── */
 const DEFAULT_LAST_SEARCHES = [
@@ -334,7 +451,7 @@ function getLastSearches() {
   return DEFAULT_LAST_SEARCHES;
 }
 
-function saveSearchTerm(term, category = 'Recent') {
+function saveSearchTerm(term, category = 'Search') {
   if (!term || !term.trim()) return;
   const clean = term.trim();
   try {
@@ -375,7 +492,6 @@ function getProductBadge(product) {
 
 /* ────────────────────────────────────────────────────────────
    1. TOP MARKETING BANNER SLIDER (5 to 6 Banners at the Top)
-   Matches Screenshot media_1791351162028.png
 ──────────────────────────────────────────────────────────── */
 const TOP_MARKETING_BANNERS = [
   {
@@ -520,7 +636,6 @@ function TopMarketingBannerSlider() {
 
         {/* Left Column: Marketing Copy */}
         <div className="top-marketing-left-col">
-          {/* Badges Row */}
           <div className="top-marketing-badges-row">
             <span className="top-marketing-partner-pill">
               {activeBanner.partnerBadge}
@@ -533,19 +648,16 @@ function TopMarketingBannerSlider() {
             </span>
           </div>
 
-          {/* Headline */}
           <h1 className="top-marketing-heading">
             {activeBanner.title.split('\n').map((line, i) => (
               <span key={i} className="top-marketing-heading-line">{line}</span>
             ))}
           </h1>
 
-          {/* Subtitle */}
           <p className="top-marketing-desc">
             {activeBanner.desc}
           </p>
 
-          {/* Action & Pricing Row */}
           <div className="top-marketing-cta-row">
             <button
               type="button"
@@ -579,7 +691,7 @@ function TopMarketingBannerSlider() {
           </div>
         </div>
 
-        {/* Bottom-Right Navigation & Dashes */}
+        {/* Bottom-Right Controls */}
         <div className="top-marketing-controls" onClick={(e) => e.stopPropagation()}>
           <button 
             type="button" 
@@ -618,61 +730,21 @@ function TopMarketingBannerSlider() {
 }
 
 /* ────────────────────────────────────────────────────────────
-   2. FLOATING SEARCH CARD & INTELLIGENT QUESTION ENGINE
-   Matches Red Box in Screenshot media_1791351162028.png
+   2. FLOATING ADVANCED SEARCH CARD WITH GOOGLE-LIKE AI MODE
+   (Category tabs removed as requested; AI Mode + Suggestions added)
 ──────────────────────────────────────────────────────────── */
-const SEARCH_TABS = [
-  { id: 'hardware', label: 'Hardware', path: '/hardware' },
-  { id: 'software', label: 'Software', path: '/solutions' },
-  { id: 'fastag', label: 'FASTag & Fuel', hasBadge: true, badgeText: 'NEW', path: '/solutions' },
-  { id: 'finance', label: 'Finance', path: '/finance' },
-  { id: 'autoparts', label: 'Auto Parts', path: '/auto-parts' }
-];
-
-const SEARCH_PROMPTS_BY_TAB = {
-  hardware: [
-    'Search for BR06 GPS tracker...',
-    'Find AIS-140 approved devices for transport...',
-    'Search T5324 AI 4-channel MDVR recorder...',
-    'Find fuel level sensors for commercial trucks...',
-    'Search OBD-II plug-and-play vehicle trackers...',
-    'Ask: which GPS is government approved?'
-  ],
-  software: [
-    'Search Trakzee fleet software...',
-    'Find SmartBus school bus tracking...',
-    'Search TaskEye field workforce manager...',
-    'Ask: which software integrates with these devices?'
-  ],
-  fastag: [
-    'Search FASTag automated toll integration...',
-    'Find fuel cards for commercial fleets...',
-    'Search BLE ultrasonic fuel sensors...',
-    'Ask: how to prevent fuel theft in trucks?'
-  ],
-  finance: [
-    'Search equipment financing on EMI...',
-    'Check fleet credit limits up to ₹2.5 Lakh...',
-    'Ask: can I get EMI without CIBIL score?'
-  ],
-  autoparts: [
-    'Enter vehicle number (e.g. GJ 15 AT 7788)...',
-    'Search brake pads, filters, wipers...',
-    'Ask: how to find parts that fit my car?'
-  ]
-};
-
-const POPULAR_CHIPS = [
-  { label: 'AIS-140', query: 'AIS-140' },
-  { label: 'AI dashcam', query: 'AI dashcam' },
-  { label: 'Fuel sensor', query: 'Fuel sensor' },
-  { label: 'E-lock', query: 'E-lock' },
-  { label: 'OBD tracker', query: 'OBD tracker' }
+const AI_TYPEWRITER_PROMPTS = [
+  'Ask Setu AI: "Which GPS tracker is government approved & mandatory?"',
+  'Ask Setu AI: "How to detect driver fatigue and road collisions?"',
+  'Ask Setu AI: "How to monitor fuel levels and stop diesel theft in trucks?"',
+  'Ask Setu AI: "Can I buy fleet hardware on EMI without a CIBIL check?"',
+  'Ask Setu AI: "How to find verified auto parts by vehicle registration number?"',
+  'Ask Setu AI: "Which software connects with these GPS devices?"'
 ];
 
 function FloatingSearchCard() {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('hardware');
+  const [isAiMode, setIsAiMode] = useState(true); // AI Mode ON by default like Google AI Overview
   const [query, setQuery] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -680,9 +752,7 @@ function FloatingSearchCard() {
   const containerRef = useRef(null);
   const inputRef = useRef(null);
 
-  // Typewriter placeholder based on active tab
-  const prompts = SEARCH_PROMPTS_BY_TAB[activeTab] || SEARCH_PROMPTS_BY_TAB.hardware;
-  const animatedPlaceholder = useTypewriter(prompts, !query);
+  const animatedPlaceholder = useTypewriter(AI_TYPEWRITER_PROMPTS, !query);
 
   // Close dropdown on outside click
   useEffect(() => {
@@ -701,11 +771,11 @@ function FloatingSearchCard() {
     if (updated) setLastSearches(updated);
   };
 
-  // Smart Answer from Fleet Knowledge Base
-  const matchedAnswer = useMemo(() => {
+  // Google-Style AI Overview match
+  const aiOverview = useMemo(() => {
     if (!query.trim()) return null;
-    return findRelevantAnswer(query, activeTab);
-  }, [query, activeTab]);
+    return generateAIOverview(query);
+  }, [query]);
 
   // Matching Hardware Products
   const matchingHardware = useMemo(() => {
@@ -721,61 +791,49 @@ function FloatingSearchCard() {
       const pCat = (p.category || '').toLowerCase();
       const pSub = (p.subcategory || '').toLowerCase();
       const pDesc = (p.shortDescription || '').toLowerCase();
-      const pFeatures = (p.features || []).join(' ').toLowerCase();
 
       if (pName.includes(cleanQ) || pSlug.includes(cleanQ)) return true;
-      const fullText = `${pName} ${pSlug} ${pCat} ${pSub} ${pDesc} ${pFeatures}`;
+      const fullText = `${pName} ${pSlug} ${pCat} ${pSub} ${pDesc}`;
       return tokens.every(token => fullText.includes(token));
     }).slice(0, 4);
   }, [query]);
 
   // Matching Software Solutions
   const matchingSolutions = useMemo(() => {
-    if (!query.trim() || activeTab === 'autoparts') return [];
+    if (!query.trim()) return [];
     const cleanQ = query.trim().toLowerCase();
     return solutions.filter(s => {
       return s.name.toLowerCase().includes(cleanQ) || (s.description || '').toLowerCase().includes(cleanQ);
     }).slice(0, 2);
-  }, [query, activeTab]);
+  }, [query]);
 
   // Matching Auto Parts
   const matchingParts = useMemo(() => {
-    if (!query.trim() || (activeTab !== 'autoparts' && !query.toLowerCase().includes('part') && !query.toLowerCase().includes('brake') && !query.toLowerCase().includes('filter'))) return [];
+    if (!query.trim()) return [];
     const cleanQ = query.trim().toLowerCase();
     const partsList = autopartsData.parts || [];
     return partsList.filter(p => {
       return p.name.toLowerCase().includes(cleanQ) || (p.category || '').toLowerCase().includes(cleanQ) || (p.brand || '').toLowerCase().includes(cleanQ);
     }).slice(0, 3);
-  }, [query, activeTab]);
+  }, [query]);
 
-  const handleSelectChip = (chipQuery) => {
-    setQuery(chipQuery);
+  const handleSelectSuggestion = (suggestionQuery) => {
+    setQuery(suggestionQuery);
     setIsDropdownOpen(true);
-    handleRecordSearch(chipQuery, 'Popular');
+    handleRecordSearch(suggestionQuery, 'AI Suggestion');
     if (inputRef.current) inputRef.current.focus();
-  };
-
-  const handleSelectQuestion = (q) => {
-    setQuery(q.question);
-    setIsDropdownOpen(true);
-    handleRecordSearch(q.question, 'Question');
   };
 
   const handleSubmit = (e) => {
     if (e) e.preventDefault();
     if (!query.trim()) return;
-    handleRecordSearch(query.trim(), 'Search');
+    handleRecordSearch(query.trim(), 'AI Search');
     setIsDropdownOpen(false);
 
-    // If an exact answer is found, we keep dropdown open or navigate to recommended
-    if (matchedAnswer && matchedAnswer.recommended && matchedAnswer.recommended.path) {
-      navigate(matchedAnswer.recommended.path);
+    if (aiOverview && aiOverview.recommended && aiOverview.recommended.path) {
+      navigate(aiOverview.recommended.path);
     } else if (matchingHardware.length > 0) {
       navigate(`/hardware/${matchingHardware[0].slug}`);
-    } else if (activeTab === 'autoparts') {
-      navigate(`/auto-parts?search=${encodeURIComponent(query.trim())}`);
-    } else if (activeTab === 'software') {
-      navigate(`/solutions`);
     } else {
       navigate(`/hardware?search=${encodeURIComponent(query.trim())}`);
     }
@@ -788,50 +846,24 @@ function FloatingSearchCard() {
         Everything your fleet runs on, in one place.
       </h2>
 
-      {/* Category Tabs Row */}
-      <div className="floating-search-tabs">
-        {SEARCH_TABS.map((tab) => {
-          const isActive = activeTab === tab.id;
-          return (
-            <button
-              key={tab.id}
-              type="button"
-              className={`floating-search-tab ${isActive ? 'floating-search-tab--active' : ''}`}
-              onClick={() => {
-                setActiveTab(tab.id);
-                if (inputRef.current) inputRef.current.focus();
-              }}
-            >
-              <span className="floating-search-tab-text">{tab.label}</span>
-              {tab.hasBadge && (
-                <span className="floating-search-badge-new">{tab.badgeText}</span>
-              )}
-              {isActive && <div className="floating-search-tab-underline" />}
-            </button>
-          );
-        })}
-      </div>
-
-      {/* Main Search Input Box */}
+      {/* Main Search Input Box with Google-style AI Mode */}
       <form 
-        className={`floating-search-input-box ${isFocused ? 'floating-search-input-box--focused' : ''}`}
+        className={`floating-search-input-box ${isAiMode ? 'floating-search-input-box--ai' : ''} ${isFocused ? 'floating-search-input-box--focused' : ''}`}
         onSubmit={handleSubmit}
       >
-        <svg 
-          className="floating-search-icon" 
-          width="18" 
-          height="18" 
-          viewBox="0 0 24 24" 
-          fill="none" 
-          stroke="#64748B" 
-          strokeWidth="2.2" 
-          strokeLinecap="round" 
-          strokeLinejoin="round"
-        >
-          <circle cx="11" cy="11" r="8" />
-          <line x1="21" y1="21" x2="16.65" y2="16.65" />
-        </svg>
+        {/* Left Icon: Sparkle in AI Mode or Standard Search Icon */}
+        <div className="floating-search-left-icon">
+          {isAiMode ? (
+            <span className="floating-search-sparkle-icon" title="Setu AI Mode Active">✨</span>
+          ) : (
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748B" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="11" cy="11" r="8" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+          )}
+        </div>
 
+        {/* Input */}
         <input
           ref={inputRef}
           type="text"
@@ -846,9 +878,10 @@ function FloatingSearchCard() {
             setIsFocused(true);
             setIsDropdownOpen(true);
           }}
-          aria-label="Search hardware, software, parts or ask any question"
+          aria-label="Ask Setu AI anything about fleet hardware, software, or parts"
         />
 
+        {/* Clear Button */}
         {query.trim().length > 0 && (
           <button
             type="button"
@@ -857,12 +890,27 @@ function FloatingSearchCard() {
               setQuery('');
               if (inputRef.current) inputRef.current.focus();
             }}
-            title="Clear"
+            title="Clear search"
           >
             ✕
           </button>
         )}
 
+        {/* Google-Style AI Mode Toggle Button */}
+        <button
+          type="button"
+          className={`floating-search-ai-toggle ${isAiMode ? 'floating-search-ai-toggle--active' : 'floating-search-ai-toggle--inactive'}`}
+          onClick={() => {
+            setIsAiMode(!isAiMode);
+            if (inputRef.current) inputRef.current.focus();
+          }}
+          title={isAiMode ? 'AI Mode is ON (Click to switch to standard search)' : 'Turn ON AI Mode'}
+        >
+          <span className="floating-search-ai-toggle-sparkle">✨</span>
+          <span>AI Mode</span>
+        </button>
+
+        {/* Submit Search Button */}
         <button 
           type="submit" 
           className="floating-search-submit-btn"
@@ -875,60 +923,105 @@ function FloatingSearchCard() {
         </button>
       </form>
 
-      {/* Popular Chips Row */}
-      <div className="floating-search-popular-row">
-        <span className="floating-search-popular-label">Popular:</span>
-        <div className="floating-search-chips-list">
-          {POPULAR_CHIPS.map((chip) => (
+      {/* ── Suggestions Row Directly Below Search ── */}
+      <div className="floating-search-suggestions-row">
+        <span className="floating-search-suggestions-label">
+          <span>Suggestions:</span>
+        </span>
+        <div className="floating-search-suggestions-list">
+          {RICH_SEARCH_SUGGESTIONS.map((item) => (
             <button
-              key={chip.label}
+              key={item.label}
               type="button"
-              className="floating-search-chip"
-              onClick={() => handleSelectChip(chip.query)}
+              className="floating-search-suggestion-chip"
+              onClick={() => handleSelectSuggestion(item.query)}
             >
-              {chip.label}
+              {item.label}
             </button>
           ))}
         </div>
       </div>
 
-      {/* ── Intelligent Search Dropdown (Instant Answers + Results) ── */}
+      {/* ── Dropdown Panel (Google-Style AI Overview + Results) ── */}
       {isDropdownOpen && (
         <div className="floating-search-dropdown">
-          
-          {/* 1. Verified Instant Answer Card (Answers ANY fleet question) */}
-          {matchedAnswer && (
-            <div className="search-dropdown-answer-card">
-              <div className="search-dropdown-answer-header">
-                <span className="search-dropdown-answer-badge">💡 Instant Answer</span>
-                <span className="search-dropdown-answer-cat">{matchedAnswer.category}</span>
-              </div>
-              <h4 className="search-dropdown-answer-q">{matchedAnswer.question}</h4>
-              <p className="search-dropdown-answer-text">{matchedAnswer.answer}</p>
 
-              {matchedAnswer.recommended && (
+          {/* 1. Google-Style ✨ Setu AI Overview */}
+          {isAiMode && aiOverview && (
+            <div className="search-dropdown-ai-overview">
+              <div className="search-dropdown-ai-header">
+                <span className="search-dropdown-ai-badge">
+                  <span>✨</span>
+                  <span>Setu AI Overview</span>
+                </span>
+                <span className="search-dropdown-ai-mode-tag">Generative AI</span>
+              </div>
+
+              <h3 className="search-dropdown-ai-question">{aiOverview.question}</h3>
+              <p className="search-dropdown-ai-text">{aiOverview.summary}</p>
+
+              {/* Key Takeaways */}
+              {aiOverview.bullets && aiOverview.bullets.length > 0 && (
+                <ul className="search-dropdown-ai-bullets">
+                  {aiOverview.bullets.map((b, idx) => {
+                    const parts = b.split(':');
+                    return (
+                      <li key={idx}>
+                        {parts.length > 1 ? (
+                          <>
+                            <strong>{parts[0]}:</strong>
+                            <span>{parts.slice(1).join(':')}</span>
+                          </>
+                        ) : (
+                          <span>{b}</span>
+                        )}
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
+
+              {/* Recommended Solution Card */}
+              {aiOverview.recommended && (
                 <div 
-                  className="search-dropdown-answer-recom"
+                  className="search-dropdown-ai-recom-card"
                   onClick={() => {
-                    handleRecordSearch(matchedAnswer.question, 'Answer');
+                    handleRecordSearch(aiOverview.question, 'AI Overview');
                     setIsDropdownOpen(false);
-                    navigate(matchedAnswer.recommended.path);
+                    navigate(aiOverview.recommended.path);
                   }}
                 >
-                  <div className="search-dropdown-answer-recom-thumb">
+                  <div className="search-dropdown-ai-recom-thumb">
                     <img 
-                      src={getAssetUrl(matchedAnswer.recommended.image)} 
-                      alt={matchedAnswer.recommended.name} 
+                      src={getAssetUrl(aiOverview.recommended.image)} 
+                      alt={aiOverview.recommended.name} 
                     />
                   </div>
-                  <div className="search-dropdown-answer-recom-info">
-                    <span className="search-dropdown-answer-recom-tag">{matchedAnswer.recommended.badge}</span>
-                    <span className="search-dropdown-answer-recom-name">{matchedAnswer.recommended.name}</span>
-                    <span className="search-dropdown-answer-recom-price">{matchedAnswer.recommended.price}</span>
+                  <div className="search-dropdown-ai-recom-info">
+                    <span className="search-dropdown-ai-recom-tag">{aiOverview.recommended.badge}</span>
+                    <span className="search-dropdown-ai-recom-name">{aiOverview.recommended.name}</span>
+                    <span className="search-dropdown-ai-recom-price">{aiOverview.recommended.price}</span>
                   </div>
-                  <button type="button" className="search-dropdown-answer-recom-btn">
-                    {matchedAnswer.actionText}
+                  <button type="button" className="search-dropdown-ai-recom-btn">
+                    View Details →
                   </button>
+                </div>
+              )}
+
+              {/* Follow-up Questions (Like Google AI Mode) */}
+              {aiOverview.followUps && (
+                <div className="search-dropdown-ai-followups">
+                  <span className="search-dropdown-ai-followup-label">Ask a follow up:</span>
+                  {aiOverview.followUps.map((fu, idx) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      className="search-dropdown-ai-followup-chip"
+                      onClick={() => handleSelectSuggestion(fu)}
+                    >
+                      {fu}
+                    </button>
+                  ))}
                 </div>
               )}
             </div>
@@ -942,7 +1035,7 @@ function FloatingSearchCard() {
                   <rect x="2" y="7" width="20" height="14" rx="2" />
                   <path d="M16 7V5a2 2 0 0 0-4 0v2" />
                 </svg>
-                <span>Available Hardware ({matchingHardware.length})</span>
+                <span>Matching Hardware ({matchingHardware.length})</span>
               </div>
               <div className="search-dropdown-items-list">
                 {matchingHardware.map((prod) => {
@@ -1049,8 +1142,8 @@ function FloatingSearchCard() {
             </div>
           )}
 
-          {/* 5. Frequently Asked Questions (When empty or related queries) */}
-          {query.trim().length === 0 ? (
+          {/* 5. Recommended AI Queries & Recent Searches when Empty */}
+          {query.trim().length === 0 && (
             <div className="search-dropdown-section">
               <div className="search-dropdown-section-header">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
@@ -1058,7 +1151,7 @@ function FloatingSearchCard() {
                   <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
                   <line x1="12" y1="17" x2="12.01" y2="17" />
                 </svg>
-                <span>Frequently Asked Fleet Questions</span>
+                <span>Trending AI Questions You Can Ask</span>
               </div>
               <div className="search-dropdown-faq-list">
                 {FLEET_KNOWLEDGE_BASE.slice(0, 4).map((faq) => (
@@ -1066,9 +1159,9 @@ function FloatingSearchCard() {
                     key={faq.id}
                     type="button"
                     className="search-dropdown-faq-btn"
-                    onClick={() => handleSelectQuestion(faq)}
+                    onClick={() => handleSelectSuggestion(faq.question)}
                   >
-                    <span className="search-dropdown-faq-icon">?</span>
+                    <span className="search-dropdown-faq-icon">✨</span>
                     <span className="search-dropdown-faq-text">{faq.question}</span>
                   </button>
                 ))}
@@ -1095,7 +1188,7 @@ function FloatingSearchCard() {
                         key={idx}
                         type="button"
                         className="search-dropdown-recent-chip"
-                        onClick={() => handleSelectChip(item.query || item.text)}
+                        onClick={() => handleSelectSuggestion(item.query || item.text)}
                       >
                         {item.text}
                       </button>
@@ -1104,33 +1197,6 @@ function FloatingSearchCard() {
                 </div>
               )}
             </div>
-          ) : (
-            /* Show Related Questions if no answer matched yet */
-            !matchedAnswer && (
-              <div className="search-dropdown-section">
-                <div className="search-dropdown-section-header">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-                    <circle cx="12" cy="12" r="10" />
-                    <line x1="12" y1="16" x2="12" y2="12" />
-                    <line x1="12" y1="8" x2="12.01" y2="8" />
-                  </svg>
-                  <span>Did you mean to ask:</span>
-                </div>
-                <div className="search-dropdown-faq-list">
-                  {FLEET_KNOWLEDGE_BASE.slice(0, 3).map((faq) => (
-                    <button
-                      key={faq.id}
-                      type="button"
-                      className="search-dropdown-faq-btn"
-                      onClick={() => handleSelectQuestion(faq)}
-                    >
-                      <span className="search-dropdown-faq-icon">💡</span>
-                      <span className="search-dropdown-faq-text">{faq.question}</span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )
           )}
 
           {/* Footer View All */}
@@ -1141,7 +1207,7 @@ function FloatingSearchCard() {
                 className="search-dropdown-see-all"
                 onClick={handleSubmit}
               >
-                View full catalog search for "{query}" →
+                Search all catalog items matching "{query}" →
               </button>
             </div>
           )}
@@ -1610,10 +1676,10 @@ export default function SetuHome() {
     <div className="dashboard">
       <div className="dashboard__page-container">
 
-        {/* ── 1. Top Marketing Banner Slider (5-6 Banners with Sliders) ── */}
+        {/* ── 1. Top Marketing Banner Slider (6 Banners with Sliders) ── */}
         <TopMarketingBannerSlider />
 
-        {/* ── 2. Floating Overlapping Search Card with Knowledge Answering ── */}
+        {/* ── 2. Floating Search Card with Google-like AI Mode & Suggestions (Categories removed) ── */}
         <FloatingSearchCard />
 
         {/* ── 3. Shop by Category Section ── */}
