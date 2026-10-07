@@ -17,14 +17,8 @@ const HERO_SLIDES = [
     primaryCta: 'Explore Cargo Security',
     primaryLink: '/hardware/7h-elock',
     secondaryCta: 'Learn more',
-    cardBadge: 'LIVE TELEMATICS',
-    cardStats: [
-      { label: 'Real-time Tracking', color: '#10B981', symbol: '●' },
-      { label: 'Tamper Alerts', color: '#F59E0B', symbol: '▲' },
-      { label: 'Safer Deliveries', color: '#3B82F6', symbol: '✓' }
-    ],
-    visualImg: '/images/hardware/dark-hero-fleet-visual.png',
-    visualAlt: '7H E-Lock on Cargo Container'
+    visualImg: '/images/hardware/banner-fleet-hardware-wide.png',
+    visualAlt: 'Cargo security telematics and fleet tracking hardware'
   },
   {
     id: 'vehicle-tracking',
@@ -35,13 +29,7 @@ const HERO_SLIDES = [
     primaryCta: 'Explore AIS-140 GPS',
     primaryLink: '/hardware/prithvi-140',
     secondaryCta: 'Learn more',
-    cardBadge: 'MORTH COMPLIANT',
-    cardStats: [
-      { label: 'ARAI & ICAT Certified', color: '#10B981', symbol: '●' },
-      { label: 'Dual Profile eSIM', color: '#06B6D4', symbol: '📶' },
-      { label: 'Panic Button SOS', color: '#EF4444', symbol: '🚨' }
-    ],
-    visualImg: '/images/hardware/dark-hero-fleet-visual.png',
+    visualImg: '/images/hardware/banner-fleet-hardware-wide.png',
     visualAlt: 'T98 AIS 140 GPS Device'
   },
   {
@@ -53,19 +41,13 @@ const HERO_SLIDES = [
     primaryCta: 'Explore AI Dashcams',
     primaryLink: '/hardware/falcon-f1-ai-4g',
     secondaryCta: 'Learn more',
-    cardBadge: 'COMPUTER VISION AI',
-    cardStats: [
-      { label: 'PERCLOS Fatigue AI', color: '#10B981', symbol: '●' },
-      { label: 'Forward Collision Alert', color: '#F59E0B', symbol: '▲' },
-      { label: '4G Cloud Live Stream', color: '#8B5CF6', symbol: '☁' }
-    ],
-    visualImg: '/images/hardware/dark-hero-fleet-visual.png',
+    visualImg: '/images/hardware/banner-fleet-hardware-wide.png',
     visualAlt: 'Falcon F1 AI Camera'
   }
 ];
 
 /* ────────────────────────────────────────────────────────────
-   2. CATEGORIES DATA (8 CARDS MATCHING REFERENCE SCREENSHOT)
+   2. CATEGORIES DATA (8 CARDS MATCHING SETU ARCHITECTURE)
 ──────────────────────────────────────────────────────────── */
 const SHOP_CATEGORIES = [
   {
@@ -127,19 +109,7 @@ const SHOP_CATEGORIES = [
 ];
 
 /* ────────────────────────────────────────────────────────────
-   3. SUGGESTIONS ROW CHIPS
-──────────────────────────────────────────────────────────── */
-const SUGGESTION_CHIPS = [
-  { label: 'AIS-140 GPS', query: 'AIS-140 GPS tracker' },
-  { label: 'AI Dashcam', query: 'AI Dashcam with ADAS & DMS' },
-  { label: 'Fuel Monitoring', query: 'Fuel monitoring sensor' },
-  { label: 'Cargo Lock', query: 'Heavy-Duty GPS E-Lock container' },
-  { label: 'Prevent Fuel Theft', query: 'How to prevent fuel theft' },
-  { label: 'Improve Driver Safety', query: 'Improve driver safety and fatigue alerts' }
-];
-
-/* ────────────────────────────────────────────────────────────
-   4. FLEET KNOWLEDGE BASE FOR SETU AI OVERVIEWS
+   3. FLEET KNOWLEDGE BASE FOR SETU AI OVERVIEWS
 ──────────────────────────────────────────────────────────── */
 const FLEET_KNOWLEDGE_BASE = [
   {
@@ -151,7 +121,7 @@ const FLEET_KNOWLEDGE_BASE = [
       'Remote OTP Unlock: Command center or authorized driver enters one-time OTP via app or SMS to release the lock.',
       'Anti-Tamper & Rope Cut Siren: Instant loud siren and real-time cellular alarm if the steel cable is cut or chassis opened.',
       'Customs & Bonded Ready: Meets national excise and customs transit bond tracking specifications.',
-      'Rechargeable 15,000mAh Battery: Operates up to 45 days on a single USB charge with live location pings.'
+      'Rechargeable 15,000mAh Battery: Operates up to 45 days on a single charge with live location pings.'
     ],
     recommended: {
       name: 'Magnet 7H E-Lock Container Tracker',
@@ -163,8 +133,7 @@ const FLEET_KNOWLEDGE_BASE = [
     },
     followUps: [
       'Can the e-lock be unlocked when there is no cellular network?',
-      'How does geofence automated unlocking work at destination?',
-      'Is the locking cable reusable or disposable?'
+      'How does geofence automated unlocking work at destination?'
     ]
   },
   {
@@ -188,8 +157,7 @@ const FLEET_KNOWLEDGE_BASE = [
     },
     followUps: [
       'What are the bulk price slabs for AIS-140?',
-      'Does it include state RTO certificate approval?',
-      'How to connect panic button to state servers?'
+      'Does it include state RTO certificate approval?'
     ]
   },
   {
@@ -213,8 +181,7 @@ const FLEET_KNOWLEDGE_BASE = [
     },
     followUps: [
       'Can I watch 4G live streaming from multiple cameras?',
-      'Does it record in complete darkness using IR night vision?',
-      'How much cloud storage is included with the device?'
+      'Does it record in complete darkness using IR night vision?'
     ]
   },
   {
@@ -225,8 +192,7 @@ const FLEET_KNOWLEDGE_BASE = [
     bullets: [
       '99.5% Measurement Accuracy: Capacitive measuring rod or bottom-mounted non-invasive ultrasonic sensor.',
       'Sudden Drop Alarms: Instant SMS, push notification, and portal alert within 30 seconds of fuel siphoning.',
-      'Wireless BLE Connectivity: Completely eliminates wiring from the diesel tank to cabin, preventing sparks.',
-      'Temperature Compensation: Automatically adjusts readings for fuel thermal expansion in summer.'
+      'Wireless BLE Connectivity: Completely eliminates wiring from the diesel tank to cabin, preventing sparks.'
     ],
     recommended: {
       name: 'LLS BLE-4 Fuel Sensor',
@@ -238,8 +204,7 @@ const FLEET_KNOWLEDGE_BASE = [
     },
     followUps: [
       'Can I install the fuel sensor without drilling the tank?',
-      'How does the fuel theft alert get sent to my phone?',
-      'Does it work with standard GPS trackers via RS485 or Bluetooth?'
+      'How does the fuel theft alert get sent to my phone?'
     ]
   }
 ];
@@ -248,7 +213,7 @@ function generateAIOverview(query) {
   if (!query) return null;
   const q = query.toLowerCase().trim();
   for (const item of FLEET_KNOWLEDGE_BASE) {
-    if (item.aliases.some(alias => q.includes(alias))) {
+    if (item.aliases.some((alias) => q.includes(alias))) {
       return item;
     }
   }
@@ -271,14 +236,13 @@ function generateAIOverview(query) {
     },
     followUps: [
       'Which GPS device is best for mixed fleets?',
-      'How to connect external sensors to GPS?',
-      'Can I buy in bulk with volume pricing slabs?'
+      'How to connect external sensors to GPS?'
     ]
   };
 }
 
 /* ────────────────────────────────────────────────────────────
-   5. DARK PREMIUM BANNER SLIDER
+   4. FULL-WIDTH DARK BANNER SLIDER
 ──────────────────────────────────────────────────────────── */
 function DarkHeroBannerSlider({ onLearnMore, isSearchActive }) {
   const navigate = useNavigate();
@@ -288,7 +252,6 @@ function DarkHeroBannerSlider({ onLearnMore, isSearchActive }) {
   const autoRotateMs = 7000;
   const progressStepMs = 50;
 
-  // Auto-rotation timer with smooth progress bar
   useEffect(() => {
     if (isPaused || isSearchActive) return;
 
@@ -304,11 +267,6 @@ function DarkHeroBannerSlider({ onLearnMore, isSearchActive }) {
 
     return () => clearInterval(progressInterval);
   }, [isPaused, isSearchActive]);
-
-  const goToSlide = (index) => {
-    setCurrentSlide(index);
-    setProgress(0);
-  };
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
@@ -331,7 +289,7 @@ function DarkHeroBannerSlider({ onLearnMore, isSearchActive }) {
       {/* Background ambient lighting */}
       <div className="dark-hero-slider__glow" />
 
-      {/* Main Slide Content Layout: 45% left / 55% visual */}
+      {/* Slide Body Layout: 45% Content / 55% Visual */}
       <div className="dark-hero-slider__body">
         {/* Left Content Area */}
         <div className="dark-hero-slider__content">
@@ -379,38 +337,15 @@ function DarkHeroBannerSlider({ onLearnMore, isSearchActive }) {
 
         {/* Right Visual Area */}
         <div className="dark-hero-slider__visual">
-          <div className="dark-hero-slider__image-wrap">
-            <img
-              src={getAssetUrl(slide.visualImg)}
-              alt={slide.visualAlt}
-              className="dark-hero-slider__image"
-            />
-
-            {/* Subtle Frosted Hardware Telematics Card */}
-            <div className="dark-hero-slider__floating-card">
-              <div className="dark-hero-slider__card-header">
-                <span className="dark-hero-slider__card-badge">{slide.cardBadge}</span>
-                <span className="dark-hero-slider__live-pulse" />
-              </div>
-              <div className="dark-hero-slider__card-list">
-                {slide.cardStats.map((stat, idx) => (
-                  <div key={idx} className="dark-hero-slider__card-item">
-                    <span
-                      className="dark-hero-slider__card-icon"
-                      style={{ color: stat.color }}
-                    >
-                      {stat.symbol}
-                    </span>
-                    <span className="dark-hero-slider__card-label">{stat.label}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+          <img
+            src={getAssetUrl(slide.visualImg)}
+            alt={slide.visualAlt}
+            className="dark-hero-slider__image"
+          />
         </div>
       </div>
 
-      {/* Slider Controls Bar (Left Arrow, Right Arrow, 01 / 03, Progress Bar) */}
+      {/* Minimal Slider Controls (Left-bottom aligned) */}
       <div className="dark-hero-slider__controls">
         <div className="dark-hero-slider__nav-btns">
           <button
@@ -419,7 +354,7 @@ function DarkHeroBannerSlider({ onLearnMore, isSearchActive }) {
             onClick={prevSlide}
             aria-label="Previous slide"
           >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
               <path d="m15 18-6-6 6-6" />
             </svg>
           </button>
@@ -429,20 +364,18 @@ function DarkHeroBannerSlider({ onLearnMore, isSearchActive }) {
             onClick={nextSlide}
             aria-label="Next slide"
           >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
               <path d="m9 18 6-6-6-6" />
             </svg>
           </button>
         </div>
 
-        {/* Counter: 01 / 03 */}
         <div className="dark-hero-slider__counter">
           <span className="dark-hero-slider__current-num">0{currentSlide + 1}</span>
           <span className="dark-hero-slider__divider">/</span>
           <span className="dark-hero-slider__total-num">0{HERO_SLIDES.length}</span>
         </div>
 
-        {/* Smooth Linear Progress Bar */}
         <div className="dark-hero-slider__progress-track">
           <div
             className="dark-hero-slider__progress-fill"
@@ -455,22 +388,19 @@ function DarkHeroBannerSlider({ onLearnMore, isSearchActive }) {
 }
 
 /* ────────────────────────────────────────────────────────────
-   6. PRIMARY OVERLAPPING INTELLIGENT SEARCH BAR
+   5. OVERLAPPING PRIMARY INTELLIGENT SEARCH BAR
 ──────────────────────────────────────────────────────────── */
 function PrimaryIntelligentSearchBar({ onSearchActiveChange, onOpenFinder, onOpenFilters }) {
   const navigate = useNavigate();
   const [query, setQuery] = useState('');
   const [isFocused, setIsFocused] = useState(false);
-  const [selectedIndex, setSelectedIndex] = useState(-1);
   const containerRef = useRef(null);
   const inputRef = useRef(null);
 
-  // Notify parent if search is active to pause hero auto-rotation
   useEffect(() => {
     onSearchActiveChange(isFocused || Boolean(query.trim()));
   }, [isFocused, query, onSearchActiveChange]);
 
-  // Click outside listener
   useEffect(() => {
     function handleClickOutside(e) {
       if (containerRef.current && !containerRef.current.contains(e.target)) {
@@ -486,7 +416,6 @@ function PrimaryIntelligentSearchBar({ onSearchActiveChange, onOpenFinder, onOpe
     return generateAIOverview(query);
   }, [query]);
 
-  // Matching catalog items
   const matchingHardware = useMemo(() => {
     if (!query.trim()) return [];
     const q = query.trim().toLowerCase();
@@ -496,55 +425,16 @@ function PrimaryIntelligentSearchBar({ onSearchActiveChange, onOpenFinder, onOpe
     }).slice(0, 4);
   }, [query]);
 
-  // Combined selectable items for keyboard navigation
-  const selectableItems = useMemo(() => {
-    const items = [];
-    if (matchingHardware.length > 0) {
-      matchingHardware.forEach((p) => items.push({ type: 'product', data: p }));
-    }
-    if (aiOverview?.recommended?.path) {
-      items.push({ type: 'ai-recom', data: aiOverview.recommended });
-    }
-    return items;
-  }, [matchingHardware, aiOverview]);
-
   const handleSubmit = (e) => {
     if (e) e.preventDefault();
     if (!query.trim()) return;
 
-    if (selectedIndex >= 0 && selectedIndex < selectableItems.length) {
-      const selected = selectableItems[selectedIndex];
-      if (selected.type === 'product') {
-        navigate(`/hardware/${selected.data.slug}`);
-      } else {
-        navigate(selected.data.path);
-      }
-    } else if (aiOverview?.recommended?.path) {
+    if (aiOverview?.recommended?.path) {
       navigate(aiOverview.recommended.path);
     } else {
       navigate(`/hardware?search=${encodeURIComponent(query.trim())}`);
     }
     setIsFocused(false);
-  };
-
-  const handleKeyDown = (e) => {
-    if (!isFocused) return;
-    if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      setSelectedIndex((prev) => (prev < selectableItems.length - 1 ? prev + 1 : 0));
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      setSelectedIndex((prev) => (prev > 0 ? prev - 1 : selectableItems.length - 1));
-    } else if (e.key === 'Escape') {
-      setIsFocused(false);
-      setSelectedIndex(-1);
-    }
-  };
-
-  const handleChipClick = (chipQuery) => {
-    setQuery(chipQuery);
-    setIsFocused(true);
-    if (inputRef.current) inputRef.current.focus();
   };
 
   const handleVoiceSearch = () => {
@@ -565,11 +455,10 @@ function PrimaryIntelligentSearchBar({ onSearchActiveChange, onOpenFinder, onOpe
 
   return (
     <div className="intelligent-search-wrapper" ref={containerRef}>
-      {/* ── Main Overlapping Search Bar ── */}
+      {/* ── Main Overlapping Pill Bar ── */}
       <form
         className={`intelligent-search-bar ${isFocused ? 'intelligent-search-bar--focused' : ''}`}
         onSubmit={handleSubmit}
-        onKeyDown={handleKeyDown}
       >
         {/* Left Magnifier Icon */}
         <div className="intelligent-search-bar__left-icon">
@@ -585,32 +474,28 @@ function PrimaryIntelligentSearchBar({ onSearchActiveChange, onOpenFinder, onOpe
           type="text"
           className="intelligent-search-bar__input"
           value={query}
-          placeholder="Search devices, models, features or describe what you need…"
-          onChange={(e) => {
-            setQuery(e.target.value);
-            setSelectedIndex(-1);
-          }}
+          placeholder="Search devices, models, features or describe what you need..."
+          onChange={(e) => setQuery(e.target.value)}
           onFocus={() => setIsFocused(true)}
-          aria-label="Universal hardware search"
+          aria-label="Search devices, models, features or describe what you need"
         />
 
-        {/* Clear query (X) icon */}
+        {/* Clear query button */}
         {query.length > 0 && (
           <button
             type="button"
             className="intelligent-search-bar__clear-btn"
             onClick={() => {
               setQuery('');
-              setSelectedIndex(-1);
               if (inputRef.current) inputRef.current.focus();
             }}
-            title="Clear search"
+            title="Clear"
           >
             ✕
           </button>
         )}
 
-        {/* Secondary Action 1: Microphone */}
+        {/* Microphone action */}
         <button
           type="button"
           className="intelligent-search-bar__action-icon"
@@ -625,7 +510,7 @@ function PrimaryIntelligentSearchBar({ onSearchActiveChange, onOpenFinder, onOpe
           </svg>
         </button>
 
-        {/* Secondary Action 2: Camera / Lens */}
+        {/* Camera / Lens scanner action */}
         <button
           type="button"
           className="intelligent-search-bar__action-icon"
@@ -642,7 +527,7 @@ function PrimaryIntelligentSearchBar({ onSearchActiveChange, onOpenFinder, onOpe
           </svg>
         </button>
 
-        {/* Primary Search CTA: Ask AI Pill Button */}
+        {/* Primary Search CTA: ✦ Ask AI Button */}
         <button
           type="submit"
           className="intelligent-search-bar__ai-btn"
@@ -665,8 +550,12 @@ function PrimaryIntelligentSearchBar({ onSearchActiveChange, onOpenFinder, onOpe
             }
           }}
         >
-          <span className="search-assistance-pill__icon">▣</span>
-          <span>I know the product</span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#006EFF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="search-assistance-pill__icon">
+            <path d="m21 16-9 5-9-5V8l9-5 9 5v8z"/>
+            <path d="m3.27 6.96 8.73 4.91 8.73-4.91"/>
+            <path d="M12 22.08V12"/>
+          </svg>
+          <span>Search by product</span>
           <span className="search-assistance-pill__arrow">→</span>
         </button>
 
@@ -675,7 +564,7 @@ function PrimaryIntelligentSearchBar({ onSearchActiveChange, onOpenFinder, onOpe
           className="search-assistance-pill search-assistance-pill--highlight"
           onClick={onOpenFinder}
         >
-          <span className="search-assistance-pill__icon">✦</span>
+          <span className="search-assistance-pill__sparkle">✦</span>
           <span>Help me choose</span>
           <span className="search-assistance-pill__arrow">→</span>
         </button>
@@ -685,7 +574,17 @@ function PrimaryIntelligentSearchBar({ onSearchActiveChange, onOpenFinder, onOpe
           className="search-assistance-pill"
           onClick={onOpenFilters}
         >
-          <span className="search-assistance-pill__icon">☷</span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#006EFF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="search-assistance-pill__icon">
+            <line x1="4" y1="21" x2="4" y2="14"/>
+            <line x1="4" y1="10" x2="4" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="12"/>
+            <line x1="12" y1="8" x2="12" y2="3"/>
+            <line x1="20" y1="21" x2="20" y2="16"/>
+            <line x1="20" y1="12" x2="20" y2="3"/>
+            <line x1="1" y1="14" x2="7" y2="14"/>
+            <line x1="9" y1="8" x2="15" y2="8"/>
+            <line x1="17" y1="16" x2="23" y2="16"/>
+          </svg>
           <span>Filters</span>
           <span className="search-assistance-pill__arrow">→</span>
         </button>
@@ -750,25 +649,6 @@ function PrimaryIntelligentSearchBar({ onSearchActiveChange, onOpenFinder, onOpe
                   </button>
                 </div>
               )}
-
-              {/* Follow-up question chips */}
-              {aiOverview.followUps && (
-                <div className="search-dropdown-ai-followups">
-                  <span className="search-dropdown-ai-followups-label">Related questions:</span>
-                  <div className="search-dropdown-ai-followups-chips">
-                    {aiOverview.followUps.map((fu, idx) => (
-                      <button
-                        key={idx}
-                        type="button"
-                        className="search-dropdown-ai-followup-btn"
-                        onClick={() => handleChipClick(fu)}
-                      >
-                        {fu}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
             </div>
           )}
 
@@ -821,7 +701,7 @@ function PrimaryIntelligentSearchBar({ onSearchActiveChange, onOpenFinder, onOpe
 }
 
 /* ────────────────────────────────────────────────────────────
-   7. SHOP BY CATEGORY (4×2 GRID MATCHING REFERENCE)
+   6. SHOP BY CATEGORY SECTION (4×2 FULL-WIDTH COMPACT GRID)
 ──────────────────────────────────────────────────────────── */
 function ShopByCategory() {
   const navigate = useNavigate();
@@ -849,7 +729,7 @@ function ShopByCategory() {
         </button>
       </div>
 
-      {/* 4 columns × 2 rows = 8 cards */}
+      {/* 4 columns × 2 rows = 8 cards (Full available width) */}
       <div className="category-grid">
         {SHOP_CATEGORIES.map((cat) => (
           <div
@@ -857,7 +737,7 @@ function ShopByCategory() {
             className="category-card"
             onClick={() => navigate(cat.path)}
           >
-            {/* Left high-quality thumbnail */}
+            {/* Left thumbnail */}
             <div className="category-card__thumb-box">
               <img
                 src={getAssetUrl(cat.image)}
@@ -888,16 +768,12 @@ function ShopByCategory() {
 }
 
 /* ────────────────────────────────────────────────────────────
-   8. SMART FINDER GUIDED MODAL ("Help me choose")
+   7. SMART FINDER GUIDED MODAL ("Help me choose")
 ──────────────────────────────────────────────────────────── */
 function SmartFinderModal({ isOpen, onClose }) {
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
-  const [answers, setAnswers] = useState({
-    goal: '',
-    vehicle: '',
-    depth: ''
-  });
+  const [answers, setAnswers] = useState({ goal: '', vehicle: '', depth: '' });
 
   if (!isOpen) return null;
 
@@ -923,7 +799,6 @@ function SmartFinderModal({ isOpen, onClose }) {
     { id: 'video-ai', title: 'Active Video AI (ADAS & DMS)', desc: 'Fatigue alarms, forward collision warning, live streaming' }
   ];
 
-  // Calculate recommended devices based on selections
   const getRecommendations = () => {
     if (answers.goal === 'fuel') {
       return products.filter((p) => p.category === 'fuel-sensors' || p.tags?.includes('fuel')).slice(0, 2);
@@ -963,7 +838,6 @@ function SmartFinderModal({ isOpen, onClose }) {
   return (
     <div className="finder-modal-overlay" onClick={onClose}>
       <div className="finder-modal" onClick={(e) => e.stopPropagation()}>
-        {/* Header */}
         <div className="finder-modal__header">
           <div className="finder-modal__title-wrap">
             <span className="finder-modal__badge">✦ SMART HARDWARE FINDER</span>
@@ -977,7 +851,6 @@ function SmartFinderModal({ isOpen, onClose }) {
           <button type="button" className="finder-modal__close-btn" onClick={onClose}>✕</button>
         </div>
 
-        {/* Step indicator */}
         <div className="finder-modal__stepper">
           {[1, 2, 3, 4].map((s) => (
             <div
@@ -987,7 +860,6 @@ function SmartFinderModal({ isOpen, onClose }) {
           ))}
         </div>
 
-        {/* Body content */}
         <div className="finder-modal__body">
           {step === 1 && (
             <div className="finder-modal__grid">
@@ -1068,7 +940,6 @@ function SmartFinderModal({ isOpen, onClose }) {
           )}
         </div>
 
-        {/* Footer */}
         <div className="finder-modal__footer">
           {step > 1 && step < 4 && (
             <button
@@ -1102,7 +973,7 @@ function SmartFinderModal({ isOpen, onClose }) {
 }
 
 /* ────────────────────────────────────────────────────────────
-   9. ADVANCED FILTERS SLIDE-OVER DRAWER ("Filters")
+   8. ADVANCED FILTERS SLIDE-OVER DRAWER ("Filters")
 ──────────────────────────────────────────────────────────── */
 function AdvancedFilterDrawer({ isOpen, onClose }) {
   const navigate = useNavigate();
@@ -1145,7 +1016,6 @@ function AdvancedFilterDrawer({ isOpen, onClose }) {
   return (
     <div className="filter-drawer-overlay" onClick={onClose}>
       <div className="filter-drawer" onClick={(e) => e.stopPropagation()}>
-        {/* Header */}
         <div className="filter-drawer__header">
           <div>
             <h3 className="filter-drawer__title">Hardware Filters</h3>
@@ -1154,9 +1024,7 @@ function AdvancedFilterDrawer({ isOpen, onClose }) {
           <button type="button" className="filter-drawer__close-btn" onClick={onClose}>✕</button>
         </div>
 
-        {/* Filter Accordions / Groups */}
         <div className="filter-drawer__body">
-          {/* Category */}
           <div className="filter-drawer__group">
             <h4 className="filter-drawer__group-title">Hardware Category</h4>
             <div className="filter-drawer__options">
@@ -1178,7 +1046,6 @@ function AdvancedFilterDrawer({ isOpen, onClose }) {
             </div>
           </div>
 
-          {/* Manufacturer / Brand */}
           <div className="filter-drawer__group">
             <h4 className="filter-drawer__group-title">Manufacturer / Brand</h4>
             <div className="filter-drawer__options">
@@ -1195,7 +1062,6 @@ function AdvancedFilterDrawer({ isOpen, onClose }) {
             </div>
           </div>
 
-          {/* Connectivity */}
           <div className="filter-drawer__group">
             <h4 className="filter-drawer__group-title">Connectivity</h4>
             <div className="filter-drawer__options">
@@ -1212,7 +1078,6 @@ function AdvancedFilterDrawer({ isOpen, onClose }) {
             </div>
           </div>
 
-          {/* Certification */}
           <div className="filter-drawer__group">
             <h4 className="filter-drawer__group-title">Compliance &amp; Certifications</h4>
             <div className="filter-drawer__options">
@@ -1230,7 +1095,6 @@ function AdvancedFilterDrawer({ isOpen, onClose }) {
           </div>
         </div>
 
-        {/* Footer */}
         <div className="filter-drawer__footer">
           <button type="button" className="filter-drawer__clear-btn" onClick={clearAll}>
             Clear all
@@ -1245,7 +1109,7 @@ function AdvancedFilterDrawer({ isOpen, onClose }) {
 }
 
 /* ────────────────────────────────────────────────────────────
-   10. QUICK SPECS MODAL (FOR "Learn more" ON BANNER)
+   9. QUICK SPECS MODAL ("Learn more")
 ──────────────────────────────────────────────────────────── */
 function QuickSpecsModal({ isOpen, onClose, slide }) {
   const navigate = useNavigate();
@@ -1257,7 +1121,7 @@ function QuickSpecsModal({ isOpen, onClose, slide }) {
         <div className="specs-modal__header">
           <div>
             <span className="specs-modal__badge">{slide.eyebrow}</span>
-            <h3 className="specs-modal__title">{slide.cardStats?.[0]?.label || 'Hardware Specifications'}</h3>
+            <h3 className="specs-modal__title">Hardware Specifications</h3>
           </div>
           <button type="button" className="specs-modal__close-btn" onClick={onClose}>✕</button>
         </div>
@@ -1274,7 +1138,7 @@ function QuickSpecsModal({ isOpen, onClose, slide }) {
             </div>
             <div className="specs-modal__spec-row">
               <span className="specs-modal__spec-key">POWER &amp; BATTERY</span>
-              <span className="specs-modal__spec-val">High-capacity rechargeable backup battery</span>
+              <span className="specs-modal__spec-val">Rechargeable backup battery</span>
             </div>
             <div className="specs-modal__spec-row">
               <span className="specs-modal__spec-key">HOUSING RATING</span>
@@ -1282,11 +1146,11 @@ function QuickSpecsModal({ isOpen, onClose, slide }) {
             </div>
             <div className="specs-modal__spec-row">
               <span className="specs-modal__spec-key">INTELLIGENCE</span>
-              <span className="specs-modal__spec-val">Real-time alerts, OTA firmware updates &amp; remote commands</span>
+              <span className="specs-modal__spec-val">Real-time alerts, OTA updates &amp; remote commands</span>
             </div>
             <div className="specs-modal__spec-row">
               <span className="specs-modal__spec-key">PLATFORM SYNC</span>
-              <span className="specs-modal__spec-val">Pre-configured with Setu / Uffizio Cloud Telematics</span>
+              <span className="specs-modal__spec-val">Pre-configured with Setu Cloud Telematics</span>
             </div>
           </div>
         </div>
@@ -1312,7 +1176,7 @@ function QuickSpecsModal({ isOpen, onClose, slide }) {
 }
 
 /* ────────────────────────────────────────────────────────────
-   11. MAIN SETU HOMEPAGE COMPONENT
+   10. MAIN SETU HOMEPAGE COMPONENT
 ──────────────────────────────────────────────────────────── */
 export default function SetuHome() {
   const [specsModalOpen, setSpecsModalOpen] = useState(false);
@@ -1334,13 +1198,13 @@ export default function SetuHome() {
     <div className="setu-home-page">
       <div className="setu-home-container">
 
-        {/* ── 1. Large Dark Promotional Banner Slider ── */}
+        {/* ── 1. Full-Width Dark Promotional Banner Slider ── */}
         <DarkHeroBannerSlider
           onLearnMore={handleLearnMore}
           isSearchActive={isSearchActive}
         />
 
-        {/* ── 2. Overlapping Primary Intelligent Search Bar & 3 Assistance Pills ── */}
+        {/* ── 2. Overlapping Primary Intelligent Search Bar & 3 Assistance Actions ── */}
         <PrimaryIntelligentSearchBar
           onSearchActiveChange={handleSearchActiveChange}
           onOpenFinder={() => setFinderModalOpen(true)}

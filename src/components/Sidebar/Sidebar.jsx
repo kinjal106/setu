@@ -190,7 +190,7 @@ export default function Sidebar() {
             >
               {item.icon}
               {item.id === 'setu' && (
-                <span className="sidebar__badge">{cartCount > 0 ? (cartCount > 9 ? '9+' : cartCount) : 27}</span>
+                <span className="sidebar__badge">{cartCount > 0 ? (cartCount > 9 ? '9+' : cartCount) : 2}</span>
               )}
             </button>
           );
