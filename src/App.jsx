@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { CartProvider } from './context/CartContext';
 import Sidebar from './components/Sidebar/Sidebar';
 import Header from './components/Header/Header';
@@ -36,12 +36,15 @@ function ComingSoon({ title, badge = 'COMING SOON', description }) {
 }
 
 function AppLayout() {
+  const location = useLocation();
+  const isHomepage = location.pathname === '/' || location.pathname === '/setu';
+
   return (
-    <div className="app-shell">
-      <Sidebar />
-      <div className="app-main">
+    <div className={`app-shell ${isHomepage ? 'app-shell--homepage' : ''}`}>
+      {!isHomepage && <Sidebar />}
+      <div className={`app-main ${isHomepage ? 'app-main--full' : ''}`}>
         <Header />
-        <div className="app-content">
+        <div className={`app-content ${isHomepage ? 'app-content--homepage' : ''}`}>
           <Routes>
             {/* ── Setu Platform (Primary Navigation from bottom icon) ── */}
             <Route path="/" element={<SetuHome />} />

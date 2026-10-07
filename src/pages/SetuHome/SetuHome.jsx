@@ -1,135 +1,71 @@
-import React, { useState, useRef, useMemo, useEffect } from 'react';
+import React, { useState, useRef, useMemo, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import products from '../../data/products.json';
-import solutions from '../../data/solutions.json';
-import autopartsData from '../../data/autoparts.json';
 import { getAssetUrl } from '../../utils/assetUrl';
 import './SetuHome.css';
 
 /* ────────────────────────────────────────────────────────────
-   1. VECTOR CATEGORY ICONS MATCHING REFERENCE SCREENSHOT
+   1. HERO BANNER SLIDES DATA (3 PREMIUM SLIDES)
 ──────────────────────────────────────────────────────────── */
-function VehicleTrackingIcon() {
-  return (
-    <svg width="32" height="32" viewBox="0 0 36 36" fill="none">
-      <rect x="6" y="8" width="24" height="16" rx="3.5" fill="#1E293B" stroke="#0F172A" strokeWidth="1.2" />
-      <circle cx="11" cy="12" r="1.2" fill="#10B981" />
-      <circle cx="15.5" cy="12" r="1.2" fill="#3B82F6" />
-      <circle cx="20" cy="12" r="1.2" fill="#EF4444" />
-      <rect x="9.5" y="16" width="17" height="4" rx="1" fill="#334155" />
-      <path d="M10 24v5.5c0 1.5-1.2 2.5-3 3" stroke="#EF4444" strokeWidth="2" strokeLinecap="round" />
-      <path d="M14 24v4.5c0 1.5-.8 2.2-2.2 2.8" stroke="#F59E0B" strokeWidth="2" strokeLinecap="round" />
-      <path d="M18 24v6.5c0 1.5.8 2.2 2.2 2.5" stroke="#3B82F6" strokeWidth="2" strokeLinecap="round" />
-      <path d="M22 24v5.5c0 1.5 1.2 2.5 3 3" stroke="#0F172A" strokeWidth="2" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-function VideoTelematicsIcon() {
-  return (
-    <svg width="32" height="32" viewBox="0 0 36 36" fill="none">
-      <rect x="5" y="9" width="26" height="18" rx="4" fill="#0F172A" stroke="#1E293B" strokeWidth="1.2"/>
-      <path d="M14 9V6a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v3" fill="#334155"/>
-      <circle cx="18" cy="18" r="6.5" fill="#1E293B" stroke="#0284C7" strokeWidth="1.6"/>
-      <circle cx="18" cy="18" r="4" fill="#0369A1"/>
-      <circle cx="16.5" cy="16.5" r="1.3" fill="#BAE6FD"/>
-      <circle cx="27" cy="13" r="1.2" fill="#EF4444"/>
-    </svg>
-  );
-}
-
-function ContainerTrackingIcon() {
-  return (
-    <svg width="32" height="32" viewBox="0 0 36 36" fill="none">
-      <path d="M4 12l14-5 14 5v13l-14 5-14-5V12z" fill="#1D4ED8" stroke="#1E40AF" strokeWidth="1" />
-      <path d="M4 12l14 5v13L4 25V12z" fill="#2563EB" />
-      <path d="M18 17l14-5v13l-14 5V17z" fill="#1D4ED8" />
-      <path d="M4 12l14-5 14 5-14 5-14-5z" fill="#3B82F6" />
-      <line x1="8" y1="13.5" x2="8" y2="23.5" stroke="#1D4ED8" strokeWidth="1.2" />
-      <line x1="12" y1="15" x2="12" y2="25" stroke="#1D4ED8" strokeWidth="1.2" />
-      <line x1="16" y1="16.5" x2="16" y2="26.5" stroke="#1D4ED8" strokeWidth="1.2" />
-      <line x1="22" y1="15.5" x2="22" y2="25.5" stroke="#1E40AF" strokeWidth="1.2" />
-      <line x1="26" y1="14" x2="26" y2="24" stroke="#1E40AF" strokeWidth="1.2" />
-    </svg>
-  );
-}
-
-function PersonalSafetyIcon() {
-  return (
-    <svg width="32" height="32" viewBox="0 0 36 36" fill="none">
-      <rect x="11" y="5" width="14" height="25" rx="7" fill="#FFFFFF" stroke="#CBD5E1" strokeWidth="1.5" />
-      <path d="M16 2h4v3h-4z" fill="#94A3B8" rx="1" />
-      <circle cx="18" cy="22" r="4.2" fill="#EF4444" />
-      <text x="18" y="24" textAnchor="middle" fill="#FFFFFF" fontSize="6" fontWeight="bold" fontFamily="sans-serif">SOS</text>
-      <circle cx="18" cy="11" r="1.5" fill="#10B981" />
-    </svg>
-  );
-}
-
-function FuelSensorsIcon() {
-  return (
-    <svg width="32" height="32" viewBox="0 0 36 36" fill="none">
-      <rect x="13" y="5" width="10" height="8" rx="2" fill="#334155" stroke="#1E293B" strokeWidth="1.2" />
-      <rect x="15" y="13" width="6" height="3" fill="#64748B" />
-      <line x1="18" y1="16" x2="18" y2="31" stroke="#0284C7" strokeWidth="3.2" strokeLinecap="round" />
-      <line x1="15.5" y1="20" x2="20.5" y2="20" stroke="#BAE6FD" strokeWidth="1.2" />
-      <line x1="15.5" y1="24" x2="20.5" y2="24" stroke="#BAE6FD" strokeWidth="1.2" />
-      <line x1="15.5" y1="28" x2="20.5" y2="28" stroke="#BAE6FD" strokeWidth="1.2" />
-    </svg>
-  );
-}
-
-function IoTSensorsIcon() {
-  return (
-    <svg width="32" height="32" viewBox="0 0 36 36" fill="none">
-      <rect x="9" y="11" width="18" height="20" rx="4" fill="#FFFFFF" stroke="#CBD5E1" strokeWidth="1.5" />
-      <circle cx="18" cy="22" r="3" fill="#F1F5F9" stroke="#94A3B8" strokeWidth="1" />
-      <circle cx="18" cy="16" r="1.2" fill="#10B981" />
-      <path d="M13 7a7 7 0 0 1 10 0" stroke="#0284C7" strokeWidth="1.8" strokeLinecap="round" />
-      <path d="M10.5 4.5a10.5 10.5 0 0 1 15 0" stroke="#38BDF8" strokeWidth="1.8" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-function AccessoriesIcon() {
-  return (
-    <svg width="32" height="32" viewBox="0 0 36 36" fill="none">
-      <path d="M8 8l8 8m-4-8l8 8" stroke="#334155" strokeWidth="3" strokeLinecap="round" />
-      <rect x="13" y="13" width="8" height="12" rx="2" transform="rotate(-45 13 13)" fill="#1E293B" />
-      <rect x="21" y="21" width="8" height="12" rx="2" transform="rotate(-45 21 21)" fill="#475569" />
-      <circle cx="27" cy="27" r="2" fill="#EF4444" />
-      <circle cx="29" cy="25" r="2" fill="#F59E0B" />
-    </svg>
-  );
-}
-
-function AllHardwareIcon() {
-  return (
-    <svg width="32" height="32" viewBox="0 0 36 36" fill="none">
-      <rect x="6" y="6" width="10" height="10" rx="3" fill="#2563EB" />
-      <rect x="20" y="6" width="10" height="10" rx="3" fill="#06B6D4" />
-      <rect x="6" y="20" width="10" height="10" rx="3" fill="#F59E0B" />
-      <rect x="20" y="20" width="10" height="10" rx="3" fill="#10B981" />
-    </svg>
-  );
-}
-
-function renderCategoryIcon(type) {
-  switch (type) {
-    case 'vehicle-tracking': return <VehicleTrackingIcon />;
-    case 'video-telematics': return <VideoTelematicsIcon />;
-    case 'asset-logistics': return <ContainerTrackingIcon />;
-    case 'personal-safety': return <PersonalSafetyIcon />;
-    case 'fuel-sensors': return <FuelSensorsIcon />;
-    case 'iot-sensors': return <IoTSensorsIcon />;
-    case 'accessories': return <AccessoriesIcon />;
-    case 'all': return <AllHardwareIcon />;
-    default: return <VehicleTrackingIcon />;
+const HERO_SLIDES = [
+  {
+    id: 'cargo-security',
+    eyebrow: 'CARGO SECURITY SOLUTIONS',
+    titlePrefix: 'Smarter hardware\nfor a ',
+    titleAccent: 'safer, more reliable fleet.',
+    description: 'GPS-enabled cargo security with remote unlocking, tamper detection and real-time transit monitoring.',
+    primaryCta: 'Explore Cargo Security',
+    primaryLink: '/hardware/7h-elock',
+    secondaryCta: 'Learn more',
+    cardBadge: 'LIVE TELEMATICS',
+    cardStats: [
+      { label: 'Real-time Tracking', color: '#10B981', symbol: '●' },
+      { label: 'Tamper Alerts', color: '#F59E0B', symbol: '▲' },
+      { label: 'Safer Deliveries', color: '#3B82F6', symbol: '✓' }
+    ],
+    visualImg: '/images/hardware/dark-hero-fleet-visual.png',
+    visualAlt: '7H E-Lock on Cargo Container'
+  },
+  {
+    id: 'vehicle-tracking',
+    eyebrow: 'COMMERCIAL FLEET MANDATE',
+    titlePrefix: 'Government certified AIS-140 with\n',
+    titleAccent: 'emergency SOS & dual eSIM.',
+    description: 'ARAI & ICAT compliant tracking designed for state 112 emergency response and heavy commercial fleets.',
+    primaryCta: 'Explore AIS-140 GPS',
+    primaryLink: '/hardware/prithvi-140',
+    secondaryCta: 'Learn more',
+    cardBadge: 'MORTH COMPLIANT',
+    cardStats: [
+      { label: 'ARAI & ICAT Certified', color: '#10B981', symbol: '●' },
+      { label: 'Dual Profile eSIM', color: '#06B6D4', symbol: '📶' },
+      { label: 'Panic Button SOS', color: '#EF4444', symbol: '🚨' }
+    ],
+    visualImg: '/images/hardware/dark-hero-fleet-visual.png',
+    visualAlt: 'T98 AIS 140 GPS Device'
+  },
+  {
+    id: 'video-telematics',
+    eyebrow: 'AI VIDEO TELEMATICS',
+    titlePrefix: 'Detect fatigue & prevent collisions with\n',
+    titleAccent: 'active ADAS & DMS vision.',
+    description: 'Real-time in-cabin driver drowsiness detection, lane departure warnings, and automated 4G event uploads.',
+    primaryCta: 'Explore AI Dashcams',
+    primaryLink: '/hardware/falcon-f1-ai-4g',
+    secondaryCta: 'Learn more',
+    cardBadge: 'COMPUTER VISION AI',
+    cardStats: [
+      { label: 'PERCLOS Fatigue AI', color: '#10B981', symbol: '●' },
+      { label: 'Forward Collision Alert', color: '#F59E0B', symbol: '▲' },
+      { label: '4G Cloud Live Stream', color: '#8B5CF6', symbol: '☁' }
+    ],
+    visualImg: '/images/hardware/dark-hero-fleet-visual.png',
+    visualAlt: 'Falcon F1 AI Camera'
   }
-}
+];
 
 /* ────────────────────────────────────────────────────────────
-   2. CATEGORIES DATA MATCHING REFERENCE (8 CARDS)
+   2. CATEGORIES DATA (8 CARDS MATCHING REFERENCE SCREENSHOT)
 ──────────────────────────────────────────────────────────── */
 const SHOP_CATEGORIES = [
   {
@@ -137,61 +73,61 @@ const SHOP_CATEGORIES = [
     title: 'Vehicle Tracking Devices',
     count: '11 products',
     path: '/hardware?category=vehicle-tracking',
-    iconType: 'vehicle-tracking'
+    image: '/images/categories/cat-vehicle-tracking.png'
   },
   {
     id: 'video-telematics',
     title: 'Video Telematics',
     count: '8 products',
     path: '/hardware?category=video-telematics',
-    iconType: 'video-telematics'
+    image: '/images/categories/cat-video-telematics.png'
   },
   {
     id: 'asset-logistics',
     title: 'Asset & Logistics Tracking',
     count: '3 products',
     path: '/hardware?category=asset-logistics',
-    iconType: 'asset-logistics'
+    image: '/images/categories/cat-asset-logistics.png'
   },
   {
     id: 'personal-safety',
     title: 'Personal & Safety Tracking',
     count: 'Available Soon',
     path: '/hardware?category=personal-safety',
-    iconType: 'personal-safety'
+    image: '/images/categories/cat-personal-safety.png'
   },
   {
     id: 'fuel-sensors',
     title: 'Fuel & Vehicle Sensors',
     count: '1 product',
     path: '/hardware?category=fuel-sensors',
-    iconType: 'fuel-sensors'
+    image: '/images/categories/cat-fuel-sensors.png'
   },
   {
     id: 'iot-sensors',
     title: 'IoT Sensors',
     count: 'Available Soon',
     path: '/hardware?category=iot-sensors',
-    iconType: 'iot-sensors'
+    image: '/images/categories/cat-iot-sensors.png'
   },
   {
     id: 'accessories',
     title: 'Accessories',
     count: 'Available Soon',
     path: '/hardware?category=accessories',
-    iconType: 'accessories'
+    image: '/images/categories/cat-accessories.png'
   },
   {
     id: 'all',
     title: 'All Hardware Solutions',
     count: '23 products',
     path: '/hardware',
-    iconType: 'all'
+    image: '/images/categories/cat-all-hardware.png'
   }
 ];
 
 /* ────────────────────────────────────────────────────────────
-   3. SUGGESTIONS ROW CHIPS MATCHING REFERENCE SCREENSHOT
+   3. SUGGESTIONS ROW CHIPS
 ──────────────────────────────────────────────────────────── */
 const SUGGESTION_CHIPS = [
   { label: 'AIS-140 GPS', query: 'AIS-140 GPS tracker' },
@@ -321,7 +257,7 @@ function generateAIOverview(query) {
     question: `Hardware and telematics solutions for: "${query}"`,
     summary: `Setu provides verified commercial fleet hardware, certified sensors, and integrated software tailored for "${query}". Our catalog supports over 1,500 hardware communication protocols with plug-and-play cloud synchronization.`,
     bullets: [
-      'Enterprise Quality: Tested for Indian highway road vibrations, power surges, and extreme temperature conditions.',
+      'Enterprise Quality: Tested for highway road vibrations, power surges, and extreme temperature conditions.',
       'Over-the-Air Setup: Devices ship pre-configured with active SIM cards and automatic platform sync.',
       'Direct Manufacturer Warranty: 1 to 2-year replacement warranties backed by official GST invoices.'
     ],
@@ -342,71 +278,199 @@ function generateAIOverview(query) {
 }
 
 /* ────────────────────────────────────────────────────────────
-   5. HERO BANNER WITH REALISTIC 7H E-LOCK VISUAL
+   5. DARK PREMIUM BANNER SLIDER
 ──────────────────────────────────────────────────────────── */
-function HeroCargoLockBanner({ onLearnMore }) {
+function DarkHeroBannerSlider({ onLearnMore, isSearchActive }) {
   const navigate = useNavigate();
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const autoRotateMs = 7000;
+  const progressStepMs = 50;
+
+  // Auto-rotation timer with smooth progress bar
+  useEffect(() => {
+    if (isPaused || isSearchActive) return;
+
+    const progressInterval = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 100) {
+          setCurrentSlide((slide) => (slide + 1) % HERO_SLIDES.length);
+          return 0;
+        }
+        return prev + (progressStepMs / autoRotateMs) * 100;
+      });
+    }, progressStepMs);
+
+    return () => clearInterval(progressInterval);
+  }, [isPaused, isSearchActive]);
+
+  const goToSlide = (index) => {
+    setCurrentSlide(index);
+    setProgress(0);
+  };
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
+    setProgress(0);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + HERO_SLIDES.length) % HERO_SLIDES.length);
+    setProgress(0);
+  };
+
+  const slide = HERO_SLIDES[currentSlide];
 
   return (
-    <div className="hero-banner-container">
-      {/* Left Content Area */}
-      <div className="hero-banner-left">
-        <div className="hero-banner-category-row">
-          <span className="hero-banner-category">CARGO SECURITY</span>
-          <span className="hero-banner-category-line" />
+    <div
+      className="dark-hero-slider"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+    >
+      {/* Background ambient lighting */}
+      <div className="dark-hero-slider__glow" />
+
+      {/* Main Slide Content Layout: 45% left / 55% visual */}
+      <div className="dark-hero-slider__body">
+        {/* Left Content Area */}
+        <div className="dark-hero-slider__content">
+          <div className="dark-hero-slider__eyebrow-row">
+            <span className="dark-hero-slider__eyebrow">{slide.eyebrow}</span>
+          </div>
+
+          <h1 className="dark-hero-slider__headline">
+            {slide.titlePrefix}
+            <span className="dark-hero-slider__headline-gradient">
+              {slide.titleAccent}
+            </span>
+          </h1>
+
+          <p className="dark-hero-slider__description">
+            {slide.description}
+          </p>
+
+          <div className="dark-hero-slider__cta-row">
+            <button
+              type="button"
+              className="dark-hero-slider__primary-btn"
+              onClick={() => navigate(slide.primaryLink)}
+              onFocus={() => setIsPaused(true)}
+              onBlur={() => setIsPaused(false)}
+            >
+              <span>{slide.primaryCta}</span>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg>
+            </button>
+
+            <button
+              type="button"
+              className="dark-hero-slider__secondary-btn"
+              onClick={() => onLearnMore(slide)}
+              onFocus={() => setIsPaused(true)}
+              onBlur={() => setIsPaused(false)}
+            >
+              {slide.secondaryCta}
+            </button>
+          </div>
         </div>
 
-        <h1 className="hero-banner-heading">
-          Heavy-Duty GPS E-Lock<br />
-          for <span className="hero-banner-heading-accent">Safer, Smarter Cargo</span>
-        </h1>
+        {/* Right Visual Area */}
+        <div className="dark-hero-slider__visual">
+          <div className="dark-hero-slider__image-wrap">
+            <img
+              src={getAssetUrl(slide.visualImg)}
+              alt={slide.visualAlt}
+              className="dark-hero-slider__image"
+            />
 
-        <p className="hero-banner-description">
-          IP68 waterproof container lock with tamper alert, geofence trigger, and real-time transit tracking.
-        </p>
-
-        <div className="hero-banner-btn-row">
-          <button 
-            type="button" 
-            className="hero-banner-btn-primary"
-            onClick={() => navigate('/hardware/7h-elock')}
-          >
-            View E-Lock →
-          </button>
-          <button 
-            type="button" 
-            className="hero-banner-btn-secondary"
-            onClick={onLearnMore}
-          >
-            Learn more
-          </button>
+            {/* Subtle Frosted Hardware Telematics Card */}
+            <div className="dark-hero-slider__floating-card">
+              <div className="dark-hero-slider__card-header">
+                <span className="dark-hero-slider__card-badge">{slide.cardBadge}</span>
+                <span className="dark-hero-slider__live-pulse" />
+              </div>
+              <div className="dark-hero-slider__card-list">
+                {slide.cardStats.map((stat, idx) => (
+                  <div key={idx} className="dark-hero-slider__card-item">
+                    <span
+                      className="dark-hero-slider__card-icon"
+                      style={{ color: stat.color }}
+                    >
+                      {stat.symbol}
+                    </span>
+                    <span className="dark-hero-slider__card-label">{stat.label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Right Visual Area: Container with 7H E-Lock on Latch + Frosted Feature Card */}
-      <div className="hero-banner-right">
-        <img 
-          src={getAssetUrl('/images/hardware/7h-elock-banner-visual.png')} 
-          alt="Heavy-Duty GPS 7H E-Lock on Container"
-          className="hero-banner-visual-img"
-        />
+      {/* Slider Controls Bar (Left Arrow, Right Arrow, 01 / 03, Progress Bar) */}
+      <div className="dark-hero-slider__controls">
+        <div className="dark-hero-slider__nav-btns">
+          <button
+            type="button"
+            className="dark-hero-slider__arrow-btn"
+            onClick={prevSlide}
+            aria-label="Previous slide"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="m15 18-6-6 6-6" />
+            </svg>
+          </button>
+          <button
+            type="button"
+            className="dark-hero-slider__arrow-btn"
+            onClick={nextSlide}
+            aria-label="Next slide"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="m9 18 6-6-6-6" />
+            </svg>
+          </button>
+        </div>
+
+        {/* Counter: 01 / 03 */}
+        <div className="dark-hero-slider__counter">
+          <span className="dark-hero-slider__current-num">0{currentSlide + 1}</span>
+          <span className="dark-hero-slider__divider">/</span>
+          <span className="dark-hero-slider__total-num">0{HERO_SLIDES.length}</span>
+        </div>
+
+        {/* Smooth Linear Progress Bar */}
+        <div className="dark-hero-slider__progress-track">
+          <div
+            className="dark-hero-slider__progress-fill"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
       </div>
     </div>
   );
 }
 
 /* ────────────────────────────────────────────────────────────
-   6. OVERLAPPING UNIVERSAL SEARCH BAR & SUGGESTIONS ROW
+   6. PRIMARY OVERLAPPING INTELLIGENT SEARCH BAR
 ──────────────────────────────────────────────────────────── */
-function OverlappingSearchBar({ onSelectQuery }) {
+function PrimaryIntelligentSearchBar({ onSearchActiveChange, onOpenFinder, onOpenFilters }) {
   const navigate = useNavigate();
   const [query, setQuery] = useState('');
   const [isFocused, setIsFocused] = useState(false);
-  const [isAiMode, setIsAiMode] = useState(true);
+  const [selectedIndex, setSelectedIndex] = useState(-1);
   const containerRef = useRef(null);
   const inputRef = useRef(null);
 
-  // Close dropdown on click outside
+  // Notify parent if search is active to pause hero auto-rotation
+  useEffect(() => {
+    onSearchActiveChange(isFocused || Boolean(query.trim()));
+  }, [isFocused, query, onSearchActiveChange]);
+
+  // Click outside listener
   useEffect(() => {
     function handleClickOutside(e) {
       if (containerRef.current && !containerRef.current.contains(e.target)) {
@@ -426,20 +490,54 @@ function OverlappingSearchBar({ onSelectQuery }) {
   const matchingHardware = useMemo(() => {
     if (!query.trim()) return [];
     const q = query.trim().toLowerCase();
-    return products.filter(p => {
+    return products.filter((p) => {
       const text = `${p.name} ${p.slug} ${p.category} ${p.subcategory} ${p.shortDescription}`.toLowerCase();
       return text.includes(q);
     }).slice(0, 4);
   }, [query]);
 
+  // Combined selectable items for keyboard navigation
+  const selectableItems = useMemo(() => {
+    const items = [];
+    if (matchingHardware.length > 0) {
+      matchingHardware.forEach((p) => items.push({ type: 'product', data: p }));
+    }
+    if (aiOverview?.recommended?.path) {
+      items.push({ type: 'ai-recom', data: aiOverview.recommended });
+    }
+    return items;
+  }, [matchingHardware, aiOverview]);
+
   const handleSubmit = (e) => {
     if (e) e.preventDefault();
     if (!query.trim()) return;
-    setIsFocused(false);
-    if (aiOverview?.recommended?.path) {
+
+    if (selectedIndex >= 0 && selectedIndex < selectableItems.length) {
+      const selected = selectableItems[selectedIndex];
+      if (selected.type === 'product') {
+        navigate(`/hardware/${selected.data.slug}`);
+      } else {
+        navigate(selected.data.path);
+      }
+    } else if (aiOverview?.recommended?.path) {
       navigate(aiOverview.recommended.path);
     } else {
       navigate(`/hardware?search=${encodeURIComponent(query.trim())}`);
+    }
+    setIsFocused(false);
+  };
+
+  const handleKeyDown = (e) => {
+    if (!isFocused) return;
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setSelectedIndex((prev) => (prev < selectableItems.length - 1 ? prev + 1 : 0));
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setSelectedIndex((prev) => (prev > 0 ? prev - 1 : selectableItems.length - 1));
+    } else if (e.key === 'Escape') {
+      setIsFocused(false);
+      setSelectedIndex(-1);
     }
   };
 
@@ -451,7 +549,7 @@ function OverlappingSearchBar({ onSelectQuery }) {
 
   const handleVoiceSearch = () => {
     if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
-      alert('Speech recognition is not supported in this browser. Try Chrome or Edge.');
+      alert('Speech recognition is not supported in this browser. Please use Chrome or Edge.');
       return;
     }
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -466,69 +564,76 @@ function OverlappingSearchBar({ onSelectQuery }) {
   };
 
   return (
-    <div className="overlapping-search-wrapper" ref={containerRef}>
-      {/* ── Main Overlapping Pill Bar ── */}
-      <form 
-        className={`overlapping-search-bar ${isFocused ? 'overlapping-search-bar--focused' : ''}`}
+    <div className="intelligent-search-wrapper" ref={containerRef}>
+      {/* ── Main Overlapping Search Bar ── */}
+      <form
+        className={`intelligent-search-bar ${isFocused ? 'intelligent-search-bar--focused' : ''}`}
         onSubmit={handleSubmit}
+        onKeyDown={handleKeyDown}
       >
-        {/* Left Search Magnifier Icon */}
-        <div className="overlapping-search-icon">
-          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#64748B" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+        {/* Left Magnifier Icon */}
+        <div className="intelligent-search-bar__left-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64748B" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="11" cy="11" r="8" />
             <line x1="21" y1="21" x2="16.65" y2="16.65" />
           </svg>
         </div>
 
-        {/* Text Input */}
+        {/* Input */}
         <input
           ref={inputRef}
           type="text"
-          className="overlapping-search-input"
+          className="intelligent-search-bar__input"
           value={query}
-          placeholder="Search for hardware, use cases, or ask anything..."
-          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search devices, models, features or describe what you need…"
+          onChange={(e) => {
+            setQuery(e.target.value);
+            setSelectedIndex(-1);
+          }}
           onFocus={() => setIsFocused(true)}
-          aria-label="Search for hardware, use cases, or ask anything"
+          aria-label="Universal hardware search"
         />
 
-        {/* Clear query button */}
+        {/* Clear query (X) icon */}
         {query.length > 0 && (
           <button
             type="button"
-            className="overlapping-search-clear"
+            className="intelligent-search-bar__clear-btn"
             onClick={() => {
               setQuery('');
+              setSelectedIndex(-1);
               if (inputRef.current) inputRef.current.focus();
             }}
-            title="Clear"
+            title="Clear search"
           >
             ✕
           </button>
         )}
 
-        {/* Right Voice Search Icon */}
+        {/* Secondary Action 1: Microphone */}
         <button
           type="button"
-          className="overlapping-search-action-btn"
+          className="intelligent-search-bar__action-icon"
           onClick={handleVoiceSearch}
           title="Search by voice"
+          aria-label="Search by voice"
         >
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" />
             <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
             <line x1="12" y1="19" x2="12" y2="22" />
           </svg>
         </button>
 
-        {/* Right Lens / Scan Aperture Icon */}
+        {/* Secondary Action 2: Camera / Lens */}
         <button
           type="button"
-          className="overlapping-search-action-btn"
+          className="intelligent-search-bar__action-icon"
           onClick={() => navigate('/auto-parts')}
           title="Vehicle plate & compatibility scanner"
+          aria-label="Vehicle plate scanner"
         >
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M3 7V5a2 2 0 0 1 2-2h2" />
             <path d="M17 3h2a2 2 0 0 1 2 2v2" />
             <path d="M21 17v2a2 2 0 0 1-2 2h-2" />
@@ -537,67 +642,85 @@ function OverlappingSearchBar({ onSelectQuery }) {
           </svg>
         </button>
 
-        {/* AI Mode Toggle Pill */}
+        {/* Primary Search CTA: Ask AI Pill Button */}
         <button
-          type="button"
-          className={`overlapping-ai-mode-pill ${isAiMode ? 'overlapping-ai-mode-pill--active' : ''}`}
-          onClick={() => {
-            setIsAiMode(!isAiMode);
-            setIsFocused(true);
-            if (inputRef.current) inputRef.current.focus();
-          }}
-          title="Google-style Setu AI Mode"
+          type="submit"
+          className="intelligent-search-bar__ai-btn"
+          title="Search with Setu AI"
         >
-          <span className="overlapping-ai-mode-sparkle">✨</span>
-          <span>AI Mode</span>
+          <span className="intelligent-search-bar__sparkle">✦</span>
+          <span>Ask AI</span>
         </button>
       </form>
 
-      {/* ── Suggestion Chips Row (Directly below search) ── */}
-      <div className="overlapping-suggestions-row">
-        {SUGGESTION_CHIPS.map(chip => (
-          <button
-            key={chip.label}
-            type="button"
-            className="overlapping-suggestion-chip"
-            onClick={() => handleChipClick(chip.query)}
-          >
-            <span className="overlapping-suggestion-sparkle">✨</span>
-            <span>{chip.label}</span>
-          </button>
-        ))}
+      {/* ── Search Assistance Actions Directly Below Search Bar ── */}
+      <div className="search-assistance-row">
+        <button
+          type="button"
+          className="search-assistance-pill"
+          onClick={() => {
+            if (inputRef.current) {
+              inputRef.current.focus();
+              setIsFocused(true);
+            }
+          }}
+        >
+          <span className="search-assistance-pill__icon">▣</span>
+          <span>I know the product</span>
+          <span className="search-assistance-pill__arrow">→</span>
+        </button>
+
+        <button
+          type="button"
+          className="search-assistance-pill search-assistance-pill--highlight"
+          onClick={onOpenFinder}
+        >
+          <span className="search-assistance-pill__icon">✦</span>
+          <span>Help me choose</span>
+          <span className="search-assistance-pill__arrow">→</span>
+        </button>
+
+        <button
+          type="button"
+          className="search-assistance-pill"
+          onClick={onOpenFilters}
+        >
+          <span className="search-assistance-pill__icon">☷</span>
+          <span>Filters</span>
+          <span className="search-assistance-pill__arrow">→</span>
+        </button>
       </div>
 
-      {/* ── Dropdown Panel (AI Overview & Matching Products) ── */}
+      {/* ── Search Dropdown Panel (AI Overview & Matching Hardware) ── */}
       {isFocused && query.trim() && (
-        <div className="overlapping-search-dropdown">
-          {/* AI Overview */}
-          {isAiMode && aiOverview && (
-            <div className="search-dropdown-ai-overview">
+        <div className="intelligent-search-dropdown">
+          {/* AI Overview section */}
+          {aiOverview && (
+            <div className="search-dropdown-ai-block">
               <div className="search-dropdown-ai-header">
-                <span className="search-dropdown-ai-badge">
-                  <span>✨</span>
-                  <span>Setu AI Overview</span>
+                <span className="search-dropdown-ai-tag">
+                  <span className="search-dropdown-sparkle-glyph">✦</span>
+                  <span>Setu AI Discovery</span>
                 </span>
-                <span className="search-dropdown-ai-mode-tag">Generative AI</span>
+                <span className="search-dropdown-ai-confidence">Intelligence Match</span>
               </div>
 
-              <h3 className="search-dropdown-ai-question">{aiOverview.question}</h3>
-              <p className="search-dropdown-ai-text">{aiOverview.summary}</p>
+              <h4 className="search-dropdown-ai-question">{aiOverview.question}</h4>
+              <p className="search-dropdown-ai-summary">{aiOverview.summary}</p>
 
               {aiOverview.bullets && (
                 <ul className="search-dropdown-ai-bullets">
-                  {aiOverview.bullets.map((b, idx) => {
-                    const parts = b.split(':');
+                  {aiOverview.bullets.map((bullet, idx) => {
+                    const [heading, ...rest] = bullet.split(':');
                     return (
                       <li key={idx}>
-                        {parts.length > 1 ? (
+                        {rest.length > 0 ? (
                           <>
-                            <strong>{parts[0]}:</strong>
-                            <span>{parts.slice(1).join(':')}</span>
+                            <strong>{heading}:</strong>
+                            <span>{rest.join(':')}</span>
                           </>
                         ) : (
-                          <span>{b}</span>
+                          <span>{bullet}</span>
                         )}
                       </li>
                     );
@@ -605,84 +728,90 @@ function OverlappingSearchBar({ onSelectQuery }) {
                 </ul>
               )}
 
+              {/* Recommended hardware card */}
               {aiOverview.recommended && (
-                <div 
-                  className="search-dropdown-ai-recom-card"
+                <div
+                  className="search-dropdown-ai-recom"
                   onClick={() => {
                     setIsFocused(false);
                     navigate(aiOverview.recommended.path);
                   }}
                 >
-                  <div className="search-dropdown-ai-recom-thumb">
+                  <div className="search-dropdown-ai-recom__thumb">
                     <img src={getAssetUrl(aiOverview.recommended.image)} alt={aiOverview.recommended.name} />
                   </div>
-                  <div className="search-dropdown-ai-recom-info">
-                    <span className="search-dropdown-ai-recom-tag">{aiOverview.recommended.badge}</span>
-                    <span className="search-dropdown-ai-recom-name">{aiOverview.recommended.name}</span>
-                    <span className="search-dropdown-ai-recom-price">{aiOverview.recommended.price}</span>
+                  <div className="search-dropdown-ai-recom__info">
+                    <span className="search-dropdown-ai-recom__badge">{aiOverview.recommended.badge}</span>
+                    <strong className="search-dropdown-ai-recom__name">{aiOverview.recommended.name}</strong>
+                    <span className="search-dropdown-ai-recom__price">{aiOverview.recommended.price}</span>
                   </div>
-                  <button type="button" className="search-dropdown-ai-recom-btn">
-                    View Details →
+                  <button type="button" className="search-dropdown-ai-recom__btn">
+                    View Specifications →
                   </button>
                 </div>
               )}
 
+              {/* Follow-up question chips */}
               {aiOverview.followUps && (
                 <div className="search-dropdown-ai-followups">
-                  <span className="search-dropdown-ai-followup-label">Ask a follow up:</span>
-                  {aiOverview.followUps.map((fu, idx) => (
-                    <button
-                      key={idx}
-                      type="button"
-                      className="search-dropdown-ai-followup-chip"
-                      onClick={() => handleChipClick(fu)}
-                    >
-                      {fu}
-                    </button>
-                  ))}
+                  <span className="search-dropdown-ai-followups-label">Related questions:</span>
+                  <div className="search-dropdown-ai-followups-chips">
+                    {aiOverview.followUps.map((fu, idx) => (
+                      <button
+                        key={idx}
+                        type="button"
+                        className="search-dropdown-ai-followup-btn"
+                        onClick={() => handleChipClick(fu)}
+                      >
+                        {fu}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               )}
             </div>
           )}
 
-          {/* Matching Products */}
+          {/* Direct Matching Hardware List */}
           {matchingHardware.length > 0 && (
-            <div className="search-dropdown-section">
-              <div className="search-dropdown-section-header">
-                <span>Matching Devices ({matchingHardware.length})</span>
+            <div className="search-dropdown-hardware-section">
+              <div className="search-dropdown-hardware-header">
+                <span>Matching Hardware Devices ({matchingHardware.length})</span>
               </div>
-              <div className="search-dropdown-items-list">
+              <div className="search-dropdown-hardware-list">
                 {matchingHardware.map((prod) => (
                   <div
                     key={prod.id}
-                    className="search-dropdown-item"
+                    className="search-dropdown-hardware-item"
                     onClick={() => {
                       setIsFocused(false);
                       navigate(`/hardware/${prod.slug}`);
                     }}
                   >
-                    <div className="search-dropdown-thumb">
+                    <div className="search-dropdown-hardware-thumb">
                       <img src={getAssetUrl(prod.image)} alt={prod.name} />
                     </div>
-                    <div className="search-dropdown-info">
-                      <span className="search-dropdown-title">{prod.name}</span>
-                      <span className="search-dropdown-desc">{prod.shortDescription}</span>
+                    <div className="search-dropdown-hardware-info">
+                      <span className="search-dropdown-hardware-title">{prod.name}</span>
+                      <span className="search-dropdown-hardware-desc">{prod.shortDescription}</span>
                     </div>
-                    <span className="search-dropdown-price">₹{prod.price?.toLocaleString('en-IN')}</span>
+                    <span className="search-dropdown-hardware-price">
+                      ₹{prod.price?.toLocaleString('en-IN')}
+                    </span>
                   </div>
                 ))}
               </div>
             </div>
           )}
 
-          {/* Footer View All */}
+          {/* Footer Submit Button */}
           <div className="search-dropdown-footer">
             <button
               type="button"
-              className="search-dropdown-see-all"
+              className="search-dropdown-view-all-btn"
               onClick={handleSubmit}
             >
-              Search all catalog items matching "{query}" →
+              Search all hardware catalog items for "{query}" →
             </button>
           </div>
         </div>
@@ -692,24 +821,24 @@ function OverlappingSearchBar({ onSelectQuery }) {
 }
 
 /* ────────────────────────────────────────────────────────────
-   7. SHOP BY CATEGORY SECTION (8 CARDS MATCHING REFERENCE)
+   7. SHOP BY CATEGORY (4×2 GRID MATCHING REFERENCE)
 ──────────────────────────────────────────────────────────── */
-function ShopByCategorySection() {
+function ShopByCategory() {
   const navigate = useNavigate();
 
   return (
-    <div className="shop-category-section">
-      {/* Section Header */}
-      <div className="shop-category-header">
-        <div className="shop-category-header__left">
-          <h2 className="shop-category-title">Shop by category</h2>
-          <p className="shop-category-subtitle">
+    <section className="category-section">
+      <div className="category-section__header">
+        <div className="category-section__header-left">
+          <h2 className="category-section__title">Shop by category</h2>
+          <p className="category-section__subtitle">
             Everything a fleet needs, from the device to the licence to the technician.
           </p>
         </div>
+
         <button
           type="button"
-          className="shop-category-view-all"
+          className="category-section__view-all"
           onClick={() => navigate('/hardware')}
         >
           <span>View all categories</span>
@@ -720,148 +849,36 @@ function ShopByCategorySection() {
         </button>
       </div>
 
-      {/* 8 Category Cards (4 columns x 2 rows) */}
-      <div className="shop-category-grid">
-        {SHOP_CATEGORIES.map(cat => (
+      {/* 4 columns × 2 rows = 8 cards */}
+      <div className="category-grid">
+        {SHOP_CATEGORIES.map((cat) => (
           <div
             key={cat.id}
-            className="shop-category-card"
+            className="category-card"
             onClick={() => navigate(cat.path)}
           >
-            <div className="shop-category-icon-box">
-              {renderCategoryIcon(cat.iconType)}
+            {/* Left high-quality thumbnail */}
+            <div className="category-card__thumb-box">
+              <img
+                src={getAssetUrl(cat.image)}
+                alt={cat.title}
+                className="category-card__thumb-img"
+              />
             </div>
 
-            <div className="shop-category-info">
-              <h3 className="shop-category-name">{cat.title}</h3>
-              <p className="shop-category-count">{cat.count}</p>
+            {/* Middle Title and Count */}
+            <div className="category-card__content">
+              <h3 className="category-card__title">{cat.title}</h3>
+              <span className={`category-card__count ${cat.count.includes('Soon') ? 'category-card__count--soon' : ''}`}>
+                {cat.count}
+              </span>
             </div>
 
-            <div className="shop-category-arrow">
+            {/* Right subtle arrow */}
+            <div className="category-card__arrow">
               <svg width="8" height="13" viewBox="0 0 8 13" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <polyline points="1.5 1.5 6.5 6.5 1.5 11.5" />
               </svg>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-/* ────────────────────────────────────────────────────────────
-   8. SECONDARY PROGRAMS & SOLUTIONS SLIDER
-──────────────────────────────────────────────────────────── */
-const HOME_BANNERS = [
-  {
-    id: 'finance',
-    tag: 'SETU FINANCE',
-    tagColor: '#FBBF24',
-    title: 'Buy hardware now, pay in EMIs. No CIBIL check.',
-    desc: 'Your limit is set from live fleet data through system integration, so new and small fleet owners qualify too.',
-    type: 'pricing',
-    amount: '₹22,565',
-    subText: '/month for ₹2.5 lakh over 12 months',
-    btnText: 'Check my limit →',
-    path: '/finance',
-    cardClass: 'home-banner-card--finance'
-  },
-  {
-    id: 'autoparts',
-    tag: 'AUTO PARTS · BETA',
-    tagColor: '#34D399',
-    title: 'Enter a vehicle number. See every part that fits.',
-    desc: 'From a single screw to the front bumper, matched to the exact make, model and year.',
-    type: 'plate-search',
-    btnText: 'Find parts',
-    path: '/auto-parts',
-    cardClass: 'home-banner-card--autoparts'
-  },
-  {
-    id: 'ais140',
-    tag: 'GOVERNMENT APPROVED · AIS-140',
-    tagColor: '#38BDF8',
-    title: 'ARAI & ICAT Certified AIS-140 GPS with Emergency SOS.',
-    desc: 'Mandatory for commercial vehicles, transport buses & mining fleets with dual embedded eSIMs and panic buttons.',
-    type: 'pricing',
-    amount: '₹3,800',
-    subText: '/device · Bulk slabs start at ₹3,325',
-    btnText: 'Explore AIS-140 →',
-    path: '/hardware?category=vehicle-tracking',
-    cardClass: 'home-banner-card--ais140'
-  },
-  {
-    id: 'video',
-    tag: 'AI VIDEO TELEMATICS · SMART CAMERAS',
-    tagColor: '#C084FC',
-    title: 'Detect fatigue & prevent collisions with ADAS & DMS.',
-    desc: 'Dual-facing 4G AI cameras detecting driver drowsiness, phone use, and forward collision in real time.',
-    type: 'pricing',
-    amount: '₹8,900',
-    subText: '/unit · Includes 4G cloud live streaming',
-    btnText: 'View AI Dashcams →',
-    path: '/hardware?category=video-telematics',
-    cardClass: 'home-banner-card--video'
-  }
-];
-
-function HomeBannerSlider() {
-  const navigate = useNavigate();
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [vehiclePlate, setVehiclePlate] = useState('');
-  const totalBanners = HOME_BANNERS.length;
-
-  const handlePlateSearch = (e) => {
-    if (e) e.preventDefault();
-    const cleanPlate = vehiclePlate.trim() || 'GJ 15 AT 7788';
-    navigate(`/auto-parts?reg=${encodeURIComponent(cleanPlate.replace(/\s+/g, ''))}`);
-  };
-
-  return (
-    <section className="programs-slider-section">
-      <div className="programs-slider-header">
-        <div>
-          <h2 className="programs-slider-title">Programs &amp; Solutions</h2>
-          <p className="programs-slider-sub">Financing, vehicle compatibility search, certified hardware, and fleet software</p>
-        </div>
-      </div>
-
-      <div className="programs-slider-grid">
-        {HOME_BANNERS.map(banner => (
-          <div 
-            key={banner.id}
-            className={`programs-card ${banner.cardClass}`}
-            onClick={() => {
-              if (banner.type !== 'plate-search') navigate(banner.path);
-            }}
-          >
-            <div className="programs-card__top">
-              <span className="programs-card__tag" style={{ color: banner.tagColor }}>{banner.tag}</span>
-              <h3 className="programs-card__title">{banner.title}</h3>
-              <p className="programs-card__desc">{banner.desc}</p>
-            </div>
-
-            <div className="programs-card__bottom">
-              {banner.type === 'plate-search' ? (
-                <form className="programs-plate-box" onSubmit={handlePlateSearch} onClick={e => e.stopPropagation()}>
-                  <input
-                    type="text"
-                    className="programs-plate-input"
-                    placeholder="GJ 15 AT 7788"
-                    value={vehiclePlate}
-                    onChange={(e) => setVehiclePlate(e.target.value)}
-                  />
-                  <button type="submit" className="programs-plate-btn">{banner.btnText}</button>
-                </form>
-              ) : (
-                <div className="programs-price-row">
-                  <div>
-                    <span className="programs-amount">{banner.amount}</span>
-                    <span className="programs-subtext">{banner.subText}</span>
-                  </div>
-                  <button type="button" className="programs-cta-btn">{banner.btnText}</button>
-                </div>
-              )}
             </div>
           </div>
         ))}
@@ -871,26 +888,383 @@ function HomeBannerSlider() {
 }
 
 /* ────────────────────────────────────────────────────────────
-   9. QUICK SPECS MODAL FOR 7H E-LOCK
+   8. SMART FINDER GUIDED MODAL ("Help me choose")
 ──────────────────────────────────────────────────────────── */
-function QuickSpecsModal({ isOpen, onClose }) {
+function SmartFinderModal({ isOpen, onClose }) {
   const navigate = useNavigate();
+  const [step, setStep] = useState(1);
+  const [answers, setAnswers] = useState({
+    goal: '',
+    vehicle: '',
+    depth: ''
+  });
+
   if (!isOpen) return null;
+
+  const goals = [
+    { id: 'fuel', title: 'Prevent Fuel Theft & Monitor Drainage', icon: '⛽' },
+    { id: 'tracking', title: 'Real-Time GPS Fleet Tracking', icon: '📍' },
+    { id: 'safety', title: 'Driver Safety & Video Telematics (AI)', icon: '📹' },
+    { id: 'cargo', title: 'Cargo Security & Container E-Locks', icon: '🔒' },
+    { id: 'compliance', title: 'Government Mandate (AIS-140 Compliance)', icon: '🛡️' }
+  ];
+
+  const vehicles = [
+    { id: 'trucks', title: 'Heavy Commercial Trucks & Trailers', icon: '🚛' },
+    { id: 'cabs', title: 'Taxis, Cabs & Passenger Fleet', icon: '🚕' },
+    { id: 'buses', title: 'School Buses & Staff Transports', icon: '🚌' },
+    { id: 'containers', title: 'Shipping Containers & Bonded Cargo', icon: '📦' },
+    { id: 'bikes', title: '2-Wheelers & Last-Mile Delivery', icon: '🛵' }
+  ];
+
+  const depths = [
+    { id: 'basic', title: 'Basic Live Tracking', desc: 'Real-time location, ignition on/off, route history' },
+    { id: 'telemetry', title: 'Advanced Telemetry & Sensors', desc: 'Fuel levels, temperature, door sensors, CAN bus' },
+    { id: 'video-ai', title: 'Active Video AI (ADAS & DMS)', desc: 'Fatigue alarms, forward collision warning, live streaming' }
+  ];
+
+  // Calculate recommended devices based on selections
+  const getRecommendations = () => {
+    if (answers.goal === 'fuel') {
+      return products.filter((p) => p.category === 'fuel-sensors' || p.tags?.includes('fuel')).slice(0, 2);
+    }
+    if (answers.goal === 'cargo') {
+      return products.filter((p) => p.slug.includes('elock') || p.category === 'asset-logistics').slice(0, 2);
+    }
+    if (answers.goal === 'safety' || answers.depth === 'video-ai') {
+      return products.filter((p) => p.category === 'video-telematics').slice(0, 2);
+    }
+    if (answers.goal === 'compliance') {
+      return products.filter((p) => p.compliance?.includes('AIS 140') || p.slug.includes('prithvi')).slice(0, 2);
+    }
+    return products.slice(0, 2);
+  };
+
+  const handleSelectGoal = (goalId) => {
+    setAnswers((prev) => ({ ...prev, goal: goalId }));
+    setStep(2);
+  };
+
+  const handleSelectVehicle = (vehicleId) => {
+    setAnswers((prev) => ({ ...prev, vehicle: vehicleId }));
+    setStep(3);
+  };
+
+  const handleSelectDepth = (depthId) => {
+    setAnswers((prev) => ({ ...prev, depth: depthId }));
+    setStep(4);
+  };
+
+  const resetFinder = () => {
+    setStep(1);
+    setAnswers({ goal: '', vehicle: '', depth: '' });
+  };
+
+  return (
+    <div className="finder-modal-overlay" onClick={onClose}>
+      <div className="finder-modal" onClick={(e) => e.stopPropagation()}>
+        {/* Header */}
+        <div className="finder-modal__header">
+          <div className="finder-modal__title-wrap">
+            <span className="finder-modal__badge">✦ SMART HARDWARE FINDER</span>
+            <h3 className="finder-modal__title">
+              {step === 1 && 'What is your primary fleet objective?'}
+              {step === 2 && 'What vehicle or asset type are you equipping?'}
+              {step === 3 && 'What depth of telemetry do you need?'}
+              {step === 4 && 'Recommended Hardware Matches'}
+            </h3>
+          </div>
+          <button type="button" className="finder-modal__close-btn" onClick={onClose}>✕</button>
+        </div>
+
+        {/* Step indicator */}
+        <div className="finder-modal__stepper">
+          {[1, 2, 3, 4].map((s) => (
+            <div
+              key={s}
+              className={`finder-modal__step-dot ${step >= s ? 'finder-modal__step-dot--active' : ''}`}
+            />
+          ))}
+        </div>
+
+        {/* Body content */}
+        <div className="finder-modal__body">
+          {step === 1 && (
+            <div className="finder-modal__grid">
+              {goals.map((g) => (
+                <button
+                  key={g.id}
+                  type="button"
+                  className="finder-modal__option-card"
+                  onClick={() => handleSelectGoal(g.id)}
+                >
+                  <span className="finder-modal__option-icon">{g.icon}</span>
+                  <span className="finder-modal__option-title">{g.title}</span>
+                </button>
+              ))}
+            </div>
+          )}
+
+          {step === 2 && (
+            <div className="finder-modal__grid">
+              {vehicles.map((v) => (
+                <button
+                  key={v.id}
+                  type="button"
+                  className="finder-modal__option-card"
+                  onClick={() => handleSelectVehicle(v.id)}
+                >
+                  <span className="finder-modal__option-icon">{v.icon}</span>
+                  <span className="finder-modal__option-title">{v.title}</span>
+                </button>
+              ))}
+            </div>
+          )}
+
+          {step === 3 && (
+            <div className="finder-modal__list">
+              {depths.map((d) => (
+                <button
+                  key={d.id}
+                  type="button"
+                  className="finder-modal__depth-card"
+                  onClick={() => handleSelectDepth(d.id)}
+                >
+                  <strong className="finder-modal__depth-title">{d.title}</strong>
+                  <span className="finder-modal__depth-desc">{d.desc}</span>
+                </button>
+              ))}
+            </div>
+          )}
+
+          {step === 4 && (
+            <div className="finder-modal__results">
+              <div className="finder-modal__results-list">
+                {getRecommendations().map((prod) => (
+                  <div key={prod.id} className="finder-modal__result-card">
+                    <div className="finder-modal__result-thumb">
+                      <img src={getAssetUrl(prod.image)} alt={prod.name} />
+                    </div>
+                    <div className="finder-modal__result-info">
+                      <span className="finder-modal__result-badge">MATCHED SOLUTION</span>
+                      <strong className="finder-modal__result-name">{prod.name}</strong>
+                      <p className="finder-modal__result-desc">{prod.shortDescription}</p>
+                      <span className="finder-modal__result-price">₹{prod.price?.toLocaleString('en-IN')}</span>
+                    </div>
+                    <button
+                      type="button"
+                      className="finder-modal__result-btn"
+                      onClick={() => {
+                        onClose();
+                        navigate(`/hardware/${prod.slug}`);
+                      }}
+                    >
+                      View Device →
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Footer */}
+        <div className="finder-modal__footer">
+          {step > 1 && step < 4 && (
+            <button
+              type="button"
+              className="finder-modal__back-btn"
+              onClick={() => setStep((s) => s - 1)}
+            >
+              ← Back
+            </button>
+          )}
+          {step === 4 && (
+            <button
+              type="button"
+              className="finder-modal__back-btn"
+              onClick={resetFinder}
+            >
+              Start Over
+            </button>
+          )}
+          <button
+            type="button"
+            className="finder-modal__done-btn"
+            onClick={onClose}
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ────────────────────────────────────────────────────────────
+   9. ADVANCED FILTERS SLIDE-OVER DRAWER ("Filters")
+──────────────────────────────────────────────────────────── */
+function AdvancedFilterDrawer({ isOpen, onClose }) {
+  const navigate = useNavigate();
+  const [selectedCategory, setSelectedCategory] = useState([]);
+  const [selectedBrand, setSelectedBrand] = useState([]);
+  const [selectedConnectivity, setSelectedConnectivity] = useState([]);
+  const [selectedCert, setSelectedCert] = useState([]);
+
+  if (!isOpen) return null;
+
+  const toggleItem = (list, setList, item) => {
+    if (list.includes(item)) {
+      setList(list.filter((x) => x !== item));
+    } else {
+      setList([...list, item]);
+    }
+  };
+
+  const clearAll = () => {
+    setSelectedCategory([]);
+    setSelectedBrand([]);
+    setSelectedConnectivity([]);
+    setSelectedCert([]);
+  };
+
+  const matchingCount = products.filter((p) => {
+    if (selectedCategory.length > 0 && !selectedCategory.includes(p.category)) return false;
+    if (selectedBrand.length > 0 && !selectedBrand.includes(p.brand)) return false;
+    return true;
+  }).length;
+
+  const handleApply = () => {
+    const params = new URLSearchParams();
+    if (selectedCategory.length > 0) params.set('category', selectedCategory.join(','));
+    if (selectedBrand.length > 0) params.set('brand', selectedBrand.join(','));
+    onClose();
+    navigate(`/hardware?${params.toString()}`);
+  };
+
+  return (
+    <div className="filter-drawer-overlay" onClick={onClose}>
+      <div className="filter-drawer" onClick={(e) => e.stopPropagation()}>
+        {/* Header */}
+        <div className="filter-drawer__header">
+          <div>
+            <h3 className="filter-drawer__title">Hardware Filters</h3>
+            <span className="filter-drawer__subtitle">Refine by telemetry specs &amp; certifications</span>
+          </div>
+          <button type="button" className="filter-drawer__close-btn" onClick={onClose}>✕</button>
+        </div>
+
+        {/* Filter Accordions / Groups */}
+        <div className="filter-drawer__body">
+          {/* Category */}
+          <div className="filter-drawer__group">
+            <h4 className="filter-drawer__group-title">Hardware Category</h4>
+            <div className="filter-drawer__options">
+              {[
+                { id: 'vehicle-tracking', label: 'Vehicle Tracking Devices' },
+                { id: 'video-telematics', label: 'Video Telematics' },
+                { id: 'asset-logistics', label: 'Asset & Logistics Tracking' },
+                { id: 'fuel-sensors', label: 'Fuel & Vehicle Sensors' }
+              ].map((opt) => (
+                <label key={opt.id} className="filter-drawer__checkbox-label">
+                  <input
+                    type="checkbox"
+                    checked={selectedCategory.includes(opt.id)}
+                    onChange={() => toggleItem(selectedCategory, setSelectedCategory, opt.id)}
+                  />
+                  <span>{opt.label}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+
+          {/* Manufacturer / Brand */}
+          <div className="filter-drawer__group">
+            <h4 className="filter-drawer__group-title">Manufacturer / Brand</h4>
+            <div className="filter-drawer__options">
+              {['Teltonika', 'Mercetech', 'Setu', 'Queclink', 'Concox'].map((b) => (
+                <label key={b} className="filter-drawer__checkbox-label">
+                  <input
+                    type="checkbox"
+                    checked={selectedBrand.includes(b)}
+                    onChange={() => toggleItem(selectedBrand, setSelectedBrand, b)}
+                  />
+                  <span>{b}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+
+          {/* Connectivity */}
+          <div className="filter-drawer__group">
+            <h4 className="filter-drawer__group-title">Connectivity</h4>
+            <div className="filter-drawer__options">
+              {['4G LTE Cat 1', '2G GSM Fallback', 'BLE 5.0 Wireless', 'Satellite / Iridium'].map((c) => (
+                <label key={c} className="filter-drawer__checkbox-label">
+                  <input
+                    type="checkbox"
+                    checked={selectedConnectivity.includes(c)}
+                    onChange={() => toggleItem(selectedConnectivity, setSelectedConnectivity, c)}
+                  />
+                  <span>{c}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+
+          {/* Certification */}
+          <div className="filter-drawer__group">
+            <h4 className="filter-drawer__group-title">Compliance &amp; Certifications</h4>
+            <div className="filter-drawer__options">
+              {['AIS-140 MoRTH', 'ARAI Certified', 'ICAT Certified', 'IP68 Waterproof'].map((cert) => (
+                <label key={cert} className="filter-drawer__checkbox-label">
+                  <input
+                    type="checkbox"
+                    checked={selectedCert.includes(cert)}
+                    onChange={() => toggleItem(selectedCert, setSelectedCert, cert)}
+                  />
+                  <span>{cert}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="filter-drawer__footer">
+          <button type="button" className="filter-drawer__clear-btn" onClick={clearAll}>
+            Clear all
+          </button>
+          <button type="button" className="filter-drawer__apply-btn" onClick={handleApply}>
+            Show {matchingCount} matching results
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ────────────────────────────────────────────────────────────
+   10. QUICK SPECS MODAL (FOR "Learn more" ON BANNER)
+──────────────────────────────────────────────────────────── */
+function QuickSpecsModal({ isOpen, onClose, slide }) {
+  const navigate = useNavigate();
+  if (!isOpen || !slide) return null;
 
   return (
     <div className="specs-modal-overlay" onClick={onClose}>
-      <div className="specs-modal" onClick={e => e.stopPropagation()}>
+      <div className="specs-modal" onClick={(e) => e.stopPropagation()}>
         <div className="specs-modal__header">
           <div>
-            <span className="specs-modal__badge">CARGO SECURITY &amp; LOGISTICS</span>
-            <h3 className="specs-modal__title">Magnet 7H E-Lock Container Tracker</h3>
+            <span className="specs-modal__badge">{slide.eyebrow}</span>
+            <h3 className="specs-modal__title">{slide.cardStats?.[0]?.label || 'Hardware Specifications'}</h3>
           </div>
           <button type="button" className="specs-modal__close-btn" onClick={onClose}>✕</button>
         </div>
 
         <div className="specs-modal__body">
           <p className="specs-modal__lead">
-            Heavy-duty IP68 waterproof electronic padlock with steel cable locking rope, GPS real-time transit tracking, and remote OTP / RFID authorization.
+            {slide.description}
           </p>
 
           <div className="specs-modal__specs-grid">
@@ -899,36 +1273,34 @@ function QuickSpecsModal({ isOpen, onClose }) {
               <span className="specs-modal__spec-val">4G LTE Cat 1 with 2G GSM Fallback</span>
             </div>
             <div className="specs-modal__spec-row">
-              <span className="specs-modal__spec-key">BATTERY</span>
-              <span className="specs-modal__spec-val">15,000mAh Rechargeable Li-ion (Up to 45 Days)</span>
+              <span className="specs-modal__spec-key">POWER &amp; BATTERY</span>
+              <span className="specs-modal__spec-val">High-capacity rechargeable backup battery</span>
             </div>
             <div className="specs-modal__spec-row">
-              <span className="specs-modal__spec-key">HOUSING &amp; SEAL</span>
-              <span className="specs-modal__spec-val">IP68 Heavy-Duty Waterproof Aluminum Alloy &amp; Steel Rope</span>
+              <span className="specs-modal__spec-key">HOUSING RATING</span>
+              <span className="specs-modal__spec-val">IP67 / IP68 Heavy-duty Industrial Enclosure</span>
             </div>
             <div className="specs-modal__spec-row">
-              <span className="specs-modal__spec-key">SECURITY ALARMS</span>
-              <span className="specs-modal__spec-val">Cable cut siren, Geofence breach, Chassis open tamper alert</span>
+              <span className="specs-modal__spec-key">INTELLIGENCE</span>
+              <span className="specs-modal__spec-val">Real-time alerts, OTA firmware updates &amp; remote commands</span>
             </div>
             <div className="specs-modal__spec-row">
-              <span className="specs-modal__spec-key">UNLOCKING</span>
-              <span className="specs-modal__spec-val">Remote OTP Unlock, RFID Swipe, SMS Command</span>
-            </div>
-            <div className="specs-modal__spec-row">
-              <span className="specs-modal__spec-key">COMPLIANCE</span>
-              <span className="specs-modal__spec-val">National customs bond transit &amp; container logistics verified</span>
+              <span className="specs-modal__spec-key">PLATFORM SYNC</span>
+              <span className="specs-modal__spec-val">Pre-configured with Setu / Uffizio Cloud Telematics</span>
             </div>
           </div>
         </div>
 
         <div className="specs-modal__footer">
-          <button type="button" className="specs-modal__btn-secondary" onClick={onClose}>Close</button>
-          <button 
-            type="button" 
-            className="specs-modal__btn-primary" 
+          <button type="button" className="specs-modal__btn-secondary" onClick={onClose}>
+            Close
+          </button>
+          <button
+            type="button"
+            className="specs-modal__btn-primary"
             onClick={() => {
               onClose();
-              navigate('/hardware/7h-elock');
+              navigate(slide.primaryLink);
             }}
           >
             Go to Product Page →
@@ -940,31 +1312,59 @@ function QuickSpecsModal({ isOpen, onClose }) {
 }
 
 /* ────────────────────────────────────────────────────────────
-   10. MAIN HOMEPAGE COMPONENT
+   11. MAIN SETU HOMEPAGE COMPONENT
 ──────────────────────────────────────────────────────────── */
 export default function SetuHome() {
   const [specsModalOpen, setSpecsModalOpen] = useState(false);
+  const [activeSlideForSpecs, setActiveSlideForSpecs] = useState(null);
+  const [finderModalOpen, setFinderModalOpen] = useState(false);
+  const [filterDrawerOpen, setFilterDrawerOpen] = useState(false);
+  const [isSearchActive, setIsSearchActive] = useState(false);
+
+  const handleLearnMore = (slide) => {
+    setActiveSlideForSpecs(slide);
+    setSpecsModalOpen(true);
+  };
+
+  const handleSearchActiveChange = useCallback((active) => {
+    setIsSearchActive(active);
+  }, []);
 
   return (
     <div className="setu-home-page">
       <div className="setu-home-container">
 
-        {/* ── 1. Hero Banner with 7H E-Lock on Shipping Container ── */}
-        <HeroCargoLockBanner onLearnMore={() => setSpecsModalOpen(true)} />
+        {/* ── 1. Large Dark Promotional Banner Slider ── */}
+        <DarkHeroBannerSlider
+          onLearnMore={handleLearnMore}
+          isSearchActive={isSearchActive}
+        />
 
-        {/* ── 2. Overlapping Universal Search Bar & Suggestions Row ── */}
-        <OverlappingSearchBar />
+        {/* ── 2. Overlapping Primary Intelligent Search Bar & 3 Assistance Pills ── */}
+        <PrimaryIntelligentSearchBar
+          onSearchActiveChange={handleSearchActiveChange}
+          onOpenFinder={() => setFinderModalOpen(true)}
+          onOpenFilters={() => setFilterDrawerOpen(true)}
+        />
 
-        {/* ── 3. Shop by Category (8 Modern Cards) ── */}
-        <ShopByCategorySection />
+        {/* ── 3. Shop by Category (4×2 Grid of 8 Cards) ── */}
+        <ShopByCategory />
 
-        {/* ── 4. Programs & Solutions ── */}
-        <HomeBannerSlider />
+        {/* ── Modals & Drawers ── */}
+        <SmartFinderModal
+          isOpen={finderModalOpen}
+          onClose={() => setFinderModalOpen(false)}
+        />
 
-        {/* ── 5. Quick Specs Modal ── */}
-        <QuickSpecsModal 
-          isOpen={specsModalOpen} 
-          onClose={() => setSpecsModalOpen(false)} 
+        <AdvancedFilterDrawer
+          isOpen={filterDrawerOpen}
+          onClose={() => setFilterDrawerOpen(false)}
+        />
+
+        <QuickSpecsModal
+          isOpen={specsModalOpen}
+          onClose={() => setSpecsModalOpen(false)}
+          slide={activeSlideForSpecs}
         />
 
       </div>
