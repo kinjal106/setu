@@ -12,9 +12,11 @@ const HERO_SLIDES = [
   {
     id: 'cargo-security',
     eyebrow: 'CARGO SECURITY SOLUTIONS',
-    titlePrefix: 'Smarter hardware\nfor a ',
-    titleAccent: 'safer, more reliable fleet.',
-    description: 'GPS-enabled cargo security with remote unlocking, tamper detection and real-time transit monitoring.',
+    headlineLine1: 'Smarter GPS Cargo Security',
+    headlineLine2: 'For a safer, more reliable fleet.',
+    titlePrefix: 'Smarter GPS Cargo Security\n',
+    titleAccent: 'For a safer, more reliable fleet.',
+    description: 'Remote OTP unlocking, tamper detection, and real-time transit visibility.',
     primaryCta: 'Explore Cargo Security',
     primaryLink: '/hardware/7h-elock',
     secondaryCta: 'Learn more',
@@ -32,9 +34,11 @@ const HERO_SLIDES = [
   {
     id: 'vehicle-tracking',
     eyebrow: 'COMMERCIAL FLEET MANDATE',
-    titlePrefix: 'Government certified AIS-140 with\n',
-    titleAccent: 'emergency SOS & dual eSIM.',
-    description: 'ARAI & ICAT compliant tracking designed for state 112 emergency response and heavy commercial fleets.',
+    headlineLine1: 'Government Certified AIS-140 GPS',
+    headlineLine2: 'With emergency SOS & dual eSIM.',
+    titlePrefix: 'Government Certified AIS-140 GPS\n',
+    titleAccent: 'With emergency SOS & dual eSIM.',
+    description: 'ARAI & ICAT compliant tracking with direct State 112 emergency response.',
     primaryCta: 'Explore AIS-140 GPS',
     primaryLink: '/hardware/prithvi-140',
     secondaryCta: 'Learn more',
@@ -52,9 +56,11 @@ const HERO_SLIDES = [
   {
     id: 'video-telematics',
     eyebrow: 'AI VIDEO TELEMATICS',
-    titlePrefix: 'Detect fatigue & prevent collisions with\n',
-    titleAccent: 'active ADAS & DMS vision.',
-    description: 'Real-time in-cabin driver drowsiness detection, lane departure warnings, and automated 4G event uploads.',
+    headlineLine1: 'AI Dual-Vision Video Telematics',
+    headlineLine2: 'With active ADAS & DMS safety.',
+    titlePrefix: 'AI Dual-Vision Video Telematics\n',
+    titleAccent: 'With active ADAS & DMS safety.',
+    description: 'Real-time driver fatigue monitoring, lane departure, and cloud video uploads.',
     primaryCta: 'Explore AI Dashcams',
     primaryLink: '/hardware/falcon-f1-ai-4g',
     secondaryCta: 'Learn more',
@@ -72,9 +78,11 @@ const HERO_SLIDES = [
   {
     id: 'fuel-sensors',
     eyebrow: 'PRECISION FUEL TELEMETRY',
-    titlePrefix: 'Stop diesel theft & track consumption with\n',
-    titleAccent: '99.5% measurement accuracy.',
-    description: 'Wireless BLE 5.0 capacitive fuel level telemetry with zero spark hazards, no drill wiring, and instant siphon alerts.',
+    headlineLine1: 'Precision Fuel Telemetry & Security',
+    headlineLine2: 'Stop diesel theft with 99.5% accuracy.',
+    titlePrefix: 'Precision Fuel Telemetry & Security\n',
+    titleAccent: 'Stop diesel theft with 99.5% accuracy.',
+    description: 'Wireless BLE 5.0 digital probe with instant 30-second siphon drop alerts.',
     primaryCta: 'Explore Fuel Sensors',
     primaryLink: '/hardware/sp-ble4-fuel',
     secondaryCta: 'Learn more',
@@ -92,9 +100,11 @@ const HERO_SLIDES = [
   {
     id: 'asset-logistics',
     eyebrow: 'STANDALONE ASSET TRACKING',
-    titlePrefix: 'Deploy in seconds with ultra-strong magnets &\n',
-    titleAccent: 'up to 3-year autonomous battery.',
-    description: 'Zero-wiring wireless asset tracker for unpowered shipping containers, heavy construction equipment, and covert cargo recovery.',
+    headlineLine1: 'Standalone Magnetic Asset Tracking',
+    headlineLine2: 'Up to 3-year autonomous battery life.',
+    titlePrefix: 'Standalone Magnetic Asset Tracking\n',
+    titleAccent: 'Up to 3-year autonomous battery life.',
+    description: 'Zero-wiring magnetic mount for containers and heavy industrial equipment.',
     primaryCta: 'Explore Asset Trackers',
     primaryLink: '/hardware/gl500-4g',
     secondaryCta: 'Learn more',
@@ -363,9 +373,11 @@ function DarkHeroBannerSlider({ onLearnMore, isSearchActive }) {
           </div>
 
           <h1 className="dark-hero-slider__headline">
-            {slide.titlePrefix}
-            <span className="dark-hero-slider__headline-gradient">
-              {slide.titleAccent}
+            <span className="dark-hero-slider__headline-line1">
+              {slide.headlineLine1 || slide.titlePrefix}
+            </span>
+            <span className="dark-hero-slider__headline-line2">
+              {slide.headlineLine2 || slide.titleAccent}
             </span>
           </h1>
 
