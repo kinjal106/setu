@@ -18,8 +18,16 @@ const HERO_SLIDES = [
     primaryCta: 'Explore Cargo Security',
     primaryLink: '/hardware/7h-elock',
     secondaryCta: 'Learn more',
-    visualImg: '/images/hardware/banner-fleet-hardware-wide.png',
-    visualAlt: 'Cargo security telematics and fleet tracking hardware'
+    visualImg: '/images/hardware/7h-elock-banner-visual.png',
+    visualAlt: 'Setu 7H Heavy Duty GPS E-Lock',
+    specs: {
+      'HARDWARE MODEL': 'Setu 7H Heavy-Duty GPS E-Lock',
+      'CONNECTIVITY': '4G LTE Cat 1 with 2G GSM Highway Fallback',
+      'POWER & BATTERY': '15,000mAh Rechargeable (Up to 45 Days Autonomous)',
+      'HOUSING RATING': 'IP68 Heavy-Duty Waterproof & Anti-Tamper Steel Enclosure',
+      'ACCESS CONTROL': 'Remote OTP Dynamic Unlocking & RFID Card Swiping',
+      'ANTI-TAMPER': 'Steel wire-rope cut sensor with 110dB Siren & Cloud Alert'
+    }
   },
   {
     id: 'vehicle-tracking',
@@ -30,8 +38,16 @@ const HERO_SLIDES = [
     primaryCta: 'Explore AIS-140 GPS',
     primaryLink: '/hardware/prithvi-140',
     secondaryCta: 'Learn more',
-    visualImg: '/images/hardware/banner-fleet-hardware-wide.png',
-    visualAlt: 'T98 AIS 140 GPS Device'
+    visualImg: '/images/hardware/dark-hero-fleet-visual.png',
+    visualAlt: 'T98 AIS 140 Government Certified GPS Device',
+    specs: {
+      'HARDWARE MODEL': 'Prithvi 140 / T98 AIS 140 Certified GPS Tracker',
+      'CONNECTIVITY': '4G LTE Cat 1 + Embedded Dual eSIM (Multi-Carrier Roaming)',
+      'SATELLITE POSITIONING': 'Dual GNSS GPS + Indian NavIC (IRNSS) Receiver',
+      'EMERGENCY SOS': 'Physical Panic Button wired directly to State 112 Stream',
+      'DATA TRANSMISSION': 'Simultaneous Dual-IP Streaming (Govt MoRTH + Fleet Server)',
+      'BATTERY BACKUP': 'Minimum 4-Hour Internal Battery with Main Power Cut Alarm'
+    }
   },
   {
     id: 'video-telematics',
@@ -42,8 +58,56 @@ const HERO_SLIDES = [
     primaryCta: 'Explore AI Dashcams',
     primaryLink: '/hardware/falcon-f1-ai-4g',
     secondaryCta: 'Learn more',
-    visualImg: '/images/hardware/banner-fleet-hardware-wide.png',
-    visualAlt: 'Falcon F1 AI Camera'
+    visualImg: '/images/hardware/banner-ai-dashcam.jpg',
+    visualAlt: 'Mercetech Falcon F1 AI Dual Dashcam',
+    specs: {
+      'HARDWARE MODEL': 'Mercetech Falcon F1 Dual-Lens AI Camera',
+      'CAMERA SENSORS': 'Dual 1080p FHD (Road Facing ADAS + In-Cabin DMS)',
+      'FATIGUE MONITORING': 'Infrared Night Vision PERCLOS Eye-Closure & Yawn Detection',
+      'ACTIVE COLLISION': 'Forward Collision Warning (FCW) & Lane Departure (LDW)',
+      'CLOUD STREAMING': '4G LTE High-Definition Live Video & Automatic Event Clips',
+      'IN-CABIN ALARMS': 'Instant Audio Voice Prompts & Millisecond Warning Buzzer'
+    }
+  },
+  {
+    id: 'fuel-sensors',
+    eyebrow: 'PRECISION FUEL TELEMETRY',
+    titlePrefix: 'Stop diesel theft & track consumption with\n',
+    titleAccent: '99.5% measurement accuracy.',
+    description: 'Wireless BLE 5.0 capacitive fuel level telemetry with zero spark hazards, no drill wiring, and instant siphon alerts.',
+    primaryCta: 'Explore Fuel Sensors',
+    primaryLink: '/hardware/sp-ble4-fuel',
+    secondaryCta: 'Learn more',
+    visualImg: '/images/hardware/banner-fuel-sensor.jpg',
+    visualAlt: 'LLS BLE-4 Wireless Fuel Level Sensor',
+    specs: {
+      'HARDWARE MODEL': 'LLS BLE-4 Wireless Capacitive Fuel Sensor',
+      'MEASUREMENT ACCURACY': '99.5% High-Precision Continuous Capacitive Probe',
+      'WIRELESS PROTOCOL': 'Bluetooth Low Energy (BLE 5.0) Wireless Telemetry',
+      'SAFETY COMPLIANCE': 'Explosion-Proof Sealed Housing with Zero Tank Wiring',
+      'THEFT PREVENTION': 'Rapid Fuel Drop Alarms within 30 Seconds via SMS & App',
+      'BATTERY LIFE': 'Up to 5 Years Internal Lithium Battery with Temp Compensation'
+    }
+  },
+  {
+    id: 'asset-logistics',
+    eyebrow: 'STANDALONE ASSET TRACKING',
+    titlePrefix: 'Deploy in seconds with ultra-strong magnets &\n',
+    titleAccent: 'up to 3-year autonomous battery.',
+    description: 'Zero-wiring wireless asset tracker for unpowered shipping containers, heavy construction equipment, and covert cargo recovery.',
+    primaryCta: 'Explore Asset Trackers',
+    primaryLink: '/hardware/gl500-4g',
+    secondaryCta: 'Learn more',
+    visualImg: '/images/hardware/banner-asset-tracker.jpg',
+    visualAlt: 'Queclink GL500 4G Standalone Magnetic Container Tracker',
+    specs: {
+      'HARDWARE MODEL': 'Queclink GL500 4G Magnetic Asset & Container Tracker',
+      'MOUNTING SYSTEM': 'High-Strength Neodymium Magnetic Base (No Drilling)',
+      'BATTERY CAPACITY': '10,000mAh Industrial Lithium (Up to 3 Years Standby)',
+      'DURABILITY RATING': 'IP67 Waterproof & Shock-Resistant Rugged Polymer',
+      'TAMPER PROTECTION': 'Optical Light-Sensor Removal & Movement Wake-Up Alerts',
+      'CONNECTIVITY': '4G LTE Cat M1 / NB-IoT with 2G GSM Highway Fallback'
+    }
   }
 ];
 
@@ -1145,26 +1209,29 @@ function QuickSpecsModal({ isOpen, onClose, slide }) {
           </p>
 
           <div className="specs-modal__specs-grid">
-            <div className="specs-modal__spec-row">
-              <span className="specs-modal__spec-key">CONNECTIVITY</span>
-              <span className="specs-modal__spec-val">4G LTE Cat 1 with 2G GSM Fallback</span>
-            </div>
-            <div className="specs-modal__spec-row">
-              <span className="specs-modal__spec-key">POWER &amp; BATTERY</span>
-              <span className="specs-modal__spec-val">Rechargeable backup battery</span>
-            </div>
-            <div className="specs-modal__spec-row">
-              <span className="specs-modal__spec-key">HOUSING RATING</span>
-              <span className="specs-modal__spec-val">IP67 / IP68 Heavy-duty Industrial Enclosure</span>
-            </div>
-            <div className="specs-modal__spec-row">
-              <span className="specs-modal__spec-key">INTELLIGENCE</span>
-              <span className="specs-modal__spec-val">Real-time alerts, OTA updates &amp; remote commands</span>
-            </div>
-            <div className="specs-modal__spec-row">
-              <span className="specs-modal__spec-key">PLATFORM SYNC</span>
-              <span className="specs-modal__spec-val">Pre-configured with Setu Cloud Telematics</span>
-            </div>
+            {slide.specs ? (
+              Object.entries(slide.specs).map(([key, val]) => (
+                <div key={key} className="specs-modal__spec-row">
+                  <span className="specs-modal__spec-key">{key}</span>
+                  <span className="specs-modal__spec-val">{val}</span>
+                </div>
+              ))
+            ) : (
+              <>
+                <div className="specs-modal__spec-row">
+                  <span className="specs-modal__spec-key">CONNECTIVITY</span>
+                  <span className="specs-modal__spec-val">4G LTE Cat 1 with 2G GSM Fallback</span>
+                </div>
+                <div className="specs-modal__spec-row">
+                  <span className="specs-modal__spec-key">POWER &amp; BATTERY</span>
+                  <span className="specs-modal__spec-val">Rechargeable backup battery</span>
+                </div>
+                <div className="specs-modal__spec-row">
+                  <span className="specs-modal__spec-key">HOUSING RATING</span>
+                  <span className="specs-modal__spec-val">IP67 / IP68 Heavy-duty Industrial Enclosure</span>
+                </div>
+              </>
+            )}
           </div>
         </div>
 
