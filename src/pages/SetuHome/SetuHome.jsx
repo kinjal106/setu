@@ -465,8 +465,41 @@ function DarkHeroBannerSlider({ onLearnMore, isSearchActive }) {
 }
 
 /* ────────────────────────────────────────────────────────────
-   5. OVERLAPPING PRIMARY INTELLIGENT SEARCH BAR
+   5. SEARCH SUGGESTIONS & OVERLAPPING PRIMARY INTELLIGENT SEARCH BAR
 ──────────────────────────────────────────────────────────── */
+const SEARCH_SUGGESTIONS = [
+  {
+    label: 'What is AIS 140?',
+    query: 'what is AIS 140?',
+    isAI: true
+  },
+  {
+    label: 'Prevent diesel theft',
+    query: 'prevent diesel theft',
+    isAI: true
+  },
+  {
+    label: 'AI dashcam with driver fatigue',
+    query: 'AI dashcam with driver fatigue',
+    isAI: false
+  },
+  {
+    label: 'GPS container e-lock',
+    query: 'GPS container e-lock',
+    isAI: false
+  },
+  {
+    label: 'Magnetic asset tracker',
+    query: 'magnetic asset tracker',
+    isAI: false
+  },
+  {
+    label: '4G OBD-II tracker',
+    query: '4G OBD tracker',
+    isAI: false
+  }
+];
+
 function PrimaryIntelligentSearchBar({ onSearchActiveChange, onOpenFinder, onOpenFilters, onOpenAIChat }) {
   const navigate = useNavigate();
   const [query, setQuery] = useState('');
@@ -539,6 +572,28 @@ function PrimaryIntelligentSearchBar({ onSearchActiveChange, onOpenFinder, onOpe
       setIsFocused(true);
     };
     recognition.start();
+  };
+
+  const handleSuggestionClick = (item, e) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    setQuery(item.query);
+    navigate(`/hardware?search=${encodeURIComponent(item.query)}`);
+    setIsFocused(false);
+  };
+
+  const handleSuggestionAIClick = (item, e) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    setQuery(item.query);
+    if (onOpenAIChat) {
+      onOpenAIChat(item.query);
+    }
+    setIsFocused(false);
   };
 
   return (
@@ -627,56 +682,53 @@ function PrimaryIntelligentSearchBar({ onSearchActiveChange, onOpenFinder, onOpe
         </button>
       </form>
 
-      {/* ── Search Assistance Actions Directly Below Search Bar ── */}
-      <div className="search-assistance-row">
-        <button
-          type="button"
-          className="search-assistance-pill"
-          onClick={() => {
-            if (inputRef.current) {
-              inputRef.current.focus();
-              setIsFocused(true);
-            }
-          }}
-        >
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#006EFF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="search-assistance-pill__icon">
-            <path d="m21 16-9 5-9-5V8l9-5 9 5v8z"/>
-            <path d="m3.27 6.96 8.73 4.91 8.73-4.91"/>
-            <path d="M12 22.08V12"/>
+      {/* ── Search Suggestions Directly Below Search Bar ── */}
+      <div className="search-suggestions-row">
+        <div className="search-suggestions-label">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="search-suggestions-label__icon">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 16v-4"/>
+            <path d="M12 8h.01"/>
           </svg>
-          <span>Search by product</span>
-          <span className="search-assistance-pill__arrow">→</span>
-        </button>
+          <span>Try searching:</span>
+        </div>
 
-        <button
-          type="button"
-          className="search-assistance-pill search-assistance-pill--highlight"
-          onClick={onOpenFinder}
-        >
-          <span className="search-assistance-pill__sparkle">✦</span>
-          <span>Help me choose</span>
-          <span className="search-assistance-pill__arrow">→</span>
-        </button>
+        <div className="search-suggestions-list">
+          {SEARCH_SUGGESTIONS.map((item, idx) => (
+            <div
+              key={idx}
+              className={`search-suggestion-pill ${item.isAI ? 'search-suggestion-pill--ai' : ''}`}
+            >
+              <button
+                type="button"
+                className="search-suggestion-pill__main-btn"
+                onClick={(e) => handleSuggestionClick(item, e)}
+                title={`Search products for "${item.query}"`}
+              >
+                {item.isAI ? (
+                  <span className="search-suggestion-pill__sparkle">✦</span>
+                ) : (
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="search-suggestion-pill__search-icon">
+                    <circle cx="11" cy="11" r="8" />
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                  </svg>
+                )}
+                <span>{item.label}</span>
+              </button>
 
-        <button
-          type="button"
-          className="search-assistance-pill"
-          onClick={onOpenFilters}
-        >
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#006EFF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="search-assistance-pill__icon">
-            <line x1="4" y1="21" x2="4" y2="14"/>
-            <line x1="4" y1="10" x2="4" y2="3"/>
-            <line x1="12" y1="21" x2="12" y2="12"/>
-            <line x1="12" y1="8" x2="12" y2="3"/>
-            <line x1="20" y1="21" x2="20" y2="16"/>
-            <line x1="20" y1="12" x2="20" y2="3"/>
-            <line x1="1" y1="14" x2="7" y2="14"/>
-            <line x1="9" y1="8" x2="15" y2="8"/>
-            <line x1="17" y1="16" x2="23" y2="16"/>
-          </svg>
-          <span>Filters</span>
-          <span className="search-assistance-pill__arrow">→</span>
-        </button>
+              {item.isAI && (
+                <button
+                  type="button"
+                  className="search-suggestion-pill__ai-btn"
+                  onClick={(e) => handleSuggestionAIClick(item, e)}
+                  title={`Ask AI directly about "${item.query}"`}
+                >
+                  Ask AI
+                </button>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* ── Search Dropdown Panel (AI Overview & Matching Hardware) ── */}

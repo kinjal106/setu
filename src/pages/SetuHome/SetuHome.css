@@ -408,63 +408,129 @@
   line-height: 1;
 }
 
-/* ── Search Assistance Actions Directly Below Search Bar ── */
-.search-assistance-row {
+/* ── Search Suggestions Directly Below Search Bar ── */
+.search-suggestions-row {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 12px;
   margin-top: 14px;
   flex-wrap: wrap;
+  padding: 0 16px;
+  max-width: 1050px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.search-assistance-pill {
+.search-suggestions-label {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  padding: 7px 18px;
-  border-radius: 20px;
-  background: #FFFFFF;
-  border: 1px solid #E2E8F0;
-  color: #475569;
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 150ms ease;
-  font-family: inherit;
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748B;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  user-select: none;
 }
 
-.search-assistance-pill:hover {
-  color: #006EFF;
-  border-color: #93C5FD;
-  background: #F8FAFC;
-  transform: translateY(-1px);
-  box-shadow: 0 3px 8px rgba(0, 110, 255, 0.12);
-}
-
-.search-assistance-pill--highlight {
-  border-color: #CBD5E1;
-}
-
-.search-assistance-pill__icon {
+.search-suggestions-label__icon {
+  color: #3B82F6;
   flex-shrink: 0;
 }
 
-.search-assistance-pill__sparkle {
-  font-size: 13px;
-  color: #006EFF;
+.search-suggestions-list {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
-.search-assistance-pill__arrow {
+.search-suggestion-pill {
+  display: inline-flex;
+  align-items: stretch;
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 9999px;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+  transition: all 180ms cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+  line-height: 1;
+}
+
+.search-suggestion-pill:hover {
+  border-color: #93C5FD;
+  box-shadow: 0 3px 10px rgba(0, 110, 255, 0.12);
+  transform: translateY(-1px);
+}
+
+.search-suggestion-pill__main-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 13px;
+  background: transparent;
+  border: none;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #334155;
+  cursor: pointer;
+  font-family: inherit;
+  transition: color 150ms ease, background 150ms ease;
+  white-space: nowrap;
+}
+
+.search-suggestion-pill:hover .search-suggestion-pill__main-btn {
+  color: #006EFF;
+  background: #F8FAFC;
+}
+
+.search-suggestion-pill__sparkle {
+  color: #4F46E5;
   font-size: 13px;
-  transition: transform 150ms ease;
+  line-height: 1;
+}
+
+.search-suggestion-pill__search-icon {
   color: #94A3B8;
+  transition: color 150ms ease;
 }
 
-.search-assistance-pill:hover .search-assistance-pill__arrow {
+.search-suggestion-pill:hover .search-suggestion-pill__search-icon {
   color: #006EFF;
-  transform: translateX(2px);
+}
+
+.search-suggestion-pill--ai {
+  border-color: #E0E7FF;
+  background: #FFFFFF;
+}
+
+.search-suggestion-pill--ai:hover {
+  border-color: #818CF8;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.15);
+}
+
+.search-suggestion-pill__ai-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 10px;
+  background: linear-gradient(135deg, #4F46E5 0%, #3B82F6 100%);
+  color: #FFFFFF;
+  border: none;
+  border-left: 1px solid rgba(255, 255, 255, 0.3);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  letter-spacing: 0.02em;
+  transition: opacity 150ms ease, filter 150ms ease;
+  white-space: nowrap;
+}
+
+.search-suggestion-pill__ai-btn:hover {
+  filter: brightness(1.12);
 }
 
 /* ── Search Dropdown Panel ── */
@@ -1471,12 +1537,16 @@
   .dark-hero-slider__headline {
     font-size: 24px;
   }
-  .search-assistance-row {
+  .search-suggestions-row {
     gap: 8px;
   }
-  .search-assistance-pill {
-    font-size: 12px;
-    padding: 6px 12px;
+  .search-suggestion-pill__main-btn {
+    font-size: 11.5px;
+    padding: 5px 10px;
+  }
+  .search-suggestion-pill__ai-btn {
+    font-size: 10px;
+    padding: 0 8px;
   }
   .finder-modal__grid {
     grid-template-columns: 1fr;
