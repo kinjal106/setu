@@ -1,9 +1,105 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import products from '../../data/products.json';
 import categories from '../../data/categories.json';
 import { getAssetUrl } from '../../utils/assetUrl';
+import SetuAIChat from '../../components/SetuAIChat/SetuAIChat';
 import './Hardware.css';
+
+/* ── AI Overview Topics Knowledge Base (Matches Reference Images 1 & 2) ── */
+const AI_OVERVIEW_TOPICS = [
+  {
+    triggers: ['ais', 'asi', '140', 'ais-140', 'mandate', 'vts', 'rto', 'emergency button', 'panic button'],
+    title: 'AIS 140 Intelligent Transportation & Passenger Safety Standard',
+    summary: 'AIS 140 (Automotive Industry Standard 140) is a government regulation in India that mandates vehicle tracking systems (VTS) and emergency buttons (panic buttons) for all commercial vehicles, public transport, and school buses.',
+    bullets: [
+      'Dual Satellite Positioning: High-precision GNSS GPS + Indian NavIC (IRNSS) tracking under all weather conditions.',
+      'Emergency SOS Panic Button: Directly transmits distress alerts to state emergency monitoring centers (112) and fleet dispatchers.',
+      'Dual IP Reporting: Simultaneously streams real-time telemetry to the government MoRTH portal and private fleet management software.',
+      'Embedded eSIM with Multi-Network Roaming: Auto-connects across Airtel, Jio, and Vi to ensure zero dead-zone operation on highways.',
+      'Internal Battery Backup: Minimum 4 hours of autonomous operation with immediate alerts if the vehicle battery is disconnected.'
+    ],
+    source: {
+      title: 'Automotive Industry Standard 140 - Wikipedia',
+      domain: 'wikipedia.org',
+      url: 'https://en.wikipedia.org/wiki/AIS_140'
+    },
+    faqs: [
+      {
+        question: 'What is the penalty for not having AIS 140 in India?',
+        answer: 'Under Section 190(2) of the Motor Vehicles Act, operating a commercial vehicle without an active, certified AIS-140 device carries a fine of up to ₹10,000, suspension of the commercial vehicle permit, and refusal to renew the annual fitness certificate.'
+      },
+      {
+        question: 'Which vehicles are required to install AIS 140 devices?',
+        answer: 'All public service vehicles including city and interstate buses, taxis, ride-hailing cabs, school/college buses, hazardous chemicals & fuel tankers, and mining haulage trucks are legally mandated to have AIS 140 devices.'
+      },
+      {
+        question: 'How does the AIS 140 panic button work?',
+        answer: 'When a passenger or driver presses the panic button, the device transmits immediate high-priority emergency packets with live GPS coordinates, vehicle speed, and timestamp to the state emergency response center (112) and fleet management platform.'
+      },
+      {
+        question: 'What is the difference between standard GPS and AIS 140 GPS?',
+        answer: 'Standard GPS only sends location to a commercial tracking server. AIS 140 devices are government-certified by ARAI/ICAT, have NavIC satellite receivers, dual-IP streaming to government servers, physical panic buttons, and 4-hour battery backup.'
+      }
+    ]
+  },
+  {
+    triggers: ['fuel', 'diesel', 'theft', 'sensor', 'lls', 'siphon'],
+    title: 'Precision Capacitive & Ultrasonic Fuel Level Monitoring',
+    summary: 'Commercial fuel monitoring systems use digital capacitive probes or bottom-mounted ultrasonic sensors to measure diesel volume with 99.5% accuracy, triggering immediate alarms upon unauthorized siphoning or tank cap opening.',
+    bullets: [
+      '99.5% Fuel Precision: Continuous level reporting regardless of terrain slope or vehicle motion.',
+      'Anti-Theft Drop Alerts: Real-time SMS and app alarms within 30 seconds of rapid fuel loss.',
+      'Wireless BLE 5.0 Connectivity: Eliminates fuel tank drilling wires, ensuring spark-free safety and rapid installation.'
+    ],
+    source: {
+      title: 'Fuel Level Sensor & Telematics Telemetry Guide',
+      domain: 'setu.uffizio.com',
+      url: '#'
+    },
+    faqs: [
+      {
+        question: 'How does the fuel sensor detect diesel theft in parked trucks?',
+        answer: 'The sensor monitors fuel height continuously. If fuel levels drop by more than 2-3 liters without the vehicle engine running, an instant anti-theft alert is dispatched to the fleet manager.'
+      },
+      {
+        question: 'Can I install a fuel sensor without drilling the fuel tank?',
+        answer: 'Yes! Non-invasive ultrasonic fuel sensors attach to the exterior bottom of the diesel tank with high-strength epoxy, reading levels through sound waves without requiring tank modification.'
+      }
+    ]
+  },
+  {
+    triggers: ['camera', 'dashcam', 'adas', 'dms', 'video', 'fatigue', 'collision'],
+    title: 'AI Video Telematics, ADAS & Driver Monitoring System',
+    summary: 'AI dual-facing dashcams integrate computer vision to monitor driver alertness (PERCLOS, yawning, mobile usage) while scanning the roadway for forward collisions, pedestrian crossings, and lane departures.',
+    bullets: [
+      'DMS Driver Fatigue Detection: In-cabin infrared camera alerts drowsy or distracted drivers with instant voice warnings.',
+      'ADAS Active Safety: Millisecond warnings for forward vehicle proximity and unexpected lane drift.',
+      'Automatic Cloud Video Evidence: 10-second high-definition clips are uploaded directly to the cloud upon harsh braking or impact.'
+    ],
+    source: {
+      title: 'Commercial AI Dashcam & Video Telematics Standards',
+      domain: 'setu.uffizio.com',
+      url: '#'
+    },
+    faqs: [
+      {
+        question: 'Does the AI camera record in complete darkness inside the cabin?',
+        answer: 'Yes, infrared (IR) night vision illuminates the driver cabin in pitch-black conditions without causing glare or disturbing the driver.'
+      },
+      {
+        question: 'Can fleet dispatchers watch live video from the vehicle?',
+        answer: 'Yes, 4G LTE Cat 1/Cat 4 connectivity enables on-demand high-definition live streaming with two-way audio from the Setu dashboard.'
+      }
+    ]
+  }
+];
+
+const STOP_WORDS = new Set([
+  'what', 'is', 'are', 'the', 'a', 'an', 'in', 'on', 'with', 'and', 'or', 'for', 'how', 'does',
+  'do', 'can', 'to', 'of', 'about', 'tell', 'me', 'device', 'devices', 'hardware', 'solution',
+  'solutions', 'find', 'search', 'which', 'where', 'get', 'buy', 'need', 'please'
+]);
 
 
 const BRAND_ORDER = [
@@ -323,13 +419,11 @@ function ProductCard({ product, isLowest, onClick }) {
   );
 }
 
-const STOP_WORDS = new Set(['find', 'search', 'for', 'the', 'a', 'an', 'in', 'on', 'with', 'and', 'or', 'device', 'devices', 'approved', 'hardware']);
-
 /* ── Hardware Page ── */
 export default function Hardware() {
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const urlQ = searchParams.get('q') || '';
+  const [searchParams, setSearchParams] = useSearchParams();
+  const urlSearch = searchParams.get('search') || searchParams.get('q') || '';
   const urlCat = searchParams.get('category') || '';
   const urlSub = searchParams.get('sub') || '';
 
@@ -349,11 +443,26 @@ export default function Hardware() {
 
   const [selected, setSelected] = useState(getInitialSelection);
   const [selectedBrands, setSelectedBrands] = useState(new Set());
-  const [search, setSearch] = useState(urlQ);
+  const [search, setSearch] = useState(urlSearch);
+  const [ignoreTypo, setIgnoreTypo] = useState(false);
+  const [isOverviewExpanded, setIsOverviewExpanded] = useState(true);
+  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+  const [aiChatOpen, setAiChatOpen] = useState(false);
+  const [openFaqIndex, setOpenFaqIndex] = useState(null);
+  const [activeTab, setActiveTab] = useState('all');
 
   useEffect(() => {
-    setSearch(urlQ);
-  }, [urlQ]);
+    setSearch(urlSearch);
+    setIgnoreTypo(false);
+  }, [urlSearch]);
+
+  useEffect(() => {
+    return () => {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+    };
+  }, []);
 
   useEffect(() => {
     if (urlSub) {
@@ -372,15 +481,94 @@ export default function Hardware() {
     }
   }, [urlCat, urlSub]);
 
+  // Check for typo in query (e.g. 'ASI' -> 'AIS')
+  const hasTypo = useMemo(() => {
+    if (ignoreTypo || !search.trim()) return false;
+    return /\basi\b/i.test(search);
+  }, [search, ignoreTypo]);
+
+  const correctedQuery = useMemo(() => {
+    return search.replace(/\basi\b/gi, 'AIS');
+  }, [search]);
+
+  // Find matching AI Overview topic
+  const overviewTopic = useMemo(() => {
+    if (!search.trim()) return null;
+    const q = search.toLowerCase();
+    for (const topic of AI_OVERVIEW_TOPICS) {
+      if (topic.triggers.some(t => q.includes(t))) {
+        return topic;
+      }
+    }
+    return null;
+  }, [search]);
+
+  // Audio Speech Synthesis for AI Overview
+  const handleToggleAudio = (textToSpeak) => {
+    if (!('speechSynthesis' in window)) {
+      alert('Speech synthesis is not supported in this browser.');
+      return;
+    }
+    if (isPlayingAudio) {
+      window.speechSynthesis.cancel();
+      setIsPlayingAudio(false);
+      return;
+    }
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(textToSpeak);
+    utterance.lang = 'en-IN';
+    utterance.rate = 1.0;
+    utterance.onend = () => setIsPlayingAudio(false);
+    utterance.onerror = () => setIsPlayingAudio(false);
+    setIsPlayingAudio(true);
+    window.speechSynthesis.speak(utterance);
+  };
+
+  const handleVoiceSearch = () => {
+    if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
+      alert('Speech recognition is not supported in this browser. Please use Chrome or Edge.');
+      return;
+    }
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'en-IN';
+    recognition.onresult = (event) => {
+      const transcript = event.results[0][0].transcript;
+      setSearch(transcript);
+      navigate(`/hardware?search=${encodeURIComponent(transcript)}`);
+    };
+    recognition.start();
+  };
+
+  const handleSearchSubmit = (e) => {
+    if (e) e.preventDefault();
+    if (!search.trim()) {
+      navigate('/hardware');
+      return;
+    }
+    navigate(`/hardware?search=${encodeURIComponent(search.trim())}`);
+  };
+
+  const toggleFaq = (idx) => {
+    setOpenFaqIndex(prev => prev === idx ? null : idx);
+  };
+
+  // Product filtering with typo correction & stop words
   const filtered = useMemo(() => {
     return products.filter(p => {
       // 1. Keyword search filter
       const q = search.trim().toLowerCase();
       let matchQ = true;
       if (q) {
-        const rawTokens = q.replace(/[^\w\s-]/g, ' ').split(/\s+/).filter(Boolean);
+        let normalizedQ = q;
+        if (!ignoreTypo && /\basi\b/i.test(normalizedQ)) {
+          normalizedQ = normalizedQ.replace(/\basi\b/gi, 'ais');
+        }
+
+        const rawTokens = normalizedQ.replace(/[^\w\s-]/g, ' ').split(/\s+/).filter(Boolean);
         const keywords = rawTokens.filter(t => !STOP_WORDS.has(t));
         const tokensToUse = keywords.length > 0 ? keywords : rawTokens;
+
         const searchable = [
           p.name,
           p.slug,
@@ -392,7 +580,10 @@ export default function Hardware() {
           ...(p.tags || [])
         ].join(' ').toLowerCase();
 
-        matchQ = p.name.toLowerCase().includes(q) || tokensToUse.every(token => searchable.includes(token));
+        matchQ = p.name.toLowerCase().includes(q) || tokensToUse.every(token => {
+          const mappedToken = (!ignoreTypo && token === 'asi') ? 'ais' : token;
+          return searchable.includes(mappedToken);
+        });
       }
       if (!matchQ) return false;
 
@@ -409,7 +600,7 @@ export default function Hardware() {
 
       return true;
     });
-  }, [selected, selectedBrands, search]);
+  }, [selected, selectedBrands, search, ignoreTypo]);
 
   const lowestPriceId = useMemo(() => {
     if (!filtered || filtered.length === 0) return null;
@@ -434,71 +625,341 @@ export default function Hardware() {
           <BrandFilter selected={selectedBrands} onChange={setSelectedBrands} />
         </aside>
 
-        {/* ── Right Main Content ── */}
+        {/* ── Right Main Content (Google-style Search & AI Overview) ── */}
         <main className="hw-main">
-          {/* Header row with Hardware Solutions title and search */}
-          <div className="hw-main__header">
-            <div className="hw-main__header-left">
-              <h2 className="hw-main__title">
-                <span className="hw-main__title--blue">Hardware Solutions</span>
-                <span className="hw-main__count"> ({filtered.length})</span>
-              </h2>
-            </div>
-
-            <div className="hw-main__header-right">
-              <div className="hw-main__search">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
+          {/* ── Google Search Bar & Tabs (Reference Image 1) ── */}
+          <div className="hw-google-search-section">
+            <form className="hw-google-search-bar" onSubmit={handleSearchSubmit}>
+              <div className="hw-google-search-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748B" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="11" cy="11" r="8"/>
                   <line x1="21" y1="21" x2="16.65" y2="16.65"/>
                 </svg>
-                <input
-                  type="text"
-                  placeholder="Filter products..."
-                  value={search}
-                  onChange={e => setSearch(e.target.value)}
-                />
-                {search && (
-                  <button 
-                    type="button" 
-                    className="hw-main__search-clear" 
-                    onClick={() => setSearch('')}
-                    aria-label="Clear filter text"
-                  >
-                    ×
-                  </button>
-                )}
               </div>
+
+              <input
+                type="text"
+                className="hw-google-search-input"
+                placeholder="Search hardware, devices or ask anything..."
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+                aria-label="Search hardware or ask anything"
+              />
+
+              {search && (
+                <button
+                  type="button"
+                  className="hw-google-search-clear"
+                  onClick={() => {
+                    setSearch('');
+                    navigate('/hardware');
+                  }}
+                  title="Clear search"
+                >
+                  ✕
+                </button>
+              )}
+
+              <button
+                type="button"
+                className="hw-google-search-mic"
+                onClick={handleVoiceSearch}
+                title="Search by voice"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" />
+                  <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+                  <line x1="12" y1="19" x2="12" y2="22" />
+                </svg>
+              </button>
+
+              <button
+                type="submit"
+                className="hw-google-search-submit"
+                title="Search hardware catalog"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="11" cy="11" r="8"/>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                </svg>
+              </button>
+            </form>
+
+            {/* Google Search Tabs */}
+            <div className="hw-google-tabs-bar">
+              <button
+                type="button"
+                className="hw-google-tab hw-google-tab--ai"
+                onClick={() => setAiChatOpen(true)}
+                title="Switch to 1-on-1 AI Mode"
+              >
+                <span className="hw-google-tab-sparkle">✦</span>
+                <span>AI Mode</span>
+              </button>
+
+              <button
+                type="button"
+                className={`hw-google-tab ${activeTab === 'all' ? 'hw-google-tab--active' : ''}`}
+                onClick={() => setActiveTab('all')}
+              >
+                <span>All</span>
+              </button>
+
+              <button
+                type="button"
+                className="hw-google-tab"
+                onClick={() => {
+                  setSearch('AIS 140');
+                  navigate('/hardware?search=AIS%20140');
+                }}
+              >
+                <span>AIS-140 Certified</span>
+              </button>
+
+              <button
+                type="button"
+                className="hw-google-tab"
+                onClick={() => {
+                  navigate('/hardware?category=video-telematics');
+                }}
+              >
+                <span>Video Telematics</span>
+              </button>
+
+              <button
+                type="button"
+                className="hw-google-tab"
+                onClick={() => {
+                  navigate('/hardware?category=fuel-sensors');
+                }}
+              >
+                <span>Fuel Sensors</span>
+              </button>
             </div>
           </div>
 
-          {/* Product List Container */}
-          <div className="hw-list-container">
-            {filtered.length === 0 ? (
-              <div className="product-grid__empty">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#D1D5DB" strokeWidth="1.5">
-                  <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                </svg>
-                <p>No products found</p>
-                <button 
-                  className="btn btn-outline btn-sm" 
-                  onClick={() => { setSelected(new Set()); setSelectedBrands(new Set()); setSearch(''); }}
+          {/* ── Scrollable Results Container ── */}
+          <div className="hw-scrollable-content">
+
+            {/* Typo Correction Banner (Reference Image 1: "Showing results for what is AIS 140?") */}
+            {hasTypo && (
+              <div className="hw-typo-banner">
+                <span className="hw-typo-text">Showing results for </span>
+                <button
+                  type="button"
+                  className="hw-typo-corrected"
+                  onClick={() => {
+                    setSearch(correctedQuery);
+                    setIgnoreTypo(false);
+                    navigate(`/hardware?search=${encodeURIComponent(correctedQuery)}`);
+                  }}
                 >
-                  Clear all filters
+                  <strong>{correctedQuery}</strong>
+                </button>
+                <span className="hw-typo-sep">•</span>
+                <span className="hw-typo-text">Search instead for </span>
+                <button
+                  type="button"
+                  className="hw-typo-original"
+                  onClick={() => setIgnoreTypo(true)}
+                >
+                  <em>{search}</em>
                 </button>
               </div>
-            ) : (
-              filtered.map(p => (
-                <ProductCard
-                  key={p.id}
-                  product={p}
-                  isLowest={p.id === lowestPriceId}
-                  onClick={() => navigate(`/hardware/${p.slug}`)}
-                />
-              ))
             )}
+
+            {/* ── Google AI Overview Card (Reference Image 1) ── */}
+            {overviewTopic && (
+              <div className="hw-ai-overview-card">
+                <div className="hw-ai-overview-head">
+                  <div className="hw-ai-overview-badge">
+                    <span className="hw-ai-overview-sparkle">✦</span>
+                    <span className="hw-ai-overview-title">AI Overview</span>
+                  </div>
+
+                  <div className="hw-ai-overview-actions">
+                    <button
+                      type="button"
+                      className={`hw-ai-overview-audio-btn ${isPlayingAudio ? 'is-playing' : ''}`}
+                      onClick={() => handleToggleAudio(overviewTopic.summary)}
+                      title={isPlayingAudio ? 'Stop speaking' : 'Listen to AI Overview'}
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                        <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+                      </svg>
+                      <span>{isPlayingAudio ? 'Stop' : 'Listen'}</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      className="hw-ai-overview-ask-btn"
+                      onClick={() => setAiChatOpen(true)}
+                      title="Open 1-on-1 AI Chat with Setu AI"
+                    >
+                      <span className="hw-ai-overview-sparkle-sm">✦</span>
+                      <span>Ask AI →</span>
+                    </button>
+                  </div>
+                </div>
+
+                <div className="hw-ai-overview-body">
+                  <p className="hw-ai-overview-summary">
+                    {overviewTopic.summary}
+                  </p>
+
+                  {isOverviewExpanded && (
+                    <div className="hw-ai-overview-expanded">
+                      <ul className="hw-ai-overview-bullets">
+                        {overviewTopic.bullets.map((b, idx) => {
+                          const [heading, ...rest] = b.split(':');
+                          return (
+                            <li key={idx}>
+                              {rest.length > 0 ? (
+                                <>
+                                  <strong>{heading}:</strong>
+                                  <span>{rest.join(':')}</span>
+                                </>
+                              ) : (
+                                <span>{b}</span>
+                              )}
+                            </li>
+                          );
+                        })}
+                      </ul>
+
+                      {overviewTopic.source && (
+                        <div className="hw-ai-overview-source-row">
+                          <a
+                            href={overviewTopic.source.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="hw-ai-overview-source-chip"
+                          >
+                            <span className="hw-ai-overview-source-icon">🌐</span>
+                            <div className="hw-ai-overview-source-texts">
+                              <span className="hw-ai-overview-source-site">{overviewTopic.source.domain}</span>
+                              <span className="hw-ai-overview-source-title">{overviewTopic.source.title}</span>
+                            </div>
+                            <span className="hw-ai-overview-source-arrow">↗</span>
+                          </a>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  <button
+                    type="button"
+                    className="hw-ai-overview-expand-toggle"
+                    onClick={() => setIsOverviewExpanded(!isOverviewExpanded)}
+                  >
+                    <span>{isOverviewExpanded ? 'Show less' : 'Show more'}</span>
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      style={{
+                        transform: isOverviewExpanded ? 'rotate(180deg)' : 'none',
+                        transition: 'transform 0.2s ease'
+                      }}
+                    >
+                      <polyline points="6 9 12 15 18 9"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* ── Section Title: Matching Hardware Products ── */}
+            <div className="hw-results-header">
+              <h2 className="hw-results-title">
+                <span>Matching Hardware Products</span>
+                <span className="hw-results-count"> ({filtered.length})</span>
+              </h2>
+            </div>
+
+            {/* ── Product List (Reference Image 1) ── */}
+            <div className="hw-list-container">
+              {filtered.length === 0 ? (
+                <div className="product-grid__empty">
+                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#D1D5DB" strokeWidth="1.5">
+                    <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                  </svg>
+                  <p>No products found for "{search}"</p>
+                  <button
+                    className="btn btn-outline btn-sm"
+                    onClick={() => {
+                      setSelected(new Set());
+                      setSelectedBrands(new Set());
+                      setSearch('');
+                      navigate('/hardware');
+                    }}
+                  >
+                    Clear all filters
+                  </button>
+                </div>
+              ) : (
+                filtered.map(p => (
+                  <ProductCard
+                    key={p.id}
+                    product={p}
+                    isLowest={p.id === lowestPriceId}
+                    onClick={() => navigate(`/hardware/${p.slug}`)}
+                  />
+                ))
+              )}
+            </div>
+
+            {/* ── People Also Ask Accordion (Reference Image 1) ── */}
+            {overviewTopic?.faqs && overviewTopic.faqs.length > 0 && (
+              <div className="hw-paa-section">
+                <h3 className="hw-paa-title">People also ask</h3>
+                <div className="hw-paa-accordion">
+                  {overviewTopic.faqs.map((faq, idx) => {
+                    const isOpen = openFaqIndex === idx;
+                    return (
+                      <div key={idx} className={`hw-paa-item ${isOpen ? 'hw-paa-item--open' : ''}`}>
+                        <button
+                          type="button"
+                          className="hw-paa-question"
+                          onClick={() => toggleFaq(idx)}
+                          aria-expanded={isOpen}
+                        >
+                          <span>{faq.question}</span>
+                          <span className="hw-paa-arrow">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ transform: isOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s ease' }}>
+                              <polyline points="6 9 12 15 18 9"/>
+                            </svg>
+                          </span>
+                        </button>
+                        {isOpen && (
+                          <div className="hw-paa-answer">
+                            <p>{faq.answer}</p>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
           </div>
         </main>
       </div>
+
+      {/* ── 1-on-1 Interactive Setu AI Chat (Reference Image 2) ── */}
+      <SetuAIChat
+        isOpen={aiChatOpen}
+        onClose={() => setAiChatOpen(false)}
+        initialQuery={search || 'what is ASI 140?'}
+      />
     </div>
   );
 }

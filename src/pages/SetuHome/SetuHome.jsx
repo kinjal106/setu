@@ -2,6 +2,7 @@ import React, { useState, useRef, useMemo, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom';
 import products from '../../data/products.json';
 import { getAssetUrl } from '../../utils/assetUrl';
+import SetuAIChat from '../../components/SetuAIChat/SetuAIChat';
 import './SetuHome.css';
 
 /* ────────────────────────────────────────────────────────────
@@ -390,7 +391,7 @@ function DarkHeroBannerSlider({ onLearnMore, isSearchActive }) {
 /* ────────────────────────────────────────────────────────────
    5. OVERLAPPING PRIMARY INTELLIGENT SEARCH BAR
 ──────────────────────────────────────────────────────────── */
-function PrimaryIntelligentSearchBar({ onSearchActiveChange, onOpenFinder, onOpenFilters }) {
+function PrimaryIntelligentSearchBar({ onSearchActiveChange, onOpenFinder, onOpenFilters, onOpenAIChat }) {
   const navigate = useNavigate();
   const [query, setQuery] = useState('');
   const [isFocused, setIsFocused] = useState(false);
@@ -425,14 +426,25 @@ function PrimaryIntelligentSearchBar({ onSearchActiveChange, onOpenFinder, onOpe
     }).slice(0, 4);
   }, [query]);
 
+  // Functionality 1: Pressing Enter or submitting navigates to the Hardware page with the search query to show all matching products!
   const handleSubmit = (e) => {
     if (e) e.preventDefault();
-    if (!query.trim()) return;
+    const q = query.trim();
+    if (!q) return;
 
-    if (aiOverview?.recommended?.path) {
-      navigate(aiOverview.recommended.path);
-    } else {
-      navigate(`/hardware?search=${encodeURIComponent(query.trim())}`);
+    navigate(`/hardware?search=${encodeURIComponent(q)}`);
+    setIsFocused(false);
+  };
+
+  // Functionality 2: Clicking Ask AI opens 1-on-1 AI chat detailing the query
+  const handleAskAI = (e) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    const q = query.trim() || 'what is ASI 140?';
+    if (onOpenAIChat) {
+      onOpenAIChat(q);
     }
     setIsFocused(false);
   };
@@ -529,9 +541,10 @@ function PrimaryIntelligentSearchBar({ onSearchActiveChange, onOpenFinder, onOpe
 
         {/* Primary Search CTA: ✦ Ask AI Button */}
         <button
-          type="submit"
+          type="button"
           className="intelligent-search-bar__ai-btn"
-          title="Search with Setu AI"
+          onClick={handleAskAI}
+          title="Open 1-on-1 Setu AI Chat detailing"
         >
           <span className="intelligent-search-bar__sparkle">✦</span>
           <span>Ask AI</span>
@@ -1184,10 +1197,17 @@ export default function SetuHome() {
   const [finderModalOpen, setFinderModalOpen] = useState(false);
   const [filterDrawerOpen, setFilterDrawerOpen] = useState(false);
   const [isSearchActive, setIsSearchActive] = useState(false);
+  const [aiChatOpen, setAiChatOpen] = useState(false);
+  const [aiChatQuery, setAiChatQuery] = useState('');
 
   const handleLearnMore = (slide) => {
     setActiveSlideForSpecs(slide);
     setSpecsModalOpen(true);
+  };
+
+  const handleOpenAIChat = (q) => {
+    setAiChatQuery(q || 'what is ASI 140?');
+    setAiChatOpen(true);
   };
 
   const handleSearchActiveChange = useCallback((active) => {
@@ -1209,10 +1229,18 @@ export default function SetuHome() {
           onSearchActiveChange={handleSearchActiveChange}
           onOpenFinder={() => setFinderModalOpen(true)}
           onOpenFilters={() => setFilterDrawerOpen(true)}
+          onOpenAIChat={handleOpenAIChat}
         />
 
         {/* ── 3. Shop by Category (4×2 Grid of 8 Cards) ── */}
         <ShopByCategory />
+
+        {/* ── 1-on-1 Interactive Setu AI Chat Window ── */}
+        <SetuAIChat
+          isOpen={aiChatOpen}
+          onClose={() => setAiChatOpen(false)}
+          initialQuery={aiChatQuery}
+        />
 
         {/* ── Modals & Drawers ── */}
         <SmartFinderModal
