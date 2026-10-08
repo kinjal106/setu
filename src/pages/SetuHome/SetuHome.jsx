@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import products from '../../data/products.json';
 import { getAssetUrl } from '../../utils/assetUrl';
 import { useCart } from '../../context/CartContext';
-import SetuAIChat from '../../components/SetuAIChat/SetuAIChat';
 import './SetuHome.css';
 
 /* ────────────────────────────────────────────────────────────

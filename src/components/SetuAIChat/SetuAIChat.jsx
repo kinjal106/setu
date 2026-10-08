@@ -9,6 +9,45 @@ import './SetuAIChat.css';
    KNOWLEDGE BASE FOR SETU 1-ON-1 FLEET AI ASSISTANT
 ──────────────────────────────────────────────────────────── */
 const KNOWLEDGE_RESPONSES = {
+  whatCanYouDo: {
+    leadTitle: 'Setu Fleet AI Assistant',
+    leadHighlight: 'your dedicated telematics & commercial fleet hardware advisor, trained on Indian transport regulations, sensor protocols, and certified hardware.',
+    citation1: 'Setu Fleet AI',
+    paragraph2: 'I can assist you in finding certified GPS trackers, explaining technical standards like AIS 140 and NavIC, recommending fuel theft prevention sensors, and configuring video telematics with ADAS and DMS driver monitoring.',
+    citation2: 'ICAT / ARAI Standards',
+    paragraph3: 'All devices recommended here come with direct manufacturer warranties, verified GST tax invoicing, and optional pre-configured cellular SIM connectivity for instant highway deployment.',
+    citation3: 'Verified Hardware',
+    requirementsTitle: '⚡ Key Capabilities & Assistance',
+    requirementsSubtitle: 'Select an area of assistance or ask any specific technical question:',
+    requirements: [
+      {
+        title: 'AIS 140 Government Compliance',
+        text: 'Guidance on RTO mandates, dual-IP MoRTH streaming, and 112 emergency panic buttons.',
+        badge: 'Govt. Mandate'
+      },
+      {
+        title: 'Fuel Theft & Sensor Telemetry',
+        text: 'Capacitive measuring rods and wireless BLE 5.0 sensors with 99.5% accuracy and instant siphon alarms.',
+        badge: 'Fuel Telemetry'
+      },
+      {
+        title: 'AI Video Telematics (ADAS + DMS)',
+        text: 'Driver fatigue detection, lane departure warnings, and automatic 4G cloud video upload.',
+        badge: 'Active Safety'
+      },
+      {
+        title: 'Cargo E-Locks & Logistics Trackers',
+        text: 'Remote OTP unlock, anti-tamper steel cables, and 3-year autonomous battery standby.',
+        badge: 'Asset Security'
+      }
+    ],
+    recommendedProductIds: ['prithvi-140', 'falcon-f1-ai-4g', 'sp-ble4-fuel'],
+    followUps: [
+      'Explain AIS 140 compliance requirements',
+      'Best hardware to prevent diesel fuel theft',
+      'Compare AI dashcams with ADAS & DMS'
+    ]
+  },
   ais140: {
     leadTitle: 'AIS 140 (Automotive Industry Standard 140)',
     leadHighlight: 'a mandatory government regulation in India that establishes technical and safety standards for Vehicle Location Tracking Devices (VLTDs) used in public transport and commercial fleets.',
@@ -193,44 +232,38 @@ const KNOWLEDGE_RESPONSES = {
 };
 
 /* ────────────────────────────────────────────────────────────
-   SUGGESTED QUESTIONS FOR GOOGLE GEMINI ZERO-STATE VIEW
+   SUGGESTED PROMPTS MATCHING GOOGLE GEMINI REFERENCE
 ──────────────────────────────────────────────────────────── */
-const SUGGESTED_QUESTIONS = [
+const SUGGESTED_PROMPTS = [
   {
-    icon: '🇮🇳',
-    title: 'What is AIS 140 and why is it mandatory?',
-    desc: 'Government regulation, ICAT/ARAI certifications & compliant GPS trackers',
-    query: 'What is AIS 140 and why is it mandatory for commercial vehicles in India?'
+    icon: '✦',
+    text: 'What can you do?',
+    query: 'What can you do and how can you help me with fleet hardware?'
+  },
+  {
+    icon: '📄',
+    text: 'Explain AIS 140 compliance requirements',
+    query: 'Explain AIS 140 compliance requirements for commercial vehicles in India'
   },
   {
     icon: '⛽',
-    title: 'How to prevent diesel fuel theft in trucks?',
-    desc: 'Wireless BLE 5.0 sensors, 99.5% accuracy & instant 30-sec siphon alerts',
+    text: 'Best hardware to prevent diesel fuel theft',
+    badge: 'New',
     query: 'How to prevent diesel fuel theft using sensors?'
   },
   {
     icon: '📹',
-    title: 'Best AI dashcam for driver drowsiness & safety?',
-    desc: 'Dual-lens ADAS + DMS night vision cameras with in-cabin collision alerts',
-    query: 'What is the best AI dashcam for driver fatigue and road safety?'
-  },
-  {
-    icon: '🔒',
-    title: 'How does container GPS e-lock tamper protection work?',
-    desc: 'IP68 steel wire seal, remote OTP unlock & customs bond cargo security',
-    query: 'How does container GPS e-lock tamper protection work?'
-  },
-  {
-    icon: '🛰',
-    title: 'Which 4G tracker works best for fleet logistics?',
-    desc: 'Multi-carrier roaming eSIM, 4-hour battery backup & cold chain BLE probes',
-    query: 'Which 4G GPS tracker works best for commercial fleet logistics?'
+    text: 'Compare AI dashcams with ADAS & DMS',
+    query: 'Compare AI dashcams with ADAS and DMS driver safety'
   }
 ];
 
 function getAIResponse(userText) {
   const q = (userText || '').toLowerCase().trim();
 
+  if (q.includes('what can you do') || q.includes('who are you') || q.includes('capabilities') || q.includes('help me with') || q.includes('features')) {
+    return KNOWLEDGE_RESPONSES.whatCanYouDo;
+  }
   if (q.includes('140') || q.includes('asi') || q.includes('ais') || q.includes('rto') || q.includes('morth') || q.includes('mandat') || q.includes('panic') || q.includes('sos')) {
     return KNOWLEDGE_RESPONSES.ais140;
   }
@@ -295,10 +328,42 @@ export default function SetuAIChat({ isOpen: propIsOpen, onClose: propOnClose, i
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [showContextChip, setShowContextChip] = useState(true);
+  const [selectedModel, setSelectedModel] = useState('Flash');
+  const [isModelMenuOpen, setIsModelMenuOpen] = useState(false);
+  const [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
+
   const chatEndRef = useRef(null);
   const inputRef = useRef(null);
+  const modelMenuRef = useRef(null);
+  const moreMenuRef = useRef(null);
 
-  // Initialize or handle incoming initialQuery
+  // Close menus on outside click
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (modelMenuRef.current && !modelMenuRef.current.contains(e.target)) {
+        setIsModelMenuOpen(false);
+      }
+      if (moreMenuRef.current && !moreMenuRef.current.contains(e.target)) {
+        setIsMoreMenuOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Keyboard shortcut: Escape to close
+  useEffect(() => {
+    function handleKeyDownGlobal(e) {
+      if (e.key === 'Escape' && isOpen) {
+        onClose();
+      }
+    }
+    window.addEventListener('keydown', handleKeyDownGlobal);
+    return () => window.removeEventListener('keydown', handleKeyDownGlobal);
+  }, [isOpen, onClose]);
+
+  // Handle incoming initialQuery
   useEffect(() => {
     if (isOpen) {
       if (activeInitialQuery && activeInitialQuery.trim()) {
@@ -308,8 +373,6 @@ export default function SetuAIChat({ isOpen: propIsOpen, onClose: propOnClose, i
           { id: 1, sender: 'user', text: startQuery },
           { id: 2, sender: 'ai', data: aiData }
         ]);
-      } else {
-        // Keep existing messages or let user start fresh from suggestions
       }
       setInputValue('');
       setTimeout(() => {
@@ -341,7 +404,7 @@ export default function SetuAIChat({ isOpen: propIsOpen, onClose: propOnClose, i
         { id: Date.now() + 1, sender: 'ai', data: aiData }
       ]);
       setIsTyping(false);
-    }, 600);
+    }, 550);
   };
 
   const handleKeyDown = (e) => {
@@ -355,12 +418,27 @@ export default function SetuAIChat({ isOpen: propIsOpen, onClose: propOnClose, i
     setMessages([]);
     setInputValue('');
     setIsTyping(false);
-    if (inputRef.current) inputRef.current.focus();
+    setIsMoreMenuOpen(false);
+    setTimeout(() => {
+      if (inputRef.current) inputRef.current.focus();
+    }, 100);
+  };
+
+  const handleCopyChat = () => {
+    const transcript = messages
+      .map((m) => {
+        if (m.sender === 'user') return `User: ${m.text}`;
+        return `Setu AI: ${m.data?.leadTitle} - ${m.data?.leadHighlight}`;
+      })
+      .join('\n\n');
+    navigator.clipboard?.writeText(transcript);
+    alert('Conversation copied to clipboard.');
+    setIsMoreMenuOpen(false);
   };
 
   const handleVoiceInput = () => {
     if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
-      alert('Speech recognition is not supported in this browser. Please use Chrome or Edge.');
+      alert('Speech recognition is not supported in this browser. Please use Google Chrome.');
       return;
     }
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -381,113 +459,161 @@ export default function SetuAIChat({ isOpen: propIsOpen, onClose: propOnClose, i
 
   return (
     <>
-      {/* ── Backdrop Overlay ── */}
+      {/* ── Dark Backdrop Overlay ── */}
       <div
-        className={`setu-gemini-overlay ${isOpen ? 'setu-gemini-overlay--open' : ''}`}
+        className={`gemini-side-overlay ${isOpen ? 'gemini-side-overlay--open' : ''}`}
         onClick={onClose}
         aria-hidden={!isOpen}
       />
 
-      {/* ── Google Gemini Right-Hand Side Panel ── */}
+      {/* ── Google Gemini-Style Right-Hand Side Panel ── */}
       <aside
-        className={`setu-gemini-panel ${isOpen ? 'setu-gemini-panel--open' : ''}`}
+        className={`gemini-side-panel ${isOpen ? 'gemini-side-panel--open' : ''}`}
         aria-label="Setu AI Assistant"
         aria-hidden={!isOpen}
       >
-        {/* ── Top Header ── */}
-        <div className="setu-gemini-header">
-          <div className="setu-gemini-header__brand">
-            <div className="setu-gemini-header__sparkle-wrap">
-              <span className="setu-gemini-header__sparkle">✦</span>
-            </div>
-            <div className="setu-gemini-header__titles">
-              <div className="setu-gemini-header__title-row">
-                <span className="setu-gemini-header__title">Ask Setu AI</span>
-                <span className="setu-gemini-header__badge">Fleet Intelligence</span>
-              </div>
-              <span className="setu-gemini-header__subtitle">Google Gemini-Powered Hardware Guidance</span>
-            </div>
-          </div>
-
-          <div className="setu-gemini-header__actions">
+        {/* ── Top Bar (Clean, Minimalist: Only ⋮ and ✕) ── */}
+        <div className="gemini-panel-header">
+          <div className="gemini-header-left">
             {messages.length > 0 && (
               <button
                 type="button"
-                className="setu-gemini-header__btn"
+                className="gemini-header-new-btn"
                 onClick={handleNewChat}
-                title="Start a new chat"
+                title="New chat"
                 aria-label="New chat"
               >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 5v14M5 12h14" />
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
+                  <line x1="12" y1="5" x2="12" y2="19" />
+                  <line x1="5" y1="12" x2="19" y2="12" />
                 </svg>
-                <span className="setu-gemini-header__btn-label">New chat</span>
+                <span>New chat</span>
               </button>
             )}
+          </div>
 
+          <div className="gemini-header-actions">
+            {/* Options Menu ⋮ */}
+            <div className="gemini-menu-container" ref={moreMenuRef}>
+              <button
+                type="button"
+                className="gemini-icon-btn"
+                onClick={() => setIsMoreMenuOpen(!isMoreMenuOpen)}
+                title="More options"
+                aria-label="Options"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <circle cx="12" cy="5" r="1.8" />
+                  <circle cx="12" cy="12" r="1.8" />
+                  <circle cx="12" cy="19" r="1.8" />
+                </svg>
+              </button>
+
+              {isMoreMenuOpen && (
+                <div className="gemini-popup-menu">
+                  <button type="button" onClick={handleNewChat}>
+                    <span className="gemini-popup-icon">✦</span>
+                    <span>New chat</span>
+                  </button>
+                  {messages.length > 0 && (
+                    <button type="button" onClick={handleCopyChat}>
+                      <span className="gemini-popup-icon">📋</span>
+                      <span>Copy chat</span>
+                    </button>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setShowContextChip(true);
+                      setIsMoreMenuOpen(false);
+                    }}
+                  >
+                    <span className="gemini-popup-icon">🌐</span>
+                    <span>Reset page sharing</span>
+                  </button>
+                  <button type="button" onClick={() => { setIsMoreMenuOpen(false); onClose(); }}>
+                    <span className="gemini-popup-icon">✕</span>
+                    <span>Close</span>
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {/* Close Button ✕ */}
             <button
               type="button"
-              className="setu-gemini-header__close-btn"
+              className="gemini-icon-btn gemini-icon-btn--close"
               onClick={onClose}
-              title="Close panel (Esc)"
+              title="Close panel"
               aria-label="Close Setu AI panel"
             >
-              ✕
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="6" />
+              </svg>
             </button>
           </div>
         </div>
 
-        {/* ── Panel Body ── */}
-        <div className="setu-gemini-body">
-          {/* ZERO STATE: Welcoming Gemini Greeting & Suggested Questions */}
+        {/* ── Main Panel Content ── */}
+        <div className="gemini-panel-content">
           {messages.length === 0 ? (
-            <div className="setu-gemini-welcome">
-              <div className="setu-gemini-welcome__hero">
-                <div className="setu-gemini-welcome__icon-circle">
-                  <span className="setu-gemini-welcome__sparkle">✦</span>
+            /* ZERO STATE (Exact match to Google Gemini reference image) */
+            <div className="gemini-zero-state">
+              {/* Flexible spacer pushing the star to the upper-center */}
+              <div className="gemini-zero-hero">
+                <div className="gemini-star-container">
+                  <svg
+                    className="gemini-star-svg"
+                    width="40"
+                    height="40"
+                    viewBox="0 0 28 28"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M14 0C14 7.732 7.732 14 0 14C7.732 14 14 20.268 14 28C14 20.268 20.268 14 28 14C20.268 14 14 7.732 14 0Z"
+                      fill="url(#geminiGradZero)"
+                    />
+                    <defs>
+                      <linearGradient id="geminiGradZero" x1="0" y1="0" x2="28" y2="28" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%" stopColor="#1B6EF3" />
+                        <stop offset="35%" stopColor="#7B57FF" />
+                        <stop offset="70%" stopColor="#D96570" />
+                        <stop offset="100%" stopColor="#F9AB00" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
                 </div>
-                <h2 className="setu-gemini-welcome__title">
-                  Hello, how can I help you find hardware?
-                </h2>
-                <p className="setu-gemini-welcome__desc">
-                  Ask me about device specifications, Indian government AIS-140 compliance, fuel sensors, video telematics, or bulk pricing.
-                </p>
+                <h2 className="gemini-ready-text">Ready when you are</h2>
               </div>
 
-              <div className="setu-gemini-suggestions-section">
-                <div className="setu-gemini-suggestions-heading">
-                  <span className="setu-gemini-suggestions-sparkle">✦</span>
-                  <span>Suggested questions to get started</span>
-                </div>
-
-                <div className="setu-gemini-suggestions-grid">
-                  {SUGGESTED_QUESTIONS.map((item, idx) => (
-                    <button
-                      key={idx}
-                      type="button"
-                      className="setu-gemini-suggestion-card"
-                      onClick={() => handleSendMessage(item.query)}
-                      title={item.title}
-                    >
-                      <div className="setu-gemini-suggestion-card__icon">{item.icon}</div>
-                      <div className="setu-gemini-suggestion-card__content">
-                        <div className="setu-gemini-suggestion-card__title">{item.title}</div>
-                        <div className="setu-gemini-suggestion-card__desc">{item.desc}</div>
-                      </div>
-                      <span className="setu-gemini-suggestion-card__arrow">→</span>
-                    </button>
-                  ))}
-                </div>
+              {/* Bottom-anchored Prompt Pills Stack */}
+              <div className="gemini-pills-stack">
+                {SUGGESTED_PROMPTS.map((prompt, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    className="gemini-pill-btn"
+                    onClick={() => handleSendMessage(prompt.query)}
+                  >
+                    <span className="gemini-pill-btn__icon">{prompt.icon}</span>
+                    <span className="gemini-pill-btn__text">{prompt.text}</span>
+                    {prompt.badge && (
+                      <span className="gemini-pill-btn__badge">{prompt.badge}</span>
+                    )}
+                  </button>
+                ))}
               </div>
             </div>
           ) : (
             /* CONVERSATION STREAM */
-            <div className="setu-gemini-conversation">
+            <div className="gemini-chat-stream">
               {messages.map((msg) => {
                 if (msg.sender === 'user') {
                   return (
-                    <div key={msg.id} className="setu-gemini-msg setu-gemini-msg--user">
-                      <div className="setu-gemini-user-bubble">{msg.text}</div>
+                    <div key={msg.id} className="gemini-msg gemini-msg--user">
+                      <div className="gemini-user-bubble">{msg.text}</div>
                     </div>
                   );
                 }
@@ -498,134 +624,161 @@ export default function SetuAIChat({ isOpen: propIsOpen, onClose: propOnClose, i
                   .filter(Boolean);
 
                 return (
-                  <div key={msg.id} className="setu-gemini-msg setu-gemini-msg--ai">
-                    <div className="setu-gemini-ai-card">
-                      {/* AI Lead Title & Summary */}
-                      <div className="setu-gemini-ai-lead">
-                        <div className="setu-gemini-ai-avatar">✦</div>
-                        <div className="setu-gemini-ai-lead-text">
+                  <div key={msg.id} className="gemini-msg gemini-msg--ai">
+                    <div className="gemini-ai-row">
+                      <div className="gemini-ai-star-badge">
+                        <svg width="20" height="20" viewBox="0 0 28 28" fill="none">
+                          <path
+                            d="M14 0C14 7.732 7.732 14 0 14C7.732 14 14 20.268 14 28C14 20.268 20.268 14 28 14C20.268 14 14 7.732 14 0Z"
+                            fill="url(#geminiGradMsg)"
+                          />
+                          <defs>
+                            <linearGradient id="geminiGradMsg" x1="0" y1="0" x2="28" y2="28" gradientUnits="userSpaceOnUse">
+                              <stop offset="0%" stopColor="#1B6EF3" />
+                              <stop offset="35%" stopColor="#7B57FF" />
+                              <stop offset="70%" stopColor="#D96570" />
+                              <stop offset="100%" stopColor="#F9AB00" />
+                            </linearGradient>
+                          </defs>
+                        </svg>
+                      </div>
+
+                      <div className="gemini-ai-body">
+                        {/* Title & Lead statement */}
+                        <div className="gemini-ai-lead">
                           <p>
-                            <strong>{ai.leadTitle}</strong> is{' '}
-                            <span className="setu-gemini-highlight">{ai.leadHighlight}</span>
+                            <strong className="gemini-ai-lead-title">{ai.leadTitle}</strong> is{' '}
+                            <span className="gemini-ai-highlight">{ai.leadHighlight}</span>
                             {ai.citation1 && (
-                              <span className="setu-gemini-cite">{ai.citation1}</span>
+                              <span className="gemini-ai-cite">{ai.citation1}</span>
                             )}
                           </p>
                         </div>
-                      </div>
 
-                      {ai.paragraph2 && (
-                        <p className="setu-gemini-para">
-                          {ai.paragraph2}
-                          {ai.citation2 && (
-                            <span className="setu-gemini-cite">{ai.citation2}</span>
-                          )}
-                        </p>
-                      )}
+                        {ai.paragraph2 && (
+                          <p className="gemini-ai-para">
+                            {ai.paragraph2}
+                            {ai.citation2 && (
+                              <span className="gemini-ai-cite">{ai.citation2}</span>
+                            )}
+                          </p>
+                        )}
 
-                      {ai.paragraph3 && (
-                        <p className="setu-gemini-para">
-                          {ai.paragraph3}
-                          {ai.citation3 && (
-                            <span className="setu-gemini-cite">{ai.citation3}</span>
-                          )}
-                        </p>
-                      )}
+                        {ai.paragraph3 && (
+                          <p className="gemini-ai-para">
+                            {ai.paragraph3}
+                            {ai.citation3 && (
+                              <span className="gemini-ai-cite">{ai.citation3}</span>
+                            )}
+                          </p>
+                        )}
 
-                      {/* Mandatory Requirements / Specs */}
-                      {ai.requirements && ai.requirements.length > 0 && (
-                        <div className="setu-gemini-reqs">
-                          <h4 className="setu-gemini-reqs__title">{ai.requirementsTitle}</h4>
-                          <p className="setu-gemini-reqs__sub">{ai.requirementsSubtitle}</p>
-                          <div className="setu-gemini-reqs__list">
-                            {ai.requirements.map((req, rIdx) => (
-                              <div key={rIdx} className="setu-gemini-req-item">
-                                <span className="setu-gemini-req-dot">●</span>
-                                <div className="setu-gemini-req-body">
-                                  <div className="setu-gemini-req-header">
-                                    <strong>{req.title}</strong>
-                                    {req.badge && (
-                                      <span className="setu-gemini-req-badge">{req.badge}</span>
-                                    )}
-                                  </div>
-                                  <p>{req.text}</p>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Matched Products Card Grid */}
-                      {matchedProducts.length > 0 && (
-                        <div className="setu-gemini-products">
-                          <div className="setu-gemini-products__heading">
-                            <span>Recommended Certified Hardware</span>
-                          </div>
-                          <div className="setu-gemini-products__grid">
-                            {matchedProducts.map((prod) => (
-                              <div key={prod.id} className="setu-gemini-product-card">
-                                <div className="setu-gemini-product-thumb">
-                                  <img
-                                    src={getAssetUrl(prod.image)}
-                                    alt={prod.name}
-                                    onError={(e) => {
-                                      e.target.src = getAssetUrl('/images/hardware/advance-4wire.svg');
-                                    }}
-                                  />
-                                </div>
-                                <div className="setu-gemini-product-info">
-                                  <span className="setu-gemini-product-brand">
-                                    {prod.brand || 'Uffizio Certified'}
-                                  </span>
-                                  <strong className="setu-gemini-product-title">{prod.name}</strong>
-                                  <div className="setu-gemini-product-bottom">
-                                    <span className="setu-gemini-product-price">
-                                      ₹{prod.price?.toLocaleString('en-IN') || '690'}
+                        {/* Hardware Specifications */}
+                        {ai.requirements && ai.requirements.length > 0 && (
+                          <div className="gemini-ai-specs">
+                            <div className="gemini-ai-specs__title">{ai.requirementsTitle}</div>
+                            <div className="gemini-ai-specs__list">
+                              {ai.requirements.map((req, rIdx) => (
+                                <div key={rIdx} className="gemini-ai-spec-row">
+                                  <span className="gemini-ai-spec-bullet">●</span>
+                                  <div className="gemini-ai-spec-info">
+                                    <span className="gemini-ai-spec-name">
+                                      {req.title}
+                                      {req.badge && (
+                                        <span className="gemini-ai-spec-badge">{req.badge}</span>
+                                      )}
                                     </span>
-                                    <button
-                                      type="button"
-                                      className="setu-gemini-product-cta"
-                                      onClick={() => handleProductClick(prod.slug || prod.id)}
-                                    >
-                                      View Details →
-                                    </button>
+                                    <span className="gemini-ai-spec-desc">{req.text}</span>
                                   </div>
                                 </div>
-                              </div>
-                            ))}
+                              ))}
+                            </div>
                           </div>
-                        </div>
-                      )}
+                        )}
 
-                      {/* Follow-up Questions */}
-                      {ai.followUps && ai.followUps.length > 0 && (
-                        <div className="setu-gemini-followups">
-                          <span className="setu-gemini-followups__label">Suggested follow-ups:</span>
-                          <div className="setu-gemini-followups__chips">
+                        {/* Verified Hardware Cards */}
+                        {matchedProducts.length > 0 && (
+                          <div className="gemini-ai-products">
+                            <div className="gemini-ai-products__label">Recommended Hardware</div>
+                            <div className="gemini-ai-products__list">
+                              {matchedProducts.map((prod) => (
+                                <div key={prod.id} className="gemini-ai-product-card">
+                                  <div className="gemini-ai-product-img-wrap">
+                                    <img
+                                      src={getAssetUrl(prod.image)}
+                                      alt={prod.name}
+                                      onError={(e) => {
+                                        e.target.src = getAssetUrl('/images/hardware/advance-4wire.svg');
+                                      }}
+                                    />
+                                  </div>
+                                  <div className="gemini-ai-product-details">
+                                    <div className="gemini-ai-product-brand">
+                                      {prod.brand || 'Uffizio Certified'}
+                                    </div>
+                                    <div className="gemini-ai-product-name">{prod.name}</div>
+                                    <div className="gemini-ai-product-foot">
+                                      <span className="gemini-ai-product-price">
+                                        ₹{prod.price?.toLocaleString('en-IN') || '690'}
+                                      </span>
+                                      <button
+                                        type="button"
+                                        className="gemini-ai-product-link"
+                                        onClick={() => handleProductClick(prod.slug || prod.id)}
+                                      >
+                                        View Details →
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Follow-up suggestions */}
+                        {ai.followUps && ai.followUps.length > 0 && (
+                          <div className="gemini-ai-followups">
                             {ai.followUps.map((fu, fIdx) => (
                               <button
                                 key={fIdx}
                                 type="button"
-                                className="setu-gemini-followup-chip"
+                                className="gemini-followup-pill"
                                 onClick={() => handleSendMessage(fu)}
                               >
                                 {fu}
                               </button>
                             ))}
                           </div>
-                        </div>
-                      )}
+                        )}
+                      </div>
                     </div>
                   </div>
                 );
               })}
 
               {isTyping && (
-                <div className="setu-gemini-msg setu-gemini-msg--ai">
-                  <div className="setu-gemini-typing">
-                    <span className="setu-gemini-typing__sparkle">✦</span>
-                    <span>Setu AI is analyzing fleet requirements...</span>
+                <div className="gemini-msg gemini-msg--ai">
+                  <div className="gemini-ai-row">
+                    <div className="gemini-ai-star-badge gemini-ai-star-badge--pulse">
+                      <svg width="20" height="20" viewBox="0 0 28 28" fill="none">
+                        <path
+                          d="M14 0C14 7.732 7.732 14 0 14C7.732 14 14 20.268 14 28C14 20.268 20.268 14 28 14C20.268 14 14 7.732 14 0Z"
+                          fill="url(#geminiGradTyping)"
+                        />
+                        <defs>
+                          <linearGradient id="geminiGradTyping" x1="0" y1="0" x2="28" y2="28" gradientUnits="userSpaceOnUse">
+                            <stop offset="0%" stopColor="#1B6EF3" />
+                            <stop offset="35%" stopColor="#7B57FF" />
+                            <stop offset="70%" stopColor="#D96570" />
+                            <stop offset="100%" stopColor="#F9AB00" />
+                          </linearGradient>
+                        </defs>
+                      </svg>
+                    </div>
+                    <div className="gemini-typing-text">
+                      <span>Analyzing fleet requirements...</span>
+                    </div>
                   </div>
                 </div>
               )}
@@ -635,59 +788,132 @@ export default function SetuAIChat({ isOpen: propIsOpen, onClose: propOnClose, i
           )}
         </div>
 
-        {/* ── Bottom Input Bar (Google Gemini Style) ── */}
-        <div className="setu-gemini-footer">
-          <div className="setu-gemini-input-pill">
-            <button
-              type="button"
-              className="setu-gemini-input-action-btn"
-              onClick={handleVoiceInput}
-              title="Voice input"
-              aria-label="Speak query"
-            >
-              🎤
-            </button>
-
-            <input
-              ref={inputRef}
-              type="text"
-              className="setu-gemini-input"
-              value={inputValue}
-              placeholder="Ask Setu AI anything about telematics & hardware..."
-              onChange={(e) => setInputValue(e.target.value)}
-              onKeyDown={handleKeyDown}
-              aria-label="Ask Setu AI"
-            />
-
-            {inputValue && (
-              <button
-                type="button"
-                className="setu-gemini-input-clear-btn"
-                onClick={() => setInputValue('')}
-                title="Clear"
-              >
-                ✕
-              </button>
+        {/* ── Bottom Input Container (Google Gemini Two-Tier Style) ── */}
+        <div className="gemini-panel-footer">
+          <div className="gemini-input-box">
+            {/* Top Row: Context Sharing Chip */}
+            {showContextChip && (
+              <div className="gemini-context-row">
+                <div className="gemini-context-chip">
+                  <span className="gemini-context-globe">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+                      <circle cx="12" cy="12" r="10" />
+                      <line x1="2" y1="12" x2="22" y2="12" />
+                      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                    </svg>
+                  </span>
+                  <span className="gemini-context-label">
+                    Sharing "Setu – Telematics Marketplace by Uffizio"
+                  </span>
+                  <button
+                    type="button"
+                    className="gemini-context-dismiss"
+                    onClick={() => setShowContextChip(false)}
+                    title="Stop sharing page context"
+                    aria-label="Dismiss context"
+                  >
+                    ✕
+                  </button>
+                </div>
+              </div>
             )}
 
-            <button
-              type="button"
-              className={`setu-gemini-send-btn ${inputValue.trim() ? 'setu-gemini-send-btn--active' : ''}`}
-              onClick={() => handleSendMessage()}
-              disabled={!inputValue.trim()}
-              title="Send message (Enter)"
-              aria-label="Send"
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="12" y1="19" x2="12" y2="5" />
-                <polyline points="5 12 12 5 19 12" />
-              </svg>
-            </button>
-          </div>
+            {/* Bottom Row: Actions + Input + Model Switcher + Mic/Send */}
+            <div className="gemini-input-row">
+              <button
+                type="button"
+                className="gemini-input-add-btn"
+                title="Add context or options"
+                aria-label="Add"
+                onClick={() => handleSendMessage('Explain AIS 140 compliance requirements')}
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
+                  <line x1="12" y1="5" x2="12" y2="19" />
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
+              </button>
 
-          <p className="setu-gemini-disclaimer">
-            Setu AI can provide telematics guidance. Verify official ARAI/ICAT certificates before deployment.
-          </p>
+              <input
+                ref={inputRef}
+                type="text"
+                className="gemini-text-field"
+                value={inputValue}
+                placeholder="Type @ to add tabs or ask Setu AI..."
+                onChange={(e) => setInputValue(e.target.value)}
+                onKeyDown={handleKeyDown}
+                aria-label="Ask Setu AI"
+              />
+
+              <div className="gemini-input-end-controls">
+                {/* Model Selector Dropdown (Flash / Pro) */}
+                <div className="gemini-model-wrap" ref={modelMenuRef}>
+                  <button
+                    type="button"
+                    className="gemini-model-btn"
+                    onClick={() => setIsModelMenuOpen(!isModelMenuOpen)}
+                    title="Gemini Model"
+                  >
+                    <span>{selectedModel}</span>
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                      <polyline points="6 9 12 15 18 9" />
+                    </svg>
+                  </button>
+
+                  {isModelMenuOpen && (
+                    <div className="gemini-model-popover">
+                      <button
+                        type="button"
+                        className={`gemini-model-opt ${selectedModel === 'Flash' ? 'gemini-model-opt--selected' : ''}`}
+                        onClick={() => { setSelectedModel('Flash'); setIsModelMenuOpen(false); }}
+                      >
+                        <div className="gemini-model-opt-name">✦ Flash</div>
+                        <div className="gemini-model-opt-desc">Fast recommendations & real-time answers</div>
+                      </button>
+                      <button
+                        type="button"
+                        className={`gemini-model-opt ${selectedModel === 'Pro' ? 'gemini-model-opt--selected' : ''}`}
+                        onClick={() => { setSelectedModel('Pro'); setIsModelMenuOpen(false); }}
+                      >
+                        <div className="gemini-model-opt-name">✦ Pro</div>
+                        <div className="gemini-model-opt-desc">Deep telematics & regulatory reasoning</div>
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                {/* Voice / Mic / Send Button */}
+                {inputValue.trim() ? (
+                  <button
+                    type="button"
+                    className="gemini-send-round-btn"
+                    onClick={() => handleSendMessage()}
+                    title="Send (Enter)"
+                    aria-label="Send message"
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <line x1="12" y1="19" x2="12" y2="5" />
+                      <polyline points="5 12 12 5 19 12" />
+                    </svg>
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    className="gemini-mic-round-btn"
+                    onClick={handleVoiceInput}
+                    title="Voice input"
+                    aria-label="Voice input"
+                  >
+                    {/* Authentic audio waveform bars matching Gemini screenshot 川 */}
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round">
+                      <line x1="7" y1="10" x2="7" y2="14" />
+                      <line x1="12" y1="5" x2="12" y2="19" />
+                      <line x1="17" y1="9" x2="17" y2="15" />
+                    </svg>
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
         </div>
       </aside>
     </>

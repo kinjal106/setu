@@ -3,7 +3,6 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import products from '../../data/products.json';
 import categories from '../../data/categories.json';
 import { getAssetUrl } from '../../utils/assetUrl';
-import SetuAIChat from '../../components/SetuAIChat/SetuAIChat';
 import './Hardware.css';
 
 /* ── AI Overview Topics Knowledge Base (Matches Reference Images 1 & 2) ── */

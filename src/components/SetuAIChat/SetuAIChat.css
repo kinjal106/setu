@@ -1,584 +1,539 @@
 /* ============================================================
    GOOGLE GEMINI RIGHT-HAND SIDE PANEL (ASK SETU AI)
-   Enterprise Fleet Telematics Assistant
+   Exact match to Google Gemini Side Panel UI (media_1791458848222)
    ============================================================ */
 
 /* ── Backdrop Overlay ── */
-.setu-gemini-overlay {
+.gemini-side-overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(5, 12, 24, 0.65);
+  background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   z-index: 9998;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 280ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 260ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.setu-gemini-overlay--open {
+.gemini-side-overlay--open {
   opacity: 1;
   pointer-events: auto;
 }
 
-/* ── Right-Hand Sliding Panel (Gemini Style) ── */
-.setu-gemini-panel {
+/* ── Right-Hand Sliding Panel ── */
+.gemini-side-panel {
   position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
-  width: 490px;
+  width: 440px;
   max-width: 100vw;
   height: 100vh;
-  background: #0B1323; /* Deep navy slate matching enterprise Setu */
-  border-left: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: -12px 0 50px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.04);
+  /* Pitch black at the top, transitioning to an authentic ambient deep-blue glow at the bottom */
+  background: #131314;
+  background: radial-gradient(ellipse 130% 65% at 50% 92%, #142449 0%, #0d1629 35%, #131314 75%);
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: -10px 0 45px rgba(0, 0, 0, 0.7);
   display: flex;
   flex-direction: column;
   z-index: 9999;
   transform: translateX(100%);
   transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
-  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  color: #F1F5F9;
+  font-family: 'Google Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  color: #E3E3E3;
   overflow: hidden;
+  box-sizing: border-box;
 }
 
-.setu-gemini-panel--open {
+.gemini-side-panel--open {
   transform: translateX(0);
 }
 
-/* ── Panel Header ── */
-.setu-gemini-header {
-  height: 68px;
-  background: #09101C;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+/* ── Top Bar (Minimalist: Only ⋮ and ✕) ── */
+.gemini-panel-header {
+  height: 52px;
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 18px;
+  padding: 0 16px;
   flex-shrink: 0;
-  gap: 12px;
+  z-index: 10;
 }
 
-.setu-gemini-header__brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  min-width: 0;
-}
-
-.setu-gemini-header__sparkle-wrap {
-  width: 38px;
-  height: 38px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, rgba(37, 99, 235, 0.25) 0%, rgba(168, 85, 247, 0.25) 100%);
-  border: 1px solid rgba(147, 197, 253, 0.35);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  box-shadow: 0 0 16px rgba(56, 189, 248, 0.2);
-}
-
-.setu-gemini-header__sparkle {
-  font-size: 19px;
-  line-height: 1;
-  background: linear-gradient(135deg, #38BDF8 0%, #818CF8 50%, #C084FC 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: geminiSparkleGlow 3s ease-in-out infinite;
-}
-
-@keyframes geminiSparkleGlow {
-  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 2px rgba(56, 189, 248, 0.4)); }
-  50% { transform: scale(1.15); filter: drop-shadow(0 0 8px rgba(192, 132, 252, 0.8)); }
-}
-
-.setu-gemini-header__titles {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-
-.setu-gemini-header__title-row {
+.gemini-header-left {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.setu-gemini-header__title {
-  font-size: 15px;
-  font-weight: 700;
-  color: #FFFFFF;
-  letter-spacing: -0.01em;
-  white-space: nowrap;
-}
-
-.setu-gemini-header__badge {
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  padding: 2px 7px;
+.gemini-header-new-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
   border-radius: 9999px;
-  background: linear-gradient(135deg, rgba(56, 189, 248, 0.15), rgba(129, 140, 248, 0.15));
-  color: #38BDF8;
-  border: 1px solid rgba(56, 189, 248, 0.3);
+  background: rgba(255, 255, 255, 0.08);
+  color: #E3E3E3;
+  font-size: 12.5px;
+  font-weight: 500;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  cursor: pointer;
+  transition: background 150ms ease, color 150ms ease;
+  font-family: inherit;
 }
 
-.setu-gemini-header__subtitle {
-  font-size: 11.5px;
-  color: #94A3B8;
+.gemini-header-new-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #FFFFFF;
+}
+
+.gemini-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.gemini-icon-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  color: #C4C7C5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 150ms ease, color 150ms ease;
+}
+
+.gemini-icon-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #FFFFFF;
+}
+
+.gemini-menu-container {
+  position: relative;
+}
+
+/* Popup Menu for ⋮ */
+.gemini-popup-menu {
+  position: absolute;
+  top: 42px;
+  right: 0;
+  min-width: 190px;
+  background: #282A2C;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 6px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  animation: geminiFadeIn 150ms ease-out;
+}
+
+.gemini-popup-menu button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  color: #E3E3E3;
+  font-size: 13px;
+  font-family: inherit;
+  cursor: pointer;
+  text-align: left;
+  transition: background 120ms ease;
+}
+
+.gemini-popup-menu button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #FFFFFF;
+}
+
+.gemini-popup-icon {
+  font-size: 14px;
+  width: 18px;
+  text-align: center;
+  color: #A8C7FA;
+}
+
+@keyframes geminiFadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Panel Content Container ── */
+.gemini-panel-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* ────────────────────────────────────────────────────────────
+   ZERO STATE (Exact Match to Reference Image media_1791458848222)
+──────────────────────────────────────────────────────────── */
+.gemini-zero-state {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+  padding: 0 20px 14px 20px;
+  box-sizing: border-box;
+}
+
+/* Centered Upper Hero with Star & "Ready when you are" */
+.gemini-zero-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  padding-top: 60px;
+  text-align: center;
+}
+
+.gemini-star-container {
+  margin-bottom: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gemini-star-svg {
+  filter: drop-shadow(0 0 16px rgba(27, 110, 243, 0.4));
+  animation: geminiStarGlow 4s ease-in-out infinite;
+}
+
+@keyframes geminiStarGlow {
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 14px rgba(27, 110, 243, 0.35));
+  }
+  50% {
+    transform: scale(1.08);
+    filter: drop-shadow(0 0 24px rgba(123, 87, 255, 0.65));
+  }
+}
+
+.gemini-ready-text {
+  font-size: 26px;
+  font-weight: 400;
+  color: #E3E3E3;
+  margin: 0;
+  letter-spacing: -0.015em;
+  font-family: inherit;
+}
+
+/* Bottom Stacked Prompt Pills */
+.gemini-pills-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+  width: 100%;
+  margin-top: auto;
+  padding-bottom: 6px;
+}
+
+.gemini-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 100%;
+  background: #1E1F20;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 9999px;
+  padding: 10px 18px;
+  color: #E3E3E3;
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+  transition: background 150ms ease, border-color 150ms ease, transform 150ms ease, color 150ms ease;
+  font-family: inherit;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  user-select: none;
+}
+
+.gemini-pill-btn:hover {
+  background: #282A2C;
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #FFFFFF;
+  transform: translateX(3px);
+}
+
+.gemini-pill-btn__icon {
+  font-size: 14px;
+  line-height: 1;
+  color: #E3E3E3;
+  flex-shrink: 0;
+}
+
+.gemini-pill-btn__text {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.setu-gemini-header__actions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+.gemini-pill-btn__badge {
+  background: #1A73E8;
+  color: #FFFFFF;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 9999px;
+  letter-spacing: 0.02em;
+  margin-left: 2px;
   flex-shrink: 0;
 }
 
-.setu-gemini-header__btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #CBD5E1;
-  font-size: 12.5px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 160ms ease;
-  font-family: inherit;
-}
-
-.setu-gemini-header__btn:hover {
-  background: rgba(255, 255, 255, 0.12);
-  color: #FFFFFF;
-  border-color: rgba(255, 255, 255, 0.2);
-}
-
-.setu-gemini-header__close-btn {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #94A3B8;
-  font-size: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 160ms ease;
-}
-
-.setu-gemini-header__close-btn:hover {
-  background: rgba(239, 68, 68, 0.2);
-  color: #EF4444;
-  border-color: rgba(239, 68, 68, 0.4);
-}
-
-/* ── Panel Body ── */
-.setu-gemini-body {
+/* ────────────────────────────────────────────────────────────
+   CONVERSATION STREAM
+──────────────────────────────────────────────────────────── */
+.gemini-chat-stream {
   flex: 1;
   overflow-y: auto;
-  padding: 20px;
-  scroll-behavior: smooth;
-}
-
-.setu-gemini-body::-webkit-scrollbar {
-  width: 6px;
-}
-.setu-gemini-body::-webkit-scrollbar-track {
-  background: transparent;
-}
-.setu-gemini-body::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 3px;
-}
-
-/* ── ZERO STATE: Google Gemini Welcome & Suggested Questions ── */
-.setu-gemini-welcome {
+  padding: 12px 18px 24px 18px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  padding: 8px 0;
-  animation: geminiFadeIn 250ms ease;
+  gap: 22px;
 }
 
-@keyframes geminiFadeIn {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.setu-gemini-welcome__hero {
-  text-align: center;
-  padding: 12px 10px 4px;
-}
-
-.setu-gemini-welcome__icon-circle {
-  width: 56px;
-  height: 56px;
-  margin: 0 auto 16px;
-  border-radius: 16px;
-  background: radial-gradient(circle at center, rgba(56, 189, 248, 0.25) 0%, rgba(168, 85, 247, 0.15) 70%, transparent 100%);
-  border: 1px solid rgba(56, 189, 248, 0.4);
+.gemini-msg {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0 24px rgba(56, 189, 248, 0.25);
+  width: 100%;
 }
 
-.setu-gemini-welcome__sparkle {
-  font-size: 26px;
-  background: linear-gradient(135deg, #38BDF8 0%, #818CF8 50%, #C084FC 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.gemini-msg--user {
+  justify-content: flex-end;
 }
 
-.setu-gemini-welcome__title {
-  font-size: 19px;
-  font-weight: 700;
+.gemini-user-bubble {
+  background: #282A2C;
   color: #FFFFFF;
-  margin: 0 0 8px;
-  line-height: 1.35;
-  letter-spacing: -0.01em;
+  font-size: 14px;
+  line-height: 1.5;
+  padding: 12px 18px;
+  border-radius: 20px 20px 4px 20px;
+  max-width: 82%;
+  word-break: break-word;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
-.setu-gemini-welcome__desc {
-  font-size: 13px;
-  line-height: 1.55;
-  color: #94A3B8;
-  margin: 0 auto;
-  max-width: 400px;
+.gemini-msg--ai {
+  justify-content: flex-start;
 }
 
-/* Suggested Questions Section */
-.setu-gemini-suggestions-section {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.setu-gemini-suggestions-heading {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: #64748B;
-  padding: 0 4px;
-}
-
-.setu-gemini-suggestions-sparkle {
-  color: #38BDF8;
-  font-size: 12px;
-}
-
-.setu-gemini-suggestions-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 9px;
-}
-
-.setu-gemini-suggestion-card {
+.gemini-ai-row {
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  padding: 13px 15px;
+  width: 100%;
+}
+
+.gemini-ai-star-badge {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gemini-ai-star-badge--pulse {
+  animation: geminiPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes geminiPulse {
+  0%, 100% { transform: scale(1); opacity: 0.85; }
+  50% { transform: scale(1.18); opacity: 1; filter: drop-shadow(0 0 10px rgba(123, 87, 255, 0.8)); }
+}
+
+.gemini-typing-text {
+  font-size: 13.5px;
+  color: #9AA0A6;
+  font-style: italic;
+  padding-top: 4px;
+}
+
+.gemini-ai-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  color: #E3E3E3;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.gemini-ai-lead-title {
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
+.gemini-ai-highlight {
+  color: #E3E3E3;
+}
+
+.gemini-ai-cite {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 7px;
+  border-radius: 9999px;
+  background: rgba(168, 199, 250, 0.12);
+  color: #A8C7FA;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  vertical-align: middle;
+}
+
+.gemini-ai-para {
+  margin: 0;
+  color: #D1D5DB;
+}
+
+/* Specs list */
+.gemini-ai-specs {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.035);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  text-align: left;
-  cursor: pointer;
-  transition: all 180ms cubic-bezier(0.16, 1, 0.3, 1);
-  font-family: inherit;
-  color: inherit;
-  position: relative;
+  padding: 12px 14px;
+  margin-top: 2px;
 }
 
-.setu-gemini-suggestion-card:hover {
-  background: rgba(56, 189, 248, 0.08);
-  border-color: rgba(56, 189, 248, 0.35);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
+.gemini-ai-specs__title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #A8C7FA;
+  margin-bottom: 8px;
 }
 
-.setu-gemini-suggestion-card__icon {
-  font-size: 18px;
-  line-height: 1.2;
+.gemini-ai-specs__list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.gemini-ai-spec-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.gemini-ai-spec-bullet {
+  color: #7B57FF;
+  font-size: 10px;
+  margin-top: 3px;
   flex-shrink: 0;
 }
 
-.setu-gemini-suggestion-card__content {
-  flex: 1;
-  min-width: 0;
+.gemini-ai-spec-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
 }
 
-.setu-gemini-suggestion-card__title {
-  font-size: 13.5px;
+.gemini-ai-spec-name {
+  color: #FFFFFF;
   font-weight: 600;
-  color: #F8FAFC;
-  margin-bottom: 3px;
-  line-height: 1.35;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
-.setu-gemini-suggestion-card__desc {
-  font-size: 11.5px;
-  color: #94A3B8;
+.gemini-ai-spec-badge {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: rgba(123, 87, 255, 0.2);
+  color: #C084FC;
+}
+
+.gemini-ai-spec-desc {
+  color: #9CA3AF;
+  font-size: 12px;
   line-height: 1.4;
 }
 
-.setu-gemini-suggestion-card__arrow {
-  color: #475569;
-  font-size: 14px;
-  font-weight: 700;
-  transition: all 160ms ease;
-  flex-shrink: 0;
-  margin-top: 2px;
-}
-
-.setu-gemini-suggestion-card:hover .setu-gemini-suggestion-card__arrow {
-  color: #38BDF8;
-  transform: translateX(3px);
-}
-
-/* ── ACTIVE CONVERSATION STREAM ── */
-.setu-gemini-conversation {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.setu-gemini-msg {
-  display: flex;
-  flex-direction: column;
-}
-
-/* User Message Bubble */
-.setu-gemini-msg--user {
-  align-items: flex-end;
-}
-
-.setu-gemini-user-bubble {
-  max-width: 86%;
-  background: #2563EB;
-  color: #FFFFFF;
-  padding: 10px 16px;
-  border-radius: 16px 16px 4px 16px;
-  font-size: 13.5px;
-  line-height: 1.45;
-  box-shadow: 0 3px 12px rgba(37, 99, 235, 0.3);
-  word-break: break-word;
-}
-
-/* AI Message Card */
-.setu-gemini-msg--ai {
-  align-items: flex-start;
-}
-
-.setu-gemini-ai-card {
-  width: 100%;
-  background: rgba(255, 255, 255, 0.035);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 16px;
-  padding: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.setu-gemini-ai-lead {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-}
-
-.setu-gemini-ai-avatar {
-  width: 24px;
-  height: 24px;
-  border-radius: 6px;
-  background: linear-gradient(135deg, #38BDF8, #818CF8);
-  color: #0A0F1D;
-  font-size: 13px;
-  font-weight: 800;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  margin-top: 2px;
-}
-
-.setu-gemini-ai-lead-text {
-  font-size: 13.5px;
-  line-height: 1.55;
-  color: #E2E8F0;
-}
-
-.setu-gemini-ai-lead-text strong {
-  color: #FFFFFF;
-}
-
-.setu-gemini-highlight {
-  background: rgba(56, 189, 248, 0.15);
-  color: #7DD3FC;
-  padding: 1px 6px;
-  border-radius: 4px;
-  font-weight: 600;
-}
-
-.setu-gemini-cite {
-  display: inline-block;
-  margin-left: 5px;
-  padding: 1px 6px;
-  border-radius: 4px;
-  background: rgba(255, 255, 255, 0.08);
-  color: #94A3B8;
-  font-size: 10.5px;
-  font-weight: 600;
-}
-
-.setu-gemini-para {
-  font-size: 13px;
-  line-height: 1.55;
-  color: #CBD5E1;
-  margin: 0;
-}
-
-/* Requirements Box */
-.setu-gemini-reqs {
-  background: rgba(15, 23, 42, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  padding: 14px;
-}
-
-.setu-gemini-reqs__title {
-  font-size: 13px;
-  font-weight: 700;
-  color: #F8FAFC;
-  margin: 0 0 3px;
-}
-
-.setu-gemini-reqs__sub {
-  font-size: 11.5px;
-  color: #94A3B8;
-  margin: 0 0 10px;
-}
-
-.setu-gemini-reqs__list {
+/* Product Recommendation Cards */
+.gemini-ai-products {
   display: flex;
   flex-direction: column;
   gap: 8px;
-}
-
-.setu-gemini-req-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
-  font-size: 12.5px;
-  line-height: 1.45;
-}
-
-.setu-gemini-req-dot {
-  color: #38BDF8;
-  font-size: 8px;
   margin-top: 4px;
-  flex-shrink: 0;
 }
 
-.setu-gemini-req-body {
-  flex: 1;
-}
-
-.setu-gemini-req-header {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-bottom: 2px;
-}
-
-.setu-gemini-req-header strong {
-  color: #E2E8F0;
-  font-size: 12.5px;
-}
-
-.setu-gemini-req-badge {
-  font-size: 9.5px;
-  padding: 1px 5px;
-  border-radius: 3px;
-  background: rgba(56, 189, 248, 0.12);
-  color: #38BDF8;
+.gemini-ai-products__label {
+  font-size: 11.5px;
   font-weight: 600;
-}
-
-.setu-gemini-req-body p {
-  margin: 0;
-  color: #94A3B8;
-}
-
-/* Recommended Products Grid */
-.setu-gemini-products {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.setu-gemini-products__heading {
-  font-size: 12px;
-  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: #38BDF8;
+  letter-spacing: 0.04em;
+  color: #9AA0A6;
 }
 
-.setu-gemini-products__grid {
+.gemini-ai-products__list {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.setu-gemini-product-card {
+.gemini-ai-product-card {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 10px 12px;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #1E1F20;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 10px;
+  transition: border-color 150ms ease, background 150ms ease;
 }
 
-.setu-gemini-product-thumb {
-  width: 50px;
-  height: 50px;
+.gemini-ai-product-card:hover {
+  background: #252729;
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.gemini-ai-product-img-wrap {
+  width: 52px;
+  height: 52px;
   border-radius: 8px;
-  background: #FFFFFF;
+  background: #141517;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 4px;
   flex-shrink: 0;
+  overflow: hidden;
+  padding: 4px;
 }
 
-.setu-gemini-product-thumb img {
+.gemini-ai-product-img-wrap img {
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
 }
 
-.setu-gemini-product-info {
+.gemini-ai-product-details {
   flex: 1;
   min-width: 0;
   display: flex;
@@ -586,15 +541,16 @@
   gap: 2px;
 }
 
-.setu-gemini-product-brand {
+.gemini-ai-product-brand {
   font-size: 10.5px;
-  color: #94A3B8;
   font-weight: 600;
+  color: #9AA0A6;
   text-transform: uppercase;
+  letter-spacing: 0.03em;
 }
 
-.setu-gemini-product-title {
-  font-size: 12.5px;
+.gemini-ai-product-name {
+  font-size: 13px;
   font-weight: 600;
   color: #FFFFFF;
   white-space: nowrap;
@@ -602,226 +558,323 @@
   text-overflow: ellipsis;
 }
 
-.setu-gemini-product-bottom {
+.gemini-ai-product-foot {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-top: 4px;
 }
 
-.setu-gemini-product-price {
+.gemini-ai-product-price {
   font-size: 13.5px;
   font-weight: 700;
   color: #38BDF8;
 }
 
-.setu-gemini-product-cta {
-  font-size: 11.5px;
-  font-weight: 600;
-  color: #FFFFFF;
-  background: #2563EB;
+.gemini-ai-product-link {
+  background: transparent;
   border: none;
-  padding: 4px 10px;
-  border-radius: 6px;
+  color: #A8C7FA;
+  font-size: 12px;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 140ms ease;
+  padding: 2px 6px;
+  border-radius: 4px;
   font-family: inherit;
+  transition: color 150ms ease, background 150ms ease;
 }
 
-.setu-gemini-product-cta:hover {
-  background: #1D4ED8;
+.gemini-ai-product-link:hover {
+  color: #FFFFFF;
+  background: rgba(168, 199, 250, 0.12);
 }
 
-/* Follow-up Chips */
-.setu-gemini-followups {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin-top: 4px;
-}
-
-.setu-gemini-followups__label {
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  color: #64748B;
-  letter-spacing: 0.04em;
-}
-
-.setu-gemini-followups__chips {
+/* Follow-ups */
+.gemini-ai-followups {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
+  margin-top: 6px;
 }
 
-.setu-gemini-followup-chip {
-  background: rgba(56, 189, 248, 0.08);
-  border: 1px solid rgba(56, 189, 248, 0.25);
-  color: #7DD3FC;
-  padding: 5px 11px;
+.gemini-followup-pill {
+  background: #1E1F20;
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 9999px;
-  font-size: 11.5px;
+  padding: 6px 12px;
+  color: #C4C7C5;
+  font-size: 12px;
   cursor: pointer;
-  transition: all 140ms ease;
   font-family: inherit;
+  transition: background 150ms ease, color 150ms ease, border-color 150ms ease;
 }
 
-.setu-gemini-followup-chip:hover {
-  background: rgba(56, 189, 248, 0.18);
-  border-color: rgba(56, 189, 248, 0.5);
+.gemini-followup-pill:hover {
+  background: #282A2C;
   color: #FFFFFF;
-  transform: translateY(-1px);
+  border-color: rgba(255, 255, 255, 0.12);
 }
 
-/* Typing Indicator */
-.setu-gemini-typing {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 14px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.04);
+/* ────────────────────────────────────────────────────────────
+   BOTTOM INPUT CONTAINER (Two-Tier Gemini Input Box)
+──────────────────────────────────────────────────────────── */
+.gemini-panel-footer {
+  padding: 0 16px 16px 16px;
+  background: transparent;
+  flex-shrink: 0;
+  z-index: 10;
+}
+
+.gemini-input-box {
+  background: #1E1F20;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  font-size: 12.5px;
-  color: #94A3B8;
-}
-
-.setu-gemini-typing__sparkle {
-  color: #38BDF8;
-  animation: geminiSpin 1.8s linear infinite;
-  display: inline-block;
-  font-size: 14px;
-}
-
-@keyframes geminiSpin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-/* ── Panel Footer (Google Gemini Style Pill Input) ── */
-.setu-gemini-footer {
-  padding: 14px 18px 16px;
-  background: #09101C;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  padding: 10px 14px;
   display: flex;
   flex-direction: column;
   gap: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  transition: border-color 200ms ease, box-shadow 200ms ease;
+}
+
+.gemini-input-box:focus-within {
+  border-color: rgba(66, 133, 244, 0.55);
+  box-shadow: 0 4px 24px rgba(27, 110, 243, 0.2);
+}
+
+/* Context Sharing Chip (Top tier of box) */
+.gemini-context-row {
+  display: flex;
+  align-items: center;
+  padding-bottom: 2px;
+}
+
+.gemini-context-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: transparent;
+  color: #C4C7C5;
+  font-size: 12.5px;
+  max-width: 100%;
+}
+
+.gemini-context-globe {
+  color: #A8C7FA;
+  display: flex;
+  align-items: center;
   flex-shrink: 0;
 }
 
-.setu-gemini-input-pill {
-  display: flex;
-  align-items: center;
-  background: #111A2E;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 28px;
-  padding: 4px 6px 4px 14px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-  transition: all 180ms ease;
-  gap: 8px;
+.gemini-context-label {
+  color: #C4C7C5;
+  font-size: 12.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 320px;
 }
 
-.setu-gemini-input-pill:focus-within {
-  border-color: #38BDF8;
-  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.25), 0 4px 20px rgba(0, 0, 0, 0.4);
-}
-
-.setu-gemini-input-action-btn {
+.gemini-context-dismiss {
   background: transparent;
   border: none;
-  font-size: 15px;
+  color: #8E918F;
+  font-size: 12px;
   cursor: pointer;
-  padding: 4px;
-  color: #94A3B8;
+  padding: 2px 4px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 140ms ease;
+  flex-shrink: 0;
+  transition: color 120ms ease, background 120ms ease;
 }
 
-.setu-gemini-input-action-btn:hover {
-  transform: scale(1.15);
+.gemini-context-dismiss:hover {
+  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.1);
 }
 
-.setu-gemini-input {
+/* Action Row (Bottom tier of box) */
+.gemini-input-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.gemini-input-add-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  color: #C4C7C5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 150ms ease, color 150ms ease;
+}
+
+.gemini-input-add-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #FFFFFF;
+}
+
+.gemini-text-field {
   flex: 1;
+  min-width: 0;
   background: transparent;
   border: none;
   outline: none;
   color: #FFFFFF;
-  font-size: 13.5px;
+  font-size: 14px;
   font-family: inherit;
-  padding: 8px 0;
+  padding: 0;
 }
 
-.setu-gemini-input::placeholder {
-  color: #64748B;
+.gemini-text-field::placeholder {
+  color: #8E918F;
+  font-size: 13.5px;
 }
 
-.setu-gemini-input-clear-btn {
-  background: transparent;
-  border: none;
-  color: #64748B;
-  cursor: pointer;
-  font-size: 12px;
-  padding: 4px 8px;
-}
-
-.setu-gemini-input-clear-btn:hover {
-  color: #FFFFFF;
-}
-
-.setu-gemini-send-btn {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.08);
-  border: none;
-  color: #64748B;
+.gemini-input-end-controls {
   display: flex;
   align-items: center;
-  justify-content: center;
-  cursor: not-allowed;
-  transition: all 180ms cubic-bezier(0.16, 1, 0.3, 1);
+  gap: 6px;
   flex-shrink: 0;
 }
 
-.setu-gemini-send-btn--active {
-  background: #2563EB;
-  color: #FFFFFF;
-  cursor: pointer;
-  box-shadow: 0 2px 10px rgba(37, 99, 235, 0.4);
+/* Model Dropdown Chip (Flash / Pro) */
+.gemini-model-wrap {
+  position: relative;
 }
 
-.setu-gemini-send-btn--active:hover {
-  background: #1D4ED8;
+.gemini-model-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  border: none;
+  color: #C4C7C5;
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 4px 7px;
+  border-radius: 6px;
+  font-family: inherit;
+  transition: background 120ms ease, color 120ms ease;
+}
+
+.gemini-model-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #FFFFFF;
+}
+
+.gemini-model-popover {
+  position: absolute;
+  bottom: 38px;
+  right: 0;
+  min-width: 220px;
+  background: #282A2C;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 6px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.gemini-model-opt {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 10px;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  color: #E3E3E3;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  transition: background 120ms ease;
+}
+
+.gemini-model-opt:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.gemini-model-opt--selected {
+  background: rgba(66, 133, 244, 0.18);
+  border: 1px solid rgba(66, 133, 244, 0.3);
+}
+
+.gemini-model-opt-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #A8C7FA;
+}
+
+.gemini-model-opt-desc {
+  font-size: 11px;
+  color: #9AA0A6;
+}
+
+/* Audio Waveform / Mic Button */
+.gemini-mic-round-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  color: #C4C7C5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 150ms ease, color 150ms ease;
+}
+
+.gemini-mic-round-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #FFFFFF;
+}
+
+/* Send Arrow Button */
+.gemini-send-round-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: none;
+  color: #131314;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 120ms ease, background 120ms ease;
+}
+
+.gemini-send-round-btn:hover {
+  background: #E3E3E3;
   transform: scale(1.05);
 }
 
-.setu-gemini-disclaimer {
-  font-size: 10.5px;
-  color: #64748B;
-  text-align: center;
-  margin: 0;
-  line-height: 1.35;
-}
-
-/* ── Mobile Breakpoints ── */
-@media (max-width: 540px) {
-  .setu-gemini-panel {
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .gemini-side-panel {
     width: 100vw;
   }
-  .setu-gemini-header {
-    height: 60px;
-    padding: 0 14px;
+
+  .gemini-context-label {
+    max-width: 220px;
   }
-  .setu-gemini-header__title {
-    font-size: 14px;
-  }
-  .setu-gemini-body {
-    padding: 14px;
-  }
-  .setu-gemini-welcome__title {
-    font-size: 17px;
+
+  .gemini-ready-text {
+    font-size: 22px;
   }
 }
