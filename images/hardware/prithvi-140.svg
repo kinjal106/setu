@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+    <linearGradient id="darkChassis" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E293B"/>
+      <stop offset="50%" stop-color="#0F172A"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+    <linearGradient id="blueChassis" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563EB"/>
+      <stop offset="50%" stop-color="#1D4ED8"/>
+      <stop offset="100%" stop-color="#172554"/>
+    </linearGradient>
+    <linearGradient id="metalBezel" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#94A3B8"/>
+      <stop offset="50%" stop-color="#475569"/>
+      <stop offset="100%" stop-color="#334155"/>
+    </linearGradient>
+    <linearGradient id="lensGlass" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38BDF8" stop-opacity="0.8"/>
+      <stop offset="50%" stop-color="#0284C7" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#0F172A"/>
+    </linearGradient>
+    <filter id="glowGreen" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    <filter id="glowBlue" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    <filter id="dropShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="#000" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+  
+  <!-- Drop Shadow -->
+  <rect x="32" y="46" width="136" height="112" rx="14" fill="none" filter="url(#dropShadow)"/>
+
+  <!-- Top Wire Connectors with SOS Alert Port -->
+  <rect x="70" y="24" width="60" height="24" rx="4" fill="#1E293B" stroke="#334155" stroke-width="1.5"/>
+  <circle cx="84" cy="18" r="5" fill="#DC2626" stroke="#EF4444" stroke-width="1"/>
+  <text x="84" y="20" fill="#FFF" font-size="4.5" font-family="sans-serif" font-weight="bold" text-anchor="middle">SOS</text>
+  <line x1="100" y1="10" x2="100" y2="24" stroke="#10B981" stroke-width="3" stroke-linecap="round"/>
+  <line x1="112" y1="8" x2="112" y2="24" stroke="#3B82F6" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Main AIS-140 Chassis -->
+  <rect x="30" y="44" width="140" height="116" rx="14" fill="url(#darkChassis)" stroke="#475569" stroke-width="2"/>
+  
+  <!-- Metallic Mounting Ears on Sides -->
+  <path d="M 18,80 L 30,72 L 30,132 L 18,124 Z" fill="url(#metalBezel)"/>
+  <circle cx="24" cy="102" r="3.5" fill="#0F172A" stroke="#94A3B8" stroke-width="1"/>
+  <path d="M 182,80 L 170,72 L 170,132 L 182,124 Z" fill="url(#metalBezel)"/>
+  <circle cx="176" cy="102" r="3.5" fill="#0F172A" stroke="#94A3B8" stroke-width="1"/>
+
+  <!-- Inner Recessed Face -->
+  <rect x="42" y="56" width="116" height="92" rx="8" fill="#090D16" stroke="#1E293B" stroke-width="1"/>
+
+  <!-- Gold/Yellow AIS-140 Badge -->
+  <rect x="52" y="66" width="46" height="15" rx="3" fill="#78350F" stroke="#F59E0B" stroke-width="1"/>
+  <text x="75" y="77" fill="#FEF3C7" font-size="7.5" font-family="sans-serif" font-weight="900" text-anchor="middle" letter-spacing="0.5">AIS-140</text>
+
+  <!-- 4 Telematics Indicators -->
+  <circle cx="116" cy="74" r="3" fill="#10B981" filter="url(#glowGreen)"/>
+  <circle cx="128" cy="74" r="3" fill="#38BDF8" filter="url(#glowBlue)"/>
+  <circle cx="140" cy="74" r="3" fill="#F59E0B"/>
+  <text x="116" y="82" fill="#64748B" font-size="4.5" font-family="sans-serif" text-anchor="middle">GPS</text>
+  <text x="128" y="82" fill="#64748B" font-size="4.5" font-family="sans-serif" text-anchor="middle">IRNSS</text>
+  <text x="140" y="82" fill="#64748B" font-size="4.5" font-family="sans-serif" text-anchor="middle">GSM</text>
+
+  <!-- Dual SIM Seal Slot -->
+  <rect x="52" y="92" width="96" height="12" rx="3" fill="#1E293B" stroke="#334155" stroke-width="1"/>
+  <text x="100" y="100.5" fill="#94A3B8" font-size="6" font-family="sans-serif" text-anchor="middle">DUAL e-SIM SECURE ENCLOSURE</text>
+
+  <!-- Product Name -->
+  <text x="100" y="126" fill="#FFFFFF" font-size="12" font-family="sans-serif" font-weight="800" text-anchor="middle">PRITHVI 140</text>
+  <text x="100" y="137" fill="#F59E0B" font-size="7" font-family="sans-serif" font-weight="bold" text-anchor="middle" letter-spacing="0.6">AIS-140 CERTIFIED UNIT</text>
+  
+</svg>

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 160" width="100%" height="100%">
+    <defs>
+      <linearGradient id="rubyLens" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#FB7185"/>
+        <stop offset="40%" stop-color="#E11D48"/>
+        <stop offset="80%" stop-color="#BE123C"/>
+        <stop offset="100%" stop-color="#881337"/>
+      </linearGradient>
+      <filter id="tailShadow" x="-10%" y="-10%" width="120%" height="120%">
+        <feDropShadow dx="0" dy="5" stdDeviation="5" flood-color="#000" flood-opacity="0.2"/>
+      </filter>
+    </defs>
+    <path d="M 40,50 C 70,35 150,45 160,95 C 155,120 120,130 65,120 C 40,110 35,80 40,50 Z" fill="#1E293B" filter="url(#tailShadow)" stroke="#334155" stroke-width="2"/>
+    <path d="M 46,55 C 72,42 144,52 153,92 C 148,114 118,124 70,115 C 48,106 42,80 46,55 Z" fill="url(#rubyLens)" stroke="#FDA4AF" stroke-width="1"/>
+    <!-- Clear Reverse section -->
+    <path d="M 85,75 C 95,70 125,74 130,90 C 125,98 100,102 85,96 Z" fill="#FFFFFF" opacity="0.85" stroke="#CBD5E1" stroke-width="1"/>
+  </svg>

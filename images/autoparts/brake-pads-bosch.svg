@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 160" width="100%" height="100%">
+    <defs>
+      <linearGradient id="boschBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#2563EB"/>
+        <stop offset="60%" stop-color="#1D4ED8"/>
+        <stop offset="100%" stop-color="#0F172A"/>
+      </linearGradient>
+      <linearGradient id="ceramicFriction" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#94A3B8"/>
+        <stop offset="50%" stop-color="#64748B"/>
+        <stop offset="100%" stop-color="#475569"/>
+      </linearGradient>
+      <filter id="bpadShadow" x="-10%" y="-10%" width="120%" height="120%">
+        <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000" flood-opacity="0.2"/>
+      </filter>
+    </defs>
+    <!-- Bosch Blue Backing Plate -->
+    <path d="M 30,50 C 40,25 160,25 170,50 L 175,70 C 175,85 165,95 155,95 L 45,95 C 35,95 25,85 25,70 Z" fill="url(#boschBlue)" filter="url(#bpadShadow)" stroke="#60A5FA" stroke-width="1.5"/>
+    <path d="M 45,45 C 55,35 145,35 155,45 L 152,85 C 150,90 145,90 140,90 L 60,90 C 55,90 50,90 48,85 Z" fill="url(#ceramicFriction)" stroke="#475569" stroke-width="1"/>
+    <text x="100" y="68" font-size="9" font-weight="900" font-family="sans-serif" text-anchor="middle" fill="#FFFFFF" opacity="0.9">BOSCH</text>
+    
+    <!-- Front Pad with Rubber Core Shim -->
+    <path d="M 40,80 C 50,60 150,60 160,80 L 165,100 C 165,115 155,125 145,125 L 55,125 C 45,125 35,115 35,100 Z" fill="url(#boschBlue)" filter="url(#bpadShadow)" stroke="#60A5FA" stroke-width="1.5"/>
+    <path d="M 55,75 C 65,68 135,68 145,75 L 142,115 C 140,120 135,120 130,120 L 70,120 C 65,120 60,120 58,115 Z" fill="url(#ceramicFriction)" stroke="#64748B" stroke-width="1"/>
+    <rect x="98" y="74" width="4" height="40" rx="2" fill="#0F172A"/>
+    <text x="100" y="100" font-size="9" font-weight="900" font-family="sans-serif" text-anchor="middle" fill="#FFFFFF" opacity="0.95">BOSCH</text>
+  </svg>

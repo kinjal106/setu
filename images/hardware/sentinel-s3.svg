@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+    <linearGradient id="darkChassis" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E293B"/>
+      <stop offset="50%" stop-color="#0F172A"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+    <linearGradient id="blueChassis" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563EB"/>
+      <stop offset="50%" stop-color="#1D4ED8"/>
+      <stop offset="100%" stop-color="#172554"/>
+    </linearGradient>
+    <linearGradient id="metalBezel" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#94A3B8"/>
+      <stop offset="50%" stop-color="#475569"/>
+      <stop offset="100%" stop-color="#334155"/>
+    </linearGradient>
+    <linearGradient id="lensGlass" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38BDF8" stop-opacity="0.8"/>
+      <stop offset="50%" stop-color="#0284C7" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#0F172A"/>
+    </linearGradient>
+    <filter id="glowGreen" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    <filter id="glowBlue" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    <filter id="dropShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="#000" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+  
+  <!-- Drop Shadow Base -->
+  <circle cx="100" cy="100" r="60" fill="none" filter="url(#dropShadow)"/>
+
+  <!-- Mount Bracket Top -->
+  <polygon points="80,24 120,24 112,50 88,50" fill="#1E293B" stroke="#334155" stroke-width="1.5"/>
+  <circle cx="100" cy="34" r="6" fill="#0F172A" stroke="#475569" stroke-width="1"/>
+
+  <!-- Camera Body -->
+  <rect x="36" y="48" width="128" height="104" rx="18" fill="url(#darkChassis)" stroke="#334155" stroke-width="2"/>
+
+  <!-- Camera Outer Lens Bezel -->
+  <circle cx="100" cy="94" r="36" fill="#0F172A" stroke="url(#metalBezel)" stroke-width="3"/>
+  <!-- Anti-reflective Lens Element -->
+  <circle cx="100" cy="94" r="28" fill="url(#lensGlass)"/>
+  <!-- Inner Aperture & Reflections -->
+  <circle cx="100" cy="94" r="16" fill="#020617"/>
+  <circle cx="94" cy="88" r="6" fill="#FFFFFF" opacity="0.4"/>
+  <circle cx="106" cy="100" r="3" fill="#38BDF8" opacity="0.6"/>
+
+  <!-- IR Night Vision Sensors Around Lens -->
+  <circle cx="60" cy="74" r="2.5" fill="#475569"/>
+  <circle cx="140" cy="74" r="2.5" fill="#475569"/>
+  <circle cx="60" cy="114" r="2.5" fill="#475569"/>
+  <circle cx="140" cy="114" r="2.5" fill="#475569"/>
+
+  <!-- Status LED -->
+  <circle cx="144" cy="60" r="3" fill="#10B981" filter="url(#glowGreen)"/>
+
+  <!-- Product Name Bottom -->
+  <text x="100" y="140" fill="#FFFFFF" font-size="11.5" font-family="sans-serif" font-weight="800" text-anchor="middle">Sentinel S3</text>
+  
+</svg>

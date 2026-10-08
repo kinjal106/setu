@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 160" width="100%" height="100%">
+    <defs>
+      <linearGradient id="polyOrange" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#F97316"/>
+        <stop offset="70%" stop-color="#EA580C"/>
+        <stop offset="100%" stop-color="#C2410C"/>
+      </linearGradient>
+      <linearGradient id="pleatPaper" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#FEF08A"/>
+        <stop offset="100%" stop-color="#FACC15"/>
+      </linearGradient>
+      <filter id="airFilterShadow" x="-10%" y="-10%" width="120%" height="120%">
+        <feDropShadow dx="0" dy="5" stdDeviation="5" flood-color="#000" flood-opacity="0.2"/>
+      </filter>
+    </defs>
+    <rect x="40" y="35" width="120" height="90" rx="12" fill="url(#polyOrange)" filter="url(#airFilterShadow)" stroke="#9A3412" stroke-width="2"/>
+    <rect x="52" y="47" width="96" height="66" rx="4" fill="url(#pleatPaper)" stroke="#CA8A04" stroke-width="1"/>
+    <path d="M 56,47 L 56,113 M 62,47 L 62,113 M 68,47 L 68,113 M 74,47 L 74,113 M 80,47 L 80,113 M 86,47 L 86,113 M 92,47 L 92,113 M 98,47 L 98,113 M 104,47 L 104,113 M 110,47 L 110,113 M 116,47 L 116,113 M 122,47 L 122,113 M 128,47 L 128,113 M 134,47 L 134,113 M 140,47 L 140,113 M 144,47 L 144,113" stroke="#A16207" stroke-width="1.8"/>
+    <line x1="52" y1="80" x2="148" y2="80" stroke="#F97316" stroke-width="3" opacity="0.85"/>
+  </svg>

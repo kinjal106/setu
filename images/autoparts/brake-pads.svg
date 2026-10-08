@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 160" width="100%" height="100%">
+    <defs>
+      <linearGradient id="metalPlate" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#475569"/>
+        <stop offset="50%" stop-color="#1E293B"/>
+        <stop offset="100%" stop-color="#0F172A"/>
+      </linearGradient>
+      <linearGradient id="frictionPad" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#64748B"/>
+        <stop offset="50%" stop-color="#334155"/>
+        <stop offset="100%" stop-color="#1E293B"/>
+      </linearGradient>
+      <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+        <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000" flood-opacity="0.2"/>
+      </filter>
+    </defs>
+    <!-- Backing Plate 1 -->
+    <path d="M 30,50 C 40,25 160,25 170,50 L 175,70 C 175,85 165,95 155,95 L 45,95 C 35,95 25,85 25,70 Z" fill="url(#metalPlate)" filter="url(#shadow)" stroke="#64748B" stroke-width="1.5"/>
+    <path d="M 45,45 C 55,35 145,35 155,45 L 152,85 C 150,90 145,90 140,90 L 60,90 C 55,90 50,90 48,85 Z" fill="url(#frictionPad)" stroke="#475569" stroke-width="1"/>
+    <rect x="98" y="42" width="4" height="42" rx="2" fill="#0F172A"/>
+    <circle cx="70" cy="65" r="4" fill="#0F172A" stroke="#475569" stroke-width="1"/>
+    <circle cx="130" cy="65" r="4" fill="#0F172A" stroke="#475569" stroke-width="1"/>
+    
+    <!-- Secondary Pad in front -->
+    <path d="M 40,80 C 50,60 150,60 160,80 L 165,100 C 165,115 155,125 145,125 L 55,125 C 45,125 35,115 35,100 Z" fill="url(#metalPlate)" filter="url(#shadow)" stroke="#94A3B8" stroke-width="1.5"/>
+    <path d="M 55,75 C 65,68 135,68 145,75 L 142,115 C 140,120 135,120 130,120 L 70,120 C 65,120 60,120 58,115 Z" fill="url(#frictionPad)" stroke="#64748B" stroke-width="1"/>
+    <rect x="98" y="72" width="4" height="42" rx="2" fill="#0F172A"/>
+    <circle cx="80" cy="95" r="4" fill="#0F172A" stroke="#64748B" stroke-width="1"/>
+    <circle cx="120" cy="95" r="4" fill="#0F172A" stroke="#64748B" stroke-width="1"/>
+    <path d="M 33,90 L 25,85 L 23,105 L 35,103" fill="none" stroke="#E2E8F0" stroke-width="2.5" stroke-linecap="round"/>
+  </svg>
