@@ -470,33 +470,23 @@ function DarkHeroBannerSlider({ onLearnMore, isSearchActive }) {
 const SEARCH_SUGGESTIONS = [
   {
     label: 'What is AIS 140?',
-    query: 'what is AIS 140?',
-    isAI: true
+    query: 'what is AIS 140?'
   },
   {
     label: 'Prevent diesel theft',
-    query: 'prevent diesel theft',
-    isAI: true
+    query: 'prevent diesel theft'
   },
   {
-    label: 'AI dashcam with driver fatigue',
-    query: 'AI dashcam with driver fatigue',
-    isAI: false
+    label: 'AI dashcam',
+    query: 'AI dashcam with driver fatigue'
   },
   {
     label: 'GPS container e-lock',
-    query: 'GPS container e-lock',
-    isAI: false
+    query: 'GPS container e-lock'
   },
   {
     label: 'Magnetic asset tracker',
-    query: 'magnetic asset tracker',
-    isAI: false
-  },
-  {
-    label: '4G OBD-II tracker',
-    query: '4G OBD tracker',
-    isAI: false
+    query: 'magnetic asset tracker'
   }
 ];
 
@@ -558,22 +548,6 @@ function PrimaryIntelligentSearchBar({ onSearchActiveChange, onOpenFinder, onOpe
     setIsFocused(false);
   };
 
-  const handleVoiceSearch = () => {
-    if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
-      alert('Speech recognition is not supported in this browser. Please use Chrome or Edge.');
-      return;
-    }
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    const recognition = new SpeechRecognition();
-    recognition.lang = 'en-IN';
-    recognition.onresult = (event) => {
-      const transcript = event.results[0][0].transcript;
-      setQuery(transcript);
-      setIsFocused(true);
-    };
-    recognition.start();
-  };
-
   const handleSuggestionClick = (item, e) => {
     if (e) {
       e.preventDefault();
@@ -581,18 +555,6 @@ function PrimaryIntelligentSearchBar({ onSearchActiveChange, onOpenFinder, onOpe
     }
     setQuery(item.query);
     navigate(`/hardware?search=${encodeURIComponent(item.query)}`);
-    setIsFocused(false);
-  };
-
-  const handleSuggestionAIClick = (item, e) => {
-    if (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-    setQuery(item.query);
-    if (onOpenAIChat) {
-      onOpenAIChat(item.query);
-    }
     setIsFocused(false);
   };
 
@@ -638,38 +600,6 @@ function PrimaryIntelligentSearchBar({ onSearchActiveChange, onOpenFinder, onOpe
           </button>
         )}
 
-        {/* Microphone action */}
-        <button
-          type="button"
-          className="intelligent-search-bar__action-icon"
-          onClick={handleVoiceSearch}
-          title="Search by voice"
-          aria-label="Search by voice"
-        >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" />
-            <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
-            <line x1="12" y1="19" x2="12" y2="22" />
-          </svg>
-        </button>
-
-        {/* Camera / Lens scanner action */}
-        <button
-          type="button"
-          className="intelligent-search-bar__action-icon"
-          onClick={() => navigate('/auto-parts')}
-          title="Vehicle plate & compatibility scanner"
-          aria-label="Vehicle plate scanner"
-        >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M3 7V5a2 2 0 0 1 2-2h2" />
-            <path d="M17 3h2a2 2 0 0 1 2 2v2" />
-            <path d="M21 17v2a2 2 0 0 1-2 2h-2" />
-            <path d="M7 21H5a2 2 0 0 1-2-2v-2" />
-            <circle cx="12" cy="12" r="3" />
-          </svg>
-        </button>
-
         {/* Primary Search CTA: ✦ Ask AI Button */}
         <button
           type="button"
@@ -682,51 +612,24 @@ function PrimaryIntelligentSearchBar({ onSearchActiveChange, onOpenFinder, onOpe
         </button>
       </form>
 
-      {/* ── Search Suggestions Directly Below Search Bar ── */}
+      {/* ── Search Suggestions Directly Below Search Bar (Single Line) ── */}
       <div className="search-suggestions-row">
-        <div className="search-suggestions-label">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="search-suggestions-label__icon">
-            <circle cx="12" cy="12" r="10"/>
-            <path d="M12 16v-4"/>
-            <path d="M12 8h.01"/>
-          </svg>
-          <span>Try searching:</span>
-        </div>
-
+        <span className="search-suggestions-label">Suggestions:</span>
         <div className="search-suggestions-list">
           {SEARCH_SUGGESTIONS.map((item, idx) => (
-            <div
+            <button
               key={idx}
-              className={`search-suggestion-pill ${item.isAI ? 'search-suggestion-pill--ai' : ''}`}
+              type="button"
+              className="search-suggestion-pill"
+              onClick={(e) => handleSuggestionClick(item, e)}
+              title={`Search products for "${item.query}"`}
             >
-              <button
-                type="button"
-                className="search-suggestion-pill__main-btn"
-                onClick={(e) => handleSuggestionClick(item, e)}
-                title={`Search products for "${item.query}"`}
-              >
-                {item.isAI ? (
-                  <span className="search-suggestion-pill__sparkle">✦</span>
-                ) : (
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="search-suggestion-pill__search-icon">
-                    <circle cx="11" cy="11" r="8" />
-                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                  </svg>
-                )}
-                <span>{item.label}</span>
-              </button>
-
-              {item.isAI && (
-                <button
-                  type="button"
-                  className="search-suggestion-pill__ai-btn"
-                  onClick={(e) => handleSuggestionAIClick(item, e)}
-                  title={`Ask AI directly about "${item.query}"`}
-                >
-                  Ask AI
-                </button>
-              )}
-            </div>
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="search-suggestion-pill__icon">
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              </svg>
+              <span>{item.label}</span>
+            </button>
           ))}
         </div>
       </div>
