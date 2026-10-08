@@ -857,16 +857,6 @@ const FEATURED_PRODUCTS = [
     image: '/images/hardware/v5-4g.svg',
     price: 2850,
     bulkTierText: '₹2,490 each on 500+'
-  },
-  {
-    id: 'gb440',
-    slug: 'gb440',
-    name: 'GB440 Fleet Tracker',
-    brand: 'M Series',
-    badge: 'Sponsored',
-    image: '/images/hardware/gb440.svg',
-    price: 3100,
-    bulkTierText: '₹2,710 each on 500+'
   }
 ];
 
@@ -906,15 +896,6 @@ const NEW_ARRIVALS_PRODUCTS = [
     image: '/images/hardware/gl500-4g.svg',
     price: 10800,
     bulkTierText: '₹9,450 each on 500+'
-  },
-  {
-    id: 'lls-ultrasonic',
-    slug: 'lls-ultrasonic',
-    name: 'LLS-03 Ultrasonic Level Sensor',
-    badge: 'New',
-    image: '/images/hardware/sp-ble4-fuel.svg',
-    price: 5200,
-    bulkTierText: '₹4,550 each on 500+'
   }
 ];
 
@@ -942,7 +923,7 @@ function FeaturedProductsSection() {
     }, 2000);
   };
 
-  const currentProducts = activeTab === 'featured' ? FEATURED_PRODUCTS : NEW_ARRIVALS_PRODUCTS;
+  const currentProducts = (activeTab === 'featured' ? FEATURED_PRODUCTS : NEW_ARRIVALS_PRODUCTS).slice(0, 4);
 
   return (
     <section className="featured-tabs-section">
