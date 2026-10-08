@@ -601,15 +601,17 @@ function PrimaryIntelligentSearchBar({ onSearchActiveChange, onOpenFinder, onOpe
           </button>
         )}
 
-        {/* Primary Search CTA: ✦ Ask AI Button */}
+        {/* Primary Search CTA: Search Button */}
         <button
-          type="button"
-          className="intelligent-search-bar__ai-btn"
-          onClick={handleAskAI}
-          title="Open 1-on-1 Setu AI Chat detailing"
+          type="submit"
+          className="intelligent-search-bar__search-btn"
+          title="Search devices and solutions"
         >
-          <span className="intelligent-search-bar__sparkle">✦</span>
-          <span>Ask AI</span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="intelligent-search-bar__search-icon">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+          <span>Search</span>
         </button>
       </form>
 
@@ -1843,13 +1845,6 @@ export default function SetuHome() {
         <FleetBulkPricingBanner
           onOpenBulkQuote={() => setBulkQuoteModalOpen(true)}
           onOpenCreditLimit={() => setCreditLimitModalOpen(true)}
-        />
-
-        {/* ── 1-on-1 Interactive Setu AI Chat Window ── */}
-        <SetuAIChat
-          isOpen={aiChatOpen}
-          onClose={() => setAiChatOpen(false)}
-          initialQuery={aiChatQuery}
         />
 
         {/* ── Modals & Drawers ── */}

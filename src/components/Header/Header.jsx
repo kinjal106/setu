@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
+import { useAI } from '../../context/AIContext';
 import { getAssetUrl } from '../../utils/assetUrl';
 import './Header.css';
 
@@ -15,6 +16,7 @@ export default function Header() {
   const navigate = useNavigate();
   const location = useLocation();
   const { cartCount, setIsCartOpen } = useCart();
+  const { openAIPanel } = useAI();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showTutorialModal, setShowTutorialModal] = useState(false);
@@ -86,6 +88,18 @@ export default function Header() {
 
         {/* ── Right-Aligned Group: Action Icons ── */}
         <div className="header__actions" ref={menuRef}>
+          {/* Ask Setu AI Button (Google Gemini Style) */}
+          <button
+            type="button"
+            className="header__ai-btn"
+            onClick={() => openAIPanel()}
+            title="Ask Setu AI Assistant"
+            aria-label="Ask Setu AI Assistant"
+          >
+            <span className="header__ai-btn-sparkle">✦</span>
+            <span className="header__ai-btn-text">Ask Setu AI</span>
+          </button>
+
           {/* Cart Icon */}
           <button
             type="button"

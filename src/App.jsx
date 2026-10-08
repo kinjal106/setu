@@ -1,9 +1,11 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import { CartProvider } from './context/CartContext';
+import { AIProvider } from './context/AIContext';
 import Sidebar from './components/Sidebar/Sidebar';
 import Header from './components/Header/Header';
 import CartDrawer from './components/CartDrawer/CartDrawer';
+import SetuAIChat from './components/SetuAIChat/SetuAIChat';
 import SetuHome from './pages/SetuHome/SetuHome';
 import Hardware from './pages/Hardware/Hardware';
 import ProductDetail from './pages/ProductDetail/ProductDetail';
@@ -88,6 +90,7 @@ function AppLayout() {
         </div>
       </div>
       <CartDrawer />
+      <SetuAIChat />
     </div>
   );
 }
@@ -96,7 +99,9 @@ export default function App() {
   return (
     <BrowserRouter basename={import.meta.env.BASE_URL}>
       <CartProvider>
-        <AppLayout />
+        <AIProvider>
+          <AppLayout />
+        </AIProvider>
       </CartProvider>
     </BrowserRouter>
   );

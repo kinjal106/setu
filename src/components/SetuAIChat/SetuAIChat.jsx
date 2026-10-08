@@ -2,48 +2,48 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import products from '../../data/products.json';
 import { getAssetUrl } from '../../utils/assetUrl';
+import { useAI } from '../../context/AIContext';
 import './SetuAIChat.css';
 
 /* ────────────────────────────────────────────────────────────
-   KNOWLEDGE BASE FOR SETU 1-ON-1 FLEET AI CHAT
-   Matches Reference Screenshot: media_1791365096409.png
+   KNOWLEDGE BASE FOR SETU 1-ON-1 FLEET AI ASSISTANT
 ──────────────────────────────────────────────────────────── */
 const KNOWLEDGE_RESPONSES = {
   ais140: {
     leadTitle: 'AIS 140 (Automotive Industry Standard 140)',
     leadHighlight: 'a mandatory government regulation in India that establishes technical and safety standards for Vehicle Location Tracking Devices (VLTDs) used in public transport and commercial fleets.',
-    citation1: 'Wikipedia +1',
-    paragraph2: 'Published by the Automotive Research Association of India (ARAI) under the Ministry of Road Transport and Highways (MoRTH), the law ensures enhanced passenger safety, robust vehicle tracking, and real-time emergency response capabilities.',
-    citation2: 'Fleetx +1',
-    paragraph3: 'Unlike consumer-grade GPS devices, an AIS 140 certified tracker must meet rigorous hardware and data-sharing guidelines to integrate directly with national security infrastructures.',
-    citation3: 'Intangles +1',
+    citation1: 'MoRTH / ARAI',
+    paragraph2: 'Published by the Automotive Research Association of India (ARAI) under the Ministry of Road Transport and Highways (MoRTH), the standard mandates enhanced passenger safety, robust vehicle tracking, and real-time emergency SOS integration with State 112 command centers.',
+    citation2: 'ICAT Certified',
+    paragraph3: 'Unlike standard consumer GPS trackers, an AIS 140 certified tracker features dual-satellite positioning (GPS + NavIC), physical emergency panic buttons, and simultaneous dual-IP server transmission.',
+    citation3: 'Govt. Approved',
     requirementsTitle: '🛠 Mandatory Hardware Requirements',
     requirementsSubtitle: 'To receive an official AIS 140 certification, a tracking device must feature:',
     requirements: [
       {
-        title: 'Dual Satellite Tracking',
-        text: "Must support both standard Global Positioning System (GPS) and NavIC (India's indigenous satellite navigation system developed by ISRO).",
-        badge: 'Navionyx +1'
+        title: 'Dual Satellite Tracking (GPS + NavIC)',
+        text: "Must support both global GPS and India's indigenous NavIC satellite constellation developed by ISRO.",
+        badge: 'ISRO NavIC'
       },
       {
-        title: 'Physical Panic/SOS Button',
+        title: 'Physical Panic / SOS Button',
         text: 'A hard-wired emergency button accessible to passengers and drivers. Software or app-based triggers are not legally compliant.',
-        badge: 'Fleetx'
+        badge: 'Emergency 112'
       },
       {
         title: 'Dual IP Data Transmission',
-        text: 'The ability to transmit live location and telemetry data simultaneously to two distinct IP addresses (such as a private fleet management server and a government regulatory system).',
-        badge: 'AVLView +1'
+        text: 'Transmits live location simultaneously to both a private fleet management server and the state government emergency server.',
+        badge: 'Dual Server'
       },
       {
         title: 'Embedded SIM (eSIM)',
-        text: 'A secure, built-in network profile featuring multi-carrier data roaming to prevent signal dead zones across Indian highways.',
-        badge: 'Telecom +1'
+        text: 'Secure multi-carrier roaming profile preventing connectivity dead zones across Indian highways.',
+        badge: 'Multi-Network'
       },
       {
         title: 'Internal Battery Backup',
-        text: 'Minimum 4-hour internal rechargeable battery ensuring continuous tracking and emergency SOS alert dispatch even if main vehicle battery is disconnected.',
-        badge: 'ICAT +1'
+        text: 'Minimum 4-hour internal rechargeable battery ensuring continuous tracking even if vehicle battery is disconnected.',
+        badge: '4h Backup'
       }
     ],
     recommendedProductIds: ['prithvi-140', 'prithvi-140-rto'],
@@ -155,8 +155,78 @@ const KNOWLEDGE_RESPONSES = {
       'Does it qualify for customs transit bond seals?',
       'Is the locking cable reusable?'
     ]
+  },
+  logistics: {
+    leadTitle: 'Standalone 4G Asset & Cold-Chain Tracking',
+    leadHighlight: 'features long-life autonomous battery packs (up to 3 years) and high-strength magnetic mounting designed for unpowered trailers, containers, and intermodal freight.',
+    citation1: 'Logistics +1',
+    paragraph2: 'These devices sleep in micro-power standby and wake up automatically on movement, schedule intervals, or optical tamper detection to transmit high-accuracy location and battery telemetry.',
+    citation2: 'Asset Security',
+    paragraph3: 'Integrated Bluetooth Low Energy (BLE) enables seamless pairing with wireless temperature, humidity, and door-opening sensors for strict cold-chain compliance.',
+    citation3: 'Cold Chain',
+    requirementsTitle: '🛰 Key Asset Tracking Capabilities',
+    requirementsSubtitle: 'Engineered for zero-wiring industrial operations:',
+    requirements: [
+      {
+        title: 'Up to 3-Year Battery Standby',
+        text: 'Heavy-duty industrial lithium battery delivers 1,000+ periodic location reports without recharging.',
+        badge: 'Autonomous'
+      },
+      {
+        title: 'High-Strength Magnetic Mount',
+        text: 'Instant 10-second attachment to container walls and steel chassis with zero drilling or welding.',
+        badge: 'Magnetic'
+      },
+      {
+        title: 'Optical Tamper & Removal Alert',
+        text: 'Underbody light sensor immediately triggers an emergency alert if device is detached.',
+        badge: 'Anti-Theft'
+      }
+    ],
+    recommendedProductIds: ['gl500-4g'],
+    followUps: [
+      'How does battery life change with frequent reporting?',
+      'Can I attach BLE temperature sensors for food cargo?',
+      'Is it waterproof for open sea container shipping?'
+    ]
   }
 };
+
+/* ────────────────────────────────────────────────────────────
+   SUGGESTED QUESTIONS FOR GOOGLE GEMINI ZERO-STATE VIEW
+──────────────────────────────────────────────────────────── */
+const SUGGESTED_QUESTIONS = [
+  {
+    icon: '🇮🇳',
+    title: 'What is AIS 140 and why is it mandatory?',
+    desc: 'Government regulation, ICAT/ARAI certifications & compliant GPS trackers',
+    query: 'What is AIS 140 and why is it mandatory for commercial vehicles in India?'
+  },
+  {
+    icon: '⛽',
+    title: 'How to prevent diesel fuel theft in trucks?',
+    desc: 'Wireless BLE 5.0 sensors, 99.5% accuracy & instant 30-sec siphon alerts',
+    query: 'How to prevent diesel fuel theft using sensors?'
+  },
+  {
+    icon: '📹',
+    title: 'Best AI dashcam for driver drowsiness & safety?',
+    desc: 'Dual-lens ADAS + DMS night vision cameras with in-cabin collision alerts',
+    query: 'What is the best AI dashcam for driver fatigue and road safety?'
+  },
+  {
+    icon: '🔒',
+    title: 'How does container GPS e-lock tamper protection work?',
+    desc: 'IP68 steel wire seal, remote OTP unlock & customs bond cargo security',
+    query: 'How does container GPS e-lock tamper protection work?'
+  },
+  {
+    icon: '🛰',
+    title: 'Which 4G tracker works best for fleet logistics?',
+    desc: 'Multi-carrier roaming eSIM, 4-hour battery backup & cold chain BLE probes',
+    query: 'Which 4G GPS tracker works best for commercial fleet logistics?'
+  }
+];
 
 function getAIResponse(userText) {
   const q = (userText || '').toLowerCase().trim();
@@ -164,14 +234,17 @@ function getAIResponse(userText) {
   if (q.includes('140') || q.includes('asi') || q.includes('ais') || q.includes('rto') || q.includes('morth') || q.includes('mandat') || q.includes('panic') || q.includes('sos')) {
     return KNOWLEDGE_RESPONSES.ais140;
   }
-  if (q.includes('fuel') || q.includes('theft') || q.includes('diesel') || q.includes('sensor') || q.includes('drain')) {
+  if (q.includes('fuel') || q.includes('theft') || q.includes('diesel') || q.includes('sensor') || q.includes('drain') || q.includes('siphon')) {
     return KNOWLEDGE_RESPONSES.fuel;
   }
   if (q.includes('camera') || q.includes('dashcam') || q.includes('dms') || q.includes('adas') || q.includes('video') || q.includes('fatigue') || q.includes('drowsy')) {
     return KNOWLEDGE_RESPONSES.dashcam;
   }
-  if (q.includes('lock') || q.includes('cargo') || q.includes('container') || q.includes('e-lock') || q.includes('elock')) {
+  if (q.includes('lock') || q.includes('cargo') || q.includes('container') || q.includes('e-lock') || q.includes('elock') || q.includes('tamper')) {
     return KNOWLEDGE_RESPONSES.cargo;
+  }
+  if (q.includes('logistic') || q.includes('asset') || q.includes('magnetic') || q.includes('cold') || q.includes('temperature') || q.includes('gl500')) {
+    return KNOWLEDGE_RESPONSES.logistics;
   }
 
   // Default intelligent fallback
@@ -211,38 +284,46 @@ function getAIResponse(userText) {
   };
 }
 
-export default function SetuAIChat({ isOpen, onClose, initialQuery }) {
+export default function SetuAIChat({ isOpen: propIsOpen, onClose: propOnClose, initialQuery: propInitialQuery }) {
   const navigate = useNavigate();
+  const { isAIPanelOpen, closeAIPanel, initialAIQuery } = useAI();
+
+  const isOpen = propIsOpen !== undefined ? propIsOpen : isAIPanelOpen;
+  const onClose = propOnClose || closeAIPanel;
+  const activeInitialQuery = propInitialQuery !== undefined ? propInitialQuery : initialAIQuery;
+
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const chatEndRef = useRef(null);
   const inputRef = useRef(null);
 
-  // Initialize with initialQuery when modal opens
+  // Initialize or handle incoming initialQuery
   useEffect(() => {
     if (isOpen) {
-      const startQuery = initialQuery?.trim() || 'what is ASI 140?';
-      const aiData = getAIResponse(startQuery);
-      setMessages([
-        { id: 1, sender: 'user', text: startQuery },
-        { id: 2, sender: 'ai', data: aiData }
-      ]);
+      if (activeInitialQuery && activeInitialQuery.trim()) {
+        const startQuery = activeInitialQuery.trim();
+        const aiData = getAIResponse(startQuery);
+        setMessages([
+          { id: 1, sender: 'user', text: startQuery },
+          { id: 2, sender: 'ai', data: aiData }
+        ]);
+      } else {
+        // Keep existing messages or let user start fresh from suggestions
+      }
       setInputValue('');
       setTimeout(() => {
         if (inputRef.current) inputRef.current.focus();
-      }, 200);
+      }, 250);
     }
-  }, [isOpen, initialQuery]);
+  }, [isOpen, activeInitialQuery]);
 
   // Scroll to bottom on new message
   useEffect(() => {
-    if (chatEndRef.current) {
+    if (chatEndRef.current && messages.length > 0) {
       chatEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   }, [messages, isTyping]);
-
-  if (!isOpen) return null;
 
   const handleSendMessage = (textToSend) => {
     const text = (textToSend || inputValue).trim();
@@ -270,6 +351,13 @@ export default function SetuAIChat({ isOpen, onClose, initialQuery }) {
     }
   };
 
+  const handleNewChat = () => {
+    setMessages([]);
+    setInputValue('');
+    setIsTyping(false);
+    if (inputRef.current) inputRef.current.focus();
+  };
+
   const handleVoiceInput = () => {
     if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
       alert('Speech recognition is not supported in this browser. Please use Chrome or Edge.');
@@ -286,261 +374,322 @@ export default function SetuAIChat({ isOpen, onClose, initialQuery }) {
     recognition.start();
   };
 
-  const handleSwitchToSearch = () => {
+  const handleProductClick = (slug) => {
     onClose();
-    const lastUserQuery = [...messages].reverse().find((m) => m.sender === 'user')?.text || initialQuery || 'what is ASI 140?';
-    navigate(`/hardware?search=${encodeURIComponent(lastUserQuery)}`);
+    navigate(`/hardware/${slug}`);
   };
 
   return (
-    <div className="setu-ai-chat-overlay" onClick={onClose}>
-      <div className="setu-ai-chat-window" onClick={(e) => e.stopPropagation()}>
-        
-        {/* ── Top Header with Tabs: AI Mode (active) & All (Search) ── */}
-        <div className="setu-ai-chat-header">
-          <div className="setu-ai-chat-tabs">
-            <button
-              type="button"
-              className="setu-ai-chat-tab setu-ai-chat-tab--active"
-              title="1-on-1 AI Conversation Mode"
-            >
-              <span className="setu-ai-chat-tab__sparkle">✦</span>
-              <span>AI Mode</span>
-            </button>
-            <button
-              type="button"
-              className="setu-ai-chat-tab"
-              onClick={handleSwitchToSearch}
-              title="Switch to all product search results"
-            >
-              <span>All (Search Results)</span>
-            </button>
+    <>
+      {/* ── Backdrop Overlay ── */}
+      <div
+        className={`setu-gemini-overlay ${isOpen ? 'setu-gemini-overlay--open' : ''}`}
+        onClick={onClose}
+        aria-hidden={!isOpen}
+      />
+
+      {/* ── Google Gemini Right-Hand Side Panel ── */}
+      <aside
+        className={`setu-gemini-panel ${isOpen ? 'setu-gemini-panel--open' : ''}`}
+        aria-label="Setu AI Assistant"
+        aria-hidden={!isOpen}
+      >
+        {/* ── Top Header ── */}
+        <div className="setu-gemini-header">
+          <div className="setu-gemini-header__brand">
+            <div className="setu-gemini-header__sparkle-wrap">
+              <span className="setu-gemini-header__sparkle">✦</span>
+            </div>
+            <div className="setu-gemini-header__titles">
+              <div className="setu-gemini-header__title-row">
+                <span className="setu-gemini-header__title">Ask Setu AI</span>
+                <span className="setu-gemini-header__badge">Fleet Intelligence</span>
+              </div>
+              <span className="setu-gemini-header__subtitle">Google Gemini-Powered Hardware Guidance</span>
+            </div>
           </div>
 
-          <button
-            type="button"
-            className="setu-ai-chat-close-btn"
-            onClick={onClose}
-            aria-label="Close AI Chat"
-            title="Close"
-          >
-            ✕
-          </button>
-        </div>
+          <div className="setu-gemini-header__actions">
+            {messages.length > 0 && (
+              <button
+                type="button"
+                className="setu-gemini-header__btn"
+                onClick={handleNewChat}
+                title="Start a new chat"
+                aria-label="New chat"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 5v14M5 12h14" />
+                </svg>
+                <span className="setu-gemini-header__btn-label">New chat</span>
+              </button>
+            )}
 
-        {/* ── Chat Messages Scroll Body ── */}
-        <div className="setu-ai-chat-body">
-          {messages.map((msg) => {
-            if (msg.sender === 'user') {
-              return (
-                <div key={msg.id} className="setu-ai-msg-row setu-ai-msg-row--user">
-                  <div className="setu-ai-user-bubble">
-                    <span>{msg.text}</span>
-                  </div>
-                </div>
-              );
-            }
-
-            const ai = msg.data;
-            const matchedProducts = (ai.recommendedProductIds || [])
-              .map((id) => products.find((p) => p.id === id || p.slug === id))
-              .filter(Boolean);
-
-            return (
-              <div key={msg.id} className="setu-ai-msg-row setu-ai-msg-row--ai">
-                <div className="setu-ai-card">
-                  {/* Lead definition with blue highlight pill */}
-                  <div className="setu-ai-lead-block">
-                    <p className="setu-ai-lead-text">
-                      <strong>{ai.leadTitle}</strong> is{' '}
-                      <span className="setu-ai-highlight-pill">{ai.leadHighlight}</span>
-                      {ai.citation1 && (
-                        <span className="setu-ai-cite-badge">{ai.citation1}</span>
-                      )}
-                    </p>
-                  </div>
-
-                  {/* Supporting paragraphs */}
-                  {ai.paragraph2 && (
-                    <p className="setu-ai-para">
-                      {ai.paragraph2}
-                      {ai.citation2 && (
-                        <span className="setu-ai-cite-badge">{ai.citation2}</span>
-                      )}
-                    </p>
-                  )}
-
-                  {ai.paragraph3 && (
-                    <p className="setu-ai-para">
-                      {ai.paragraph3}
-                      {ai.citation3 && (
-                        <span className="setu-ai-cite-badge">{ai.citation3}</span>
-                      )}
-                    </p>
-                  )}
-
-                  {/* Section: Mandatory Hardware Requirements */}
-                  {ai.requirements && ai.requirements.length > 0 && (
-                    <div className="setu-ai-reqs-section">
-                      <h4 className="setu-ai-reqs-title">{ai.requirementsTitle}</h4>
-                      <p className="setu-ai-reqs-subtitle">{ai.requirementsSubtitle}</p>
-
-                      <ul className="setu-ai-reqs-list">
-                        {ai.requirements.map((req, idx) => (
-                          <li key={idx} className="setu-ai-reqs-item">
-                            <span className="setu-ai-reqs-dot">●</span>
-                            <div className="setu-ai-reqs-content">
-                              <strong>{req.title}:</strong> {req.text}{' '}
-                              {req.badge && (
-                                <span className="setu-ai-cite-badge">{req.badge}</span>
-                              )}
-                            </div>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-
-                  {/* Recommended hardware devices from Setu catalog */}
-                  {matchedProducts.length > 0 && (
-                    <div className="setu-ai-products-section">
-                      <span className="setu-ai-products-heading">
-                        VERIFIED SETU HARDWARE FOR THIS MANDATE:
-                      </span>
-                      <div className="setu-ai-products-grid">
-                        {matchedProducts.map((prod) => (
-                          <div
-                            key={prod.id}
-                            className="setu-ai-product-card"
-                            onClick={() => {
-                              onClose();
-                              navigate(`/hardware/${prod.slug}`);
-                            }}
-                          >
-                            <div className="setu-ai-product-thumb">
-                              <img src={getAssetUrl(prod.image)} alt={prod.name} />
-                            </div>
-                            <div className="setu-ai-product-info">
-                              <span className="setu-ai-product-badge">
-                                {prod.compliance || 'Govt Certified'}
-                              </span>
-                              <strong className="setu-ai-product-title">{prod.name}</strong>
-                              <span className="setu-ai-product-price">
-                                ₹{prod.price?.toLocaleString('en-IN')} + GST
-                              </span>
-                            </div>
-                            <button
-                              type="button"
-                              className="setu-ai-product-btn"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                onClose();
-                                navigate(`/hardware/${prod.slug}`);
-                              }}
-                            >
-                              View Product →
-                            </button>
-                          </div>
-                        ))}
-                      </div>
-
-                      <button
-                        type="button"
-                        className="setu-ai-view-all-results-btn"
-                        onClick={handleSwitchToSearch}
-                      >
-                        Show all matching products in catalog →
-                      </button>
-                    </div>
-                  )}
-
-                  {/* Follow-up question chips */}
-                  {ai.followUps && ai.followUps.length > 0 && (
-                    <div className="setu-ai-followups">
-                      <span className="setu-ai-followups-label">Suggested follow-ups:</span>
-                      <div className="setu-ai-followups-chips">
-                        {ai.followUps.map((fu, idx) => (
-                          <button
-                            key={idx}
-                            type="button"
-                            className="setu-ai-followup-chip"
-                            onClick={() => handleSendMessage(fu)}
-                          >
-                            {fu}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            );
-          })}
-
-          {isTyping && (
-            <div className="setu-ai-msg-row setu-ai-msg-row--ai">
-              <div className="setu-ai-typing-indicator">
-                <span className="setu-ai-sparkle-spin">✦</span>
-                <span>Setu AI is analyzing fleet requirements...</span>
-              </div>
-            </div>
-          )}
-
-          <div ref={chatEndRef} />
-        </div>
-
-        {/* ── Fixed Bottom Input Bar matching Reference Image 2 ── */}
-        <div className="setu-ai-chat-footer">
-          <div className="setu-ai-chat-input-pill">
             <button
               type="button"
-              className="setu-ai-input-action-btn"
-              title="Add attachment / filter"
-              onClick={handleSwitchToSearch}
+              className="setu-gemini-header__close-btn"
+              onClick={onClose}
+              title="Close panel (Esc)"
+              aria-label="Close Setu AI panel"
             >
-              +
+              ✕
+            </button>
+          </div>
+        </div>
+
+        {/* ── Panel Body ── */}
+        <div className="setu-gemini-body">
+          {/* ZERO STATE: Welcoming Gemini Greeting & Suggested Questions */}
+          {messages.length === 0 ? (
+            <div className="setu-gemini-welcome">
+              <div className="setu-gemini-welcome__hero">
+                <div className="setu-gemini-welcome__icon-circle">
+                  <span className="setu-gemini-welcome__sparkle">✦</span>
+                </div>
+                <h2 className="setu-gemini-welcome__title">
+                  Hello, how can I help you find hardware?
+                </h2>
+                <p className="setu-gemini-welcome__desc">
+                  Ask me about device specifications, Indian government AIS-140 compliance, fuel sensors, video telematics, or bulk pricing.
+                </p>
+              </div>
+
+              <div className="setu-gemini-suggestions-section">
+                <div className="setu-gemini-suggestions-heading">
+                  <span className="setu-gemini-suggestions-sparkle">✦</span>
+                  <span>Suggested questions to get started</span>
+                </div>
+
+                <div className="setu-gemini-suggestions-grid">
+                  {SUGGESTED_QUESTIONS.map((item, idx) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      className="setu-gemini-suggestion-card"
+                      onClick={() => handleSendMessage(item.query)}
+                      title={item.title}
+                    >
+                      <div className="setu-gemini-suggestion-card__icon">{item.icon}</div>
+                      <div className="setu-gemini-suggestion-card__content">
+                        <div className="setu-gemini-suggestion-card__title">{item.title}</div>
+                        <div className="setu-gemini-suggestion-card__desc">{item.desc}</div>
+                      </div>
+                      <span className="setu-gemini-suggestion-card__arrow">→</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ) : (
+            /* CONVERSATION STREAM */
+            <div className="setu-gemini-conversation">
+              {messages.map((msg) => {
+                if (msg.sender === 'user') {
+                  return (
+                    <div key={msg.id} className="setu-gemini-msg setu-gemini-msg--user">
+                      <div className="setu-gemini-user-bubble">{msg.text}</div>
+                    </div>
+                  );
+                }
+
+                const ai = msg.data;
+                const matchedProducts = (ai.recommendedProductIds || [])
+                  .map((id) => products.find((p) => p.id === id))
+                  .filter(Boolean);
+
+                return (
+                  <div key={msg.id} className="setu-gemini-msg setu-gemini-msg--ai">
+                    <div className="setu-gemini-ai-card">
+                      {/* AI Lead Title & Summary */}
+                      <div className="setu-gemini-ai-lead">
+                        <div className="setu-gemini-ai-avatar">✦</div>
+                        <div className="setu-gemini-ai-lead-text">
+                          <p>
+                            <strong>{ai.leadTitle}</strong> is{' '}
+                            <span className="setu-gemini-highlight">{ai.leadHighlight}</span>
+                            {ai.citation1 && (
+                              <span className="setu-gemini-cite">{ai.citation1}</span>
+                            )}
+                          </p>
+                        </div>
+                      </div>
+
+                      {ai.paragraph2 && (
+                        <p className="setu-gemini-para">
+                          {ai.paragraph2}
+                          {ai.citation2 && (
+                            <span className="setu-gemini-cite">{ai.citation2}</span>
+                          )}
+                        </p>
+                      )}
+
+                      {ai.paragraph3 && (
+                        <p className="setu-gemini-para">
+                          {ai.paragraph3}
+                          {ai.citation3 && (
+                            <span className="setu-gemini-cite">{ai.citation3}</span>
+                          )}
+                        </p>
+                      )}
+
+                      {/* Mandatory Requirements / Specs */}
+                      {ai.requirements && ai.requirements.length > 0 && (
+                        <div className="setu-gemini-reqs">
+                          <h4 className="setu-gemini-reqs__title">{ai.requirementsTitle}</h4>
+                          <p className="setu-gemini-reqs__sub">{ai.requirementsSubtitle}</p>
+                          <div className="setu-gemini-reqs__list">
+                            {ai.requirements.map((req, rIdx) => (
+                              <div key={rIdx} className="setu-gemini-req-item">
+                                <span className="setu-gemini-req-dot">●</span>
+                                <div className="setu-gemini-req-body">
+                                  <div className="setu-gemini-req-header">
+                                    <strong>{req.title}</strong>
+                                    {req.badge && (
+                                      <span className="setu-gemini-req-badge">{req.badge}</span>
+                                    )}
+                                  </div>
+                                  <p>{req.text}</p>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Matched Products Card Grid */}
+                      {matchedProducts.length > 0 && (
+                        <div className="setu-gemini-products">
+                          <div className="setu-gemini-products__heading">
+                            <span>Recommended Certified Hardware</span>
+                          </div>
+                          <div className="setu-gemini-products__grid">
+                            {matchedProducts.map((prod) => (
+                              <div key={prod.id} className="setu-gemini-product-card">
+                                <div className="setu-gemini-product-thumb">
+                                  <img
+                                    src={getAssetUrl(prod.image)}
+                                    alt={prod.name}
+                                    onError={(e) => {
+                                      e.target.src = getAssetUrl('/images/hardware/advance-4wire.svg');
+                                    }}
+                                  />
+                                </div>
+                                <div className="setu-gemini-product-info">
+                                  <span className="setu-gemini-product-brand">
+                                    {prod.brand || 'Uffizio Certified'}
+                                  </span>
+                                  <strong className="setu-gemini-product-title">{prod.name}</strong>
+                                  <div className="setu-gemini-product-bottom">
+                                    <span className="setu-gemini-product-price">
+                                      ₹{prod.price?.toLocaleString('en-IN') || '690'}
+                                    </span>
+                                    <button
+                                      type="button"
+                                      className="setu-gemini-product-cta"
+                                      onClick={() => handleProductClick(prod.slug || prod.id)}
+                                    >
+                                      View Details →
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Follow-up Questions */}
+                      {ai.followUps && ai.followUps.length > 0 && (
+                        <div className="setu-gemini-followups">
+                          <span className="setu-gemini-followups__label">Suggested follow-ups:</span>
+                          <div className="setu-gemini-followups__chips">
+                            {ai.followUps.map((fu, fIdx) => (
+                              <button
+                                key={fIdx}
+                                type="button"
+                                className="setu-gemini-followup-chip"
+                                onClick={() => handleSendMessage(fu)}
+                              >
+                                {fu}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+
+              {isTyping && (
+                <div className="setu-gemini-msg setu-gemini-msg--ai">
+                  <div className="setu-gemini-typing">
+                    <span className="setu-gemini-typing__sparkle">✦</span>
+                    <span>Setu AI is analyzing fleet requirements...</span>
+                  </div>
+                </div>
+              )}
+
+              <div ref={chatEndRef} />
+            </div>
+          )}
+        </div>
+
+        {/* ── Bottom Input Bar (Google Gemini Style) ── */}
+        <div className="setu-gemini-footer">
+          <div className="setu-gemini-input-pill">
+            <button
+              type="button"
+              className="setu-gemini-input-action-btn"
+              onClick={handleVoiceInput}
+              title="Voice input"
+              aria-label="Speak query"
+            >
+              🎤
             </button>
 
             <input
               ref={inputRef}
               type="text"
-              className="setu-ai-chat-input"
+              className="setu-gemini-input"
               value={inputValue}
-              placeholder="Ask anything..."
+              placeholder="Ask Setu AI anything about telematics & hardware..."
               onChange={(e) => setInputValue(e.target.value)}
               onKeyDown={handleKeyDown}
-              aria-label="Ask Setu AI anything"
+              aria-label="Ask Setu AI"
             />
 
-            <button
-              type="button"
-              className="setu-ai-input-action-btn"
-              onClick={handleVoiceInput}
-              title="Speak with voice"
-            >
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" />
-                <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
-                <line x1="12" y1="19" x2="12" y2="22" />
-              </svg>
-            </button>
+            {inputValue && (
+              <button
+                type="button"
+                className="setu-gemini-input-clear-btn"
+                onClick={() => setInputValue('')}
+                title="Clear"
+              >
+                ✕
+              </button>
+            )}
 
             <button
               type="button"
-              className="setu-ai-chat-send-btn"
+              className={`setu-gemini-send-btn ${inputValue.trim() ? 'setu-gemini-send-btn--active' : ''}`}
               onClick={() => handleSendMessage()}
               disabled={!inputValue.trim()}
-              title="Send question"
+              title="Send message (Enter)"
+              aria-label="Send"
             >
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="22" y1="2" x2="11" y2="13"/>
-                <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="12" y1="19" x2="12" y2="5" />
+                <polyline points="5 12 12 5 19 12" />
               </svg>
             </button>
           </div>
-        </div>
 
-      </div>
-    </div>
+          <p className="setu-gemini-disclaimer">
+            Setu AI can provide telematics guidance. Verify official ARAI/ICAT certificates before deployment.
+          </p>
+        </div>
+      </aside>
+    </>
   );
 }

@@ -953,13 +953,6 @@ export default function Hardware() {
           </div>
         </main>
       </div>
-
-      {/* ── 1-on-1 Interactive Setu AI Chat (Reference Image 2) ── */}
-      <SetuAIChat
-        isOpen={aiChatOpen}
-        onClose={() => setAiChatOpen(false)}
-        initialQuery={search || 'what is ASI 140?'}
-      />
     </div>
   );
 }
