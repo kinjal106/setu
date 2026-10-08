@@ -328,55 +328,64 @@
   box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2);
 }
 
-/* Details Key-Value List (Compact, no excessive gap) */
+/* Details Key-Value List (Clean 2-column layout matching reference image) */
 .setu-ui-details-block {
-  margin-bottom: 16px;
-  max-width: 640px;
+  margin-top: 14px;
+  margin-bottom: 20px;
+  max-width: 620px;
 }
 
 .setu-ui-details-heading {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 700;
   color: #0f172a;
-  margin: 0 0 10px;
+  margin: 0 0 12px;
+  letter-spacing: -0.01em;
 }
 
 .setu-ui-leader-row {
-  display: flex;
+  display: grid;
+  grid-template-columns: 175px 1fr;
   align-items: baseline;
-  gap: 8px;
-  font-size: 13px;
-  margin-bottom: 6px;
+  column-gap: 20px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  margin-bottom: 9px;
 }
 
 .setu-ui-leader-k {
-  color: #64748b;
-  flex-shrink: 0;
-  white-space: nowrap;
+  color: #0f172a;
+  font-weight: 700;
+  text-align: left;
+  white-space: normal;
+  word-break: break-word;
 }
 
 .setu-ui-leader-dots {
-  display: block;
-  flex: 1;
-  border-bottom: 1.5px dotted #CBD5E1;
-  margin: 0 4px;
-  min-width: 16px;
-  align-self: flex-end;
-  margin-bottom: 4px;
+  display: none !important;
 }
 
 .setu-ui-leader-v {
-  color: #0f172a;
-  font-weight: 600;
-  text-align: right;
-  flex-shrink: 0;
+  color: #1e293b;
+  font-weight: 400;
+  text-align: left;
+  white-space: normal;
+  word-break: break-word;
 }
 
 .setu-ui-leader-v--wrap {
-  white-space: normal;
-  max-width: 440px;
-  line-height: 1.4;
-  text-align: right;
+  text-align: left;
+  max-width: none;
+  line-height: 1.5;
+}
+
+@media (max-width: 600px) {
+  .setu-ui-leader-row {
+    grid-template-columns: 140px 1fr;
+    column-gap: 12px;
+    font-size: 12.5px;
+    margin-bottom: 7px;
+  }
 }
 
 /* ── Hardware Configuration Selector Block (Matching Screenshot) ── */

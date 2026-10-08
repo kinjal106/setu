@@ -580,31 +580,26 @@ export default function ProductDetail() {
                 <>
                   <div className="setu-ui-leader-row">
                     <span className="setu-ui-leader-k">Brand / series</span>
-                    <span className="setu-ui-leader-dots" />
                     <span className="setu-ui-leader-v">{brandName}</span>
                   </div>
 
                   <div className="setu-ui-leader-row">
                     <span className="setu-ui-leader-k">Category</span>
-                    <span className="setu-ui-leader-dots" />
                     <span className="setu-ui-leader-v">{categoryDisplay}</span>
                   </div>
 
                   <div className="setu-ui-leader-row">
                     <span className="setu-ui-leader-k">Connectivity</span>
-                    <span className="setu-ui-leader-dots" />
                     <span className="setu-ui-leader-v">{displayConnectivity}</span>
                   </div>
 
                   <div className="setu-ui-leader-row">
                     <span className="setu-ui-leader-k">Special features</span>
-                    <span className="setu-ui-leader-dots" />
                     <span className="setu-ui-leader-v">{specialFeaturesText}</span>
                   </div>
 
                   <div className="setu-ui-leader-row">
                     <span className="setu-ui-leader-k">Supported application</span>
-                    <span className="setu-ui-leader-dots" />
                     <span className="setu-ui-leader-v setu-ui-leader-v--wrap">
                       Trakzee, SmartBus and other Uffizio platforms
                     </span>
