@@ -1504,3 +1504,799 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ────────────────────────────────────────────────────────────
+   8. FEATURED & NEW ARRIVALS 2-TABS SECTION
+──────────────────────────────────────────────────────────── */
+.featured-tabs-section {
+  margin-top: 36px;
+  margin-bottom: 20px;
+}
+
+.featured-tabs-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.featured-tabs-nav {
+  display: inline-flex;
+  align-items: center;
+  background: #EEF2F6;
+  padding: 3px;
+  border-radius: 8px;
+  gap: 3px;
+}
+
+.featured-tab-btn {
+  padding: 6px 18px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  border: none;
+  background: transparent;
+  color: #475569;
+  cursor: pointer;
+  transition: all 150ms ease;
+  font-family: inherit;
+  user-select: none;
+}
+
+.featured-tab-btn:hover {
+  color: #0F172A;
+}
+
+.featured-tab-btn--active {
+  background: #FFFFFF;
+  color: #0F172A;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+}
+
+.featured-tabs-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.featured-tabs-subtext {
+  font-size: 12px;
+  color: #64748B;
+  font-weight: 400;
+}
+
+.featured-tabs-view-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #006EFF;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all 150ms ease;
+  font-family: inherit;
+}
+
+.featured-tabs-view-all:hover {
+  color: #0056cc;
+}
+
+.featured-tabs-view-all__arrow {
+  transition: transform 150ms ease;
+}
+
+.featured-tabs-view-all:hover .featured-tabs-view-all__arrow {
+  transform: translateX(3px);
+}
+
+/* ── 5 Cards Horizontal Grid ── */
+.featured-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+}
+
+.featured-product-card {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 10px;
+  padding: 13px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 180ms cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  position: relative;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+}
+
+.featured-product-card:hover {
+  border-color: #CBD5E1;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
+  transform: translateY(-2px);
+}
+
+.featured-product-card__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  min-height: 24px;
+}
+
+.featured-product-card__badge {
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 4px;
+  line-height: 1.2;
+}
+
+.featured-product-card__badge--sponsored {
+  background: #F1F5F9;
+  color: #475569;
+  border: 1px solid #E2E8F0;
+}
+
+.featured-product-card__badge--new {
+  background: #10B981;
+  color: #FFFFFF;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.featured-product-card__wish-btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid #E2E8F0;
+  background: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 150ms ease;
+  padding: 0;
+}
+
+.featured-product-card__wish-btn:hover {
+  border-color: #CBD5E1;
+  background: #F8FAFC;
+}
+
+.featured-product-card__wish-btn--active {
+  border-color: #FCA5A5;
+  background: #FEF2F2;
+}
+
+.featured-product-card__img-box {
+  height: 105px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  margin-bottom: 10px;
+  background: #FAFAFA;
+  border-radius: 6px;
+}
+
+.featured-product-card__img {
+  max-height: 85px;
+  max-width: 100%;
+  object-fit: contain;
+  transition: transform 180ms ease;
+}
+
+.featured-product-card:hover .featured-product-card__img {
+  transform: scale(1.04);
+}
+
+.featured-product-card__body {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.featured-product-card__brand {
+  font-size: 11px;
+  font-weight: 600;
+  color: #006EFF;
+  margin-bottom: 2px;
+  display: block;
+}
+
+.featured-product-card__title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #0F172A;
+  margin: 0 0 6px;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 35px;
+}
+
+.featured-product-card__rating {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11.5px;
+  margin-bottom: 8px;
+}
+
+.featured-product-card__stars {
+  color: #CBD5E1;
+  letter-spacing: 1px;
+  font-size: 11px;
+}
+
+.featured-product-card__rating-text {
+  color: #94A3B8;
+  font-size: 11px;
+}
+
+.featured-product-card__price-box {
+  margin-top: auto;
+  margin-bottom: 10px;
+}
+
+.featured-product-card__main-price {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0F172A;
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.featured-product-card__gst {
+  font-size: 10px;
+  font-weight: 500;
+  color: #64748B;
+}
+
+.featured-product-card__bulk-tier {
+  font-size: 11px;
+  font-weight: 600;
+  color: #059669;
+  margin-top: 2px;
+}
+
+.featured-product-card__cart-btn {
+  width: 100%;
+  height: 33px;
+  border: 1.5px solid #006EFF;
+  background: #FFFFFF;
+  color: #006EFF;
+  font-size: 11.5px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 150ms ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  white-space: nowrap;
+}
+
+.featured-product-card__cart-btn:hover {
+  background: #006EFF;
+  color: #FFFFFF;
+}
+
+.featured-product-card__cart-btn--added {
+  background: #ECFDF5;
+  border-color: #10B981;
+  color: #059669;
+}
+
+/* ────────────────────────────────────────────────────────────
+   9. BUYING FOR A FLEET BULK PRICING CTA BANNER
+──────────────────────────────────────────────────────────── */
+.fleet-bulk-banner {
+  background: #061B3A;
+  border-radius: 12px;
+  padding: 22px 28px;
+  margin-top: 20px;
+  margin-bottom: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  box-shadow: 0 4px 14px rgba(6, 27, 58, 0.12);
+}
+
+.fleet-bulk-banner__left {
+  max-width: 680px;
+}
+
+.fleet-bulk-banner__eyebrow {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #38BDF8;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.fleet-bulk-banner__title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0 0 4px;
+  letter-spacing: -0.01em;
+}
+
+.fleet-bulk-banner__desc {
+  font-size: 12.5px;
+  color: #94A3B8;
+  margin: 0;
+  line-height: 1.45;
+}
+
+.fleet-bulk-banner__actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.fleet-bulk-banner__btn-primary {
+  background: #006EFF;
+  color: #FFFFFF;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 9px 22px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: all 150ms ease;
+  white-space: nowrap;
+  font-family: inherit;
+}
+
+.fleet-bulk-banner__btn-primary:hover {
+  background: #0056cc;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 110, 255, 0.35);
+}
+
+.fleet-bulk-banner__btn-secondary {
+  background: transparent;
+  color: #FFFFFF;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 18px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+  transition: all 150ms ease;
+  white-space: nowrap;
+  font-family: inherit;
+}
+
+.fleet-bulk-banner__btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+/* ────────────────────────────────────────────────────────────
+   10. BULK QUOTATION MODAL
+──────────────────────────────────────────────────────────── */
+.bulk-quote-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  animation: modalFadeIn 180ms ease;
+}
+
+.bulk-quote-modal {
+  background: #FFFFFF;
+  border-radius: 14px;
+  max-width: 580px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border: 1px solid #E2E8F0;
+  padding: 26px 28px;
+  position: relative;
+  animation: modalSlideUp 200ms ease;
+}
+
+.bulk-quote-modal__close-btn {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  background: #F1F5F9;
+  border: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: #64748B;
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+.bulk-quote-modal__close-btn:hover {
+  background: #E2E8F0;
+  color: #0F172A;
+}
+
+.bulk-quote-modal__badge {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #006EFF;
+  background: #EFF6FF;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+  display: inline-block;
+  margin-bottom: 6px;
+}
+
+.bulk-quote-modal__title {
+  font-size: 19px;
+  font-weight: 700;
+  color: #0F172A;
+  margin: 0 0 4px;
+}
+
+.bulk-quote-modal__subtitle {
+  font-size: 12.5px;
+  color: #64748B;
+  margin: 0 0 18px;
+  line-height: 1.45;
+}
+
+.bulk-quote-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.bulk-quote-form__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.bulk-quote-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.bulk-quote-form__field label {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.bulk-quote-form__field input,
+.bulk-quote-form__field select {
+  height: 38px;
+  padding: 0 10px;
+  border: 1px solid #CBD5E1;
+  border-radius: 6px;
+  font-size: 12.5px;
+  color: #0F172A;
+  background: #FFFFFF;
+  font-family: inherit;
+  transition: border-color 150ms ease;
+}
+
+.bulk-quote-form__field input:focus,
+.bulk-quote-form__field select:focus {
+  outline: none;
+  border-color: #006EFF;
+  box-shadow: 0 0 0 3px rgba(0, 110, 255, 0.12);
+}
+
+.bulk-quote-form__footer {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.bulk-quote-form__submit-btn {
+  width: 100%;
+  height: 42px;
+  background: #006EFF;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 6px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 150ms ease;
+  font-family: inherit;
+}
+
+.bulk-quote-form__submit-btn:hover {
+  background: #0056cc;
+  box-shadow: 0 4px 12px rgba(0, 110, 255, 0.3);
+}
+
+.bulk-quote-form__security-note {
+  font-size: 11px;
+  color: #64748B;
+  text-align: center;
+}
+
+/* ── Success Screen ── */
+.bulk-quote-success {
+  text-align: center;
+  padding: 10px 0;
+}
+
+.bulk-quote-success__icon {
+  width: 50px;
+  height: 50px;
+  background: #10B981;
+  color: #FFFFFF;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.bulk-quote-success__title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #0F172A;
+  margin: 0 0 6px;
+}
+
+.bulk-quote-success__ref {
+  display: inline-block;
+  background: #F1F5F9;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 12.5px;
+  color: #334155;
+  margin-bottom: 14px;
+}
+
+.bulk-quote-success__desc {
+  font-size: 13px;
+  color: #475569;
+  line-height: 1.5;
+  margin: 0 0 18px;
+}
+
+.bulk-quote-success__perks {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #F8FAFC;
+  border-radius: 8px;
+  padding: 14px 16px;
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.bulk-quote-success__perk-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.bulk-quote-success__perk-item span {
+  font-size: 18px;
+}
+
+.bulk-quote-success__perk-item strong {
+  font-size: 12.5px;
+  color: #0F172A;
+  display: block;
+}
+
+.bulk-quote-success__perk-item p {
+  font-size: 11.5px;
+  color: #64748B;
+  margin: 1px 0 0;
+}
+
+.bulk-quote-success__close-btn {
+  background: #006EFF;
+  color: #FFFFFF;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 150ms ease;
+}
+
+.bulk-quote-success__close-btn:hover {
+  background: #0056cc;
+}
+
+/* ────────────────────────────────────────────────────────────
+   11. CREDIT LIMIT MODAL
+──────────────────────────────────────────────────────────── */
+.credit-limit-modal {
+  background: #FFFFFF;
+  border-radius: 14px;
+  max-width: 540px;
+  width: 100%;
+  padding: 26px 28px;
+  position: relative;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border: 1px solid #E2E8F0;
+  animation: modalSlideUp 200ms ease;
+}
+
+.credit-limit-modal__badge {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #006EFF;
+  background: #EFF6FF;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+  display: inline-block;
+  margin-bottom: 6px;
+}
+
+.credit-limit-modal__title {
+  font-size: 19px;
+  font-weight: 700;
+  color: #0F172A;
+  margin: 0 0 4px;
+}
+
+.credit-limit-modal__subtitle {
+  font-size: 12.5px;
+  color: #64748B;
+  margin: 0 0 18px;
+  line-height: 1.45;
+}
+
+.credit-limit-modal__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.credit-limit-modal__card {
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  padding: 12px 14px;
+  position: relative;
+  padding-left: 44px;
+}
+
+.credit-limit-modal__card-num {
+  position: absolute;
+  left: 14px;
+  top: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #006EFF;
+}
+
+.credit-limit-modal__card h4 {
+  font-size: 13px;
+  font-weight: 600;
+  color: #0F172A;
+  margin: 0 0 2px;
+}
+
+.credit-limit-modal__card p {
+  font-size: 11.5px;
+  color: #64748B;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.credit-limit-modal__footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.credit-limit-modal__btn-primary {
+  background: #006EFF;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 6px;
+  padding: 9px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 150ms ease;
+}
+
+.credit-limit-modal__btn-primary:hover {
+  background: #0056cc;
+}
+
+.credit-limit-modal__btn-secondary {
+  background: #FFFFFF;
+  border: 1px solid #CBD5E1;
+  color: #475569;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* ── Responsive adjustments for Featured tabs & Bulk banner ── */
+@media (max-width: 1200px) {
+  .featured-cards-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .featured-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .fleet-bulk-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+  }
+  .fleet-bulk-banner__actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 640px) {
+  .featured-cards-grid {
+    grid-template-columns: 1fr;
+  }
+  .featured-tabs-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .featured-tabs-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .bulk-quote-form__row {
+    grid-template-columns: 1fr;
+  }
+  .fleet-bulk-banner__actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  .fleet-bulk-banner__btn-primary,
+  .fleet-bulk-banner__btn-secondary {
+    width: 100%;
+    text-align: center;
+  }
+}

@@ -2,6 +2,7 @@ import React, { useState, useRef, useMemo, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom';
 import products from '../../data/products.json';
 import { getAssetUrl } from '../../utils/assetUrl';
+import { useCart } from '../../context/CartContext';
 import SetuAIChat from '../../components/SetuAIChat/SetuAIChat';
 import './SetuHome.css';
 
@@ -812,7 +813,571 @@ function ShopByCategory() {
 }
 
 /* ────────────────────────────────────────────────────────────
-   7. SMART FINDER GUIDED MODAL ("Help me choose")
+   7. FEATURED & NEW ARRIVALS PRODUCTS DATA (FROM REFERENCE)
+──────────────────────────────────────────────────────────── */
+const FEATURED_PRODUCTS = [
+  {
+    id: 'eco5-pro',
+    slug: 'eco5-pro',
+    name: 'Eco5 Pro 4G OBD Tracker',
+    brand: 'Eco5 Series',
+    badge: 'Sponsored',
+    image: '/images/hardware/eco5-lite.svg',
+    price: 2450,
+    bulkTierText: '₹2,140 each on 500+'
+  },
+  {
+    id: 'titan-t4-ai-4g',
+    slug: 'titan-t4-ai-4g',
+    name: 'Mercetech Titan T4 Dash Camera',
+    brand: 'Mercetech',
+    badge: 'Sponsored',
+    image: '/images/hardware/titan-t4.svg',
+    price: 12500,
+    bulkTierText: '₹10,930 each on 500+'
+  },
+  {
+    id: 't5324-mdvr',
+    slug: 't5324-mdvr',
+    name: 'T98 SD Card MDVR',
+    brand: 'T98 Series',
+    badge: 'Sponsored',
+    image: '/images/hardware/t5324-mdvr.svg',
+    price: 8900,
+    bulkTierText: '₹7,780 each on 500+'
+  },
+  {
+    id: 'v5-4g',
+    slug: 'v5-4g',
+    name: 'V5 4G Telematics Tracker',
+    brand: 'M Series',
+    badge: 'Sponsored',
+    image: '/images/hardware/v5-4g.svg',
+    price: 2850,
+    bulkTierText: '₹2,490 each on 500+'
+  },
+  {
+    id: 'gb440',
+    slug: 'gb440',
+    name: 'GB440 Fleet Tracker',
+    brand: 'M Series',
+    badge: 'Sponsored',
+    image: '/images/hardware/gb440.svg',
+    price: 3100,
+    bulkTierText: '₹2,710 each on 500+'
+  }
+];
+
+const NEW_ARRIVALS_PRODUCTS = [
+  {
+    id: 'eco5-pro',
+    slug: 'eco5-pro',
+    name: 'Eco5 Pro 4G OBD Tracker',
+    badge: 'New',
+    image: '/images/hardware/eco5-lite.svg',
+    price: 2450,
+    bulkTierText: '₹2,140 each on 500+'
+  },
+  {
+    id: 'ecogas-track',
+    slug: 'ecogas-track',
+    name: 'EC Series Ecogas Track',
+    badge: 'New',
+    image: '/images/hardware/ecogas-track.svg',
+    price: 3400,
+    bulkTierText: '₹2,975 each on 500+'
+  },
+  {
+    id: 'sentinel-s3-ai-4g',
+    slug: 'sentinel-s3-ai-4g',
+    name: 'Mercetech Sentinel S3 Dash Camera',
+    badge: 'New',
+    image: '/images/hardware/sentinel-s3.svg',
+    price: 13800,
+    bulkTierText: '₹12,075 each on 500+'
+  },
+  {
+    id: 'gl500-4g',
+    slug: 'gl500-4g',
+    name: 'GL500 GPS Smart Electronic Lock – 4G',
+    badge: 'New',
+    image: '/images/hardware/gl500-4g.svg',
+    price: 10800,
+    bulkTierText: '₹9,450 each on 500+'
+  },
+  {
+    id: 'lls-ultrasonic',
+    slug: 'lls-ultrasonic',
+    name: 'LLS-03 Ultrasonic Level Sensor',
+    badge: 'New',
+    image: '/images/hardware/sp-ble4-fuel.svg',
+    price: 5200,
+    bulkTierText: '₹4,550 each on 500+'
+  }
+];
+
+/* ────────────────────────────────────────────────────────────
+   8. FEATURED & NEW ARRIVALS 2-TABS PRODUCTS SECTION
+──────────────────────────────────────────────────────────── */
+function FeaturedProductsSection() {
+  const navigate = useNavigate();
+  const { addToCart } = useCart();
+  const [activeTab, setActiveTab] = useState('featured');
+  const [wishlist, setWishlist] = useState({});
+  const [addedItems, setAddedItems] = useState({});
+
+  const toggleWishlist = (id, e) => {
+    e.stopPropagation();
+    setWishlist((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
+
+  const handleAddToCart = (product, e) => {
+    e.stopPropagation();
+    addToCart(product);
+    setAddedItems((prev) => ({ ...prev, [product.id]: true }));
+    setTimeout(() => {
+      setAddedItems((prev) => ({ ...prev, [product.id]: false }));
+    }, 2000);
+  };
+
+  const currentProducts = activeTab === 'featured' ? FEATURED_PRODUCTS : NEW_ARRIVALS_PRODUCTS;
+
+  return (
+    <section className="featured-tabs-section">
+      {/* ── Tabs Top Header Bar ── */}
+      <div className="featured-tabs-header">
+        <div className="featured-tabs-nav">
+          <button
+            type="button"
+            className={`featured-tab-btn ${activeTab === 'featured' ? 'featured-tab-btn--active' : ''}`}
+            onClick={() => setActiveTab('featured')}
+          >
+            Featured
+          </button>
+          <button
+            type="button"
+            className={`featured-tab-btn ${activeTab === 'new-arrivals' ? 'featured-tab-btn--active' : ''}`}
+            onClick={() => setActiveTab('new-arrivals')}
+          >
+            New arrivals
+          </button>
+        </div>
+
+        <div className="featured-tabs-actions">
+          {activeTab === 'featured' && (
+            <span className="featured-tabs-subtext">
+              Promoted by sellers · same prices and bulk slabs as every listing
+            </span>
+          )}
+          <button
+            type="button"
+            className="featured-tabs-view-all"
+            onClick={() => navigate('/hardware')}
+          >
+            <span>View all</span>
+            <span className="featured-tabs-view-all__arrow">→</span>
+          </button>
+        </div>
+      </div>
+
+      {/* ── 5 Cards Horizontal Grid ── */}
+      <div className="featured-cards-grid">
+        {currentProducts.map((p) => {
+          const isAdded = !!addedItems[p.id];
+          const isWished = !!wishlist[p.id];
+
+          return (
+            <div
+              key={p.id}
+              className="featured-product-card"
+              onClick={() => navigate(`/hardware/${p.slug}`)}
+            >
+              {/* Card Top Row: Badge + Wishlist Heart */}
+              <div className="featured-product-card__top">
+                <span className={`featured-product-card__badge featured-product-card__badge--${p.badge.toLowerCase()}`}>
+                  {p.badge}
+                </span>
+
+                <button
+                  type="button"
+                  className={`featured-product-card__wish-btn ${isWished ? 'featured-product-card__wish-btn--active' : ''}`}
+                  onClick={(e) => toggleWishlist(p.id, e)}
+                  title="Add to wishlist"
+                >
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill={isWished ? '#EF4444' : 'none'} stroke={isWished ? '#EF4444' : '#94A3B8'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                  </svg>
+                </button>
+              </div>
+
+              {/* Card Thumbnail Visual */}
+              <div className="featured-product-card__img-box">
+                <img
+                  src={getAssetUrl(p.image)}
+                  alt={p.name}
+                  className="featured-product-card__img"
+                />
+              </div>
+
+              {/* Card Body Info */}
+              <div className="featured-product-card__body">
+                {p.brand && (
+                  <span className="featured-product-card__brand">
+                    by {p.brand}
+                  </span>
+                )}
+
+                <h4 className="featured-product-card__title" title={p.name}>
+                  {p.name}
+                </h4>
+
+                {/* Rating line */}
+                <div className="featured-product-card__rating">
+                  <span className="featured-product-card__stars">★★★★★</span>
+                  <span className="featured-product-card__rating-text">No reviews yet</span>
+                </div>
+
+                {/* Price block */}
+                <div className="featured-product-card__price-box">
+                  <div className="featured-product-card__main-price">
+                    ₹{p.price.toLocaleString()} <span className="featured-product-card__gst">+ GST</span>
+                  </div>
+                  <div className="featured-product-card__bulk-tier">
+                    {p.bulkTierText}
+                  </div>
+                </div>
+
+                {/* Add to Cart CTA */}
+                <button
+                  type="button"
+                  className={`featured-product-card__cart-btn ${isAdded ? 'featured-product-card__cart-btn--added' : ''}`}
+                  onClick={(e) => handleAddToCart(p, e)}
+                >
+                  {isAdded ? '✓ Added' : 'Agree & Add To Cart'}
+                </button>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+/* ────────────────────────────────────────────────────────────
+   9. BUYING FOR A FLEET BULK PRICING CTA BANNER
+──────────────────────────────────────────────────────────── */
+function FleetBulkPricingBanner({ onOpenBulkQuote, onOpenCreditLimit }) {
+  return (
+    <div className="fleet-bulk-banner">
+      <div className="fleet-bulk-banner__left">
+        <span className="fleet-bulk-banner__eyebrow">BUYING FOR A FLEET?</span>
+        <h3 className="fleet-bulk-banner__title">
+          Bulk prices from 51 units, up to 12% off on 500+
+        </h3>
+        <p className="fleet-bulk-banner__desc">
+          One GST invoice for devices, FASTags and software. Pay now, or in 3–12 monthly EMIs with Setu Finance.
+        </p>
+      </div>
+
+      <div className="fleet-bulk-banner__actions">
+        <button
+          type="button"
+          className="fleet-bulk-banner__btn-primary"
+          onClick={onOpenBulkQuote}
+        >
+          Get a bulk quote
+        </button>
+        <button
+          type="button"
+          className="fleet-bulk-banner__btn-secondary"
+          onClick={onOpenCreditLimit}
+        >
+          Check my credit limit
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* ────────────────────────────────────────────────────────────
+   10. BULK QUOTATION REQUEST MODAL ("Ask Quotation")
+──────────────────────────────────────────────────────────── */
+function BulkQuoteModal({ isOpen, onClose }) {
+  const [formData, setFormData] = useState({
+    companyName: '',
+    contactName: '',
+    email: '',
+    phone: '',
+    hardwareRequirement: 'AIS 140 Certified GPS Trackers',
+    quantity: '51-100 units (6% off)',
+    gstin: '',
+    notes: ''
+  });
+  const [submitted, setSubmitted] = useState(false);
+  const [quoteId, setQuoteId] = useState('');
+
+  if (!isOpen) return null;
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const randomId = 'SETU-QUO-' + Math.floor(10000 + Math.random() * 90000);
+    setQuoteId(randomId);
+    setSubmitted(true);
+  };
+
+  const handleReset = () => {
+    setSubmitted(false);
+    onClose();
+  };
+
+  return (
+    <div className="bulk-quote-modal-overlay" onClick={handleReset}>
+      <div className="bulk-quote-modal" onClick={(e) => e.stopPropagation()}>
+        <button
+          type="button"
+          className="bulk-quote-modal__close-btn"
+          onClick={handleReset}
+          aria-label="Close"
+        >
+          ✕
+        </button>
+
+        {!submitted ? (
+          <>
+            <div className="bulk-quote-modal__header">
+              <span className="bulk-quote-modal__badge">ENTERPRISE VOLUME PRICING</span>
+              <h3 className="bulk-quote-modal__title">Request Fleet Bulk Quotation</h3>
+              <p className="bulk-quote-modal__subtitle">
+                Get direct OEM factory pricing, single GST invoicing, and dedicated enterprise SLA for your fleet.
+              </p>
+            </div>
+
+            <form className="bulk-quote-form" onSubmit={handleSubmit}>
+              <div className="bulk-quote-form__row">
+                <div className="bulk-quote-form__field">
+                  <label>Company / Fleet Name *</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Adani Logistics Ltd"
+                    value={formData.companyName}
+                    onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
+                  />
+                </div>
+                <div className="bulk-quote-form__field">
+                  <label>Contact Person *</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="Full Name"
+                    value={formData.contactName}
+                    onChange={(e) => setFormData({ ...formData, contactName: e.target.value })}
+                  />
+                </div>
+              </div>
+
+              <div className="bulk-quote-form__row">
+                <div className="bulk-quote-form__field">
+                  <label>Work Email *</label>
+                  <input
+                    type="email"
+                    required
+                    placeholder="procurement@company.com"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  />
+                </div>
+                <div className="bulk-quote-form__field">
+                  <label>Phone Number *</label>
+                  <input
+                    type="tel"
+                    required
+                    placeholder="+91 98765 43210"
+                    value={formData.phone}
+                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  />
+                </div>
+              </div>
+
+              <div className="bulk-quote-form__row">
+                <div className="bulk-quote-form__field">
+                  <label>Hardware Requirement *</label>
+                  <select
+                    value={formData.hardwareRequirement}
+                    onChange={(e) => setFormData({ ...formData, hardwareRequirement: e.target.value })}
+                  >
+                    <option value="AIS 140 Certified GPS Trackers">AIS 140 Certified GPS Trackers</option>
+                    <option value="AI Dashcam & DMS MDVR Solutions">AI Dashcam & DMS MDVR Solutions</option>
+                    <option value="Fuel Level Sensors (Capacitive & BLE)">Fuel Level Sensors (Capacitive & BLE)</option>
+                    <option value="Container GPS E-Locks (Heavy Duty)">Container GPS E-Locks (Heavy Duty)</option>
+                    <option value="Magnetic Asset Trackers">Magnetic Asset Trackers</option>
+                    <option value="4G OBD-II Plug & Play Trackers">4G OBD-II Plug & Play Trackers</option>
+                    <option value="Multiple Products / Mixed Fleet Setup">Multiple Products / Mixed Fleet Setup</option>
+                  </select>
+                </div>
+                <div className="bulk-quote-form__field">
+                  <label>Estimated Volume Slab *</label>
+                  <select
+                    value={formData.quantity}
+                    onChange={(e) => setFormData({ ...formData, quantity: e.target.value })}
+                  >
+                    <option value="51-100 units (6% off)">51 – 100 units (up to 6% off)</option>
+                    <option value="101-500 units (9% off)">101 – 500 units (up to 9% off)</option>
+                    <option value="500+ units (12% off)">500+ units (up to 12% off)</option>
+                    <option value="1000+ units (Custom Enterprise RFP)">1,000+ units (Custom Enterprise RFP)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="bulk-quote-form__row">
+                <div className="bulk-quote-form__field">
+                  <label>GSTIN (Optional)</label>
+                  <input
+                    type="text"
+                    placeholder="27AABCU9603R1ZM"
+                    value={formData.gstin}
+                    onChange={(e) => setFormData({ ...formData, gstin: e.target.value })}
+                  />
+                </div>
+                <div className="bulk-quote-form__field">
+                  <label>Special Instructions / Notes</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Include temperature probes & FASTags"
+                    value={formData.notes}
+                    onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+                  />
+                </div>
+              </div>
+
+              <div className="bulk-quote-form__footer">
+                <button type="submit" className="bulk-quote-form__submit-btn">
+                  Submit Quotation Request →
+                </button>
+                <span className="bulk-quote-form__security-note">
+                  🔒 Enterprise pricing with dedicated account manager &amp; direct OEM support.
+                </span>
+              </div>
+            </form>
+          </>
+        ) : (
+          <div className="bulk-quote-success">
+            <div className="bulk-quote-success__icon">✓</div>
+            <h3 className="bulk-quote-success__title">Quotation Request Generated!</h3>
+            <div className="bulk-quote-success__ref">
+              Reference ID: <strong>{quoteId}</strong>
+            </div>
+            <p className="bulk-quote-success__desc">
+              Thank you, <strong>{formData.contactName || 'Fleet Manager'}</strong>. Your bulk request for <strong>{formData.hardwareRequirement}</strong> ({formData.quantity}) has been forwarded to our telematics procurement desk.
+            </p>
+            <div className="bulk-quote-success__perks">
+              <div className="bulk-quote-success__perk-item">
+                <span>⏱</span>
+                <div>
+                  <strong>Official Estimate within 2 Hours</strong>
+                  <p>Sent to {formData.email || 'your registered email'}</p>
+                </div>
+              </div>
+              <div className="bulk-quote-success__perk-item">
+                <span>🧾</span>
+                <div>
+                  <strong>Consolidated GST Invoice</strong>
+                  <p>Claim input tax credit on hardware, SIMs &amp; software</p>
+                </div>
+              </div>
+              <div className="bulk-quote-success__perk-item">
+                <span>💳</span>
+                <div>
+                  <strong>Setu Finance EMI Eligible</strong>
+                  <p>Flexible 3, 6, or 12 month payment tenures</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="bulk-quote-success__actions">
+              <button
+                type="button"
+                className="bulk-quote-success__close-btn"
+                onClick={handleReset}
+              >
+                Back to Hardware Catalog
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* ────────────────────────────────────────────────────────────
+   11. SETU FINANCE CREDIT LIMIT MODAL
+──────────────────────────────────────────────────────────── */
+function CreditLimitModal({ isOpen, onClose }) {
+  if (!isOpen) return null;
+
+  return (
+    <div className="bulk-quote-modal-overlay" onClick={onClose}>
+      <div className="credit-limit-modal" onClick={(e) => e.stopPropagation()}>
+        <button
+          type="button"
+          className="bulk-quote-modal__close-btn"
+          onClick={onClose}
+          aria-label="Close"
+        >
+          ✕
+        </button>
+
+        <div className="credit-limit-modal__header">
+          <span className="credit-limit-modal__badge">SETU FINANCE</span>
+          <h3 className="credit-limit-modal__title">Check Fleet Credit Limit</h3>
+          <p className="credit-limit-modal__subtitle">
+            Pre-approved line of credit up to ₹50 Lakhs for telematics hardware, AIS 140 devices, and FASTags.
+          </p>
+        </div>
+
+        <div className="credit-limit-modal__grid">
+          <div className="credit-limit-modal__card">
+            <span className="credit-limit-modal__card-num">01</span>
+            <h4>Zero Collateral</h4>
+            <p>100% digital onboarding verified via GSTIN and bank statements.</p>
+          </div>
+          <div className="credit-limit-modal__card">
+            <span className="credit-limit-modal__card-num">02</span>
+            <h4>3 to 12 Month EMIs</h4>
+            <p>Pay comfortably as your vehicles generate revenue on the road.</p>
+          </div>
+          <div className="credit-limit-modal__card">
+            <span className="credit-limit-modal__card-num">03</span>
+            <h4>Combined Billing</h4>
+            <p>One consolidated monthly invoice for hardware, SIM data, and software.</p>
+          </div>
+        </div>
+
+        <div className="credit-limit-modal__footer">
+          <button
+            type="button"
+            className="credit-limit-modal__btn-primary"
+            onClick={onClose}
+          >
+            Apply for Credit Limit →
+          </button>
+          <button
+            type="button"
+            className="credit-limit-modal__btn-secondary"
+            onClick={onClose}
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ────────────────────────────────────────────────────────────
+   12. SMART FINDER GUIDED MODAL ("Help me choose")
 ──────────────────────────────────────────────────────────── */
 function SmartFinderModal({ isOpen, onClose }) {
   const navigate = useNavigate();
@@ -1233,6 +1798,8 @@ export default function SetuHome() {
   const [isSearchActive, setIsSearchActive] = useState(false);
   const [aiChatOpen, setAiChatOpen] = useState(false);
   const [aiChatQuery, setAiChatQuery] = useState('');
+  const [bulkQuoteModalOpen, setBulkQuoteModalOpen] = useState(false);
+  const [creditLimitModalOpen, setCreditLimitModalOpen] = useState(false);
 
   const handleLearnMore = (slide) => {
     setActiveSlideForSpecs(slide);
@@ -1269,6 +1836,15 @@ export default function SetuHome() {
         {/* ── 3. Shop by Category (4×2 Grid of 8 Cards) ── */}
         <ShopByCategory />
 
+        {/* ── 4. Featured & New Arrivals 2-Tabs Section (From User Reference Images) ── */}
+        <FeaturedProductsSection />
+
+        {/* ── 5. Buying For A Fleet Bulk Pricing CTA Banner (With Ask Quotation) ── */}
+        <FleetBulkPricingBanner
+          onOpenBulkQuote={() => setBulkQuoteModalOpen(true)}
+          onOpenCreditLimit={() => setCreditLimitModalOpen(true)}
+        />
+
         {/* ── 1-on-1 Interactive Setu AI Chat Window ── */}
         <SetuAIChat
           isOpen={aiChatOpen}
@@ -1277,6 +1853,16 @@ export default function SetuHome() {
         />
 
         {/* ── Modals & Drawers ── */}
+        <BulkQuoteModal
+          isOpen={bulkQuoteModalOpen}
+          onClose={() => setBulkQuoteModalOpen(false)}
+        />
+
+        <CreditLimitModal
+          isOpen={creditLimitModalOpen}
+          onClose={() => setCreditLimitModalOpen(false)}
+        />
+
         <SmartFinderModal
           isOpen={finderModalOpen}
           onClose={() => setFinderModalOpen(false)}
