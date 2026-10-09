@@ -832,60 +832,8 @@ export default function ProductDetail() {
               </div>
             )}
 
-            {/* Bulk Pricing Slab Card or Solution Live Demo Banner */}
-            {isSolution ? (
-              <div className="setu-solution-demo-card">
-                <div className="setu-solution-demo-card__header">
-                  <div className="setu-solution-demo-card__tag">
-                    <span className="setu-solution-pulse-dot" />
-                    Live Cloud Platform Walkthrough
-                  </div>
-                  <h3 className="setu-solution-demo-card__title">Experience {product.name} in Action</h3>
-                  <p className="setu-solution-demo-card__desc">
-                    Connect with our telematics engineers for a live walkthrough tailored to your fleet or operational use case.
-                  </p>
-                </div>
-
-                <div className="setu-solution-demo-card__grid">
-                  <div className="setu-solution-demo-feature">
-                    <div className="setu-solution-demo-icon">🎯</div>
-                    <div className="setu-solution-demo-text">
-                      <strong>Tailored Walkthrough</strong>
-                      <span>Live demonstration focused on your exact vehicles, routes, and business workflow.</span>
-                    </div>
-                  </div>
-
-                  <div className="setu-solution-demo-feature">
-                    <div className="setu-solution-demo-icon">🔌</div>
-                    <div className="setu-solution-demo-text">
-                      <strong>Hardware Assessment</strong>
-                      <span>Free compatibility check for your existing GPS devices, AIS-140 trackers, or sensors.</span>
-                    </div>
-                  </div>
-
-                  <div className="setu-solution-demo-feature">
-                    <div className="setu-solution-demo-icon">💼</div>
-                    <div className="setu-solution-demo-text">
-                      <strong>Custom Architecture &amp; Licensing</strong>
-                      <span>Personalized proposal and ERP/TMS integration timeline discussed directly.</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="setu-solution-demo-card__cta-row">
-                  <button
-                    type="button"
-                    className="setu-solution-cta-btn"
-                    onClick={() => setShowDemoModal(true)}
-                  >
-                    Request a Demo
-                  </button>
-                  <span className="setu-solution-cta-hint">
-                    ⚡ Free 30-minute walkthrough · No obligation · Contact within 24 hours
-                  </span>
-                </div>
-              </div>
-            ) : (
+            {/* Bulk Pricing Slab Card - Hardware & Auto Parts Only */}
+            {!isSolution && (
               <div className="setu-ui-bulk-card">
                 <div className="setu-ui-bulk-header">
                   <h3 className="setu-ui-bulk-title">Bulk pricing slab</h3>
@@ -1566,22 +1514,6 @@ export default function ProductDetail() {
                 </ul>
 
                 <div className="setu-plan-card__divider" />
-
-                <div className="setu-solution-expect-box">
-                  <div className="setu-solution-expect-title">What to expect:</div>
-                  <div className="setu-solution-expect-item">
-                    <span className="setu-solution-expect-icon">⚡</span>
-                    <span>1-on-1 feature demo customized to your fleet</span>
-                  </div>
-                  <div className="setu-solution-expect-item">
-                    <span className="setu-solution-expect-icon">🛠️</span>
-                    <span>Free hardware compatibility review</span>
-                  </div>
-                  <div className="setu-solution-expect-item">
-                    <span className="setu-solution-expect-icon">💼</span>
-                    <span>Dedicated solutions specialist to answer all queries</span>
-                  </div>
-                </div>
 
                 <button
                   type="button"
