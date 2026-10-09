@@ -348,22 +348,17 @@ export default function SetuAIChat({ isOpen: propIsOpen, onClose: propOnClose, i
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
-  const [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
   const [chatHistory, setChatHistory] = useState(getInitialHistory);
 
   const chatEndRef = useRef(null);
   const inputRef = useRef(null);
   const historyMenuRef = useRef(null);
-  const moreMenuRef = useRef(null);
 
-  // Close menus on outside click
+  // Close history menu on outside click
   useEffect(() => {
     function handleClickOutside(e) {
       if (historyMenuRef.current && !historyMenuRef.current.contains(e.target)) {
         setIsHistoryOpen(false);
-      }
-      if (moreMenuRef.current && !moreMenuRef.current.contains(e.target)) {
-        setIsMoreMenuOpen(false);
       }
     }
     document.addEventListener('mousedown', handleClickOutside);
@@ -433,7 +428,6 @@ export default function SetuAIChat({ isOpen: propIsOpen, onClose: propOnClose, i
     setInputValue('');
     setIsTyping(true);
     setIsHistoryOpen(false);
-    setIsMoreMenuOpen(false);
 
     setTimeout(() => {
       const aiData = getAIResponse(text);
@@ -456,7 +450,6 @@ export default function SetuAIChat({ isOpen: propIsOpen, onClose: propOnClose, i
     setMessages([]);
     setInputValue('');
     setIsTyping(false);
-    setIsMoreMenuOpen(false);
     setIsHistoryOpen(false);
     setTimeout(() => {
       if (inputRef.current) inputRef.current.focus();
@@ -485,18 +478,6 @@ export default function SetuAIChat({ isOpen: propIsOpen, onClose: propOnClose, i
     }
   };
 
-  const handleCopyChat = () => {
-    const transcript = messages
-      .map((m) => {
-        if (m.sender === 'user') return `User: ${m.text}`;
-        return `Setu AI: ${m.data?.leadTitle} - ${m.data?.leadHighlight}`;
-      })
-      .join('\n\n');
-    navigator.clipboard?.writeText(transcript);
-    alert('Conversation copied to clipboard.');
-    setIsMoreMenuOpen(false);
-  };
-
   const handleProductClick = (slug) => {
     onClose();
     navigate(`/hardware/${slug}`);
@@ -517,34 +498,33 @@ export default function SetuAIChat({ isOpen: propIsOpen, onClose: propOnClose, i
         aria-label="Setu AI Assistant"
         aria-hidden={!isOpen}
       >
-        {/* ── Top Bar (New chat, History, Options, Proper Close ✕) ── */}
+        {/* ── Top Bar (New chat when active, History, Proper Close ✕) ── */}
         <div className="gemini-panel-header">
           <div className="gemini-header-left">
-            <button
-              type="button"
-              className="gemini-header-new-btn"
-              onClick={handleNewChat}
-              title="Start a new chat"
-              aria-label="New chat"
-            >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
-                <line x1="12" y1="5" x2="12" y2="19" />
-                <line x1="5" y1="12" x2="19" y2="12" />
-              </svg>
-              <span>New chat</span>
-            </button>
+            {messages.length > 0 && (
+              <button
+                type="button"
+                className="gemini-header-new-btn"
+                onClick={handleNewChat}
+                title="Start a new chat"
+                aria-label="New chat"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
+                  <line x1="12" y1="5" x2="12" y2="19" />
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
+                <span>New chat</span>
+              </button>
+            )}
           </div>
 
           <div className="gemini-header-actions">
-            {/* History Menu (Last chats) */}
+            {/* History Menu (Recent chats) */}
             <div className="gemini-menu-container" ref={historyMenuRef}>
               <button
                 type="button"
                 className={`gemini-icon-btn ${isHistoryOpen ? 'gemini-icon-btn--active' : ''}`}
-                onClick={() => {
-                  setIsHistoryOpen(!isHistoryOpen);
-                  setIsMoreMenuOpen(false);
-                }}
+                onClick={() => setIsHistoryOpen(!isHistoryOpen)}
                 title="Recent chats"
                 aria-label="Chat history"
               >
@@ -594,46 +574,7 @@ export default function SetuAIChat({ isOpen: propIsOpen, onClose: propOnClose, i
               )}
             </div>
 
-            {/* Options Menu ⋮ */}
-            <div className="gemini-menu-container" ref={moreMenuRef}>
-              <button
-                type="button"
-                className={`gemini-icon-btn ${isMoreMenuOpen ? 'gemini-icon-btn--active' : ''}`}
-                onClick={() => {
-                  setIsMoreMenuOpen(!isMoreMenuOpen);
-                  setIsHistoryOpen(false);
-                }}
-                title="More options"
-                aria-label="Options"
-              >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                  <circle cx="12" cy="5" r="1.8" />
-                  <circle cx="12" cy="12" r="1.8" />
-                  <circle cx="12" cy="19" r="1.8" />
-                </svg>
-              </button>
-
-              {isMoreMenuOpen && (
-                <div className="gemini-popup-menu">
-                  <button type="button" onClick={handleNewChat}>
-                    <span className="gemini-popup-icon">✦</span>
-                    <span>New chat</span>
-                  </button>
-                  {messages.length > 0 && (
-                    <button type="button" onClick={handleCopyChat}>
-                      <span className="gemini-popup-icon">📋</span>
-                      <span>Copy chat</span>
-                    </button>
-                  )}
-                  <button type="button" onClick={() => { setIsMoreMenuOpen(false); onClose(); }}>
-                    <span className="gemini-popup-icon">✕</span>
-                    <span>Close panel</span>
-                  </button>
-                </div>
-              )}
-            </div>
-
-            {/* Close Button ✕ */}
+            {/* Proper Close Button ✕ */}
             <button
               type="button"
               className="gemini-icon-btn gemini-icon-btn--close"
