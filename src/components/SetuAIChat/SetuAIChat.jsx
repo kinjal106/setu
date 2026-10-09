@@ -317,6 +317,25 @@ function getAIResponse(userText) {
   };
 }
 
+const DEFAULT_HISTORY = [
+  { id: 'hist-1', title: 'AIS 140 GPS Compliance', time: 'Today', query: 'Explain AIS 140 compliance requirements' },
+  { id: 'hist-2', title: 'Fuel sensors to prevent diesel theft', time: 'Yesterday', query: 'Best hardware to prevent diesel theft' },
+  { id: 'hist-3', title: 'Compare AI dashcams with ADAS & DMS', time: '2 days ago', query: 'Compare AI dashcams with ADAS & DMS' }
+];
+
+function getInitialHistory() {
+  try {
+    const saved = localStorage.getItem('setu_ai_chat_history');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+    }
+  } catch (e) {
+    // fallback
+  }
+  return DEFAULT_HISTORY;
+}
+
 export default function SetuAIChat({ isOpen: propIsOpen, onClose: propOnClose, initialQuery: propInitialQuery }) {
   const navigate = useNavigate();
   const { isAIPanelOpen, closeAIPanel, initialAIQuery } = useAI();
@@ -328,21 +347,20 @@ export default function SetuAIChat({ isOpen: propIsOpen, onClose: propOnClose, i
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
-  const [showContextChip, setShowContextChip] = useState(true);
-  const [selectedModel, setSelectedModel] = useState('Flash');
-  const [isModelMenuOpen, setIsModelMenuOpen] = useState(false);
+  const [isHistoryOpen, setIsHistoryOpen] = useState(false);
   const [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
+  const [chatHistory, setChatHistory] = useState(getInitialHistory);
 
   const chatEndRef = useRef(null);
   const inputRef = useRef(null);
-  const modelMenuRef = useRef(null);
+  const historyMenuRef = useRef(null);
   const moreMenuRef = useRef(null);
 
   // Close menus on outside click
   useEffect(() => {
     function handleClickOutside(e) {
-      if (modelMenuRef.current && !modelMenuRef.current.contains(e.target)) {
-        setIsModelMenuOpen(false);
+      if (historyMenuRef.current && !historyMenuRef.current.contains(e.target)) {
+        setIsHistoryOpen(false);
       }
       if (moreMenuRef.current && !moreMenuRef.current.contains(e.target)) {
         setIsMoreMenuOpen(false);
@@ -392,10 +410,30 @@ export default function SetuAIChat({ isOpen: propIsOpen, onClose: propOnClose, i
     const text = (textToSend || inputValue).trim();
     if (!text) return;
 
+    // Record query in history
+    setChatHistory((prev) => {
+      const filtered = prev.filter((item) => item.query.toLowerCase() !== text.toLowerCase());
+      const newEntry = {
+        id: 'hist-' + Date.now(),
+        title: text.length > 36 ? text.slice(0, 35) + '...' : text,
+        time: 'Just now',
+        query: text
+      };
+      const updated = [newEntry, ...filtered].slice(0, 15);
+      try {
+        localStorage.setItem('setu_ai_chat_history', JSON.stringify(updated));
+      } catch (e) {
+        // ignore
+      }
+      return updated;
+    });
+
     const userMsgId = Date.now();
     setMessages((prev) => [...prev, { id: userMsgId, sender: 'user', text }]);
     setInputValue('');
     setIsTyping(true);
+    setIsHistoryOpen(false);
+    setIsMoreMenuOpen(false);
 
     setTimeout(() => {
       const aiData = getAIResponse(text);
@@ -419,9 +457,32 @@ export default function SetuAIChat({ isOpen: propIsOpen, onClose: propOnClose, i
     setInputValue('');
     setIsTyping(false);
     setIsMoreMenuOpen(false);
+    setIsHistoryOpen(false);
     setTimeout(() => {
       if (inputRef.current) inputRef.current.focus();
     }, 100);
+  };
+
+  const handleLoadHistoryChat = (item) => {
+    const aiData = getAIResponse(item.query);
+    setMessages([
+      { id: Date.now(), sender: 'user', text: item.query },
+      { id: Date.now() + 1, sender: 'ai', data: aiData }
+    ]);
+    setIsHistoryOpen(false);
+    setTimeout(() => {
+      if (inputRef.current) inputRef.current.focus();
+    }, 100);
+  };
+
+  const handleClearHistory = (e) => {
+    e.stopPropagation();
+    setChatHistory([]);
+    try {
+      localStorage.removeItem('setu_ai_chat_history');
+    } catch (err) {
+      // ignore
+    }
   };
 
   const handleCopyChat = () => {
@@ -434,22 +495,6 @@ export default function SetuAIChat({ isOpen: propIsOpen, onClose: propOnClose, i
     navigator.clipboard?.writeText(transcript);
     alert('Conversation copied to clipboard.');
     setIsMoreMenuOpen(false);
-  };
-
-  const handleVoiceInput = () => {
-    if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
-      alert('Speech recognition is not supported in this browser. Please use Google Chrome.');
-      return;
-    }
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    const recognition = new SpeechRecognition();
-    recognition.lang = 'en-IN';
-    recognition.onresult = (event) => {
-      const transcript = event.results[0][0].transcript;
-      setInputValue(transcript);
-      handleSendMessage(transcript);
-    };
-    recognition.start();
   };
 
   const handleProductClick = (slug) => {
@@ -472,33 +517,92 @@ export default function SetuAIChat({ isOpen: propIsOpen, onClose: propOnClose, i
         aria-label="Setu AI Assistant"
         aria-hidden={!isOpen}
       >
-        {/* ── Top Bar (Clean, Minimalist: Only ⋮ and ✕) ── */}
+        {/* ── Top Bar (New chat, History, Options, Proper Close ✕) ── */}
         <div className="gemini-panel-header">
           <div className="gemini-header-left">
-            {messages.length > 0 && (
-              <button
-                type="button"
-                className="gemini-header-new-btn"
-                onClick={handleNewChat}
-                title="New chat"
-                aria-label="New chat"
-              >
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
-                  <line x1="12" y1="5" x2="12" y2="19" />
-                  <line x1="5" y1="12" x2="19" y2="12" />
-                </svg>
-                <span>New chat</span>
-              </button>
-            )}
+            <button
+              type="button"
+              className="gemini-header-new-btn"
+              onClick={handleNewChat}
+              title="Start a new chat"
+              aria-label="New chat"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+              </svg>
+              <span>New chat</span>
+            </button>
           </div>
 
           <div className="gemini-header-actions">
+            {/* History Menu (Last chats) */}
+            <div className="gemini-menu-container" ref={historyMenuRef}>
+              <button
+                type="button"
+                className={`gemini-icon-btn ${isHistoryOpen ? 'gemini-icon-btn--active' : ''}`}
+                onClick={() => {
+                  setIsHistoryOpen(!isHistoryOpen);
+                  setIsMoreMenuOpen(false);
+                }}
+                title="Recent chats"
+                aria-label="Chat history"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                  <path d="M3 3v5h5" />
+                  <polyline points="12 7 12 12 15 15" />
+                </svg>
+              </button>
+
+              {isHistoryOpen && (
+                <div className="gemini-history-dropdown">
+                  <div className="gemini-history-header">
+                    <span className="gemini-history-title">Recent chats</span>
+                    {chatHistory.length > 0 && (
+                      <button
+                        type="button"
+                        className="gemini-history-clear-btn"
+                        onClick={handleClearHistory}
+                        title="Clear history"
+                      >
+                        Clear
+                      </button>
+                    )}
+                  </div>
+                  <div className="gemini-history-list">
+                    {chatHistory.length === 0 ? (
+                      <div className="gemini-history-empty">No recent chats</div>
+                    ) : (
+                      chatHistory.map((item) => (
+                        <button
+                          key={item.id}
+                          type="button"
+                          className="gemini-history-item"
+                          onClick={() => handleLoadHistoryChat(item)}
+                        >
+                          <span className="gemini-history-item-icon">💬</span>
+                          <div className="gemini-history-item-body">
+                            <span className="gemini-history-item-title">{item.title}</span>
+                            <span className="gemini-history-item-time">{item.time}</span>
+                          </div>
+                        </button>
+                      ))
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+
             {/* Options Menu ⋮ */}
             <div className="gemini-menu-container" ref={moreMenuRef}>
               <button
                 type="button"
-                className="gemini-icon-btn"
-                onClick={() => setIsMoreMenuOpen(!isMoreMenuOpen)}
+                className={`gemini-icon-btn ${isMoreMenuOpen ? 'gemini-icon-btn--active' : ''}`}
+                onClick={() => {
+                  setIsMoreMenuOpen(!isMoreMenuOpen);
+                  setIsHistoryOpen(false);
+                }}
                 title="More options"
                 aria-label="Options"
               >
@@ -521,19 +625,9 @@ export default function SetuAIChat({ isOpen: propIsOpen, onClose: propOnClose, i
                       <span>Copy chat</span>
                     </button>
                   )}
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setShowContextChip(true);
-                      setIsMoreMenuOpen(false);
-                    }}
-                  >
-                    <span className="gemini-popup-icon">🌐</span>
-                    <span>Reset page sharing</span>
-                  </button>
                   <button type="button" onClick={() => { setIsMoreMenuOpen(false); onClose(); }}>
                     <span className="gemini-popup-icon">✕</span>
-                    <span>Close</span>
+                    <span>Close panel</span>
                   </button>
                 </div>
               )}
@@ -547,9 +641,9 @@ export default function SetuAIChat({ isOpen: propIsOpen, onClose: propOnClose, i
               title="Close panel"
               aria-label="Close Setu AI panel"
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="18" y1="6" x2="6" y2="18" />
-                <line x1="6" y1="6" x2="18" y2="6" />
+                <line x1="6" y1="6" x2="18" y2="18" />
               </svg>
             </button>
           </div>
@@ -788,42 +882,14 @@ export default function SetuAIChat({ isOpen: propIsOpen, onClose: propOnClose, i
           )}
         </div>
 
-        {/* ── Bottom Input Container (Google Gemini Two-Tier Style) ── */}
+        {/* ── Bottom Input Container (Clean, Minimalist) ── */}
         <div className="gemini-panel-footer">
           <div className="gemini-input-box">
-            {/* Top Row: Context Sharing Chip */}
-            {showContextChip && (
-              <div className="gemini-context-row">
-                <div className="gemini-context-chip">
-                  <span className="gemini-context-globe">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-                      <circle cx="12" cy="12" r="10" />
-                      <line x1="2" y1="12" x2="22" y2="12" />
-                      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-                    </svg>
-                  </span>
-                  <span className="gemini-context-label">
-                    Sharing "Setu – Telematics Marketplace by Uffizio"
-                  </span>
-                  <button
-                    type="button"
-                    className="gemini-context-dismiss"
-                    onClick={() => setShowContextChip(false)}
-                    title="Stop sharing page context"
-                    aria-label="Dismiss context"
-                  >
-                    ✕
-                  </button>
-                </div>
-              </div>
-            )}
-
-            {/* Bottom Row: Actions + Input + Model Switcher + Mic/Send */}
             <div className="gemini-input-row">
               <button
                 type="button"
                 className="gemini-input-add-btn"
-                title="Add context or options"
+                title="AIS 140 prompt"
                 aria-label="Add"
                 onClick={() => handleSendMessage('Explain AIS 140 compliance requirements')}
               >
@@ -838,79 +904,26 @@ export default function SetuAIChat({ isOpen: propIsOpen, onClose: propOnClose, i
                 type="text"
                 className="gemini-text-field"
                 value={inputValue}
-                placeholder="Type @ to add tabs or ask Setu AI..."
+                placeholder="Ask Setu AI anything about telematics & hardware..."
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyDown={handleKeyDown}
                 aria-label="Ask Setu AI"
               />
 
               <div className="gemini-input-end-controls">
-                {/* Model Selector Dropdown (Flash / Pro) */}
-                <div className="gemini-model-wrap" ref={modelMenuRef}>
-                  <button
-                    type="button"
-                    className="gemini-model-btn"
-                    onClick={() => setIsModelMenuOpen(!isModelMenuOpen)}
-                    title="Gemini Model"
-                  >
-                    <span>{selectedModel}</span>
-                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                      <polyline points="6 9 12 15 18 9" />
-                    </svg>
-                  </button>
-
-                  {isModelMenuOpen && (
-                    <div className="gemini-model-popover">
-                      <button
-                        type="button"
-                        className={`gemini-model-opt ${selectedModel === 'Flash' ? 'gemini-model-opt--selected' : ''}`}
-                        onClick={() => { setSelectedModel('Flash'); setIsModelMenuOpen(false); }}
-                      >
-                        <div className="gemini-model-opt-name">✦ Flash</div>
-                        <div className="gemini-model-opt-desc">Fast recommendations & real-time answers</div>
-                      </button>
-                      <button
-                        type="button"
-                        className={`gemini-model-opt ${selectedModel === 'Pro' ? 'gemini-model-opt--selected' : ''}`}
-                        onClick={() => { setSelectedModel('Pro'); setIsModelMenuOpen(false); }}
-                      >
-                        <div className="gemini-model-opt-name">✦ Pro</div>
-                        <div className="gemini-model-opt-desc">Deep telematics & regulatory reasoning</div>
-                      </button>
-                    </div>
-                  )}
-                </div>
-
-                {/* Voice / Mic / Send Button */}
-                {inputValue.trim() ? (
-                  <button
-                    type="button"
-                    className="gemini-send-round-btn"
-                    onClick={() => handleSendMessage()}
-                    title="Send (Enter)"
-                    aria-label="Send message"
-                  >
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <line x1="12" y1="19" x2="12" y2="5" />
-                      <polyline points="5 12 12 5 19 12" />
-                    </svg>
-                  </button>
-                ) : (
-                  <button
-                    type="button"
-                    className="gemini-mic-round-btn"
-                    onClick={handleVoiceInput}
-                    title="Voice input"
-                    aria-label="Voice input"
-                  >
-                    {/* Authentic audio waveform bars matching Gemini screenshot 川 */}
-                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round">
-                      <line x1="7" y1="10" x2="7" y2="14" />
-                      <line x1="12" y1="5" x2="12" y2="19" />
-                      <line x1="17" y1="9" x2="17" y2="15" />
-                    </svg>
-                  </button>
-                )}
+                <button
+                  type="button"
+                  className={`gemini-send-round-btn ${inputValue.trim() ? 'gemini-send-round-btn--active' : 'gemini-send-round-btn--disabled'}`}
+                  onClick={() => handleSendMessage()}
+                  disabled={!inputValue.trim()}
+                  title="Send message (Enter)"
+                  aria-label="Send message"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="12" y1="19" x2="12" y2="5" />
+                    <polyline points="5 12 12 5 19 12" />
+                  </svg>
+                </button>
               </div>
             </div>
           </div>

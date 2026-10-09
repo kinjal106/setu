@@ -79,7 +79,7 @@
   border-radius: 9999px;
   background: rgba(255, 255, 255, 0.08);
   color: #E3E3E3;
-  font-size: 12.5px;
+  font-size: 13px;
   font-weight: 500;
   border: 1px solid rgba(255, 255, 255, 0.06);
   cursor: pointer;
@@ -118,8 +118,126 @@
   color: #FFFFFF;
 }
 
+.gemini-icon-btn--active {
+  background: rgba(255, 255, 255, 0.15);
+  color: #FFFFFF;
+}
+
 .gemini-menu-container {
   position: relative;
+}
+
+/* History Dropdown for Recent Chats */
+.gemini-history-dropdown {
+  position: absolute;
+  top: 42px;
+  right: 0;
+  width: 290px;
+  max-width: 90vw;
+  background: #282A2C;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 8px 6px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  animation: geminiFadeIn 150ms ease-out;
+}
+
+.gemini-history-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 10px 8px 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.gemini-history-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #E3E3E3;
+}
+
+.gemini-history-clear-btn {
+  background: transparent;
+  border: none;
+  color: #9AA0A6;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: color 120ms ease, background 120ms ease;
+  font-family: inherit;
+}
+
+.gemini-history-clear-btn:hover {
+  color: #FF8A80;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.gemini-history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-height: 260px;
+  overflow-y: auto;
+  padding-top: 4px;
+}
+
+.gemini-history-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px 10px;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  color: #E3E3E3;
+  cursor: pointer;
+  text-align: left;
+  transition: background 120ms ease;
+  font-family: inherit;
+  width: 100%;
+}
+
+.gemini-history-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.gemini-history-item-icon {
+  font-size: 14px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.gemini-history-item-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
+.gemini-history-item-title {
+  font-size: 13px;
+  color: #E3E3E3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.gemini-history-item-time {
+  font-size: 11px;
+  color: #9AA0A6;
+}
+
+.gemini-history-empty {
+  padding: 16px;
+  text-align: center;
+  color: #9AA0A6;
+  font-size: 13px;
 }
 
 /* Popup Menu for ⋮ */
@@ -259,7 +377,7 @@
   border-radius: 9999px;
   padding: 10px 18px;
   color: #E3E3E3;
-  font-size: 13.5px;
+  font-size: 14px;
   font-weight: 500;
   cursor: pointer;
   text-align: left;
@@ -365,7 +483,7 @@
 }
 
 .gemini-typing-text {
-  font-size: 13.5px;
+  font-size: 14px;
   color: #9AA0A6;
   font-style: italic;
   padding-top: 4px;
@@ -485,7 +603,7 @@
 }
 
 .gemini-ai-products__label {
-  font-size: 11.5px;
+  font-size: 12px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.04em;
@@ -542,7 +660,7 @@
 }
 
 .gemini-ai-product-brand {
-  font-size: 10.5px;
+  font-size: 11px;
   font-weight: 600;
   color: #9AA0A6;
   text-transform: uppercase;
@@ -566,7 +684,7 @@
 }
 
 .gemini-ai-product-price {
-  font-size: 13.5px;
+  font-size: 14px;
   font-weight: 700;
   color: #38BDF8;
 }
@@ -628,11 +746,10 @@
 .gemini-input-box {
   background: #1E1F20;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 24px;
-  padding: 10px 14px;
+  border-radius: 28px;
+  padding: 8px 12px;
   display: flex;
-  flex-direction: column;
-  gap: 8px;
+  align-items: center;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
   transition: border-color 200ms ease, box-shadow 200ms ease;
 }
@@ -642,60 +759,7 @@
   box-shadow: 0 4px 24px rgba(27, 110, 243, 0.2);
 }
 
-/* Context Sharing Chip (Top tier of box) */
-.gemini-context-row {
-  display: flex;
-  align-items: center;
-  padding-bottom: 2px;
-}
-
-.gemini-context-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  background: transparent;
-  color: #C4C7C5;
-  font-size: 12.5px;
-  max-width: 100%;
-}
-
-.gemini-context-globe {
-  color: #A8C7FA;
-  display: flex;
-  align-items: center;
-  flex-shrink: 0;
-}
-
-.gemini-context-label {
-  color: #C4C7C5;
-  font-size: 12.5px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 320px;
-}
-
-.gemini-context-dismiss {
-  background: transparent;
-  border: none;
-  color: #8E918F;
-  font-size: 12px;
-  cursor: pointer;
-  padding: 2px 4px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  transition: color 120ms ease, background 120ms ease;
-}
-
-.gemini-context-dismiss:hover {
-  color: #FFFFFF;
-  background: rgba(255, 255, 255, 0.1);
-}
-
-/* Action Row (Bottom tier of box) */
+/* Action Row (Input + Send) */
 .gemini-input-row {
   display: flex;
   align-items: center;
@@ -704,8 +768,8 @@
 }
 
 .gemini-input-add-btn {
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   background: transparent;
   border: none;
@@ -732,12 +796,12 @@
   color: #FFFFFF;
   font-size: 14px;
   font-family: inherit;
-  padding: 0;
+  padding: 0 4px;
 }
 
 .gemini-text-field::placeholder {
   color: #8E918F;
-  font-size: 13.5px;
+  font-size: 14px;
 }
 
 .gemini-input-end-controls {
@@ -747,119 +811,34 @@
   flex-shrink: 0;
 }
 
-/* Model Dropdown Chip (Flash / Pro) */
-.gemini-model-wrap {
-  position: relative;
-}
-
-.gemini-model-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  background: transparent;
-  border: none;
-  color: #C4C7C5;
-  font-size: 12.5px;
-  font-weight: 500;
-  cursor: pointer;
-  padding: 4px 7px;
-  border-radius: 6px;
-  font-family: inherit;
-  transition: background 120ms ease, color 120ms ease;
-}
-
-.gemini-model-btn:hover {
-  background: rgba(255, 255, 255, 0.08);
-  color: #FFFFFF;
-}
-
-.gemini-model-popover {
-  position: absolute;
-  bottom: 38px;
-  right: 0;
-  min-width: 220px;
-  background: #282A2C;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  padding: 6px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
-  z-index: 100;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.gemini-model-opt {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  padding: 8px 10px;
-  background: transparent;
-  border: none;
-  border-radius: 8px;
-  color: #E3E3E3;
-  cursor: pointer;
-  text-align: left;
-  font-family: inherit;
-  transition: background 120ms ease;
-}
-
-.gemini-model-opt:hover {
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.gemini-model-opt--selected {
-  background: rgba(66, 133, 244, 0.18);
-  border: 1px solid rgba(66, 133, 244, 0.3);
-}
-
-.gemini-model-opt-name {
-  font-size: 13px;
-  font-weight: 600;
-  color: #A8C7FA;
-}
-
-.gemini-model-opt-desc {
-  font-size: 11px;
-  color: #9AA0A6;
-}
-
-/* Audio Waveform / Mic Button */
-.gemini-mic-round-btn {
+/* Send Button */
+.gemini-send-round-btn {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: transparent;
   border: none;
-  color: #C4C7C5;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background 150ms ease, color 150ms ease;
+  transition: transform 120ms ease, background 120ms ease, color 120ms ease, opacity 120ms ease;
+  font-family: inherit;
 }
 
-.gemini-mic-round-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: #FFFFFF;
+.gemini-send-round-btn--disabled {
+  background: rgba(255, 255, 255, 0.08);
+  color: #71767B;
+  cursor: not-allowed;
+  opacity: 0.65;
 }
 
-/* Send Arrow Button */
-.gemini-send-round-btn {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
+.gemini-send-round-btn--active {
   background: #FFFFFF;
-  border: none;
   color: #131314;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: transform 120ms ease, background 120ms ease;
+  opacity: 1;
 }
 
-.gemini-send-round-btn:hover {
+.gemini-send-round-btn--active:hover {
   background: #E3E3E3;
   transform: scale(1.05);
 }
@@ -868,10 +847,6 @@
 @media (max-width: 480px) {
   .gemini-side-panel {
     width: 100vw;
-  }
-
-  .gemini-context-label {
-    max-width: 220px;
   }
 
   .gemini-ready-text {
