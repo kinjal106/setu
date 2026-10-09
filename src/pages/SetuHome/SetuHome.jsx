@@ -597,18 +597,50 @@ function PrimaryIntelligentSearchBar({ onSearchActiveChange, onOpenFinder, onOpe
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const aiOverview = useMemo(() => {
-    if (!query.trim()) return null;
-    return generateAIOverview(query);
-  }, [query]);
-
   const matchingHardware = useMemo(() => {
     if (!query.trim()) return [];
-    const q = query.trim().toLowerCase();
-    return products.filter((p) => {
-      const text = `${p.name} ${p.slug} ${p.category} ${p.subcategory} ${p.shortDescription}`.toLowerCase();
-      return text.includes(q);
-    }).slice(0, 4);
+    const stopWords = new Set(['what', 'is', 'are', 'the', 'how', 'to', 'for', 'with', 'a', 'an', 'in', 'of', 'and', 'do', 'can', 'i', 'get', 'prevent']);
+
+    // Normalize query string (common typos / abbreviations / synonyms)
+    const clean = query
+      .toLowerCase()
+      .replace(/[?!,.]/g, '')
+      .replace(/\basi\b/g, 'ais')
+      .replace(/\belock\b/g, 'e-lock')
+      .replace(/\bdiesel\b/g, 'fuel');
+
+    const allTokens = clean.split(/\s+/).filter(Boolean);
+    const meaningfulTokens = allTokens.filter((t) => !stopWords.has(t));
+    const tokens = meaningfulTokens.length > 0 ? meaningfulTokens : allTokens;
+
+    if (tokens.length === 0) return [];
+
+    const getSearchableText = (p) => {
+      return `${p.name} ${p.slug} ${p.category} ${p.subcategory || ''} ${p.shortDescription || ''} ${(p.tags || []).join(' ')} ${(p.features || []).join(' ')} ${p.brand || ''} ${p.badge || ''}`.toLowerCase();
+    };
+
+    // First attempt: all tokens must match
+    const exactMatches = products.filter((p) => {
+      const text = getSearchableText(p);
+      return tokens.every((token) => text.includes(token));
+    });
+
+    if (exactMatches.length > 0) {
+      return exactMatches.slice(0, 6);
+    }
+
+    // Fallback: match any tokens, sorted by match relevance
+    const partialMatches = products
+      .map((p) => {
+        const text = getSearchableText(p);
+        const score = tokens.reduce((acc, t) => acc + (text.includes(t) ? 1 : 0), 0);
+        return { product: p, score };
+      })
+      .filter((item) => item.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .map((item) => item.product);
+
+    return partialMatches.slice(0, 6);
   }, [query]);
 
   // Functionality 1: Pressing Enter or submitting navigates to the Hardware page with the search query to show all matching products!
@@ -722,80 +754,24 @@ function PrimaryIntelligentSearchBar({ onSearchActiveChange, onOpenFinder, onOpe
         </div>
       </div>
 
-      {/* ── Search Dropdown Panel (AI Overview & Matching Hardware) ── */}
+      {/* ── Search Dropdown Panel (Hardware Suggestions Only) ── */}
       {isFocused && query.trim() && (
         <div className="intelligent-search-dropdown">
-          {/* AI Overview section */}
-          {aiOverview && (
-            <div className="search-dropdown-ai-block">
-              <div className="search-dropdown-ai-header">
-                <span className="search-dropdown-ai-tag">
-                  <span className="search-dropdown-sparkle-glyph">✦</span>
-                  <span>Setu AI Discovery</span>
-                </span>
-                <span className="search-dropdown-ai-confidence">Intelligence Match</span>
-              </div>
-
-              <h4 className="search-dropdown-ai-question">{aiOverview.question}</h4>
-              <p className="search-dropdown-ai-summary">{aiOverview.summary}</p>
-
-              {aiOverview.bullets && (
-                <ul className="search-dropdown-ai-bullets">
-                  {aiOverview.bullets.map((bullet, idx) => {
-                    const [heading, ...rest] = bullet.split(':');
-                    return (
-                      <li key={idx}>
-                        {rest.length > 0 ? (
-                          <>
-                            <strong>{heading}:</strong>
-                            <span>{rest.join(':')}</span>
-                          </>
-                        ) : (
-                          <span>{bullet}</span>
-                        )}
-                      </li>
-                    );
-                  })}
-                </ul>
-              )}
-
-              {/* Recommended hardware card */}
-              {aiOverview.recommended && (
-                <div
-                  className="search-dropdown-ai-recom"
-                  onClick={() => {
-                    setIsFocused(false);
-                    navigate(aiOverview.recommended.path);
-                  }}
-                >
-                  <div className="search-dropdown-ai-recom__thumb">
-                    <img src={getAssetUrl(aiOverview.recommended.image)} alt={aiOverview.recommended.name} />
-                  </div>
-                  <div className="search-dropdown-ai-recom__info">
-                    <span className="search-dropdown-ai-recom__badge">{aiOverview.recommended.badge}</span>
-                    <strong className="search-dropdown-ai-recom__name">{aiOverview.recommended.name}</strong>
-                    <span className="search-dropdown-ai-recom__price">{aiOverview.recommended.price}</span>
-                  </div>
-                  <button type="button" className="search-dropdown-ai-recom__btn">
-                    View Specifications →
-                  </button>
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* Direct Matching Hardware List */}
-          {matchingHardware.length > 0 && (
+          {matchingHardware.length > 0 ? (
             <div className="search-dropdown-hardware-section">
               <div className="search-dropdown-hardware-header">
-                <span>Matching Hardware Devices ({matchingHardware.length})</span>
+                <span className="search-dropdown-hardware-header__label">Hardware Suggestions</span>
+                <span className="search-dropdown-hardware-header__count">
+                  {matchingHardware.length} item{matchingHardware.length > 1 ? 's' : ''}
+                </span>
               </div>
               <div className="search-dropdown-hardware-list">
                 {matchingHardware.map((prod) => (
                   <div
                     key={prod.id}
                     className="search-dropdown-hardware-item"
-                    onClick={() => {
+                    onMouseDown={(e) => {
+                      e.preventDefault();
                       setIsFocused(false);
                       navigate(`/hardware/${prod.slug}`);
                     }}
@@ -804,14 +780,35 @@ function PrimaryIntelligentSearchBar({ onSearchActiveChange, onOpenFinder, onOpe
                       <img src={getAssetUrl(prod.image)} alt={prod.name} />
                     </div>
                     <div className="search-dropdown-hardware-info">
-                      <span className="search-dropdown-hardware-title">{prod.name}</span>
+                      <div className="search-dropdown-hardware-name-row">
+                        <span className="search-dropdown-hardware-title">{prod.name}</span>
+                        {prod.badge && (
+                          <span className="search-dropdown-hardware-badge-tag">{prod.badge}</span>
+                        )}
+                      </div>
                       <span className="search-dropdown-hardware-desc">{prod.shortDescription}</span>
                     </div>
-                    <span className="search-dropdown-hardware-price">
-                      ₹{prod.price?.toLocaleString('en-IN')}
-                    </span>
+                    <div className="search-dropdown-hardware-end">
+                      <span className="search-dropdown-hardware-price">
+                        ₹{prod.price?.toLocaleString('en-IN')}
+                      </span>
+                      <span className="search-dropdown-hardware-action">View details →</span>
+                    </div>
                   </div>
                 ))}
+              </div>
+            </div>
+          ) : (
+            <div className="search-dropdown-empty">
+              <div className="search-dropdown-empty__icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="11" cy="11" r="8" />
+                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                </svg>
+              </div>
+              <div className="search-dropdown-empty__text">
+                <div className="search-dropdown-empty__title">No direct hardware matches for "{query}"</div>
+                <div className="search-dropdown-empty__desc">Press Enter to search the full hardware catalog, or try keywords like AIS 140, Fuel Sensor, Dashcam, or E-lock.</div>
               </div>
             </div>
           )}
@@ -821,7 +818,10 @@ function PrimaryIntelligentSearchBar({ onSearchActiveChange, onOpenFinder, onOpe
             <button
               type="button"
               className="search-dropdown-view-all-btn"
-              onClick={handleSubmit}
+              onMouseDown={(e) => {
+                e.preventDefault();
+                handleSubmit(e);
+              }}
             >
               Search all hardware catalog items for "{query}" →
             </button>
