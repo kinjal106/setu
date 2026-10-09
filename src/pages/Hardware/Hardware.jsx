@@ -444,8 +444,6 @@ export default function Hardware() {
   const [selectedBrands, setSelectedBrands] = useState(new Set());
   const [search, setSearch] = useState(urlSearch);
   const [ignoreTypo, setIgnoreTypo] = useState(false);
-  const [isOverviewExpanded, setIsOverviewExpanded] = useState(true);
-  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
   const [aiChatOpen, setAiChatOpen] = useState(false);
   const [openFaqIndex, setOpenFaqIndex] = useState(null);
   const [activeTab, setActiveTab] = useState('all');
@@ -502,26 +500,7 @@ export default function Hardware() {
     return null;
   }, [search]);
 
-  // Audio Speech Synthesis for AI Overview
-  const handleToggleAudio = (textToSpeak) => {
-    if (!('speechSynthesis' in window)) {
-      alert('Speech synthesis is not supported in this browser.');
-      return;
-    }
-    if (isPlayingAudio) {
-      window.speechSynthesis.cancel();
-      setIsPlayingAudio(false);
-      return;
-    }
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(textToSpeak);
-    utterance.lang = 'en-IN';
-    utterance.rate = 1.0;
-    utterance.onend = () => setIsPlayingAudio(false);
-    utterance.onerror = () => setIsPlayingAudio(false);
-    setIsPlayingAudio(true);
-    window.speechSynthesis.speak(utterance);
-  };
+
 
   const handleVoiceSearch = () => {
     if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
@@ -688,16 +667,6 @@ export default function Hardware() {
             <div className="hw-google-tabs-bar">
               <button
                 type="button"
-                className="hw-google-tab hw-google-tab--ai"
-                onClick={() => setAiChatOpen(true)}
-                title="Switch to 1-on-1 AI Mode"
-              >
-                <span className="hw-google-tab-sparkle">✦</span>
-                <span>AI Mode</span>
-              </button>
-
-              <button
-                type="button"
                 className={`hw-google-tab ${activeTab === 'all' ? 'hw-google-tab--active' : ''}`}
                 onClick={() => setActiveTab('all')}
               >
@@ -768,112 +737,7 @@ export default function Hardware() {
             )}
 
             {/* ── Google AI Overview Card (Reference Image 1) ── */}
-            {overviewTopic && (
-              <div className="hw-ai-overview-card">
-                <div className="hw-ai-overview-head">
-                  <div className="hw-ai-overview-badge">
-                    <span className="hw-ai-overview-sparkle">✦</span>
-                    <span className="hw-ai-overview-title">AI Overview</span>
-                  </div>
 
-                  <div className="hw-ai-overview-actions">
-                    <button
-                      type="button"
-                      className={`hw-ai-overview-audio-btn ${isPlayingAudio ? 'is-playing' : ''}`}
-                      onClick={() => handleToggleAudio(overviewTopic.summary)}
-                      title={isPlayingAudio ? 'Stop speaking' : 'Listen to AI Overview'}
-                    >
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-                        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
-                        <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
-                      </svg>
-                      <span>{isPlayingAudio ? 'Stop' : 'Listen'}</span>
-                    </button>
-
-                    <button
-                      type="button"
-                      className="hw-ai-overview-ask-btn"
-                      onClick={() => setAiChatOpen(true)}
-                      title="Open 1-on-1 AI Chat with Setu AI"
-                    >
-                      <span className="hw-ai-overview-sparkle-sm">✦</span>
-                      <span>Ask AI →</span>
-                    </button>
-                  </div>
-                </div>
-
-                <div className="hw-ai-overview-body">
-                  <p className="hw-ai-overview-summary">
-                    {overviewTopic.summary}
-                  </p>
-
-                  {isOverviewExpanded && (
-                    <div className="hw-ai-overview-expanded">
-                      <ul className="hw-ai-overview-bullets">
-                        {overviewTopic.bullets.map((b, idx) => {
-                          const [heading, ...rest] = b.split(':');
-                          return (
-                            <li key={idx}>
-                              {rest.length > 0 ? (
-                                <>
-                                  <strong>{heading}:</strong>
-                                  <span>{rest.join(':')}</span>
-                                </>
-                              ) : (
-                                <span>{b}</span>
-                              )}
-                            </li>
-                          );
-                        })}
-                      </ul>
-
-                      {overviewTopic.source && (
-                        <div className="hw-ai-overview-source-row">
-                          <a
-                            href={overviewTopic.source.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="hw-ai-overview-source-chip"
-                          >
-                            <span className="hw-ai-overview-source-icon">🌐</span>
-                            <div className="hw-ai-overview-source-texts">
-                              <span className="hw-ai-overview-source-site">{overviewTopic.source.domain}</span>
-                              <span className="hw-ai-overview-source-title">{overviewTopic.source.title}</span>
-                            </div>
-                            <span className="hw-ai-overview-source-arrow">↗</span>
-                          </a>
-                        </div>
-                      )}
-                    </div>
-                  )}
-
-                  <button
-                    type="button"
-                    className="hw-ai-overview-expand-toggle"
-                    onClick={() => setIsOverviewExpanded(!isOverviewExpanded)}
-                  >
-                    <span>{isOverviewExpanded ? 'Show less' : 'Show more'}</span>
-                    <svg
-                      width="14"
-                      height="14"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      style={{
-                        transform: isOverviewExpanded ? 'rotate(180deg)' : 'none',
-                        transition: 'transform 0.2s ease'
-                      }}
-                    >
-                      <polyline points="6 9 12 15 18 9"/>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            )}
 
             {/* ── Section Title: Matching Hardware Products ── */}
             <div className="hw-results-header">
