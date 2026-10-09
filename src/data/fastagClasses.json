@@ -1,0 +1,206 @@
+[
+  {
+    "tagClass": "VC4",
+    "tagName": "Violet tag",
+    "tagColor": "#7C3AED",
+    "vehicles": [
+      {
+        "name": "Car / Jeep / Van",
+        "icon": "car",
+        "mapperClass": 4,
+        "gvw": "Up to 7,500 kg",
+        "axles": "—"
+      },
+      {
+        "name": "Tata Ace or similar mini LCV",
+        "icon": "mini-truck",
+        "mapperClass": 20,
+        "gvw": "Up to 7,500 kg",
+        "axles": "—"
+      }
+    ]
+  },
+  {
+    "tagClass": "VC5",
+    "tagName": "Orange tag",
+    "tagColor": "#EA580C",
+    "vehicles": [
+      {
+        "name": "Light commercial vehicle 2-axle",
+        "icon": "truck-2axle",
+        "mapperClass": 5,
+        "gvw": "7,500 – 12,000 kg",
+        "axles": "2"
+      },
+      {
+        "name": "Mini-bus",
+        "icon": "minibus",
+        "mapperClass": 9,
+        "gvw": "7,500 – 12,000 kg",
+        "axles": "2"
+      }
+    ]
+  },
+  {
+    "tagClass": "VC7",
+    "tagName": "Blue tag",
+    "tagColor": "#2563EB",
+    "vehicles": [
+      {
+        "name": "Bus 2-axle",
+        "icon": "bus-2axle",
+        "mapperClass": 7,
+        "gvw": "12,000 – 16,200 kg",
+        "axles": "2"
+      },
+      {
+        "name": "Truck 2-axle",
+        "icon": "truck-2axle",
+        "mapperClass": 10,
+        "gvw": "12,000 – 16,200 kg",
+        "axles": "2"
+      },
+      {
+        "name": "Light commercial vehicle 3-axle",
+        "icon": "truck-3axle",
+        "mapperClass": 6,
+        "gvw": "Not specified",
+        "axles": "3"
+      }
+    ]
+  },
+  {
+    "tagClass": "VC8",
+    "tagName": "Yellow tag",
+    "tagColor": "#EAB308",
+    "vehicles": [
+      {
+        "name": "Bus 3-axle",
+        "icon": "bus-3axle",
+        "mapperClass": 8,
+        "gvw": "16,200 – 25,000 kg",
+        "axles": "3"
+      },
+      {
+        "name": "Truck 3-axle (rigid)",
+        "icon": "truck-3axle",
+        "mapperClass": 11,
+        "gvw": "16,200 – 25,000 kg",
+        "axles": "3"
+      },
+      {
+        "name": "Truck 3-axle (semi-articulated)",
+        "icon": "truck-articulated",
+        "mapperClass": 11,
+        "gvw": "16,200 – 25,000 kg",
+        "axles": "3"
+      },
+      {
+        "name": "Truck 4-axle",
+        "icon": "tanker-4axle",
+        "mapperClass": 12,
+        "gvw": "25,000 – 36,600 kg",
+        "axles": "4"
+      }
+    ]
+  },
+  {
+    "tagClass": "VC12",
+    "tagName": "Pink tag",
+    "tagColor": "#DB2777",
+    "vehicles": [
+      {
+        "name": "Truck 5-axle",
+        "icon": "truck-5axle",
+        "mapperClass": 13,
+        "gvw": "36,600 – 45,400 kg",
+        "axles": "5"
+      },
+      {
+        "name": "Truck 6-axle",
+        "icon": "tanker-6axle",
+        "mapperClass": 14,
+        "gvw": "45,400 – 54,200 kg",
+        "axles": "6"
+      }
+    ]
+  },
+  {
+    "tagClass": "VC15",
+    "tagName": "Light blue tag",
+    "tagColor": "#0284C7",
+    "vehicles": [
+      {
+        "name": "Truck multi-axle (7 and above)",
+        "icon": "truck-multiaxle",
+        "mapperClass": 15,
+        "gvw": "Above 54,200 kg",
+        "axles": "7 or more"
+      }
+    ]
+  },
+  {
+    "tagClass": "VC16",
+    "tagName": "Green tag",
+    "tagColor": "#059669",
+    "vehicles": [
+      {
+        "name": "Earth-moving machinery",
+        "icon": "earth-mover",
+        "mapperClass": 16,
+        "gvw": "Not specified",
+        "axles": "—"
+      },
+      {
+        "name": "Heavy construction machinery",
+        "icon": "construction-crane",
+        "mapperClass": 17,
+        "gvw": "Not specified",
+        "axles": "—"
+      }
+    ]
+  },
+  {
+    "tagClass": "No FASTag",
+    "tagName": "No FASTag",
+    "tagColor": "#94A3B8",
+    "isNoTag": true,
+    "vehicles": [
+      {
+        "name": "Two-wheeler",
+        "icon": "two-wheeler",
+        "mapperClass": 1,
+        "gvw": "—",
+        "axles": "—"
+      },
+      {
+        "name": "Three-wheeler (passenger)",
+        "icon": "auto-passenger",
+        "mapperClass": 2,
+        "gvw": "—",
+        "axles": "—"
+      },
+      {
+        "name": "Three-wheeler (freight)",
+        "icon": "auto-freight",
+        "mapperClass": 3,
+        "gvw": "—",
+        "axles": "—"
+      },
+      {
+        "name": "Tractor",
+        "icon": "tractor",
+        "mapperClass": 18,
+        "gvw": "—",
+        "axles": "—"
+      },
+      {
+        "name": "Tractor with trailer",
+        "icon": "tractor-trailer",
+        "mapperClass": 19,
+        "gvw": "—",
+        "axles": "—"
+      }
+    ]
+  }
+]

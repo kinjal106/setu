@@ -115,6 +115,20 @@
   text-transform: uppercase;
 }
 
+/* NEW pill badge for Fuel & FASTag (Golden yellow matching screenshot) */
+.header__new-badge {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  background: rgba(250, 204, 21, 0.18);
+  color: #FACC15;
+  border: 1px solid rgba(250, 204, 21, 0.38);
+  padding: 1px 5px;
+  border-radius: 4px;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
 .header__beta-badge-dark {
   font-size: 9px;
   font-weight: 700;

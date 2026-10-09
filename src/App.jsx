@@ -10,6 +10,7 @@ import SetuHome from './pages/SetuHome/SetuHome';
 import Hardware from './pages/Hardware/Hardware';
 import ProductDetail from './pages/ProductDetail/ProductDetail';
 import Solutions from './pages/Solutions/Solutions';
+import FuelFastag from './pages/FuelFastag/FuelFastag';
 import AutoParts from './pages/AutoParts/AutoParts';
 import Order from './pages/Order/Order';
 import Cart from './pages/Cart/Cart';
@@ -56,6 +57,8 @@ function AppLayout() {
             <Route path="/setu/solutions" element={<Solutions />} />
             <Route path="/solutions/:slug" element={<ProductDetail />} />
             <Route path="/setu/solutions/:slug" element={<ProductDetail />} />
+            <Route path="/fuel-fastag" element={<FuelFastag />} />
+            <Route path="/setu/fuel-fastag" element={<FuelFastag />} />
 
             {/* ── Other Menu Options (All Coming Soon) ── */}
             <Route path="/dashboard" element={<ComingSoon title="Dashboard" description="Fleet operations dashboard is coming soon. Please use the bottom menu icon to navigate the Setu platform." />} />

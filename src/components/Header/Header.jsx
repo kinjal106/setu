@@ -8,6 +8,7 @@ import './Header.css';
 const navLinks = [
   { id: 'hardware', label: 'Hardware', path: '/hardware' },
   { id: 'solutions', label: 'Solutions', path: '/solutions' },
+  { id: 'fuel-fastag', label: 'Fuel & FASTag', path: '/fuel-fastag', badge: 'NEW' },
   { id: 'finance', label: 'Setu Finance', path: '/finance' },
   { id: 'auto-parts', label: 'Auto Parts', path: '/auto-parts', badge: 'BETA' }
 ];
@@ -41,6 +42,7 @@ export default function Header() {
   const isActive = (path) => {
     if (path === '/hardware') return location.pathname.startsWith('/hardware') || location.pathname.startsWith('/setu/hardware');
     if (path === '/solutions') return location.pathname.startsWith('/solutions') || location.pathname.startsWith('/setu/solutions');
+    if (path === '/fuel-fastag') return location.pathname.startsWith('/fuel-fastag') || location.pathname.startsWith('/setu/fuel-fastag');
     if (path === '/finance') return location.pathname.startsWith('/finance') || location.pathname.startsWith('/setu/finance');
     if (path === '/auto-parts') return location.pathname.startsWith('/auto-parts');
     return location.pathname === path;
@@ -77,7 +79,11 @@ export default function Header() {
                 onClick={() => navigate(link.path)}
               >
                 <span>{link.label}</span>
-                {link.badge && <span className="header__beta-badge">{link.badge}</span>}
+                {link.badge && (
+                  <span className={link.badge === 'NEW' ? 'header__new-badge' : 'header__beta-badge'}>
+                    {link.badge}
+                  </span>
+                )}
               </button>
             ))}
           </nav>
