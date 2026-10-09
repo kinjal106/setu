@@ -697,13 +697,6 @@ export default function Hardware() {
             {/* ── Google AI Overview Card (Reference Image 1) ── */}
 
 
-            {/* ── Section Title: Matching Hardware Products ── */}
-            <div className="hw-results-header">
-              <h2 className="hw-results-title">
-                <span>Matching Hardware Products</span>
-                <span className="hw-results-count"> ({filtered.length})</span>
-              </h2>
-            </div>
 
             {/* ── Product List (Reference Image 1) ── */}
             <div className="hw-list-container">
