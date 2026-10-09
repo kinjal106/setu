@@ -208,79 +208,62 @@
   transform: scale(1.015);
 }
 
-/* Minimal Slider Controls (Left-bottom aligned) */
-.dark-hero-slider__controls {
+/* Left & Right Side Navigation Chevron Buttons */
+.dark-hero-slider__side-nav {
   position: absolute;
-  bottom: 20px;
-  left: 48px;
-  z-index: 4;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.dark-hero-slider__nav-btns {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.dark-hero-slider__arrow-btn {
-  width: 28px;
-  height: 28px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  background: rgba(15, 23, 42, 0.65);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.22);
   color: #FFFFFF;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 140ms ease;
-  backdrop-filter: blur(6px);
+  z-index: 10;
+  transition: all 180ms ease;
+  opacity: 0.6;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  padding: 0;
 }
 
-.dark-hero-slider__arrow-btn:hover {
-  background: #006EFF;
+.dark-hero-slider:hover .dark-hero-slider__side-nav {
+  opacity: 0.9;
+}
+
+.dark-hero-slider__side-nav:hover {
+  opacity: 1 !important;
+  background: rgba(0, 110, 255, 0.9);
   border-color: #006EFF;
-  transform: scale(1.08);
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 6px 22px rgba(0, 110, 255, 0.45);
 }
 
-.dark-hero-slider__counter {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 12.5px;
-  font-weight: 600;
-  font-family: monospace, sans-serif;
-  color: #FFFFFF;
+.dark-hero-slider__side-nav--prev {
+  left: 18px;
 }
 
-.dark-hero-slider__current-num {
-  color: #FFFFFF;
+.dark-hero-slider__side-nav--next {
+  right: 18px;
 }
 
-.dark-hero-slider__divider {
-  color: rgba(255, 255, 255, 0.4);
-}
-
-.dark-hero-slider__total-num {
-  color: rgba(255, 255, 255, 0.6);
-}
-
-.dark-hero-slider__progress-track {
-  width: 64px;
-  height: 3px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 2px;
-  overflow: hidden;
-}
-
-.dark-hero-slider__progress-fill {
-  height: 100%;
-  background: #38BDF8;
-  border-radius: 2px;
-  transition: width 50ms linear;
+@media (max-width: 640px) {
+  .dark-hero-slider__side-nav {
+    width: 36px;
+    height: 36px;
+    opacity: 0.8;
+  }
+  .dark-hero-slider__side-nav--prev {
+    left: 10px;
+  }
+  .dark-hero-slider__side-nav--next {
+    right: 10px;
+  }
 }
 
 /* ────────────────────────────────────────────────────────────

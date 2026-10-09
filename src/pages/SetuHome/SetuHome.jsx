@@ -337,34 +337,24 @@ function DarkHeroBannerSlider({ onLearnMore, isSearchActive }) {
   const navigate = useNavigate();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const autoRotateMs = 7000;
-  const progressStepMs = 50;
+  const autoRotateMs = 5000;
 
   useEffect(() => {
     if (isPaused || isSearchActive) return;
 
-    const progressInterval = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 100) {
-          setCurrentSlide((slide) => (slide + 1) % HERO_SLIDES.length);
-          return 0;
-        }
-        return prev + (progressStepMs / autoRotateMs) * 100;
-      });
-    }, progressStepMs);
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
+    }, autoRotateMs);
 
-    return () => clearInterval(progressInterval);
+    return () => clearInterval(timer);
   }, [isPaused, isSearchActive]);
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
-    setProgress(0);
   };
 
   const prevSlide = () => {
     setCurrentSlide((prev) => (prev - 1 + HERO_SLIDES.length) % HERO_SLIDES.length);
-    setProgress(0);
   };
 
   const slide = HERO_SLIDES[currentSlide];
@@ -377,6 +367,38 @@ function DarkHeroBannerSlider({ onLearnMore, isSearchActive }) {
     >
       {/* Background ambient lighting */}
       <div className="dark-hero-slider__glow" />
+
+      {/* Left side navigation arrow button */}
+      <button
+        type="button"
+        className="dark-hero-slider__side-nav dark-hero-slider__side-nav--prev"
+        onClick={(e) => {
+          e.stopPropagation();
+          prevSlide();
+        }}
+        aria-label="Previous slide"
+        title="Previous slide"
+      >
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <polyline points="15 18 9 12 15 6" />
+        </svg>
+      </button>
+
+      {/* Right side navigation arrow button */}
+      <button
+        type="button"
+        className="dark-hero-slider__side-nav dark-hero-slider__side-nav--next"
+        onClick={(e) => {
+          e.stopPropagation();
+          nextSlide();
+        }}
+        aria-label="Next slide"
+        title="Next slide"
+      >
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <polyline points="9 18 15 12 9 6" />
+        </svg>
+      </button>
 
       {/* Slide Body Layout: 45% Content / 55% Visual */}
       <div className="dark-hero-slider__body">
@@ -427,50 +449,16 @@ function DarkHeroBannerSlider({ onLearnMore, isSearchActive }) {
         </div>
 
         {/* Right Visual Area */}
-        <div className="dark-hero-slider__visual">
+        <div
+          className="dark-hero-slider__visual"
+          onClick={nextSlide}
+          title="Click to next slide"
+          style={{ cursor: 'pointer' }}
+        >
           <img
             src={getAssetUrl(slide.visualImg)}
             alt={slide.visualAlt}
             className="dark-hero-slider__image"
-          />
-        </div>
-      </div>
-
-      {/* Minimal Slider Controls (Left-bottom aligned) */}
-      <div className="dark-hero-slider__controls">
-        <div className="dark-hero-slider__nav-btns">
-          <button
-            type="button"
-            className="dark-hero-slider__arrow-btn"
-            onClick={prevSlide}
-            aria-label="Previous slide"
-          >
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
-              <path d="m15 18-6-6 6-6" />
-            </svg>
-          </button>
-          <button
-            type="button"
-            className="dark-hero-slider__arrow-btn"
-            onClick={nextSlide}
-            aria-label="Next slide"
-          >
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
-              <path d="m9 18 6-6-6-6" />
-            </svg>
-          </button>
-        </div>
-
-        <div className="dark-hero-slider__counter">
-          <span className="dark-hero-slider__current-num">0{currentSlide + 1}</span>
-          <span className="dark-hero-slider__divider">/</span>
-          <span className="dark-hero-slider__total-num">0{HERO_SLIDES.length}</span>
-        </div>
-
-        <div className="dark-hero-slider__progress-track">
-          <div
-            className="dark-hero-slider__progress-fill"
-            style={{ width: `${progress}%` }}
           />
         </div>
       </div>
