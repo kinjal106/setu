@@ -1970,3 +1970,453 @@
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+/* ─────────────────────────────────────────────────────────────
+   Solutions: Demo Request Preview Banner & Buybox Styles
+   ───────────────────────────────────────────────────────────── */
+
+/* Center Scroll Column: Solution Demo Feature Banner */
+.setu-solution-demo-card {
+  background: linear-gradient(135deg, #F8FAFC 0%, #EFF6FF 100%);
+  border: 1px solid #BFDBFE;
+  border-radius: 12px;
+  padding: 22px;
+  margin: 20px 0 24px;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.05);
+}
+
+.setu-solution-demo-card__header {
+  margin-bottom: 16px;
+}
+
+.setu-solution-demo-card__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #DBEAFE;
+  color: #1D4ED8;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 3px 10px;
+  border-radius: 20px;
+  margin-bottom: 8px;
+}
+
+.setu-solution-pulse-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #2563EB;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
+.setu-solution-demo-card__title {
+  color: #0F172A !important;
+  font-size: 18px !important;
+  font-weight: 750 !important;
+  margin: 4px 0 6px !important;
+  letter-spacing: -0.01em;
+}
+
+.setu-solution-demo-card__desc {
+  color: #475569;
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.setu-solution-demo-card__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.setu-solution-demo-feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+
+.setu-solution-demo-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.setu-solution-demo-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.setu-solution-demo-text strong {
+  font-size: 12px;
+  font-weight: 700;
+  color: #0F172A;
+}
+
+.setu-solution-demo-text span {
+  font-size: 11px;
+  color: #64748B;
+  line-height: 1.4;
+}
+
+.setu-solution-demo-card__cta-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.setu-solution-cta-btn {
+  background: #006EFF;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 22px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 110, 255, 0.25);
+  transition: all 0.15s ease;
+}
+
+.setu-solution-cta-btn:hover {
+  background: #0055CC;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0, 110, 255, 0.35);
+}
+
+.setu-solution-cta-hint {
+  font-size: 12px;
+  color: #475569;
+  font-weight: 500;
+}
+
+/* Right Fixed Buybox: Solution Card */
+.setu-plan-card--solution {
+  background: #FFFFFF;
+}
+
+.setu-solution-box-head {
+  margin-bottom: 14px;
+}
+
+.setu-solution-box-badge {
+  display: inline-block;
+  background: #EFF6FF;
+  color: #1D4ED8;
+  border: 1px solid #BFDBFE;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 750;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 3px 10px;
+  margin-bottom: 8px;
+}
+
+.setu-solution-box-title {
+  color: #0F172A !important;
+  font-size: 18px !important;
+  font-weight: 750 !important;
+  margin: 0 0 6px !important;
+  letter-spacing: -0.01em;
+}
+
+.setu-solution-box-sub {
+  font-size: 12px;
+  color: #64748B;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.setu-solution-expect-box {
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin: 14px 0 16px;
+}
+
+.setu-solution-expect-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: #334155;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 8px;
+}
+
+.setu-solution-expect-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #475569;
+  margin-bottom: 6px;
+}
+
+.setu-solution-expect-item:last-child {
+  margin-bottom: 0;
+}
+
+.setu-solution-expect-icon {
+  font-size: 13px;
+  line-height: 1;
+}
+
+.setu-solution-demo-btn {
+  width: 100%;
+  background: #006EFF;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 8px;
+  padding: 13px 16px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 110, 255, 0.28);
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.setu-solution-demo-btn:hover {
+  background: #0055CC;
+  box-shadow: 0 6px 16px rgba(0, 110, 255, 0.35);
+  transform: translateY(-1px);
+}
+
+.setu-solution-box-note {
+  font-size: 11px;
+  color: #64748B;
+  text-align: center;
+  line-height: 1.4;
+  margin: 12px 0 0;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Request a Demo Modal Dialog
+   ───────────────────────────────────────────────────────────── */
+.setu-demo-modal__overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 16px;
+}
+
+.setu-demo-modal__card {
+  background: #FFFFFF;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 540px;
+  padding: 26px 28px;
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.22);
+  position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.setu-demo-modal__close-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: #F1F5F9;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #64748B;
+  transition: all 0.15s ease;
+}
+
+.setu-demo-modal__close-btn:hover {
+  background: #E2E8F0;
+  color: #0F172A;
+}
+
+.setu-demo-modal__badge {
+  display: inline-block;
+  background: #DBEAFE;
+  color: #1D4ED8;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 750;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 3px 10px;
+  margin-bottom: 6px;
+}
+
+.setu-demo-modal__title {
+  color: #0F172A !important;
+  font-size: 19px !important;
+  font-weight: 750 !important;
+  margin: 0 0 6px !important;
+  letter-spacing: -0.01em;
+}
+
+.setu-demo-modal__sub {
+  font-size: 13px;
+  color: #64748B;
+  line-height: 1.45;
+  margin: 0 0 18px;
+}
+
+.setu-demo-modal__form {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.setu-demo-modal__form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.setu-demo-modal__form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.setu-demo-modal__label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.setu-demo-modal__req {
+  color: #EF4444;
+}
+
+.setu-demo-modal__input,
+.setu-demo-modal__select,
+.setu-demo-modal__textarea {
+  border: 1px solid #CBD5E1;
+  border-radius: 8px;
+  padding: 9px 12px;
+  font-size: 13px;
+  color: #0F172A;
+  font-family: inherit;
+  outline: none;
+  background: #FFFFFF;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  box-sizing: border-box;
+}
+
+.setu-demo-modal__input:focus,
+.setu-demo-modal__select:focus,
+.setu-demo-modal__textarea:focus {
+  border-color: #006EFF;
+  box-shadow: 0 0 0 3px rgba(0, 110, 255, 0.12);
+}
+
+.setu-demo-modal__textarea {
+  resize: vertical;
+  min-height: 70px;
+}
+
+.setu-demo-modal__submit-btn {
+  background: #006EFF;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.15s ease;
+  margin-top: 4px;
+}
+
+.setu-demo-modal__submit-btn:hover {
+  background: #0055CC;
+  transform: translateY(-1px);
+}
+
+.setu-demo-modal__footer-note {
+  font-size: 11px;
+  color: #64748B;
+  text-align: center;
+  line-height: 1.4;
+  margin: 2px 0 0;
+}
+
+/* Modal Success State */
+.setu-demo-modal__success {
+  text-align: center;
+  padding: 16px 8px;
+}
+
+.setu-demo-modal__success-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #DCFCE7;
+  color: #16A34A;
+  font-size: 26px;
+  font-weight: 750;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 14px;
+}
+
+.setu-demo-modal__success-title {
+  color: #0F172A !important;
+  font-size: 19px !important;
+  font-weight: 750 !important;
+  margin-bottom: 6px !important;
+}
+
+.setu-demo-modal__success-desc {
+  font-size: 13px;
+  color: #475569;
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+.setu-demo-modal__success-box {
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: 12px;
+  color: #334155;
+  line-height: 1.5;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+@media (max-width: 768px) {
+  .setu-solution-demo-card__grid {
+    grid-template-columns: 1fr;
+  }
+  .setu-demo-modal__form-row {
+    grid-template-columns: 1fr;
+  }
+}
+

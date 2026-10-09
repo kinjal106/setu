@@ -28,22 +28,22 @@ export default function ProductDetail() {
           ...sol,
           slug: sol.id,
           isSolution: true,
-          price: 199,
-          buttonMode: 'dual',
-          consumptionUnit: 'Per Vehicle / Month',
+          price: null,
+          buttonMode: 'demo',
+          consumptionUnit: 'Enterprise Cloud License',
           brand: 'Setu Telematics',
           categoryName: 'Software Solutions',
           subcategory: sol.category ? sol.category.replace(/-/g, ' ') : 'Telematics Software',
           image: sol.image || '/images/categories/cat-vehicle-tracking.png',
           specifications: {
             'Platform Type': 'Enterprise Fleet Telematics SaaS & Dedicated Private Cloud',
-            'Supported Protocols': 'Over 1,500+ GPS hardware devices, AIS-140, OBD-II & BLE',
+            'Supported Hardware': 'Over 1,500+ GPS hardware devices, AIS-140, OBD-II & BLE',
             'Data Streaming': 'Sub-second real-time streaming (MQTT, WebSockets, REST)',
             'Availability SLA': '99.9% High Availability Uptime Guarantee',
             'Mobile Apps': 'Native Android App & iOS App with Push Notifications',
             'API & Webhooks': 'Complete RESTful API Suite for ERP / TMS integration',
             'Hosting': 'Multi-region AWS / Google Cloud with automated backups',
-            'Hardware Compatibility': sol.compatibleHardware ? sol.compatibleHardware.join(', ') : 'All Setu Hardware'
+            'Hardware Compatibility': sol.compatibleHardware ? sol.compatibleHardware.join(', ') : 'All Setu Hardware & 3rd-party telematics trackers'
           },
           features: sol.highlights || [
             'Real-time GPS vehicle tracking with live route breadcrumbs',
@@ -73,22 +73,22 @@ export default function ProductDetail() {
         ...sol,
         slug: sol.id,
         isSolution: true,
-        price: 199,
-        buttonMode: 'dual',
-        consumptionUnit: 'Per Vehicle / Month',
+        price: null,
+        buttonMode: 'demo',
+        consumptionUnit: 'Enterprise Cloud License',
         brand: 'Setu Telematics',
         categoryName: 'Software Solutions',
         subcategory: sol.category ? sol.category.replace(/-/g, ' ') : 'Telematics Software',
         image: sol.image || '/images/categories/cat-vehicle-tracking.png',
         specifications: {
           'Platform Type': 'Enterprise Fleet Telematics SaaS & Dedicated Private Cloud',
-          'Supported Protocols': 'Over 1,500+ GPS hardware devices, AIS-140, OBD-II & BLE',
+          'Supported Hardware': 'Over 1,500+ GPS hardware devices, AIS-140, OBD-II & BLE',
           'Data Streaming': 'Sub-second real-time streaming (MQTT, WebSockets, REST)',
           'Availability SLA': '99.9% High Availability Uptime Guarantee',
           'Mobile Apps': 'Native Android App & iOS App with Push Notifications',
           'API & Webhooks': 'Complete RESTful API Suite for ERP / TMS integration',
           'Hosting': 'Multi-region AWS / Google Cloud with automated backups',
-          'Hardware Compatibility': sol.compatibleHardware ? sol.compatibleHardware.join(', ') : 'All Setu Hardware'
+          'Hardware Compatibility': sol.compatibleHardware ? sol.compatibleHardware.join(', ') : 'All Setu Hardware & 3rd-party telematics trackers'
         },
         features: sol.highlights || [
           'Real-time GPS vehicle tracking with live route breadcrumbs',
@@ -268,6 +268,7 @@ export default function ProductDetail() {
 
   // Base price dynamically takes active configuration into account
   const basePrice = useMemo(() => {
+    if (isSolution) return 0;
     if (activeConfig && activeConfig.price) {
       return activeConfig.price;
     }
@@ -280,10 +281,12 @@ export default function ProductDetail() {
     if (product.category === 'video-telematics') return 4250;
     if (product.category === 'fuel-sensors') return 2890;
     return 2760;
-  }, [product, isPrithvi, activeConfig]);
+  }, [product, isPrithvi, isSolution, activeConfig]);
 
   const consumptionUnit = isAutoPart
     ? (product.unit || 'Per Piece')
+    : isSolution
+    ? 'Enterprise Cloud License'
     : (product.consumptionUnit || (product.unit ? `Per ${product.unit}` : 'Per Device'));
 
   // Bulk slab pricing calculation based on base price
@@ -319,6 +322,42 @@ export default function ProductDetail() {
   const [requestSubmitted, setRequestSubmitted] = useState(false);
   const [addedToCart, setAddedToCart] = useState(false);
   const [buyNowSubmitted, setBuyNowSubmitted] = useState(false);
+
+  // Demo request modal state for solutions
+  const [showDemoModal, setShowDemoModal] = useState(false);
+  const [demoSubmitted, setDemoSubmitted] = useState(false);
+  const [demoForm, setDemoForm] = useState({
+    name: '',
+    company: '',
+    email: '',
+    phone: '',
+    fleetSize: '11–50 Vehicles',
+    notes: ''
+  });
+
+  const handleDemoSubmit = (e) => {
+    e.preventDefault();
+    if (!demoForm.name.trim() || !demoForm.phone.trim()) {
+      alert('Please provide your name and phone number so our team can reach you.');
+      return;
+    }
+    setDemoSubmitted(true);
+  };
+
+  const handleCloseDemoModal = () => {
+    setShowDemoModal(false);
+    setTimeout(() => {
+      setDemoSubmitted(false);
+      setDemoForm({
+        name: '',
+        company: '',
+        email: '',
+        phone: '',
+        fleetSize: '11–50 Vehicles',
+        notes: ''
+      });
+    }, 300);
+  };
 
   // Vehicle Fitment accordion states
   const [expandedModels, setExpandedModels] = useState({ 0: true, 1: true });
@@ -367,10 +406,21 @@ export default function ProductDetail() {
     return slabPrices.slab1;
   }, [qty, slabPrices]);
 
-  const displayPriceText = `₹${unitPrice.toLocaleString('en-IN')}`;
+  const displayPriceText = isSolution ? 'Demo on Request' : `₹${unitPrice.toLocaleString('en-IN')}`;
 
   // Key benefits list (4 items with green checkmarks)
   const planBenefits = useMemo(() => {
+    if (isSolution) {
+      if (product.highlights && product.highlights.length > 0) {
+        return product.highlights;
+      }
+      return [
+        'Real-time GPS vehicle tracking with live breadcrumbs',
+        'Multi-network hardware compatibility (1,500+ models)',
+        'Automated geofencing & overspeed alert notifications',
+        'Complete REST APIs & webhooks for ERP integration'
+      ];
+    }
     if (isAutoPart) {
       return [
         product.origin === 'OEM' ? '100% Genuine OEM replacement part' : 'Tier-1 Certified Aftermarket component',
@@ -396,13 +446,16 @@ export default function ProductDetail() {
       'Overspeed safety notifications',
       'Trip history route playback'
     ];
-  }, [product, isPrithvi, isAutoPart]);
+  }, [product, isPrithvi, isAutoPart, isSolution]);
 
-  // Button mode: 'dual' (Agree & Add To Cart + Agree & Buy Now) or 'submit' (Agree & Submit Request)
-  const buttonMode = isAutoPart ? 'dual' : (product.buttonMode || (consumptionUnit === 'Per Device' ? 'dual' : 'submit'));
+  // Button mode: 'dual' (Agree & Add To Cart + Agree & Buy Now) or 'submit' (Agree & Submit Request) or 'demo'
+  const buttonMode = isSolution ? 'demo' : isAutoPart ? 'dual' : (product.buttonMode || (consumptionUnit === 'Per Device' ? 'dual' : 'submit'));
 
   // Product description for info modal and main content
   const planDescription = useMemo(() => {
+    if (isSolution) {
+      return product.description || `The ${product.name} platform provides comprehensive real-time telematics, intelligent trip analytics, customizable alerts, and multi-platform accessibility for high-efficiency operations.`;
+    }
     if (isAutoPart) {
       return product.description || `The ${product.name} is a high-grade automotive spare part manufactured to exacting tolerances, ensuring optimal reliability, longevity, and seamless fitment for commercial and fleet vehicles.`;
     }
@@ -413,12 +466,36 @@ export default function ProductDetail() {
       return product.description.split('\n\n')[0] || product.description;
     }
     return `The ${product.name} is an advanced tracking device supporting real-time telematics, multi-network cellular connectivity, emergency alert monitoring, and industrial-grade fleet intelligence.`;
-  }, [product, isPrithvi, isAutoPart]);
+  }, [product, isPrithvi, isAutoPart, isSolution]);
 
   const [openFaqIdx, setOpenFaqIdx] = useState(0);
 
   // FAQs list
   const faqs = useMemo(() => {
+    if (isSolution) {
+      return [
+        {
+          q: `How does the ${product.name} live demo work?`,
+          a: 'Our telematics solutions team will schedule a 30-minute 1-on-1 video walkthrough customized to your fleet size and business use cases. We demonstrate real-time tracking, automated alerts, analytics reports, and answer any technical questions.'
+        },
+        {
+          q: 'Can we connect our existing GPS tracker hardware to this solution?',
+          a: 'Yes. Our platform is completely hardware-agnostic and supports over 1,500+ GPS tracker models (including AIS-140, Teltonika, Concox, Queclink, Coban, and OBD-II dongles). Our engineering team handles protocol configuration at zero additional cost.'
+        },
+        {
+          q: 'Can the web portal and mobile apps be white-labeled with our company branding?',
+          a: 'Yes. Enterprise tiers include complete white-labeling options — your custom company logo, theme colors, custom domain (e.g. portal.yourbrand.com), and custom-branded Android and iOS apps on Google Play and Apple App Store.'
+        },
+        {
+          q: 'How do REST APIs and webhooks integrate with our ERP or TMS?',
+          a: 'We provide open RESTful APIs and real-time event webhooks for bi-directional integration with SAP, Oracle, Zoho, custom ERPs, and Transportation Management Systems (TMS). You can automate trip creation, sync driver rosters, and pull telemetry easily.'
+        },
+        {
+          q: 'What SLA, onboarding, and technical support do you provide?',
+          a: 'Deployments include a 99.9% uptime SLA guarantee, a dedicated technical account manager, 24/7 server monitoring, and guided onboarding sessions for your operations and dispatch staff.'
+        }
+      ];
+    }
     if (isAutoPart) {
       return [
         {
@@ -473,7 +550,7 @@ export default function ProductDetail() {
           : 'For mandatory commercial transport compliance requiring AIS-140 / Vahan endorsement, please select an AIS-140 certified device like PRITHVI 140. Non-AIS units are suitable for internal fleet logistics, private vehicles, and asset tracking.'
       }
     ];
-  }, [isPrithvi, isAutoPart]);
+  }, [isPrithvi, isAutoPart, isSolution, product.name]);
 
   const handleAddToCart = () => {
     addToCart({
@@ -590,7 +667,7 @@ export default function ProductDetail() {
                 </div>
               )}
               <span className="setu-ui-product-badge">
-                {isAutoPart ? (product.origin === 'OEM' ? 'OEM Genuine' : 'Aftermarket') : 'Product'}
+                {isSolution ? 'Software Platform' : isAutoPart ? (product.origin === 'OEM' ? 'OEM Genuine' : 'Aftermarket') : 'Product'}
               </span>
             </div>
 
@@ -614,10 +691,10 @@ export default function ProductDetail() {
             <h1 className="setu-ui-title">{displayTitle}</h1>
             
             <div className="setu-ui-stock-row">
-              <span className="setu-ui-stock-label">Status:</span>
+              <span className="setu-ui-stock-label">{isSolution ? 'Deployment:' : 'Status:'}</span>
               <span className={`setu-ui-stock-badge ${product.inStock !== false ? 'setu-ui-stock-badge--in' : 'setu-ui-stock-badge--out'}`}>
                 <span className="setu-ui-stock-dot" />
-                {product.inStock !== false ? 'In Stock' : 'Out of Stock'}
+                {isSolution ? 'Live Cloud SaaS · On-demand Demo' : (product.inStock !== false ? 'In Stock' : 'Out of Stock')}
               </span>
             </div>
 
@@ -625,7 +702,39 @@ export default function ProductDetail() {
             <div className="setu-ui-details-block">
               <h3 className="setu-ui-details-heading">Details</h3>
 
-              {isAutoPart ? (
+              {isSolution ? (
+                <>
+                  <div className="setu-ui-leader-row">
+                    <span className="setu-ui-leader-k">Platform</span>
+                    <span className="setu-ui-leader-v">{product.name} Cloud Platform</span>
+                  </div>
+
+                  <div className="setu-ui-leader-row">
+                    <span className="setu-ui-leader-k">Category</span>
+                    <span className="setu-ui-leader-v">Software Solutions › {subcat}</span>
+                  </div>
+
+                  <div className="setu-ui-leader-row">
+                    <span className="setu-ui-leader-k">Deployment</span>
+                    <span className="setu-ui-leader-v">Web Portal &amp; iOS / Android Apps</span>
+                  </div>
+
+                  <div className="setu-ui-leader-row">
+                    <span className="setu-ui-leader-k">Hardware Support</span>
+                    <span className="setu-ui-leader-v">Agnostic (1,500+ GPS Trackers, AIS-140, OBD)</span>
+                  </div>
+
+                  <div className="setu-ui-leader-row">
+                    <span className="setu-ui-leader-k">Integration</span>
+                    <span className="setu-ui-leader-v">REST APIs, Webhooks, ERP/TMS Connectors</span>
+                  </div>
+
+                  <div className="setu-ui-leader-row">
+                    <span className="setu-ui-leader-k">Enterprise SLA</span>
+                    <span className="setu-ui-leader-v">99.9% Uptime with Dedicated Technical Manager</span>
+                  </div>
+                </>
+              ) : isAutoPart ? (
                 <>
                   <div className="setu-ui-leader-row">
                     <span className="setu-ui-leader-k">Brand</span>
@@ -697,7 +806,7 @@ export default function ProductDetail() {
             </div>
 
             {/* ── Hardware Configuration Selector Block (Matching User Requirement & Screenshot) ── */}
-            {configurations && configurations.length > 0 && (
+            {!isSolution && configurations && configurations.length > 0 && (
               <div className="setu-config-block">
                 <div className="setu-config-heading">
                   Configuration: <span className="setu-config-heading-val">{activeConfig?.name}</span>
@@ -723,201 +832,255 @@ export default function ProductDetail() {
               </div>
             )}
 
-            {/* Bulk Pricing Slab Card - Exact Match to Screenshot */}
-            <div className="setu-ui-bulk-card">
-              <div className="setu-ui-bulk-header">
-                <h3 className="setu-ui-bulk-title">Bulk pricing slab</h3>
+            {/* Bulk Pricing Slab Card or Solution Live Demo Banner */}
+            {isSolution ? (
+              <div className="setu-solution-demo-card">
+                <div className="setu-solution-demo-card__header">
+                  <div className="setu-solution-demo-card__tag">
+                    <span className="setu-solution-pulse-dot" />
+                    Live Cloud Platform Walkthrough
+                  </div>
+                  <h3 className="setu-solution-demo-card__title">Experience {product.name} in Action</h3>
+                  <p className="setu-solution-demo-card__desc">
+                    Connect with our telematics engineers for a live walkthrough tailored to your fleet or operational use case.
+                  </p>
+                </div>
 
-                <div className="setu-ui-bulk-qty-wrap">
-                  <div className="setu-ui-bulk-qty-label-box">
-                    <span className="setu-ui-bulk-qty-label">Quantity</span>
-                    <div
-                      className="setu-tooltip-wrap"
-                      onMouseEnter={() => setShowQtyTooltip(true)}
-                      onMouseLeave={() => setShowQtyTooltip(false)}
-                    >
-                      <button
-                        type="button"
-                        className="setu-plan-card__qty-info-btn"
-                        onClick={() => setShowQtyTooltip(!showQtyTooltip)}
-                        aria-label="Quantity info"
-                      >
-                        ⓘ
-                      </button>
-                      {showQtyTooltip && (
-                        <div className="setu-tooltip-bubble">
-                          <span>Mini. order quantity is 1 · Type directly or click + / —</span>
-                          <div className="setu-tooltip-arrow" />
-                        </div>
-                      )}
+                <div className="setu-solution-demo-card__grid">
+                  <div className="setu-solution-demo-feature">
+                    <div className="setu-solution-demo-icon">🎯</div>
+                    <div className="setu-solution-demo-text">
+                      <strong>Tailored Walkthrough</strong>
+                      <span>Live demonstration focused on your exact vehicles, routes, and business workflow.</span>
                     </div>
                   </div>
 
-                  <div className="setu-bulk-counter">
-                    <button
-                      type="button"
-                      className="setu-bulk-counter__btn setu-bulk-counter__btn--minus"
-                      onClick={() => setQty(Math.max(1, qty - 1))}
-                      aria-label="Decrease quantity"
-                    >
-                      —
-                    </button>
-                    <input
-                      type="number"
-                      min="1"
-                      max="99999"
-                      value={qty}
-                      onChange={(e) => {
-                        const val = parseInt(e.target.value, 10);
-                        if (isNaN(val)) {
-                          setQty(1);
-                        } else {
-                          setQty(Math.max(1, Math.min(99999, val)));
-                        }
-                      }}
-                      className="setu-bulk-counter__input"
-                      aria-label="Order Quantity"
-                      title="Type any quantity directly"
-                    />
-                    <button
-                      type="button"
-                      className="setu-bulk-counter__btn setu-bulk-counter__btn--plus"
-                      onClick={() => setQty(qty + 1)}
-                      aria-label="Increase quantity"
-                    >
-                      +
-                    </button>
+                  <div className="setu-solution-demo-feature">
+                    <div className="setu-solution-demo-icon">🔌</div>
+                    <div className="setu-solution-demo-text">
+                      <strong>Hardware Assessment</strong>
+                      <span>Free compatibility check for your existing GPS devices, AIS-140 trackers, or sensors.</span>
+                    </div>
+                  </div>
+
+                  <div className="setu-solution-demo-feature">
+                    <div className="setu-solution-demo-icon">💼</div>
+                    <div className="setu-solution-demo-text">
+                      <strong>Custom Architecture &amp; Licensing</strong>
+                      <span>Personalized proposal and ERP/TMS integration timeline discussed directly.</span>
+                    </div>
                   </div>
                 </div>
+
+                <div className="setu-solution-demo-card__cta-row">
+                  <button
+                    type="button"
+                    className="setu-solution-cta-btn"
+                    onClick={() => setShowDemoModal(true)}
+                  >
+                    Request a Demo
+                  </button>
+                  <span className="setu-solution-cta-hint">
+                    ⚡ Free 30-minute walkthrough · No obligation · Contact within 24 hours
+                  </span>
+                </div>
               </div>
+            ) : (
+              <div className="setu-ui-bulk-card">
+                <div className="setu-ui-bulk-header">
+                  <h3 className="setu-ui-bulk-title">Bulk pricing slab</h3>
 
-              <table className="setu-ui-bulk-table">
-                <thead>
-                  <tr>
-                    <th className="setu-ui-bulk-th-slab">QUANTITY SLAB</th>
-                    <th className="setu-ui-bulk-th-price">PRICE PER UNIT</th>
-                    <th className="setu-ui-bulk-th-save">YOU SAVE</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr
-                    className={`setu-ui-bulk-row ${currentSlab === '1–50' ? 'setu-ui-slab--active' : ''}`}
-                    onClick={() => setQty(1)}
-                  >
-                    <td>
-                      <div className="setu-ui-slab-cell">
-                        <span className={`setu-ui-slab-radio ${currentSlab === '1–50' ? 'setu-ui-slab-radio--active' : ''}`}>
-                          {currentSlab === '1–50' ? (
-                            <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
-                              <circle cx="8" cy="8" r="7" stroke="#2563EB" strokeWidth="1.8" fill="#FFFFFF"/>
-                              <circle cx="8" cy="8" r="3.5" fill="#2563EB"/>
-                            </svg>
-                          ) : (
-                            <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
-                              <circle cx="8" cy="8" r="7" stroke="#94A3B8" strokeWidth="1.5" fill="#FFFFFF"/>
-                            </svg>
-                          )}
-                        </span>
-                        <span className="setu-ui-slab-name">1–50 units</span>
-                        {currentSlab === '1–50' && <span className="setu-ui-current-pill">Current</span>}
+                  <div className="setu-ui-bulk-qty-wrap">
+                    <div className="setu-ui-bulk-qty-label-box">
+                      <span className="setu-ui-bulk-qty-label">Quantity</span>
+                      <div
+                        className="setu-tooltip-wrap"
+                        onMouseEnter={() => setShowQtyTooltip(true)}
+                        onMouseLeave={() => setShowQtyTooltip(false)}
+                      >
+                        <button
+                          type="button"
+                          className="setu-plan-card__qty-info-btn"
+                          onClick={() => setShowQtyTooltip(!showQtyTooltip)}
+                          aria-label="Quantity info"
+                        >
+                          ⓘ
+                        </button>
+                        {showQtyTooltip && (
+                          <div className="setu-tooltip-bubble">
+                            <span>Mini. order quantity is 1 · Type directly or click + / —</span>
+                            <div className="setu-tooltip-arrow" />
+                          </div>
+                        )}
                       </div>
-                    </td>
-                    <td className="setu-ui-slab-price">₹{slabPrices.slab1.toLocaleString('en-IN')}</td>
-                    <td className="setu-ui-slab-save">—</td>
-                  </tr>
+                    </div>
 
-                  <tr
-                    className={`setu-ui-bulk-row ${currentSlab === '51–100' ? 'setu-ui-slab--active' : ''}`}
-                    onClick={() => setQty(51)}
-                  >
-                    <td>
-                      <div className="setu-ui-slab-cell">
-                        <span className={`setu-ui-slab-radio ${currentSlab === '51–100' ? 'setu-ui-slab-radio--active' : ''}`}>
-                          {currentSlab === '51–100' ? (
-                            <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
-                              <circle cx="8" cy="8" r="7" stroke="#2563EB" strokeWidth="1.8" fill="#FFFFFF"/>
-                              <circle cx="8" cy="8" r="3.5" fill="#2563EB"/>
-                            </svg>
-                          ) : (
-                            <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
-                              <circle cx="8" cy="8" r="7" stroke="#94A3B8" strokeWidth="1.5" fill="#FFFFFF"/>
-                            </svg>
-                          )}
-                        </span>
-                        <span className="setu-ui-slab-name">51–100 units</span>
-                        {currentSlab === '51–100' && <span className="setu-ui-current-pill">Current</span>}
-                      </div>
-                    </td>
-                    <td className="setu-ui-slab-price">₹{slabPrices.slab2.toLocaleString('en-IN')}</td>
-                    <td className="setu-ui-slab-save">
-                      <span className="setu-ui-save-badge">
-                        {Math.round(((slabPrices.slab1 - slabPrices.slab2) / slabPrices.slab1) * 100)}% OFF
-                      </span>
-                    </td>
-                  </tr>
+                    <div className="setu-bulk-counter">
+                      <button
+                        type="button"
+                        className="setu-bulk-counter__btn setu-bulk-counter__btn--minus"
+                        onClick={() => setQty(Math.max(1, qty - 1))}
+                        aria-label="Decrease quantity"
+                      >
+                        —
+                      </button>
+                      <input
+                        type="number"
+                        min="1"
+                        max="99999"
+                        value={qty}
+                        onChange={(e) => {
+                          const val = parseInt(e.target.value, 10);
+                          if (isNaN(val)) {
+                            setQty(1);
+                          } else {
+                            setQty(Math.max(1, Math.min(99999, val)));
+                          }
+                        }}
+                        className="setu-bulk-counter__input"
+                        aria-label="Order Quantity"
+                        title="Type any quantity directly"
+                      />
+                      <button
+                        type="button"
+                        className="setu-bulk-counter__btn setu-bulk-counter__btn--plus"
+                        onClick={() => setQty(qty + 1)}
+                        aria-label="Increase quantity"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+                </div>
 
-                  <tr
-                    className={`setu-ui-bulk-row ${currentSlab === '101–500' ? 'setu-ui-slab--active' : ''}`}
-                    onClick={() => setQty(101)}
-                  >
-                    <td>
-                      <div className="setu-ui-slab-cell">
-                        <span className={`setu-ui-slab-radio ${currentSlab === '101–500' ? 'setu-ui-slab-radio--active' : ''}`}>
-                          {currentSlab === '101–500' ? (
-                            <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
-                              <circle cx="8" cy="8" r="7" stroke="#2563EB" strokeWidth="1.8" fill="#FFFFFF"/>
-                              <circle cx="8" cy="8" r="3.5" fill="#2563EB"/>
-                            </svg>
-                          ) : (
-                            <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
-                              <circle cx="8" cy="8" r="7" stroke="#94A3B8" strokeWidth="1.5" fill="#FFFFFF"/>
-                            </svg>
-                          )}
-                        </span>
-                        <span className="setu-ui-slab-name">101–500 units</span>
-                        {currentSlab === '101–500' && <span className="setu-ui-current-pill">Current</span>}
-                      </div>
-                    </td>
-                    <td className="setu-ui-slab-price">₹{slabPrices.slab3.toLocaleString('en-IN')}</td>
-                    <td className="setu-ui-slab-save">
-                      <span className="setu-ui-save-badge">
-                        {Math.round(((slabPrices.slab1 - slabPrices.slab3) / slabPrices.slab1) * 100)}% OFF
-                      </span>
-                    </td>
-                  </tr>
+                <table className="setu-ui-bulk-table">
+                  <thead>
+                    <tr>
+                      <th className="setu-ui-bulk-th-slab">QUANTITY SLAB</th>
+                      <th className="setu-ui-bulk-th-price">PRICE PER UNIT</th>
+                      <th className="setu-ui-bulk-th-save">YOU SAVE</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      className={`setu-ui-bulk-row ${currentSlab === '1–50' ? 'setu-ui-slab--active' : ''}`}
+                      onClick={() => setQty(1)}
+                    >
+                      <td>
+                        <div className="setu-ui-slab-cell">
+                          <span className={`setu-ui-slab-radio ${currentSlab === '1–50' ? 'setu-ui-slab-radio--active' : ''}`}>
+                            {currentSlab === '1–50' ? (
+                              <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
+                                <circle cx="8" cy="8" r="7" stroke="#2563EB" strokeWidth="1.8" fill="#FFFFFF"/>
+                                <circle cx="8" cy="8" r="3.5" fill="#2563EB"/>
+                              </svg>
+                            ) : (
+                              <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
+                                <circle cx="8" cy="8" r="7" stroke="#94A3B8" strokeWidth="1.5" fill="#FFFFFF"/>
+                              </svg>
+                            )}
+                          </span>
+                          <span className="setu-ui-slab-name">1–50 units</span>
+                          {currentSlab === '1–50' && <span className="setu-ui-current-pill">Current</span>}
+                        </div>
+                      </td>
+                      <td className="setu-ui-slab-price">₹{slabPrices.slab1.toLocaleString('en-IN')}</td>
+                      <td className="setu-ui-slab-save">—</td>
+                    </tr>
 
-                  <tr
-                    className={`setu-ui-bulk-row ${currentSlab === '500+' ? 'setu-ui-slab--active' : ''}`}
-                    onClick={() => setQty(500)}
-                  >
-                    <td>
-                      <div className="setu-ui-slab-cell">
-                        <span className={`setu-ui-slab-radio ${currentSlab === '500+' ? 'setu-ui-slab-radio--active' : ''}`}>
-                          {currentSlab === '500+' ? (
-                            <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
-                              <circle cx="8" cy="8" r="7" stroke="#2563EB" strokeWidth="1.8" fill="#FFFFFF"/>
-                              <circle cx="8" cy="8" r="3.5" fill="#2563EB"/>
-                            </svg>
-                          ) : (
-                            <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
-                              <circle cx="8" cy="8" r="7" stroke="#94A3B8" strokeWidth="1.5" fill="#FFFFFF"/>
-                            </svg>
-                          )}
+                    <tr
+                      className={`setu-ui-bulk-row ${currentSlab === '51–100' ? 'setu-ui-slab--active' : ''}`}
+                      onClick={() => setQty(51)}
+                    >
+                      <td>
+                        <div className="setu-ui-slab-cell">
+                          <span className={`setu-ui-slab-radio ${currentSlab === '51–100' ? 'setu-ui-slab-radio--active' : ''}`}>
+                            {currentSlab === '51–100' ? (
+                              <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
+                                <circle cx="8" cy="8" r="7" stroke="#2563EB" strokeWidth="1.8" fill="#FFFFFF"/>
+                                <circle cx="8" cy="8" r="3.5" fill="#2563EB"/>
+                              </svg>
+                            ) : (
+                              <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
+                                <circle cx="8" cy="8" r="7" stroke="#94A3B8" strokeWidth="1.5" fill="#FFFFFF"/>
+                              </svg>
+                            )}
+                          </span>
+                          <span className="setu-ui-slab-name">51–100 units</span>
+                          {currentSlab === '51–100' && <span className="setu-ui-current-pill">Current</span>}
+                        </div>
+                      </td>
+                      <td className="setu-ui-slab-price">₹{slabPrices.slab2.toLocaleString('en-IN')}</td>
+                      <td className="setu-ui-slab-save">
+                        <span className="setu-ui-save-badge">
+                          {Math.round(((slabPrices.slab1 - slabPrices.slab2) / slabPrices.slab1) * 100)}% OFF
                         </span>
-                        <span className="setu-ui-slab-name">500+ units</span>
-                        {currentSlab === '500+' && <span className="setu-ui-current-pill">Current</span>}
-                      </div>
-                    </td>
-                    <td className="setu-ui-slab-price">₹{slabPrices.slab4.toLocaleString('en-IN')}</td>
-                    <td className="setu-ui-slab-save">
-                      <span className="setu-ui-save-badge">
-                        {Math.round(((slabPrices.slab1 - slabPrices.slab4) / slabPrices.slab1) * 100)}% OFF
-                      </span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+                      </td>
+                    </tr>
+
+                    <tr
+                      className={`setu-ui-bulk-row ${currentSlab === '101–500' ? 'setu-ui-slab--active' : ''}`}
+                      onClick={() => setQty(101)}
+                    >
+                      <td>
+                        <div className="setu-ui-slab-cell">
+                          <span className={`setu-ui-slab-radio ${currentSlab === '101–500' ? 'setu-ui-slab-radio--active' : ''}`}>
+                            {currentSlab === '101–500' ? (
+                              <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
+                                <circle cx="8" cy="8" r="7" stroke="#2563EB" strokeWidth="1.8" fill="#FFFFFF"/>
+                                <circle cx="8" cy="8" r="3.5" fill="#2563EB"/>
+                              </svg>
+                            ) : (
+                              <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
+                                <circle cx="8" cy="8" r="7" stroke="#94A3B8" strokeWidth="1.5" fill="#FFFFFF"/>
+                              </svg>
+                            )}
+                          </span>
+                          <span className="setu-ui-slab-name">101–500 units</span>
+                          {currentSlab === '101–500' && <span className="setu-ui-current-pill">Current</span>}
+                        </div>
+                      </td>
+                      <td className="setu-ui-slab-price">₹{slabPrices.slab3.toLocaleString('en-IN')}</td>
+                      <td className="setu-ui-slab-save">
+                        <span className="setu-ui-save-badge">
+                          {Math.round(((slabPrices.slab1 - slabPrices.slab3) / slabPrices.slab1) * 100)}% OFF
+                        </span>
+                      </td>
+                    </tr>
+
+                    <tr
+                      className={`setu-ui-bulk-row ${currentSlab === '500+' ? 'setu-ui-slab--active' : ''}`}
+                      onClick={() => setQty(500)}
+                    >
+                      <td>
+                        <div className="setu-ui-slab-cell">
+                          <span className={`setu-ui-slab-radio ${currentSlab === '500+' ? 'setu-ui-slab-radio--active' : ''}`}>
+                            {currentSlab === '500+' ? (
+                              <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
+                                <circle cx="8" cy="8" r="7" stroke="#2563EB" strokeWidth="1.8" fill="#FFFFFF"/>
+                                <circle cx="8" cy="8" r="3.5" fill="#2563EB"/>
+                              </svg>
+                            ) : (
+                              <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
+                                <circle cx="8" cy="8" r="7" stroke="#94A3B8" strokeWidth="1.5" fill="#FFFFFF"/>
+                              </svg>
+                            )}
+                          </span>
+                          <span className="setu-ui-slab-name">500+ units</span>
+                          {currentSlab === '500+' && <span className="setu-ui-current-pill">Current</span>}
+                        </div>
+                      </td>
+                      <td className="setu-ui-slab-price">₹{slabPrices.slab4.toLocaleString('en-IN')}</td>
+                      <td className="setu-ui-slab-save">
+                        <span className="setu-ui-save-badge">
+                          {Math.round(((slabPrices.slab1 - slabPrices.slab4) / slabPrices.slab1) * 100)}% OFF
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            )}
 
             {/* ── Tabs Strip ── */}
             <div className="setu-ui-tabs-strip">
@@ -968,7 +1131,22 @@ export default function ProductDetail() {
             {/* ── Section: Description ── */}
             <section className="setu-ui-section" id="description">
               <h2 className="setu-ui-section-title">Description</h2>
-              {isAutoPart ? (
+              {isSolution ? (
+                <ul className="setu-ui-bullet-list">
+                  <li>
+                    <strong>Platform Capability:</strong> {product.description || `${product.name} is an enterprise telematics platform engineered for real-time visibility, automated alerts, and actionable fleet intelligence.`}
+                  </li>
+                  <li>
+                    <strong>Hardware Ecosystem:</strong> Compatible with 1,500+ GPS hardware devices, AIS-140 VLTDs, OBD-II dongles, and wireless BLE sensors.
+                  </li>
+                  <li>
+                    <strong>Deployment &amp; Access:</strong> Multi-region cloud hosting with 99.9% uptime SLA, web portal, and native Android &amp; iOS mobile apps.
+                  </li>
+                  <li>
+                    <strong>Enterprise Onboarding:</strong> Dedicated telematics specialists assist with device protocol mapping, live testing, and ERP/TMS integrations.
+                  </li>
+                </ul>
+              ) : isAutoPart ? (
                 <ul className="setu-ui-bullet-list">
                   <li>
                     <strong>OEM Part Reference:</strong> {product.partNumber} ({product.origin === 'OEM' ? 'OEM Genuine' : 'Tier-1 Aftermarket'})
@@ -1011,7 +1189,58 @@ export default function ProductDetail() {
               
               <table className="setu-ui-specs-table">
                 <tbody>
-                  {isAutoPart ? (
+                  {isSolution ? (
+                    <>
+                      <tr>
+                        <th>Solution Name</th>
+                        <td>{product.name}</td>
+                      </tr>
+                      <tr>
+                        <th>Solution Code</th>
+                        <td>{productId}</td>
+                      </tr>
+                      <tr>
+                        <th>Category</th>
+                        <td>Software Solutions › {subcat}</td>
+                      </tr>
+                      <tr>
+                        <th>Deployment Model</th>
+                        <td>Managed Cloud SaaS (AWS / GCP Multi-Region High Availability)</td>
+                      </tr>
+                      <tr>
+                        <th>Hardware Compatibility</th>
+                        <td>1,500+ GPS Tracker Models, AIS-140, OBD-II &amp; BLE Sensors</td>
+                      </tr>
+                      <tr>
+                        <th>Data Streaming &amp; Telemetry</th>
+                        <td>Sub-second real-time streaming (MQTT, WebSockets, REST APIs)</td>
+                      </tr>
+                      <tr>
+                        <th>Mobile Applications</th>
+                        <td>Native Android &amp; iOS Apps with custom white-label option</td>
+                      </tr>
+                      <tr>
+                        <th>API &amp; Webhooks</th>
+                        <td>Full RESTful API Suite, Real-time Webhooks, ERP/TMS Connectors</td>
+                      </tr>
+                      <tr>
+                        <th>High Availability SLA</th>
+                        <td>99.9% Cloud Uptime Guarantee with 24/7 Monitoring</td>
+                      </tr>
+                      <tr>
+                        <th>Security &amp; Compliance</th>
+                        <td>TLS 1.3 Encryption, Role-Based Access Control, ISO 27001</td>
+                      </tr>
+                      <tr>
+                        <th>Data Retention</th>
+                        <td>90-day active telemetry history &amp; unlimited archival export</td>
+                      </tr>
+                      <tr>
+                        <th>Live Demonstration</th>
+                        <td>Free 1-on-1 personalized demo tailored to your operational requirements</td>
+                      </tr>
+                    </>
+                  ) : isAutoPart ? (
                     <>
                       <tr>
                         <th>Part Number</th>
@@ -1312,98 +1541,153 @@ export default function ProductDetail() {
 
           {/* ── Right Fixed Partition: Buy Box Panel ── */}
           <aside className="setu-ui-buybox-panel">
-            <div className="setu-plan-card">
+            {isSolution ? (
+              <div className="setu-plan-card setu-plan-card--solution">
+                <div className="setu-solution-box-head">
+                  <span className="setu-solution-box-badge">ENTERPRISE SOFTWARE</span>
+                  <h3 className="setu-solution-box-title">{product.name}</h3>
+                  <p className="setu-solution-box-sub">
+                    Schedule a personalized 1-on-1 walkthrough with our telematics engineering team.
+                  </p>
+                </div>
 
-              {/* Price row */}
-              <div className="setu-plan-card__price-row">
-                <span className="setu-plan-card__price-val">{displayPriceText}</span>
-                <span className="setu-plan-card__per-unit">/ {consumptionUnit}</span>
+                {/* 4 Green Checkmarked Key Features */}
+                <ul className="setu-plan-card__benefits-list">
+                  {planBenefits.slice(0, 4).map((benefit, idx) => (
+                    <li key={idx} className="setu-plan-card__benefit-item">
+                      <span className="setu-plan-card__check-circle">
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                      </span>
+                      <span className="setu-plan-card__benefit-text">{benefit}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="setu-plan-card__divider" />
+
+                <div className="setu-solution-expect-box">
+                  <div className="setu-solution-expect-title">What to expect:</div>
+                  <div className="setu-solution-expect-item">
+                    <span className="setu-solution-expect-icon">⚡</span>
+                    <span>1-on-1 feature demo customized to your fleet</span>
+                  </div>
+                  <div className="setu-solution-expect-item">
+                    <span className="setu-solution-expect-icon">🛠️</span>
+                    <span>Free hardware compatibility review</span>
+                  </div>
+                  <div className="setu-solution-expect-item">
+                    <span className="setu-solution-expect-icon">💼</span>
+                    <span>Dedicated solutions specialist to answer all queries</span>
+                  </div>
+                </div>
+
                 <button
                   type="button"
-                  className="setu-plan-card__info-icon-btn"
-                  onClick={() => setShowInfoModal(true)}
-                  title="View plan details"
-                  aria-label="View plan details"
+                  className="setu-solution-demo-btn"
+                  onClick={() => setShowDemoModal(true)}
                 >
-                  ⓘ
+                  Request a Demo
                 </button>
-              </div>
 
-              {/* 4 Green Checkmarked Key Features */}
-              <ul className="setu-plan-card__benefits-list">
-                {planBenefits.slice(0, 4).map((benefit, idx) => (
-                  <li key={idx} className="setu-plan-card__benefit-item">
-                    <span className="setu-plan-card__check-circle">
-                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="20 6 9 17 4 12" />
-                      </svg>
+                <p className="setu-solution-box-note">
+                  Our solutions team will contact you within 24 hours to schedule a personalized live demo.
+                </p>
+              </div>
+            ) : (
+              <div className="setu-plan-card">
+
+                {/* Price row */}
+                <div className="setu-plan-card__price-row">
+                  <span className="setu-plan-card__price-val">{displayPriceText}</span>
+                  <span className="setu-plan-card__per-unit">/ {consumptionUnit}</span>
+                  <button
+                    type="button"
+                    className="setu-plan-card__info-icon-btn"
+                    onClick={() => setShowInfoModal(true)}
+                    title="View plan details"
+                    aria-label="View plan details"
+                  >
+                    ⓘ
+                  </button>
+                </div>
+
+                {/* 4 Green Checkmarked Key Features */}
+                <ul className="setu-plan-card__benefits-list">
+                  {planBenefits.slice(0, 4).map((benefit, idx) => (
+                    <li key={idx} className="setu-plan-card__benefit-item">
+                      <span className="setu-plan-card__check-circle">
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                      </span>
+                      <span className="setu-plan-card__benefit-text">{benefit}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                {/* Terms and Conditions Link */}
+                <div className="setu-plan-card__terms-wrap">
+                  <button
+                    type="button"
+                    className="setu-plan-card__terms-link"
+                    onClick={() => setShowTermsModal(true)}
+                  >
+                    Terms and Conditions
+                  </button>
+                </div>
+
+                <div className="setu-plan-card__divider" />
+
+                {/* Final Quantity & Order Total Bar (Directly Above Buy Now Buttons) */}
+                <div className="setu-plan-card__final-summary-box">
+                  <div className="setu-plan-card__final-summary-row">
+                    <span className="setu-plan-card__final-summary-label">Final Quantity:</span>
+                    <span className="setu-plan-card__final-summary-qty">
+                      <strong>{qty}</strong> {qty === 1 ? 'Unit' : 'Units'}
                     </span>
-                    <span className="setu-plan-card__benefit-text">{benefit}</span>
-                  </li>
-                ))}
-              </ul>
-
-              {/* Terms and Conditions Link */}
-              <div className="setu-plan-card__terms-wrap">
-                <button
-                  type="button"
-                  className="setu-plan-card__terms-link"
-                  onClick={() => setShowTermsModal(true)}
-                >
-                  Terms and Conditions
-                </button>
-              </div>
-
-              <div className="setu-plan-card__divider" />
-
-              {/* Final Quantity & Order Total Bar (Directly Above Buy Now Buttons) */}
-              <div className="setu-plan-card__final-summary-box">
-                <div className="setu-plan-card__final-summary-row">
-                  <span className="setu-plan-card__final-summary-label">Final Quantity:</span>
-                  <span className="setu-plan-card__final-summary-qty">
-                    <strong>{qty}</strong> {qty === 1 ? 'Unit' : 'Units'}
-                  </span>
+                  </div>
+                  <div className="setu-plan-card__final-summary-row setu-plan-card__final-summary-row--total">
+                    <span className="setu-plan-card__final-summary-label">Total Amount:</span>
+                    <span className="setu-plan-card__final-summary-total">
+                      ₹{(unitPrice * qty).toLocaleString('en-IN')}
+                    </span>
+                  </div>
+                  <div className="setu-plan-card__final-summary-sub">
+                    (₹{unitPrice.toLocaleString('en-IN')} / {consumptionUnit} · Excl. taxes &amp; shipping)
+                  </div>
                 </div>
-                <div className="setu-plan-card__final-summary-row setu-plan-card__final-summary-row--total">
-                  <span className="setu-plan-card__final-summary-label">Total Amount:</span>
-                  <span className="setu-plan-card__final-summary-total">
-                    ₹{(unitPrice * qty).toLocaleString('en-IN')}
-                  </span>
-                </div>
-                <div className="setu-plan-card__final-summary-sub">
-                  (₹{unitPrice.toLocaleString('en-IN')} / {consumptionUnit} · Excl. taxes &amp; shipping)
-                </div>
-              </div>
 
-              {/* Action Buttons: Dual or Single */}
-              {buttonMode === 'dual' ? (
-                <div className="setu-plan-card__btn-group">
+                {/* Action Buttons: Dual or Single */}
+                {buttonMode === 'dual' ? (
+                  <div className="setu-plan-card__btn-group">
+                    <button
+                      type="button"
+                      className="setu-plan-card__btn setu-plan-card__btn--outline"
+                      onClick={handleAddToCart}
+                    >
+                      {addedToCart ? '✓ Added' : 'Agree & Add To Cart'}
+                    </button>
+                    <button
+                      type="button"
+                      className="setu-plan-card__btn setu-plan-card__btn--primary"
+                      onClick={handleBuyNow}
+                    >
+                      {buyNowSubmitted ? '✓ Processing...' : 'Agree & Buy Now'}
+                    </button>
+                  </div>
+                ) : (
                   <button
                     type="button"
-                    className="setu-plan-card__btn setu-plan-card__btn--outline"
-                    onClick={handleAddToCart}
+                    className="setu-plan-card__submit-btn"
+                    onClick={handleSubmitRequest}
                   >
-                    {addedToCart ? '✓ Added' : 'Agree & Add To Cart'}
+                    {requestSubmitted ? '✓ Request Submitted' : 'Agree & Submit Request'}
                   </button>
-                  <button
-                    type="button"
-                    className="setu-plan-card__btn setu-plan-card__btn--primary"
-                    onClick={handleBuyNow}
-                  >
-                    {buyNowSubmitted ? '✓ Processing...' : 'Agree & Buy Now'}
-                  </button>
-                </div>
-              ) : (
-                <button
-                  type="button"
-                  className="setu-plan-card__submit-btn"
-                  onClick={handleSubmitRequest}
-                >
-                  {requestSubmitted ? '✓ Request Submitted' : 'Agree & Submit Request'}
-                </button>
-              )}
-            </div>
-
+                )}
+              </div>
+            )}
           </aside>
 
           </div>
@@ -1545,6 +1829,147 @@ export default function ProductDetail() {
                 </a>
               </div>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── Solution Demo Request Modal ── */}
+      {showDemoModal && (
+        <div className="setu-demo-modal__overlay" onClick={handleCloseDemoModal}>
+          <div className="setu-demo-modal__card" onClick={(e) => e.stopPropagation()}>
+            <button
+              type="button"
+              className="setu-demo-modal__close-btn"
+              onClick={handleCloseDemoModal}
+              aria-label="Close demo modal"
+            >
+              ✕
+            </button>
+
+            {demoSubmitted ? (
+              <div className="setu-demo-modal__success">
+                <div className="setu-demo-modal__success-icon">✓</div>
+                <h2 className="setu-demo-modal__success-title">Demo Request Received!</h2>
+                <p className="setu-demo-modal__success-desc">
+                  Thank you, <strong>{demoForm.name}</strong>. Our enterprise telematics solutions team has received your request for <strong>{product.name}</strong>.
+                </p>
+                <div className="setu-demo-modal__success-box">
+                  <p>Our solutions engineer will connect with you at <strong>{demoForm.phone || demoForm.email}</strong> within <strong>24 hours</strong> to schedule a live, personalized walkthrough.</p>
+                </div>
+                <button
+                  type="button"
+                  className="setu-demo-modal__submit-btn"
+                  onClick={handleCloseDemoModal}
+                >
+                  Done
+                </button>
+              </div>
+            ) : (
+              <>
+                <div className="setu-demo-modal__header">
+                  <span className="setu-demo-modal__badge">Live Walkthrough</span>
+                  <h2 className="setu-demo-modal__title">Request a Live Demo for {product.name}</h2>
+                  <p className="setu-demo-modal__sub">
+                    Fill in your contact details below. Our engineering team will contact you to understand your requirements and schedule a personalized live demo.
+                  </p>
+                </div>
+
+                <form className="setu-demo-modal__form" onSubmit={handleDemoSubmit}>
+                  <div className="setu-demo-modal__form-row">
+                    <div className="setu-demo-modal__form-group">
+                      <label className="setu-demo-modal__label">
+                        Full Name <span className="setu-demo-modal__req">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        placeholder="e.g. Rajesh Kumar"
+                        value={demoForm.name}
+                        onChange={(e) => setDemoForm({ ...demoForm, name: e.target.value })}
+                        className="setu-demo-modal__input"
+                      />
+                    </div>
+
+                    <div className="setu-demo-modal__form-group">
+                      <label className="setu-demo-modal__label">
+                        Company / Organization <span className="setu-demo-modal__req">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        placeholder="e.g. Apex Logistics Pvt Ltd"
+                        value={demoForm.company}
+                        onChange={(e) => setDemoForm({ ...demoForm, company: e.target.value })}
+                        className="setu-demo-modal__input"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="setu-demo-modal__form-row">
+                    <div className="setu-demo-modal__form-group">
+                      <label className="setu-demo-modal__label">
+                        Phone / WhatsApp <span className="setu-demo-modal__req">*</span>
+                      </label>
+                      <input
+                        type="tel"
+                        required
+                        placeholder="+91 98765 43210"
+                        value={demoForm.phone}
+                        onChange={(e) => setDemoForm({ ...demoForm, phone: e.target.value })}
+                        className="setu-demo-modal__input"
+                      />
+                    </div>
+
+                    <div className="setu-demo-modal__form-group">
+                      <label className="setu-demo-modal__label">
+                        Work Email <span className="setu-demo-modal__req">*</span>
+                      </label>
+                      <input
+                        type="email"
+                        required
+                        placeholder="rajesh@apexlogistics.com"
+                        value={demoForm.email}
+                        onChange={(e) => setDemoForm({ ...demoForm, email: e.target.value })}
+                        className="setu-demo-modal__input"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="setu-demo-modal__form-group">
+                    <label className="setu-demo-modal__label">Fleet / Asset Size</label>
+                    <select
+                      value={demoForm.fleetSize}
+                      onChange={(e) => setDemoForm({ ...demoForm, fleetSize: e.target.value })}
+                      className="setu-demo-modal__select"
+                    >
+                      <option value="1–10 Vehicles">1 – 10 Vehicles / Assets</option>
+                      <option value="11–50 Vehicles">11 – 50 Vehicles / Assets</option>
+                      <option value="51–200 Vehicles">51 – 200 Vehicles / Assets</option>
+                      <option value="200+ Vehicles">200+ Vehicles / Enterprise Fleet</option>
+                    </select>
+                  </div>
+
+                  <div className="setu-demo-modal__form-group">
+                    <label className="setu-demo-modal__label">Operational Requirements (Optional)</label>
+                    <textarea
+                      rows="3"
+                      placeholder="Mention specific requirements (e.g., fuel monitoring, route optimization, ERP integration, school bus safety)..."
+                      value={demoForm.notes}
+                      onChange={(e) => setDemoForm({ ...demoForm, notes: e.target.value })}
+                      className="setu-demo-modal__textarea"
+                    />
+                  </div>
+
+                  <button type="submit" className="setu-demo-modal__submit-btn">
+                    Submit Demo Request
+                  </button>
+
+                  <p className="setu-demo-modal__footer-note">
+                    🔒 Your contact information is kept strictly confidential and only used to coordinate your software demonstration.
+                  </p>
+                </form>
+              </>
+            )}
           </div>
         </div>
       )}
