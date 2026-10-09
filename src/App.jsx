@@ -54,8 +54,8 @@ function AppLayout() {
             <Route path="/setu/hardware/:slug" element={<ProductDetail />} />
             <Route path="/solutions" element={<Solutions />} />
             <Route path="/setu/solutions" element={<Solutions />} />
-            <Route path="/solutions/:id" element={<Solutions />} />
-            <Route path="/setu/solutions/:id" element={<Solutions />} />
+            <Route path="/solutions/:slug" element={<ProductDetail />} />
+            <Route path="/setu/solutions/:slug" element={<ProductDetail />} />
 
             {/* ── Other Menu Options (All Coming Soon) ── */}
             <Route path="/dashboard" element={<ComingSoon title="Dashboard" description="Fleet operations dashboard is coming soon. Please use the bottom menu icon to navigate the Setu platform." />} />

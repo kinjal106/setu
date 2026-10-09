@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { useParams, useNavigate, useLocation, Link } from 'react-router-dom';
 import products from '../../data/products.json';
 import autopartsData from '../../data/autoparts.json';
+import solutionsData from '../../data/solutions.json';
 import { getPartFitmentList } from '../../data/autopartsFitment';
 import { useCart } from '../../context/CartContext';
 import { getAssetUrl } from '../../utils/assetUrl';
@@ -14,9 +15,46 @@ export default function ProductDetail() {
   const { addToCart } = useCart();
 
   const isAutoPartsRoute = location.pathname.includes('/auto-parts');
+  const isSolutionsRoute = location.pathname.includes('/solutions');
 
-  // Find product by slug or id or partNumber, checking hardware or auto parts
+  // Find product by slug or id or partNumber, checking hardware, solutions, or auto parts
   const product = useMemo(() => {
+    if (isSolutionsRoute) {
+      const sol = solutionsData.find(
+        (s) => s.id === slug || s.slug === slug || s.id?.toLowerCase() === slug?.toLowerCase()
+      );
+      if (sol) {
+        return {
+          ...sol,
+          slug: sol.id,
+          isSolution: true,
+          price: 199,
+          buttonMode: 'dual',
+          consumptionUnit: 'Per Vehicle / Month',
+          brand: 'Setu Telematics',
+          categoryName: 'Software Solutions',
+          subcategory: sol.category ? sol.category.replace(/-/g, ' ') : 'Telematics Software',
+          image: sol.image || '/images/categories/cat-vehicle-tracking.png',
+          specifications: {
+            'Platform Type': 'Enterprise Fleet Telematics SaaS & Dedicated Private Cloud',
+            'Supported Protocols': 'Over 1,500+ GPS hardware devices, AIS-140, OBD-II & BLE',
+            'Data Streaming': 'Sub-second real-time streaming (MQTT, WebSockets, REST)',
+            'Availability SLA': '99.9% High Availability Uptime Guarantee',
+            'Mobile Apps': 'Native Android App & iOS App with Push Notifications',
+            'API & Webhooks': 'Complete RESTful API Suite for ERP / TMS integration',
+            'Hosting': 'Multi-region AWS / Google Cloud with automated backups',
+            'Hardware Compatibility': sol.compatibleHardware ? sol.compatibleHardware.join(', ') : 'All Setu Hardware'
+          },
+          features: sol.highlights || [
+            'Real-time GPS vehicle tracking with live route breadcrumbs',
+            'Customizable geofencing alerts and unauthorized movement notifications',
+            'Speed monitoring, rash driving detection, and driver scoring',
+            '90-day comprehensive trip playback and fuel efficiency analytics'
+          ]
+        };
+      }
+    }
+
     if (isAutoPartsRoute) {
       const auto = autopartsData.parts?.find(
         (p) => p.id === slug || p.slug === slug || p.partNumber?.toLowerCase() === slug?.toLowerCase()
@@ -27,6 +65,39 @@ export default function ProductDetail() {
     // Try finding in hardware products
     const hw = products.find((p) => p.slug === slug || p.id === slug);
     if (hw) return { ...hw, isAutoPart: false };
+
+    // Try finding in solutions data even if route doesn't have /solutions
+    const sol = solutionsData.find((s) => s.id === slug || s.slug === slug);
+    if (sol) {
+      return {
+        ...sol,
+        slug: sol.id,
+        isSolution: true,
+        price: 199,
+        buttonMode: 'dual',
+        consumptionUnit: 'Per Vehicle / Month',
+        brand: 'Setu Telematics',
+        categoryName: 'Software Solutions',
+        subcategory: sol.category ? sol.category.replace(/-/g, ' ') : 'Telematics Software',
+        image: sol.image || '/images/categories/cat-vehicle-tracking.png',
+        specifications: {
+          'Platform Type': 'Enterprise Fleet Telematics SaaS & Dedicated Private Cloud',
+          'Supported Protocols': 'Over 1,500+ GPS hardware devices, AIS-140, OBD-II & BLE',
+          'Data Streaming': 'Sub-second real-time streaming (MQTT, WebSockets, REST)',
+          'Availability SLA': '99.9% High Availability Uptime Guarantee',
+          'Mobile Apps': 'Native Android App & iOS App with Push Notifications',
+          'API & Webhooks': 'Complete RESTful API Suite for ERP / TMS integration',
+          'Hosting': 'Multi-region AWS / Google Cloud with automated backups',
+          'Hardware Compatibility': sol.compatibleHardware ? sol.compatibleHardware.join(', ') : 'All Setu Hardware'
+        },
+        features: sol.highlights || [
+          'Real-time GPS vehicle tracking with live route breadcrumbs',
+          'Customizable geofencing alerts and unauthorized movement notifications',
+          'Speed monitoring, rash driving detection, and driver scoring',
+          '90-day comprehensive trip playback and fuel efficiency analytics'
+        ]
+      };
+    }
 
     // Try finding in auto parts
     const auto = autopartsData.parts?.find(
@@ -39,15 +110,15 @@ export default function ProductDetail() {
       return { ...autopartsData.parts[0], isAutoPart: true };
     }
     return products[0];
-  }, [slug, isAutoPartsRoute]);
+  }, [slug, isAutoPartsRoute, isSolutionsRoute]);
 
   if (!product) {
     return (
       <div className="setu-ui-notfound">
-        <h2>{isAutoPartsRoute ? 'Auto Part not found' : 'Hardware not found'}</h2>
+        <h2>{isSolutionsRoute ? 'Solution not found' : isAutoPartsRoute ? 'Auto Part not found' : 'Hardware not found'}</h2>
         <button 
           className="setu-ui-btn-primary" 
-          onClick={() => navigate(isAutoPartsRoute ? '/auto-parts' : '/hardware')}
+          onClick={() => navigate(isSolutionsRoute ? '/solutions' : isAutoPartsRoute ? '/auto-parts' : '/hardware')}
         >
           ‹ Back
         </button>
@@ -56,24 +127,33 @@ export default function ProductDetail() {
   }
 
   const isAutoPart = Boolean(product.isAutoPart);
+  const isSolution = Boolean(product.isSolution);
 
   // Specifications and metadata
   const sp = product.specifications || {};
-  const isPrithvi = !isAutoPart && (product.name?.toLowerCase().includes('prithvi') || product.slug?.toLowerCase().includes('prithvi') || product.slug?.includes('140'));
+  const isPrithvi = !isAutoPart && !isSolution && (product.name?.toLowerCase().includes('prithvi') || product.slug?.toLowerCase().includes('prithvi') || product.slug?.includes('140'));
   
-  const brandName = isAutoPart
+  const brandName = isSolution
+    ? (product.brand || 'Setu Telematics')
+    : isAutoPart
     ? (product.brand || 'OEM Supplier')
     : (sp.brand || (isPrithvi ? 'Watsoo Express' : product.name?.includes('Advance') ? 'Advance' : product.name?.includes('V5') ? 'Markon' : 'Advance'));
   
-  const productId = isAutoPart
+  const productId = isSolution
+    ? `SETU-SOL-${product.slug ? product.slug.toUpperCase() : 'APP'}`
+    : isAutoPart
     ? (product.partNumber || product.id?.toUpperCase())
     : `SETU-${product.slug ? product.slug.toUpperCase() : 'DEVICE'}`;
   
-  const subcat = isAutoPart
+  const subcat = isSolution
+    ? (product.subcategory || 'Software Solutions')
+    : isAutoPart
     ? (product.categoryName || (product.category ? product.category.replace(/-/g, ' ') : 'Auto Spare Parts'))
     : (product.subcategory ? product.subcategory.replace(/-/g, ' ') : 'Wired GPS Tracker');
   
-  const connectivity = isAutoPart
+  const connectivity = isSolution
+    ? 'Cloud SaaS (Web & Mobile)'
+    : isAutoPart
     ? (sp.Material || sp.Position || product.origin || 'OEM Standard')
     : (sp.connectivity || (isPrithvi ? 'GSM, GPS, GNSS & IRNSS (NavIC)' : product.name?.includes('4G') ? '4G LTE' : '2G'));
 
@@ -449,7 +529,15 @@ export default function ProductDetail() {
           <nav className="setu-ui-breadcrumbs">
             <Link to="/setu">Home</Link>
             <span className="setu-ui-sep">›</span>
-            {isAutoPart ? (
+            {isSolution ? (
+              <>
+                <Link to="/solutions">Software Solutions</Link>
+                <span className="setu-ui-sep">›</span>
+                <span className="setu-ui-subcat-badge">{subcat}</span>
+                <span className="setu-ui-sep">›</span>
+                <span className="setu-ui-current-crumb">{product.name}</span>
+              </>
+            ) : isAutoPart ? (
               <>
                 <Link to="/auto-parts">Auto Spare Parts</Link>
                 <span className="setu-ui-sep">›</span>
@@ -471,7 +559,7 @@ export default function ProductDetail() {
           <button 
             type="button" 
             className="setu-ui-back-btn" 
-            onClick={() => navigate(isAutoPart ? '/auto-parts' : '/hardware')}
+            onClick={() => navigate(isSolution ? '/solutions' : isAutoPart ? '/auto-parts' : '/hardware')}
           >
             ‹ Back
           </button>
