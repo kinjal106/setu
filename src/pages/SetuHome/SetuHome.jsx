@@ -569,10 +569,6 @@ const SEARCH_SUGGESTIONS = [
   {
     label: 'GPS container e-lock',
     query: 'GPS container e-lock'
-  },
-  {
-    label: 'Magnetic asset tracker',
-    query: 'magnetic asset tracker'
   }
 ];
 
@@ -790,7 +786,6 @@ function PrimaryIntelligentSearchBar({ onSearchActiveChange, onOpenFinder, onOpe
 
       {/* ── Search Suggestions Directly Below Search Bar (Single Line) ── */}
       <div className="search-suggestions-row">
-        <span className="search-suggestions-label">Suggestions:</span>
         <div className="search-suggestions-list">
           {SEARCH_SUGGESTIONS.map((item, idx) => (
             <button
