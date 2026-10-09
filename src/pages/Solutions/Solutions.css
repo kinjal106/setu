@@ -46,11 +46,11 @@
 }
 
 .solutions-title {
-  font-size: 24px;
-  font-weight: 700;
-  color: #0F172A;
-  margin: 0 0 6px 0;
+  color: rgb(15, 23, 42);
   letter-spacing: -0.02em;
+  font-size: 20px;
+  font-weight: 750;
+  margin: 0 0 6px 0;
   line-height: 1.2;
 }
 

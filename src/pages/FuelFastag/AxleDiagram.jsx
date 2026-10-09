@@ -8,9 +8,7 @@ import React from 'react';
 export default function AxleDiagram() {
   return (
     <div className="axle-diagram-box">
-      <div className="axle-diagram-header">
-        <h3 className="axle-diagram-title">How to count axles</h3>
-      </div>
+      <h3 className="axle-diagram-title">How to count axles</h3>
 
       <div className="axle-diagram-row">
         {/* Left Side: Truck graphic & formula */}
@@ -122,19 +120,19 @@ export default function AxleDiagram() {
         <div className="axle-diagram-right">
           <ul className="axle-diagram-bullets">
             <li className="axle-bullet-item">
-              <span className="axle-bullet-marker">1</span>
+              <span className="axle-bullet-dot">•</span>
               <span className="axle-bullet-text">
                 Look from the side and count each line of wheels, front to back.
               </span>
             </li>
             <li className="axle-bullet-item">
-              <span className="axle-bullet-marker">2</span>
+              <span className="axle-bullet-dot">•</span>
               <span className="axle-bullet-text">
                 Twin tyres on the same line are one axle.
               </span>
             </li>
             <li className="axle-bullet-item">
-              <span className="axle-bullet-marker">3</span>
+              <span className="axle-bullet-dot">•</span>
               <span className="axle-bullet-text">
                 For a trailer, count the axles of the truck and the trailer together.
               </span>

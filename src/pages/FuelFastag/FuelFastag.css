@@ -340,20 +340,13 @@
 }
 
 .ff-section-title {
-  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: rgb(15, 23, 42);
+  letter-spacing: -0.02em;
   font-size: 20px;
   font-weight: 750;
-  color: #0F172A;
-  margin: 0;
-  letter-spacing: -0.02em;
+  margin: 0px;
+  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   line-height: 1.3;
-}
-
-.ff-section-subtitle {
-  font-size: 14px;
-  color: #64748B;
-  margin: 0;
-  line-height: 1.5;
 }
 
 /* ── Axle Counting Box Diagram Card ── */
@@ -361,50 +354,44 @@
   background: #FFFFFF;
   border: 1px solid #BFDBFE;
   border-radius: 16px;
-  padding: 22px 28px;
+  padding: 24px 32px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
   box-sizing: border-box;
   width: 100%;
 }
 
-.axle-diagram-header {
-  margin-bottom: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
 .axle-diagram-title {
+  color: rgb(15, 23, 42);
+  letter-spacing: -0.02em;
+  font-size: 20px;
+  font-weight: 750;
+  margin: 0px 0px 20px 0px;
   font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  font-size: 16px;
-  font-weight: 700;
-  color: #0F172A;
-  margin: 0;
-  letter-spacing: -0.01em;
+  line-height: 1.3;
 }
 
 .axle-diagram-row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 36px;
+  justify-content: flex-start;
+  gap: 48px;
   width: 100%;
 }
 
 /* Left Column: Truck graphic & calculation formula */
 .axle-diagram-left {
-  flex: 1 1 54%;
+  flex: 0 0 500px;
+  width: 500px;
+  max-width: 50%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-width: 0;
+  box-sizing: border-box;
 }
 
 .axle-diagram-canvas-wrap {
   width: 100%;
-  max-width: 520px;
-  margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -418,8 +405,9 @@
 }
 
 .axle-diagram-summary {
-  margin-top: 8px;
+  margin-top: 10px;
   text-align: center;
+  width: 100%;
 }
 
 .axle-diagram-formula {
@@ -439,13 +427,14 @@
 
 /* Right Column: Explanatory Bullet Points */
 .axle-diagram-right {
-  flex: 1 1 46%;
+  flex: 1;
   border-left: 1px solid #E2E8F0;
-  padding-left: 32px;
+  padding-left: 40px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-width: 0;
+  box-sizing: border-box;
+  min-width: 280px;
 }
 
 .axle-diagram-bullets {
@@ -454,7 +443,7 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
 }
 
 .axle-bullet-item {
@@ -463,34 +452,31 @@
   gap: 12px;
 }
 
-.axle-bullet-marker {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: #EFF6FF;
-  border: 1px solid #BFDBFE;
+.axle-bullet-dot {
   color: #2563EB;
-  font-size: 12px;
-  font-weight: 700;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  font-size: 24px;
+  line-height: 0.8;
+  font-weight: 900;
   flex-shrink: 0;
-  margin-top: 1px;
+  margin-top: 3px;
 }
 
 .axle-bullet-text {
   font-size: 14px;
-  line-height: 1.55;
+  line-height: 1.6;
   color: #334155;
   font-weight: 500;
 }
 
-@media (max-width: 860px) {
+@media (max-width: 960px) {
   .axle-diagram-row {
     flex-direction: column;
     align-items: stretch;
-    gap: 20px;
+    gap: 24px;
+  }
+  .axle-diagram-left {
+    width: 100%;
+    max-width: 100%;
   }
   .axle-diagram-right {
     border-left: none;
@@ -515,12 +501,12 @@
 }
 
 .ff-table-title {
-  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: rgb(15, 23, 42);
+  letter-spacing: -0.02em;
   font-size: 20px;
   font-weight: 750;
-  color: #0F172A;
-  letter-spacing: -0.02em;
-  margin: 0 0 4px 0;
+  margin: 0px 0px 4px 0px;
+  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   line-height: 1.3;
 }
 
@@ -819,10 +805,13 @@
 }
 
 .ff-modal-head h3 {
-  font-size: 18px;
-  font-weight: 800;
-  color: #0F172A;
-  margin: 0;
+  color: rgb(15, 23, 42);
+  letter-spacing: -0.02em;
+  font-size: 20px;
+  font-weight: 750;
+  margin: 0px;
+  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.3;
 }
 
 .ff-modal-close {
