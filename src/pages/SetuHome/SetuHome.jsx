@@ -576,12 +576,68 @@ const SEARCH_SUGGESTIONS = [
   }
 ];
 
+const ANIMATED_SEARCH_PHRASES = [
+  'Search devices, models, features or describe what you need...',
+  'Search "AIS 140 GPS trackers with emergency SOS"...',
+  'Search "AI dashcams with driver fatigue alerts"...',
+  'Search "Fuel level sensors to prevent diesel theft"...',
+  'Search "GPS smart e-locks for container cargo security"...',
+  'Search "Magnetic asset trackers with 45-day battery"...',
+  'Search "OBD-II vehicle trackers with diagnostics"...'
+];
+
 function PrimaryIntelligentSearchBar({ onSearchActiveChange, onOpenFinder, onOpenFilters, onOpenAIChat }) {
   const navigate = useNavigate();
   const [query, setQuery] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const containerRef = useRef(null);
   const inputRef = useRef(null);
+
+  // Dynamic Typewriter Animated Placeholder
+  const [phraseIndex, setPhraseIndex] = useState(0);
+  const [charIndex, setCharIndex] = useState(ANIMATED_SEARCH_PHRASES[0].length);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    // When focused, pause typing animation so user can comfortably read or type
+    if (isFocused) return;
+
+    const currentPhrase = ANIMATED_SEARCH_PHRASES[phraseIndex % ANIMATED_SEARCH_PHRASES.length];
+
+    if (!isDeleting) {
+      if (charIndex < currentPhrase.length) {
+        const timer = setTimeout(() => {
+          setCharIndex((prev) => prev + 1);
+        }, 36);
+        return () => clearTimeout(timer);
+      } else {
+        // Full phrase displayed: pause for 2.2s before erasing
+        const timer = setTimeout(() => {
+          setIsDeleting(true);
+        }, 2200);
+        return () => clearTimeout(timer);
+      }
+    } else {
+      if (charIndex > 7) {
+        // Keeps 'Search ' anchor while erasing the query part
+        const timer = setTimeout(() => {
+          setCharIndex((prev) => prev - 1);
+        }, 16);
+        return () => clearTimeout(timer);
+      } else {
+        // Erased to 'Search ': advance to next phrase
+        setIsDeleting(false);
+        setPhraseIndex((prev) => (prev + 1) % ANIMATED_SEARCH_PHRASES.length);
+        const timer = setTimeout(() => {}, 250);
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [charIndex, isDeleting, phraseIndex, isFocused]);
+
+  const animatedPlaceholder = useMemo(() => {
+    const currentPhrase = ANIMATED_SEARCH_PHRASES[phraseIndex % ANIMATED_SEARCH_PHRASES.length];
+    return currentPhrase.substring(0, charIndex);
+  }, [phraseIndex, charIndex]);
 
   useEffect(() => {
     onSearchActiveChange(isFocused || Boolean(query.trim()));
@@ -697,10 +753,10 @@ function PrimaryIntelligentSearchBar({ onSearchActiveChange, onOpenFinder, onOpe
           type="text"
           className="intelligent-search-bar__input"
           value={query}
-          placeholder="Search devices, models, features or describe what you need..."
+          placeholder={animatedPlaceholder}
           onChange={(e) => setQuery(e.target.value)}
           onFocus={() => setIsFocused(true)}
-          aria-label="Search devices, models, features or describe what you need"
+          aria-label={animatedPlaceholder}
         />
 
         {/* Clear query button */}
