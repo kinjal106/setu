@@ -122,7 +122,7 @@ const HERO_SLIDES = [
 ];
 
 /* ────────────────────────────────────────────────────────────
-   2. CATEGORIES DATA (8 CARDS MATCHING SETU ARCHITECTURE)
+   2. CATEGORIES DATA (10 CARDS FOR 5×2 BALANCED GRID)
 ──────────────────────────────────────────────────────────── */
 const SHOP_CATEGORIES = [
   {
@@ -147,18 +147,32 @@ const SHOP_CATEGORIES = [
     image: '/images/categories/cat-asset-logistics.png'
   },
   {
-    id: 'personal-safety',
-    title: 'Personal & Safety Tracking',
-    count: 'Available Soon',
-    path: '/hardware?category=personal-safety',
-    image: '/images/categories/cat-personal-safety.png'
-  },
-  {
     id: 'fuel-sensors',
     title: 'Fuel & Vehicle Sensors',
     count: '1 product',
     path: '/hardware?category=fuel-sensors',
     image: '/images/categories/cat-fuel-sensors.png'
+  },
+  {
+    id: 'ais-140',
+    title: 'AIS 140 Govt. Certified',
+    count: '3 products',
+    path: '/hardware?category=vehicle-tracking&sub=ais-gps-device',
+    image: '/images/hardware/prithvi-140.svg'
+  },
+  {
+    id: 'cargo-elocks',
+    title: 'GPS Smart E-Locks',
+    count: '2 products',
+    path: '/hardware?category=asset-logistics&sub=e-lock-tracker',
+    image: '/images/hardware/7h-elock.svg'
+  },
+  {
+    id: 'personal-safety',
+    title: 'Personal & Safety Tracking',
+    count: 'Available Soon',
+    path: '/hardware?category=personal-safety',
+    image: '/images/categories/cat-personal-safety.png'
   },
   {
     id: 'iot-sensors',
@@ -856,6 +870,16 @@ const FEATURED_PRODUCTS = [
     image: '/images/hardware/v5-4g.svg',
     price: 2850,
     bulkTierText: '₹2,490 each on 500+'
+  },
+  {
+    id: 'gb440',
+    slug: 'gb440',
+    name: 'GB440 Fleet Tracker',
+    brand: 'M Series',
+    badge: 'Sponsored',
+    image: '/images/hardware/gb440.svg',
+    price: 3100,
+    bulkTierText: '₹2,710 each on 500+'
   }
 ];
 
@@ -895,6 +919,15 @@ const NEW_ARRIVALS_PRODUCTS = [
     image: '/images/hardware/gl500-4g.svg',
     price: 10800,
     bulkTierText: '₹9,450 each on 500+'
+  },
+  {
+    id: 'lls-ultrasonic',
+    slug: 'lls-ultrasonic',
+    name: 'LLS-03 Ultrasonic Level Sensor',
+    badge: 'New',
+    image: '/images/hardware/sp-ble4-fuel.svg',
+    price: 5200,
+    bulkTierText: '₹4,550 each on 500+'
   }
 ];
 
@@ -922,7 +955,7 @@ function FeaturedProductsSection() {
     }, 2000);
   };
 
-  const currentProducts = (activeTab === 'featured' ? FEATURED_PRODUCTS : NEW_ARRIVALS_PRODUCTS).slice(0, 4);
+  const currentProducts = (activeTab === 'featured' ? FEATURED_PRODUCTS : NEW_ARRIVALS_PRODUCTS).slice(0, 5);
 
   return (
     <section className="featured-tabs-section">
@@ -1012,12 +1045,6 @@ function FeaturedProductsSection() {
                 <h4 className="featured-product-card__title" title={p.name}>
                   {p.name}
                 </h4>
-
-                {/* Rating line */}
-                <div className="featured-product-card__rating">
-                  <span className="featured-product-card__stars">★★★★★</span>
-                  <span className="featured-product-card__rating-text">No reviews yet</span>
-                </div>
 
                 {/* Price block */}
                 <div className="featured-product-card__price-box">
