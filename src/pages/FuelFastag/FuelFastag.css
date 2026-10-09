@@ -332,7 +332,7 @@
 
 /* ── 3. Section: FASTag Vehicle Classes Intro ── */
 .ff-classes-intro-section {
-  margin-bottom: 36px;
+  margin-bottom: 32px;
 }
 
 .ff-section-head {
@@ -340,11 +340,13 @@
 }
 
 .ff-section-title {
-  font-size: 22px;
-  font-weight: 800;
+  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 20px;
+  font-weight: 750;
   color: #0F172A;
-  margin: 0 0 6px 0;
+  margin: 0;
   letter-spacing: -0.02em;
+  line-height: 1.3;
 }
 
 .ff-section-subtitle {
@@ -359,23 +361,50 @@
   background: #FFFFFF;
   border: 1px solid #BFDBFE;
   border-radius: 16px;
-  padding: 24px 32px;
+  padding: 22px 28px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
   box-sizing: border-box;
   width: 100%;
 }
 
+.axle-diagram-header {
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .axle-diagram-title {
+  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 16px;
-  font-weight: 800;
+  font-weight: 700;
   color: #0F172A;
-  margin: 0 0 16px 0;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.axle-diagram-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 36px;
+  width: 100%;
+}
+
+/* Left Column: Truck graphic & calculation formula */
+.axle-diagram-left {
+  flex: 1 1 54%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
 }
 
 .axle-diagram-canvas-wrap {
   width: 100%;
-  max-width: 680px;
-  margin: 0 auto 16px;
+  max-width: 520px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -384,12 +413,12 @@
 .axle-diagram-svg {
   width: 100%;
   height: auto;
-  max-height: 190px;
+  max-height: 175px;
   display: block;
 }
 
 .axle-diagram-summary {
-  margin-top: 10px;
+  margin-top: 8px;
   text-align: center;
 }
 
@@ -405,18 +434,70 @@
   border: 1px solid #DBEAFE;
   padding: 2px 8px;
   border-radius: 6px;
+  display: inline-block;
+}
+
+/* Right Column: Explanatory Bullet Points */
+.axle-diagram-right {
+  flex: 1 1 46%;
+  border-left: 1px solid #E2E8F0;
+  padding-left: 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
 }
 
 .axle-diagram-bullets {
+  list-style: none;
   margin: 0;
-  padding-left: 20px;
-  color: #475569;
-  font-size: 13px;
-  line-height: 1.8;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
-.axle-diagram-bullets li {
-  margin-bottom: 2px;
+.axle-bullet-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.axle-bullet-marker {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #EFF6FF;
+  border: 1px solid #BFDBFE;
+  color: #2563EB;
+  font-size: 12px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.axle-bullet-text {
+  font-size: 14px;
+  line-height: 1.55;
+  color: #334155;
+  font-weight: 500;
+}
+
+@media (max-width: 860px) {
+  .axle-diagram-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+  }
+  .axle-diagram-right {
+    border-left: none;
+    border-top: 1px solid #E2E8F0;
+    padding-left: 0;
+    padding-top: 20px;
+  }
 }
 
 /* ── 4. Section: All 20 NETC Classes Table ── */
@@ -434,10 +515,13 @@
 }
 
 .ff-table-title {
+  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 20px;
-  font-weight: 800;
+  font-weight: 750;
   color: #0F172A;
+  letter-spacing: -0.02em;
   margin: 0 0 4px 0;
+  line-height: 1.3;
 }
 
 .ff-table-subtitle {

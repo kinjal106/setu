@@ -167,11 +167,6 @@ export default function FuelFastag() {
         <section className="ff-classes-intro-section">
           <div className="ff-section-head">
             <h2 className="ff-section-title">FASTag vehicle classes</h2>
-            <p className="ff-section-subtitle">
-              Your RC shows the vehicle's weight (GVW), but tolls are charged on the number of axles.
-              Use the table to see which tag class each vehicle needs. Our executive confirms the class for
-              every vehicle on the call.
-            </p>
           </div>
 
           {/* How to count axles Card Diagram */}
