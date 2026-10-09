@@ -73,7 +73,7 @@
   box-sizing: border-box;
 }
 
-/* Slide Layout: 46% Content / 54% Visual */
+/* Slide Layout: Content spans across left & middle, Visual on right */
 .dark-hero-slider__body {
   position: relative;
   z-index: 2;
@@ -85,18 +85,18 @@
   box-sizing: border-box;
 }
 
-/* Left Content Area */
+/* Left & Middle Content Area */
 .dark-hero-slider__content {
-  flex: 0 0 46%;
-  max-width: 500px;
+  flex: 0 0 58%;
+  max-width: 720px;
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /* Top 32px, Right 56px (generous breathing room), Bottom 56px, Left 92px (complete clearance from left arrow button) */
-  padding: 32px 56px 56px 92px;
+  /* Left 90px (clearance from < button), Right 28px, Bottom 56px (clear of search bar) */
+  padding: 26px 28px 56px 90px;
   box-sizing: border-box;
-  background: linear-gradient(90deg, rgba(6, 26, 56, 0.98) 0%, rgba(6, 26, 56, 0.88) 78%, rgba(6, 26, 56, 0) 100%);
+  background: linear-gradient(90deg, rgba(6, 26, 56, 0.98) 0%, rgba(6, 26, 56, 0.92) 58%, rgba(6, 26, 56, 0.6) 82%, transparent 100%);
   z-index: 3;
 }
 
@@ -116,9 +116,9 @@
 }
 
 .dark-hero-slider__headline {
-  font-size: clamp(21px, 2.1vw, 26px);
+  font-size: clamp(23px, 2.2vw, 29px);
   font-weight: 750;
-  line-height: 1.25;
+  line-height: 1.24;
   color: #FFFFFF;
   letter-spacing: -0.02em;
   margin: 0 0 12px;
@@ -130,6 +130,7 @@
 .dark-hero-slider__headline-line1 {
   display: block;
   color: #FFFFFF;
+  white-space: nowrap;
 }
 
 .dark-hero-slider__headline-line2 {
@@ -137,14 +138,15 @@
   background: linear-gradient(135deg, #60A5FA 0%, #C084FC 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  white-space: nowrap;
 }
 
 .dark-hero-slider__description {
   font-size: 14px;
   line-height: 1.55;
-  color: rgba(226, 232, 240, 0.84);
+  color: rgba(226, 232, 240, 0.88);
   margin: 0 0 22px;
-  max-width: 430px;
+  max-width: 580px;
 }
 
 /* CTA Buttons */
@@ -200,7 +202,7 @@
 
 /* Right Visual Area */
 .dark-hero-slider__visual {
-  flex: 0 0 54%;
+  flex: 0 0 48%;
   height: 100%;
   position: relative;
   display: flex;
@@ -310,6 +312,10 @@
     flex: 0 0 100%;
     max-width: 100%;
     padding: 30px 24px 70px 72px;
+  }
+  .dark-hero-slider__headline-line1,
+  .dark-hero-slider__headline-line2 {
+    white-space: normal;
   }
   .dark-hero-slider__visual {
     display: none;
