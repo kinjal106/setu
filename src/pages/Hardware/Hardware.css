@@ -760,12 +760,13 @@
 }
 
 .hw-page-title {
-  font-size: 24px;
-  font-weight: 700;
   color: #0F172A;
-  margin: 0;
   letter-spacing: -0.02em;
-  line-height: 1.2;
+  margin: 0;
+  font-size: 20px;
+  font-weight: 750;
+  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.3;
 }
 
 .hw-google-search-bar {

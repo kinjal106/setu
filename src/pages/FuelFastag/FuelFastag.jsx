@@ -86,6 +86,18 @@ export default function FuelFastag() {
     });
   }, [flatVehicles, selectedTagFilter, searchQuery]);
 
+  // Table expand/collapse state: show first 4 items by default
+  const [isTableExpanded, setIsTableExpanded] = useState(false);
+
+  const isFilteredOrSearched = Boolean(searchQuery.trim() || selectedTagFilter !== 'ALL');
+
+  const visibleVehicles = useMemo(() => {
+    if (isTableExpanded || isFilteredOrSearched) {
+      return filteredVehicles;
+    }
+    return filteredVehicles.slice(0, 4);
+  }, [filteredVehicles, isTableExpanded, isFilteredOrSearched]);
+
   return (
     <div className="fuel-fastag-page">
       <div className="ff-page-container">
@@ -178,9 +190,6 @@ export default function FuelFastag() {
           <div className="ff-table-head-wrap">
             <div>
               <h3 className="ff-table-title">All 20 NETC vehicle classes</h3>
-              <p className="ff-table-subtitle">
-                Mapper class is what the toll system uses; the tag class is printed on the FASTag.
-              </p>
             </div>
 
             {/* Search Filter */}
@@ -236,7 +245,7 @@ export default function FuelFastag() {
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredVehicles.map((item, idx) => (
+                  {visibleVehicles.map((item, idx) => (
                     <tr key={`${item.tagClass}-${item.name}-${idx}`} className="ff-table-row">
                       {/* Tag Class Badge Column */}
                       <td className="ff-col-tag">
@@ -296,6 +305,36 @@ export default function FuelFastag() {
                 </tbody>
               </table>
             </div>
+
+            {/* Expand / Collapse Toggle Bar */}
+            {filteredVehicles.length > 4 && !isFilteredOrSearched && (
+              <div className="ff-table-expand-bar">
+                <button
+                  type="button"
+                  className="ff-table-expand-btn"
+                  onClick={() => setIsTableExpanded(!isTableExpanded)}
+                >
+                  <span>
+                    {isTableExpanded
+                      ? 'Collapse vehicle classes'
+                      : `View all ${filteredVehicles.length} NETC vehicle classes (${filteredVehicles.length - 4} more)`}
+                  </span>
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className={`ff-expand-chevron ${isTableExpanded ? 'ff-expand-chevron--open' : ''}`}
+                  >
+                    <polyline points="6 9 12 15 18 9" />
+                  </svg>
+                </button>
+              </div>
+            )}
 
             {/* Table Footer Citation */}
             <div className="ff-table-footer">
