@@ -88,22 +88,6 @@ export default function FuelFastag() {
 
   return (
     <div className="fuel-fastag-page">
-      {/* ── 1. Top Sub-header with Back Button & Title ── */}
-      <div className="ff-sub-header">
-        <button
-          type="button"
-          className="ff-back-btn"
-          onClick={() => navigate(-1)}
-          title="Back to previous page"
-        >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <polyline points="15 18 9 12 15 6" />
-          </svg>
-          <span>Back</span>
-        </button>
-        <span className="ff-sub-title">Fuel &amp; FASTag</span>
-      </div>
-
       <div className="ff-page-container">
         {/* ── 2. Hero Banner (Matches Home Page Hero Styling & Screenshot 1) ── */}
         <section className="ff-hero-banner">
