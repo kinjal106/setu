@@ -1,8 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import solutionsData from '../../data/solutions.json';
 import { SolutionCardVisual } from './SolutionVisuals';
+import { getAssetUrl } from '../../utils/assetUrl';
 import './Solutions.css';
+
+/**
+ * Image component with automatic fallback to vector illustration if image fails to load
+ */
+function SolutionCardImage({ sol }) {
+  const [hasError, setHasError] = useState(false);
+
+  if (hasError || !sol.image) {
+    return <SolutionCardVisual solutionId={sol.id} />;
+  }
+
+  return (
+    <img
+      src={getAssetUrl(sol.image)}
+      alt={sol.name}
+      className="sol-box-card__img"
+      loading="lazy"
+      onError={() => setHasError(true)}
+    />
+  );
+}
 
 export default function Solutions() {
   const navigate = useNavigate();
@@ -33,9 +55,9 @@ export default function Solutions() {
                 }
               }}
             >
-              {/* 1. Image */}
+              {/* 1. Image (Stock Image) */}
               <div className="sol-box-card__img-box">
-                <SolutionCardVisual solutionId={sol.id} />
+                <SolutionCardImage sol={sol} />
               </div>
 
               {/* 2. Title & 3. Small Description */}

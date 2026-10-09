@@ -97,7 +97,7 @@
 .sol-box-card__img-box {
   width: 100%;
   height: 165px;
-  background: #F8FAFC;
+  background: #F1F5F9;
   border-radius: 12px;
   border: 1px solid #E2E8F0;
   overflow: hidden;
@@ -105,10 +105,22 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 14px;
   box-sizing: border-box;
   margin-bottom: 14px;
   transition: all 0.2s ease;
+}
+
+.sol-box-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sol-box-card:hover .sol-box-card__img {
+  transform: scale(1.05);
 }
 
 .sol-vehicle-wrap {
@@ -117,6 +129,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 10px 14px;
+  box-sizing: border-box;
 }
 
 .sol-vehicle-svg {

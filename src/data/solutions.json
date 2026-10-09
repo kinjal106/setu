@@ -2,6 +2,7 @@
   {
     "id": "trakzee-mini",
     "name": "Trakzee Mini",
+    "image": "/images/solutions/trakzee-mini.jpg",
     "tag": "POPULAR",
     "tagColor": "#F97316",
     "theme": "dark",
@@ -25,6 +26,7 @@
   {
     "id": "petzee",
     "name": "Petzee",
+    "image": "/images/solutions/petzee.jpg",
     "tag": "NEW",
     "tagColor": "#EA580C",
     "theme": "light",
@@ -47,6 +49,7 @@
   {
     "id": "elexee",
     "name": "Elexee",
+    "image": "/images/solutions/elexee.jpg",
     "tag": "EV FLEET",
     "tagColor": "#10B981",
     "theme": "dark",
@@ -70,6 +73,7 @@
   {
     "id": "taskeye",
     "name": "TaskEye",
+    "image": "/images/solutions/taskeye.jpg",
     "tag": "WORKFORCE",
     "tagColor": "#38BDF8",
     "theme": "dark",
@@ -92,6 +96,7 @@
   {
     "id": "smart-waste",
     "name": "SmartWaste",
+    "image": "/images/solutions/smart-waste.jpg",
     "tag": "SMART CITY",
     "tagColor": "#10B981",
     "theme": "light",
@@ -115,6 +120,7 @@
   {
     "id": "smart-tranzit",
     "name": "SmartTranzit",
+    "image": "/images/solutions/smart-tranzit.jpg",
     "tag": "PUBLIC TRANSIT",
     "tagColor": "#A855F7",
     "theme": "dark",
@@ -138,6 +144,7 @@
   {
     "id": "smartbus",
     "name": "SmartBus",
+    "image": "/images/solutions/smartbus.jpg",
     "tag": "CAMPUS SAFETY",
     "tagColor": "#F59E0B",
     "theme": "light",
@@ -161,6 +168,7 @@
   {
     "id": "gridzee",
     "name": "Gridzee",
+    "image": "/images/solutions/gridzee.jpg",
     "tag": "INDOOR IOT",
     "tagColor": "#EC4899",
     "theme": "dark",
