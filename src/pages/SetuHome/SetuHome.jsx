@@ -982,7 +982,10 @@ function FeaturedProductsSection() {
             onClick={() => navigate('/hardware')}
           >
             <span>View all</span>
-            <span className="featured-tabs-view-all__arrow">→</span>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M5 12h14" />
+              <path d="m12 5 7 7-7 7" />
+            </svg>
           </button>
         </div>
       </div>

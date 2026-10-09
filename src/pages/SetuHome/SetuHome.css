@@ -825,11 +825,11 @@
   background: none;
   border: none;
   color: #006EFF;
-  font-size: 13.5px;
+  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   padding: 4px 0;
-  transition: transform 160ms ease;
+  transition: all 160ms ease;
   font-family: inherit;
 }
 
@@ -1605,27 +1605,21 @@
 .featured-tabs-view-all {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  font-size: 13px;
+  gap: 6px;
+  font-size: 14px;
   font-weight: 600;
   color: #006EFF;
   background: none;
   border: none;
   cursor: pointer;
-  transition: all 150ms ease;
+  padding: 4px 0;
+  transition: all 160ms ease;
   font-family: inherit;
 }
 
 .featured-tabs-view-all:hover {
-  color: #0056cc;
-}
-
-.featured-tabs-view-all__arrow {
-  transition: transform 150ms ease;
-}
-
-.featured-tabs-view-all:hover .featured-tabs-view-all__arrow {
-  transform: translateX(3px);
+  color: #0055CC;
+  transform: translateX(2px);
 }
 
 /* ── 5 Cards Horizontal Grid (Matching Shop by Category 5-column layout) ── */
