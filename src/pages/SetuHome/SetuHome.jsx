@@ -335,35 +335,95 @@ function generateAIOverview(query) {
 ──────────────────────────────────────────────────────────── */
 function DarkHeroBannerSlider({ onLearnMore, isSearchActive }) {
   const navigate = useNavigate();
-  const [currentSlide, setCurrentSlide] = useState(0);
+  const slideCount = HERO_SLIDES.length;
+
+  // Extended slides with clones at boundaries for seamless infinite looping
+  const extendedSlides = useMemo(() => {
+    return [
+      HERO_SLIDES[slideCount - 1],
+      ...HERO_SLIDES,
+      HERO_SLIDES[0]
+    ];
+  }, [slideCount]);
+
+  const [displayIndex, setDisplayIndex] = useState(1);
+  const [isTransitioning, setIsTransitioning] = useState(true);
   const [isPaused, setIsPaused] = useState(false);
+  const isAnimatingRef = useRef(false);
+  const trackRef = useRef(null);
   const autoRotateMs = 5000;
 
+  const nextSlide = useCallback(() => {
+    if (isAnimatingRef.current) return;
+    isAnimatingRef.current = true;
+    setIsTransitioning(true);
+    setDisplayIndex((prev) => prev + 1);
+  }, []);
+
+  const prevSlide = useCallback(() => {
+    if (isAnimatingRef.current) return;
+    isAnimatingRef.current = true;
+    setIsTransitioning(true);
+    setDisplayIndex((prev) => prev - 1);
+  }, []);
+
+  const handleTransitionEnd = (e) => {
+    if (e.target !== trackRef.current) return;
+
+    if (displayIndex >= extendedSlides.length - 1) {
+      // Reached the right clone, instantly snap to real slide 0
+      setIsTransitioning(false);
+      setDisplayIndex(1);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setIsTransitioning(true);
+          isAnimatingRef.current = false;
+        });
+      });
+    } else if (displayIndex <= 0) {
+      // Reached the left clone, instantly snap to real last slide
+      setIsTransitioning(false);
+      setDisplayIndex(slideCount);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setIsTransitioning(true);
+          isAnimatingRef.current = false;
+        });
+      });
+    } else {
+      isAnimatingRef.current = false;
+    }
+  };
+
+  // Safety fallback so animation state is never permanently stuck
+  useEffect(() => {
+    if (isAnimatingRef.current) {
+      const safety = setTimeout(() => {
+        isAnimatingRef.current = false;
+      }, 750);
+      return () => clearTimeout(safety);
+    }
+  }, [displayIndex]);
+
+  // Auto-rotation timer
   useEffect(() => {
     if (isPaused || isSearchActive) return;
 
     const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
+      nextSlide();
     }, autoRotateMs);
 
     return () => clearInterval(timer);
-  }, [isPaused, isSearchActive]);
-
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
-  };
-
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + HERO_SLIDES.length) % HERO_SLIDES.length);
-  };
-
-  const slide = HERO_SLIDES[currentSlide];
+  }, [isPaused, isSearchActive, nextSlide]);
 
   return (
     <div
       className="dark-hero-slider"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
+      role="region"
+      aria-roledescription="carousel"
+      aria-label="Featured hardware highlights"
     >
       {/* Background ambient lighting */}
       <div className="dark-hero-slider__glow" />
@@ -379,7 +439,7 @@ function DarkHeroBannerSlider({ onLearnMore, isSearchActive }) {
         aria-label="Previous slide"
         title="Previous slide"
       >
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
           <polyline points="15 18 9 12 15 6" />
         </svg>
       </button>
@@ -395,72 +455,96 @@ function DarkHeroBannerSlider({ onLearnMore, isSearchActive }) {
         aria-label="Next slide"
         title="Next slide"
       >
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
           <polyline points="9 18 15 12 9 6" />
         </svg>
       </button>
 
-      {/* Slide Body Layout: 45% Content / 55% Visual */}
-      <div className="dark-hero-slider__body">
-        {/* Left Content Area */}
-        <div className="dark-hero-slider__content">
-          <div className="dark-hero-slider__eyebrow-row">
-            <span className="dark-hero-slider__eyebrow">{slide.eyebrow}</span>
-          </div>
-
-          <h1 className="dark-hero-slider__headline">
-            <span className="dark-hero-slider__headline-line1">
-              {slide.headlineLine1 || slide.titlePrefix}
-            </span>
-            <span className="dark-hero-slider__headline-line2">
-              {slide.headlineLine2 || slide.titleAccent}
-            </span>
-          </h1>
-
-          <p className="dark-hero-slider__description">
-            {slide.description}
-          </p>
-
-          <div className="dark-hero-slider__cta-row">
-            <button
-              type="button"
-              className="dark-hero-slider__primary-btn"
-              onClick={() => navigate(slide.primaryLink)}
-              onFocus={() => setIsPaused(true)}
-              onBlur={() => setIsPaused(false)}
+      {/* Sliding Carousel Track */}
+      <div
+        ref={trackRef}
+        className="dark-hero-slider__track"
+        onTransitionEnd={handleTransitionEnd}
+        style={{
+          transform: `translateX(-${displayIndex * 100}%)`,
+          transition: isTransitioning ? 'transform 600ms cubic-bezier(0.22, 1, 0.36, 1)' : 'none'
+        }}
+      >
+        {extendedSlides.map((slideItem, index) => {
+          const isActive = index === displayIndex;
+          return (
+            <div
+              key={`${slideItem.id}-${index}`}
+              className={`dark-hero-slider__slide ${isActive ? 'dark-hero-slider__slide--active' : ''}`}
+              aria-hidden={!isActive}
             >
-              <span>{slide.primaryCta}</span>
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M5 12h14" />
-                <path d="m12 5 7 7-7 7" />
-              </svg>
-            </button>
+              <div className="dark-hero-slider__body">
+                {/* Left Content Area */}
+                <div className="dark-hero-slider__content">
+                  <div className="dark-hero-slider__eyebrow-row">
+                    <span className="dark-hero-slider__eyebrow">{slideItem.eyebrow}</span>
+                  </div>
 
-            <button
-              type="button"
-              className="dark-hero-slider__secondary-btn"
-              onClick={() => onLearnMore(slide)}
-              onFocus={() => setIsPaused(true)}
-              onBlur={() => setIsPaused(false)}
-            >
-              {slide.secondaryCta}
-            </button>
-          </div>
-        </div>
+                  <h1 className="dark-hero-slider__headline">
+                    <span className="dark-hero-slider__headline-line1">
+                      {slideItem.headlineLine1 || slideItem.titlePrefix}
+                    </span>
+                    <span className="dark-hero-slider__headline-line2">
+                      {slideItem.headlineLine2 || slideItem.titleAccent}
+                    </span>
+                  </h1>
 
-        {/* Right Visual Area */}
-        <div
-          className="dark-hero-slider__visual"
-          onClick={nextSlide}
-          title="Click to next slide"
-          style={{ cursor: 'pointer' }}
-        >
-          <img
-            src={getAssetUrl(slide.visualImg)}
-            alt={slide.visualAlt}
-            className="dark-hero-slider__image"
-          />
-        </div>
+                  <p className="dark-hero-slider__description">
+                    {slideItem.description}
+                  </p>
+
+                  <div className="dark-hero-slider__cta-row">
+                    <button
+                      type="button"
+                      className="dark-hero-slider__primary-btn"
+                      onClick={() => navigate(slideItem.primaryLink)}
+                      onFocus={() => setIsPaused(true)}
+                      onBlur={() => setIsPaused(false)}
+                      tabIndex={isActive ? 0 : -1}
+                    >
+                      <span>{slideItem.primaryCta}</span>
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M5 12h14" />
+                        <path d="m12 5 7 7-7 7" />
+                      </svg>
+                    </button>
+
+                    <button
+                      type="button"
+                      className="dark-hero-slider__secondary-btn"
+                      onClick={() => onLearnMore(slideItem)}
+                      onFocus={() => setIsPaused(true)}
+                      onBlur={() => setIsPaused(false)}
+                      tabIndex={isActive ? 0 : -1}
+                    >
+                      {slideItem.secondaryCta}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Right Visual Area */}
+                <div
+                  className="dark-hero-slider__visual"
+                  onClick={nextSlide}
+                  title="Click to next slide"
+                  style={{ cursor: 'pointer' }}
+                >
+                  <img
+                    src={getAssetUrl(slideItem.visualImg)}
+                    alt={slideItem.visualAlt}
+                    className="dark-hero-slider__image"
+                    loading={index === 1 ? 'eager' : 'lazy'}
+                  />
+                </div>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
