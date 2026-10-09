@@ -850,7 +850,7 @@ function ShopByCategory() {
           className="category-section__view-all"
           onClick={() => navigate('/hardware')}
         >
-          <span>View all categories</span>
+          <span>View all</span>
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M5 12h14" />
             <path d="m12 5 7 7-7 7" />
@@ -1007,13 +1007,7 @@ function FeaturedProductsSection() {
   const navigate = useNavigate();
   const { addToCart } = useCart();
   const [activeTab, setActiveTab] = useState('featured');
-  const [wishlist, setWishlist] = useState({});
   const [addedItems, setAddedItems] = useState({});
-
-  const toggleWishlist = (id, e) => {
-    e.stopPropagation();
-    setWishlist((prev) => ({ ...prev, [id]: !prev[id] }));
-  };
 
   const handleAddToCart = (product, e) => {
     e.stopPropagation();
@@ -1066,7 +1060,6 @@ function FeaturedProductsSection() {
       <div className="featured-cards-grid">
         {currentProducts.map((p) => {
           const isAdded = !!addedItems[p.id];
-          const isWished = !!wishlist[p.id];
 
           return (
             <div
@@ -1074,22 +1067,11 @@ function FeaturedProductsSection() {
               className="featured-product-card"
               onClick={() => navigate(`/hardware/${p.slug}`)}
             >
-              {/* Card Top Row: Badge + Wishlist Heart */}
+              {/* Card Top Row: Badge */}
               <div className="featured-product-card__top">
                 <span className={`featured-product-card__badge featured-product-card__badge--${p.badge.toLowerCase()}`}>
                   {p.badge}
                 </span>
-
-                <button
-                  type="button"
-                  className={`featured-product-card__wish-btn ${isWished ? 'featured-product-card__wish-btn--active' : ''}`}
-                  onClick={(e) => toggleWishlist(p.id, e)}
-                  title="Add to wishlist"
-                >
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill={isWished ? '#EF4444' : 'none'} stroke={isWished ? '#EF4444' : '#94A3B8'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
-                  </svg>
-                </button>
               </div>
 
               {/* Card Thumbnail Visual */}
