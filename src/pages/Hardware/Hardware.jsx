@@ -446,7 +446,6 @@ export default function Hardware() {
   const [ignoreTypo, setIgnoreTypo] = useState(false);
   const [aiChatOpen, setAiChatOpen] = useState(false);
   const [openFaqIndex, setOpenFaqIndex] = useState(null);
-  const [activeTab, setActiveTab] = useState('all');
 
   useEffect(() => {
     setSearch(urlSearch);
@@ -605,8 +604,9 @@ export default function Hardware() {
 
         {/* ── Right Main Content (Google-style Search & AI Overview) ── */}
         <main className="hw-main">
-          {/* ── Google Search Bar & Tabs (Reference Image 1) ── */}
+          {/* ── Search Header Section ── */}
           <div className="hw-google-search-section">
+            <h1 className="hw-page-title">Hardware</h1>
             <form className="hw-google-search-bar" onSubmit={handleSearchSubmit}>
               <div className="hw-google-search-icon">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748B" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
@@ -662,48 +662,6 @@ export default function Hardware() {
                 </svg>
               </button>
             </form>
-
-            {/* Google Search Tabs */}
-            <div className="hw-google-tabs-bar">
-              <button
-                type="button"
-                className={`hw-google-tab ${activeTab === 'all' ? 'hw-google-tab--active' : ''}`}
-                onClick={() => setActiveTab('all')}
-              >
-                <span>All</span>
-              </button>
-
-              <button
-                type="button"
-                className="hw-google-tab"
-                onClick={() => {
-                  setSearch('AIS 140');
-                  navigate('/hardware?search=AIS%20140');
-                }}
-              >
-                <span>AIS-140 Certified</span>
-              </button>
-
-              <button
-                type="button"
-                className="hw-google-tab"
-                onClick={() => {
-                  navigate('/hardware?category=video-telematics');
-                }}
-              >
-                <span>Video Telematics</span>
-              </button>
-
-              <button
-                type="button"
-                className="hw-google-tab"
-                onClick={() => {
-                  navigate('/hardware?category=fuel-sensors');
-                }}
-              >
-                <span>Fuel Sensors</span>
-              </button>
-            </div>
           </div>
 
           {/* ── Scrollable Results Container ── */}
