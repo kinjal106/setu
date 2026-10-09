@@ -2,65 +2,183 @@
   {
     "id": "trakzee-mini",
     "name": "Trakzee Mini",
-    "description": "Trakzee Mini is a simplified GPS tracking platform designed for basic vehicle tracking needs. It enables...",
+    "tag": "POPULAR",
+    "tagColor": "#F97316",
+    "theme": "dark",
+    "description": "Simplified GPS vehicle tracking platform designed for agile fleet visibility, trip history, and real-time ignition alerts.",
+    "pricing": "From ₹199/mo/vehicle*",
     "icon": "🔴",
     "color": "#FF4444",
-    "category": "fleet-management"
+    "category": "fleet-management",
+    "highlights": [
+      "Real-time GPS vehicle tracking with 10s telemetry updates",
+      "Ignition on/off alerts and unauthorized movement notification",
+      "Speed monitoring and geofence boundary breach alerts",
+      "90-day trip route playback and idle time analytics"
+    ],
+    "compatibleHardware": [
+      "Advance 4-Wire GPS Tracker",
+      "V5 4G Telematics Tracker",
+      "G17 Earth GPS Tracker"
+    ]
   },
   {
     "id": "petzee",
     "name": "Petzee",
-    "description": "Petzee is an intelligent pet tracking and safety platform designed to help pet owners monitor their...",
+    "tag": "NEW",
+    "tagColor": "#EA580C",
+    "theme": "light",
+    "description": "Intelligent pet tracking and safety platform designed to help pet owners monitor real-time location, activity, and safe zones.",
+    "pricing": "From ₹149/mo/pet*",
     "icon": "🐾",
     "color": "#FF8C00",
-    "category": "pet-tracking"
+    "category": "pet-tracking",
+    "highlights": [
+      "Real-time GPS live location with virtual safe perimeter geofencing",
+      "Instant escape alerts when pet leaves home or park boundaries",
+      "Daily activity goal tracking, steps, and resting vitals",
+      "Waterproof BLE & 4G collar sync with parent mobile app"
+    ],
+    "compatibleHardware": [
+      "V5 Mini 4G Tracker",
+      "GL500 4G Standalone Collar"
+    ]
   },
   {
     "id": "elexee",
     "name": "Elexee",
-    "description": "Elexee is a smart electric vehicle (EV) fleet management platform designed to monitor, manage...",
+    "tag": "EV FLEET",
+    "tagColor": "#10B981",
+    "theme": "dark",
+    "description": "Smart electric vehicle (EV) fleet management platform to monitor battery state of charge (SOC), charging cycles, and regenerative range.",
+    "pricing": "From ₹349/mo/EV*",
     "icon": "⚡",
     "color": "#00CC44",
-    "category": "ev-management"
+    "category": "ev-management",
+    "highlights": [
+      "Live Battery State of Charge (SOC) and real-time range estimation",
+      "Charging station route planning and energy consumption rates",
+      "Battery health degradation diagnostics and temperature safeguards",
+      "CAN-bus integration for real-time motor and inverter telemetry"
+    ],
+    "compatibleHardware": [
+      "EcoGas Track 4G",
+      "V5 4G Telematics Tracker",
+      "SP BLE4 Smart Sensors"
+    ]
   },
   {
     "id": "taskeye",
     "name": "TaskEye",
-    "description": "TaskEye is a smart workforce and task management platform designed to streamline field operations and...",
+    "tag": "WORKFORCE",
+    "tagColor": "#38BDF8",
+    "theme": "dark",
+    "description": "Smart workforce and field task management platform designed to streamline dispatch, proof-of-visit, and team productivity.",
+    "pricing": "From ₹180/mo/user*",
     "icon": "👁️",
     "color": "#0066CC",
-    "category": "workforce"
+    "category": "workforce",
+    "highlights": [
+      "GPS-verified employee attendance and geofenced client check-ins",
+      "Real-time task dispatching with in-app photo and digital signature",
+      "Automated mileage calculation for field travel reimbursement",
+      "Manager live map view showing active technician whereabouts"
+    ],
+    "compatibleHardware": [
+      "Mobile App (Android & iOS)",
+      "V5 Mini 4G Pocket Beacon"
+    ]
   },
   {
     "id": "smart-waste",
-    "name": "SMART WASTE (Advanced Waste Collection S...",
-    "description": "SmartWaste simplifies waste collection from start to finish. It helps managers plan smarter routes, track...",
+    "name": "SmartWaste",
+    "tag": "SMART CITY",
+    "tagColor": "#10B981",
+    "theme": "light",
+    "description": "Advanced waste collection system that simplifies municipal cleanup with smart bin level sensors and dynamic truck routing.",
+    "pricing": "Enterprise Custom*",
     "icon": "♻️",
     "color": "#228B22",
-    "category": "waste-management"
+    "category": "waste-management",
+    "highlights": [
+      "Ultrasonic bin fill-level monitoring with automated fullness threshold alerts",
+      "Dynamic AI routing for garbage trucks targeting only full bins",
+      "RFID bin pickup verification and driver completion logging",
+      "Municipal carbon savings and fuel reduction reporting"
+    ],
+    "compatibleHardware": [
+      "IoT Ultrasonic Fill Sensors",
+      "V5 4G Telematics Tracker",
+      "RFID Scanner Modules"
+    ]
   },
   {
     "id": "smart-tranzit",
     "name": "SmartTranzit",
-    "description": "The Public Transportation Management Software is a smart platform designed to streamline and optimize...",
+    "tag": "PUBLIC TRANSIT",
+    "tagColor": "#A855F7",
+    "theme": "dark",
+    "description": "Public transportation management software designed to streamline passenger counting, bus scheduling, and route optimization.",
+    "pricing": "From ₹499/mo/bus*",
     "icon": "🚌",
     "color": "#444444",
-    "category": "transit"
+    "category": "transit",
+    "highlights": [
+      "Automated Passenger Counting (APC) sensors via overhead AI cameras",
+      "Dynamic bus route scheduling with live passenger arrival displays (PIDS)",
+      "Automated fare collection (AFC) validation and ticket integration",
+      "Driver schedule adherence and headway management alerts"
+    ],
+    "compatibleHardware": [
+      "T98 SD Card MDVR",
+      "Falcon F1 AI Camera",
+      "Prithvi 140 RTO AIS-140"
+    ]
   },
   {
     "id": "smartbus",
     "name": "SmartBus",
-    "description": "Unplanned routes, delayed buses, and lack of real-time visibility make school transportation stressful f...",
+    "tag": "CAMPUS SAFETY",
+    "tagColor": "#F59E0B",
+    "theme": "light",
+    "description": "School transportation management software providing parents and schools with live student tracking, RFID boarding, and instant ETA.",
+    "pricing": "From ₹299/mo/bus*",
     "icon": "🚍",
     "color": "#FF6600",
-    "category": "school-transport"
+    "category": "school-transport",
+    "highlights": [
+      "Live school bus tracking on parent app with push notifications",
+      "Student RFID boarding and drop-off confirmation with photo timestamp",
+      "Automated pickup & drop route optimization with stop geofencing",
+      "Driver rash driving and speeding alerts with emergency SOS panic button"
+    ],
+    "compatibleHardware": [
+      "Prithvi 140 AIS-140 Govt GPS",
+      "Titan T4 Dual Dashcam",
+      "RFID Attendance Reader"
+    ]
   },
   {
     "id": "gridzee",
     "name": "Gridzee",
-    "description": "It is a real time indoor location and monitoring system for people and assets.",
+    "tag": "INDOOR IOT",
+    "tagColor": "#EC4899",
+    "theme": "dark",
+    "description": "Real-time indoor location and monitoring system (RTLS) for people, forklifts, and medical or warehouse equipment.",
+    "pricing": "From ₹2,499/zone/mo*",
     "icon": "📡",
     "color": "#8800CC",
-    "category": "indoor-tracking"
+    "category": "indoor-tracking",
+    "highlights": [
+      "Sub-meter BLE and Ultra-Wideband (UWB) indoor positioning accuracy",
+      "Multi-floor 2.5D building mapping with zone-based access control",
+      "Warehouse asset utilization heatmaps and forklift collision alerts",
+      "Lone-worker man-down alerts and emergency evacuation muster counts"
+    ],
+    "compatibleHardware": [
+      "BLE Anchor Gateways",
+      "Bluetooth Asset Beacons",
+      "Wearable Worker Badges"
+    ]
   }
 ]
