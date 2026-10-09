@@ -771,9 +771,6 @@ function ShopByCategory() {
       <div className="category-section__header">
         <div className="category-section__header-left">
           <h2 className="category-section__title">Shop by category</h2>
-          <p className="category-section__subtitle">
-            Everything a fleet needs, from the device to the licence to the technician.
-          </p>
         </div>
 
         <button
@@ -979,11 +976,6 @@ function FeaturedProductsSection() {
         </div>
 
         <div className="featured-tabs-actions">
-          {activeTab === 'featured' && (
-            <span className="featured-tabs-subtext">
-              Promoted by sellers · same prices and bulk slabs as every listing
-            </span>
-          )}
           <button
             type="button"
             className="featured-tabs-view-all"
