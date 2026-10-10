@@ -179,6 +179,22 @@ export default function SetuFinance() {
                 </p>
               </div>
 
+              {/* Key Benefit Highlights to balance layout */}
+              <div className="finance-about-pills">
+                <div className="finance-about-pill">
+                  <span className="finance-about-pill-icon">✓</span>
+                  <span>Instant Credit Approval</span>
+                </div>
+                <div className="finance-about-pill">
+                  <span className="finance-about-pill-icon">✓</span>
+                  <span>Flexible Repayment Terms</span>
+                </div>
+                <div className="finance-about-pill">
+                  <span className="finance-about-pill-icon">✓</span>
+                  <span>100% Digital &amp; Paperless</span>
+                </div>
+              </div>
+
               {/* Powered by Juspay */}
               <div className="finance-partner-badge">
                 <span className="finance-partner-label">Powered by</span>
