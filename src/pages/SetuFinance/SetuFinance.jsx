@@ -133,7 +133,7 @@ export default function SetuFinance() {
 
   return (
     <div className="setu-finance-page">
-      <div className="finance-page-container">
+      <div className="finance-unified-card">
 
         {/* ── 1. Hero Banner: Flexible Payment Solutions ── */}
         <section className="finance-hero-banner">
@@ -155,36 +155,34 @@ export default function SetuFinance() {
           </div>
         </section>
 
-        {/* ── 2. Main Content Card (Background Card with Curve & Blue Gradient) ── */}
-        <section className="finance-main-card">
-          <div className="finance-main-card__inner">
+        {/* ── 2. Financing Section: About & Credit Form ── */}
+        <section className="finance-main-section">
+          {/* Left Column: About SETU Financing */}
+          <div className="finance-about-col">
+            <h2 className="finance-about-title">About SETU Financing</h2>
 
-            {/* Left Column: About SETU Financing */}
-            <div className="finance-about-col">
-              <h2 className="finance-about-title">About SETU Financing</h2>
-
-              <div className="finance-about-text">
-                <p>
-                  SETU Financing offers flexible payment solutions designed specifically for businesses.
-                  Get instant credit approval and manage your cash flow efficiently.
-                </p>
-                <p>
-                  Our streamlined process ensures you can access financing quickly, allowing you to
-                  purchase the equipment and solutions you need without delay. With competitive rates
-                  and flexible repayment terms, growing your business has never been easier.
-                </p>
-                <p>
-                  Apply now and experience the simplicity and convenience of our digital financing
-                  platform. Our team is here to support you every step of the way.
-                </p>
-              </div>
-
-              {/* Powered by Juspay */}
-              <div className="finance-partner-badge">
-                <span className="finance-partner-label">Powered by</span>
-                <JuspayLogo />
-              </div>
+            <div className="finance-about-text">
+              <p>
+                SETU Financing offers flexible payment solutions designed specifically for businesses.
+                Get instant credit approval and manage your cash flow efficiently.
+              </p>
+              <p>
+                Our streamlined process ensures you can access financing quickly, allowing you to
+                purchase the equipment and solutions you need without delay. With competitive rates
+                and flexible repayment terms, growing your business has never been easier.
+              </p>
+              <p>
+                Apply now and experience the simplicity and convenience of our digital financing
+                platform. Our team is here to support you every step of the way.
+              </p>
             </div>
+
+            {/* Powered by Juspay */}
+            <div className="finance-partner-badge">
+              <span className="finance-partner-label">Powered by</span>
+              <JuspayLogo />
+            </div>
+          </div>
 
             {/* Right Column: Credit Application Form Card */}
             <div className="finance-form-card">
@@ -293,8 +291,6 @@ export default function SetuFinance() {
                 </form>
               )}
             </div>
-
-          </div>
         </section>
 
         {/* ── 3. How Does It Work Section ── */}

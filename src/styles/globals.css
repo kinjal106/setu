@@ -195,7 +195,8 @@ input, select, textarea {
 .site-page-title,
 .page-heading-title,
 .section-heading-title,
-.finance-how-title {
+.finance-how-title,
+.finance-about-title {
   color: #0F172A !important;
   letter-spacing: -0.02em !important;
   margin: 0 !important;
