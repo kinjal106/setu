@@ -16,6 +16,7 @@ import Order from './pages/Order/Order';
 import Cart from './pages/Cart/Cart';
 import OrderHistory from './pages/OrderHistory/OrderHistory';
 import OrderDetails from './pages/OrderDetails/OrderDetails';
+import SetuFinance from './pages/SetuFinance/SetuFinance';
 import './styles/globals.css';
 import './App.css';
 
@@ -73,7 +74,8 @@ function AppLayout() {
             <Route path="/setu/auto-parts" element={<AutoParts />} />
             <Route path="/auto-parts/:slug" element={<ProductDetail />} />
             <Route path="/setu/auto-parts/:slug" element={<ProductDetail />} />
-            <Route path="/finance" element={<ComingSoon title="Setu Finance" description="Equipment financing and leasing options for commercial fleets are coming soon." />} />
+            <Route path="/finance" element={<SetuFinance />} />
+            <Route path="/setu/finance" element={<SetuFinance />} />
             <Route path="/order" element={<Order />} />
             <Route path="/setu/order" element={<Order />} />
             <Route path="/cart" element={<Cart />} />
