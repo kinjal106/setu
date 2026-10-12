@@ -2,7 +2,7 @@
   {
     "id": "trakzee-mini",
     "name": "Trakzee Mini",
-    "image": "/images/solutions/trakzee-mini.jpg",
+    "image": "/images/solutions/trakzee-mini-cover.jpg",
     "tag": "POPULAR",
     "tagColor": "#F97316",
     "theme": "dark",
@@ -113,7 +113,7 @@
   {
     "id": "taskeye",
     "name": "TaskEye",
-    "image": "/images/solutions/taskeye.jpg",
+    "image": "/images/solutions/taskeye-cover.jpg",
     "tag": "WORKFORCE",
     "tagColor": "#38BDF8",
     "theme": "dark",
@@ -140,7 +140,7 @@
   {
     "id": "smart-waste",
     "name": "SmartWaste",
-    "image": "/images/solutions/smart-waste.jpg",
+    "image": "/images/solutions/smart-waste-cover.jpg",
     "tag": "SMART CITY",
     "tagColor": "#10B981",
     "theme": "light",
@@ -224,7 +224,7 @@
   {
     "id": "smartbus",
     "name": "SmartBus",
-    "image": "/images/solutions/smartbus.jpg",
+    "image": "/images/solutions/smartbus-cover.jpg",
     "tag": "CAMPUS SAFETY",
     "tagColor": "#F59E0B",
     "theme": "light",
