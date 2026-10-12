@@ -1663,7 +1663,7 @@ function TopBrandsSection() {
           <div
             key={brand.id}
             className="top-brand-card"
-            onClick={() => navigate(`/hardware?search=${encodeURIComponent(brand.searchTerm)}`)}
+            onClick={() => navigate(`/hardware?brand=${encodeURIComponent(brand.name)}&search=${encodeURIComponent(brand.name)}`)}
             title={`Browse ${brand.name} devices on Setu`}
           >
             {brand.sponsored && (

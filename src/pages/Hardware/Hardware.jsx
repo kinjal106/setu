@@ -109,8 +109,18 @@ const BRAND_ORDER = [
   'Magnet Series',
   'Mercetech',
   'EC Series',
-  'Eco5 Series'
+  'Eco5 Series',
+  'GL Series'
 ];
+
+const findBrandMatch = (name) => {
+  if (!name) return null;
+  const lower = name.trim().toLowerCase();
+  const inOrder = BRAND_ORDER.find(b => b.toLowerCase() === lower);
+  if (inOrder) return inOrder;
+  const inProducts = products.find(p => p.brand && p.brand.toLowerCase() === lower);
+  return inProducts ? inProducts.brand : null;
+};
 
 /* ── Filter Tree matching reference image ── */
 function FilterTree({ categories, selected, onChange }) {
@@ -425,6 +435,7 @@ export default function Hardware() {
   const urlSearch = searchParams.get('search') || searchParams.get('q') || '';
   const urlCat = searchParams.get('category') || '';
   const urlSub = searchParams.get('sub') || '';
+  const urlBrand = searchParams.get('brand') || '';
   const matchNameOnly = searchParams.get('matchName') === '1';
   const filterAis140 = searchParams.get('ais140') === '1';
   const filterCan = searchParams.get('can') === '1';
@@ -447,8 +458,20 @@ export default function Hardware() {
     return new Set();
   };
 
+  const getInitialBrandSelection = () => {
+    if (urlBrand) {
+      const match = findBrandMatch(urlBrand);
+      return new Set([match || urlBrand]);
+    }
+    if (urlSearch) {
+      const match = findBrandMatch(urlSearch);
+      if (match) return new Set([match]);
+    }
+    return new Set();
+  };
+
   const [selected, setSelected] = useState(getInitialSelection);
-  const [selectedBrands, setSelectedBrands] = useState(new Set());
+  const [selectedBrands, setSelectedBrands] = useState(getInitialBrandSelection);
   const [search, setSearch] = useState(urlSearch);
   const [ignoreTypo, setIgnoreTypo] = useState(false);
   const [aiChatOpen, setAiChatOpen] = useState(false);
@@ -458,6 +481,18 @@ export default function Hardware() {
     setSearch(urlSearch);
     setIgnoreTypo(false);
   }, [urlSearch]);
+
+  useEffect(() => {
+    if (urlBrand) {
+      const match = findBrandMatch(urlBrand);
+      setSelectedBrands(new Set([match || urlBrand]));
+    } else if (urlSearch) {
+      const match = findBrandMatch(urlSearch);
+      if (match) {
+        setSelectedBrands(new Set([match]));
+      }
+    }
+  }, [urlBrand, urlSearch]);
 
   useEffect(() => {
     return () => {
@@ -665,6 +700,7 @@ export default function Hardware() {
                   className="hw-google-search-clear"
                   onClick={() => {
                     setSearch('');
+                    setSelectedBrands(new Set());
                     navigate('/hardware');
                   }}
                   title="Clear search"
