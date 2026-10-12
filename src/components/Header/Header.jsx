@@ -94,16 +94,16 @@ export default function Header() {
 
         {/* ── Right-Aligned Group: Action Icons ── */}
         <div className="header__actions" ref={menuRef}>
-          {/* Ask Setu AI Button (Google Gemini Style) */}
+          {/* Ask Setu Button (Google Gemini Style) */}
           <button
             type="button"
             className="header__ai-btn"
             onClick={() => openAIPanel()}
-            title="Ask Setu AI Assistant"
-            aria-label="Ask Setu AI Assistant"
+            title="Ask Setu Assistant"
+            aria-label="Ask Setu Assistant"
           >
             <span className="header__ai-btn-sparkle">✦</span>
-            <span className="header__ai-btn-text">Ask Setu AI</span>
+            <span className="header__ai-btn-text">Ask Setu</span>
           </button>
 
           {/* Cart Icon */}
