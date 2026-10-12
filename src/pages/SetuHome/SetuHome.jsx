@@ -1587,13 +1587,12 @@ function FeaturedProductsSection() {
 }
 
 /* ────────────────────────────────────────────────────────────
-   8. TOP BRANDS SECTION (5 CARDS MATCHING FEATURED SECTION UI)
+   8. TOP BRANDS SECTION (5 CARDS)
 ──────────────────────────────────────────────────────────── */
 const TOP_BRANDS_DATA = [
   {
     id: 'mercetech',
     name: 'Mercetech',
-    categoryTag: 'by Mercetech',
     sponsored: true,
     productCount: 3,
     startPrice: 11200,
@@ -1603,7 +1602,6 @@ const TOP_BRANDS_DATA = [
   {
     id: 't98-series',
     name: 'T98 Series',
-    categoryTag: 'by T98 Series',
     sponsored: true,
     productCount: 5,
     startPrice: 3650,
@@ -1613,7 +1611,6 @@ const TOP_BRANDS_DATA = [
   {
     id: 'm-series',
     name: 'M Series',
-    categoryTag: 'by M Series',
     sponsored: false,
     productCount: 5,
     startPrice: 564,
@@ -1623,7 +1620,6 @@ const TOP_BRANDS_DATA = [
   {
     id: 'lls-series',
     name: 'LLS Series',
-    categoryTag: 'by LLS Series',
     sponsored: false,
     productCount: 3,
     startPrice: 4500,
@@ -1633,7 +1629,6 @@ const TOP_BRANDS_DATA = [
   {
     id: 'gl-series',
     name: 'GL Series',
-    categoryTag: 'by GL Series',
     sponsored: false,
     productCount: 2,
     startPrice: 9840,
@@ -1662,65 +1657,29 @@ function TopBrandsSection() {
         </button>
       </div>
 
-      {/* ── 5 Cards Horizontal Grid (Matching Featured & New Arrivals UI) ── */}
-      <div className="featured-cards-grid">
+      {/* ── 5 Cards Horizontal Grid (Matches User's Reference Exactly) ── */}
+      <div className="top-brands-grid">
         {TOP_BRANDS_DATA.map((brand) => (
           <div
             key={brand.id}
-            className="featured-product-card"
+            className="top-brand-card"
             onClick={() => navigate(`/hardware?search=${encodeURIComponent(brand.searchTerm)}`)}
             title={`Browse ${brand.name} devices on Setu`}
           >
-            {/* Card Top Row: Badge */}
-            <div className="featured-product-card__top">
-              {brand.sponsored ? (
-                <span className="featured-product-card__badge featured-product-card__badge--sponsored">
-                  Sponsored
-                </span>
-              ) : null}
-            </div>
-
-            {/* Card Thumbnail Visual */}
-            <div className="featured-product-card__img-box">
+            {brand.sponsored && (
+              <span className="top-brand-card__badge">Sponsored</span>
+            )}
+            <div className="top-brand-card__avatar">
               <img
                 src={getAssetUrl(brand.image)}
                 alt={brand.name}
-                className="featured-product-card__img"
+                className="top-brand-card__img"
               />
             </div>
-
-            {/* Card Body Info */}
-            <div className="featured-product-card__body">
-              <span className="featured-product-card__brand">
-                {brand.categoryTag}
-              </span>
-
-              <h4 className="featured-product-card__title" title={brand.name}>
-                {brand.name}
-              </h4>
-
-              {/* Price block */}
-              <div className="featured-product-card__price-box">
-                <div className="featured-product-card__main-price">
-                  ₹{brand.startPrice.toLocaleString()} <span className="featured-product-card__gst">+ GST</span>
-                </div>
-                <div className="featured-product-card__bulk-tier">
-                  {brand.productCount} products · from ₹{brand.startPrice.toLocaleString()}
-                </div>
-              </div>
-
-              {/* View Products CTA button */}
-              <button
-                type="button"
-                className="featured-product-card__cart-btn"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  navigate(`/hardware?search=${encodeURIComponent(brand.searchTerm)}`);
-                }}
-              >
-                View Products
-              </button>
-            </div>
+            <h3 className="top-brand-card__name">{brand.name}</h3>
+            <span className="top-brand-card__meta">
+              {brand.productCount} products · from ₹{brand.startPrice.toLocaleString()}
+            </span>
           </div>
         ))}
       </div>
