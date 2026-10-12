@@ -2,7 +2,7 @@
   {
     "id": "trakzee-mini",
     "name": "Trakzee Mini",
-    "image": "/images/solutions/trakzee-mini-cover.jpg",
+    "image": "/images/solutions/trakzee-mini-card.jpg",
     "tag": "POPULAR",
     "tagColor": "#F97316",
     "theme": "dark",
@@ -30,7 +30,7 @@
   {
     "id": "logytrak",
     "name": "LogyTrak",
-    "image": "/images/solutions/logytrak-cover.jpg",
+    "image": "/images/solutions/logytrak-card.jpg",
     "tag": "LOGISTICS",
     "tagColor": "#0284C7",
     "theme": "dark",
@@ -58,7 +58,7 @@
   {
     "id": "petzee",
     "name": "Petzee",
-    "image": "/images/solutions/petzee-cover.jpg",
+    "image": "/images/solutions/petzee-card.jpg",
     "tag": "NEW",
     "tagColor": "#EA580C",
     "theme": "light",
@@ -85,7 +85,7 @@
   {
     "id": "elexee",
     "name": "Elexee",
-    "image": "/images/solutions/elexee-cover.jpg",
+    "image": "/images/solutions/elexee-card.jpg",
     "tag": "EV FLEET",
     "tagColor": "#10B981",
     "theme": "dark",
@@ -113,7 +113,7 @@
   {
     "id": "taskeye",
     "name": "TaskEye",
-    "image": "/images/solutions/taskeye-cover.jpg",
+    "image": "/images/solutions/taskeye-card.jpg",
     "tag": "WORKFORCE",
     "tagColor": "#38BDF8",
     "theme": "dark",
@@ -140,7 +140,7 @@
   {
     "id": "smart-waste",
     "name": "SmartWaste",
-    "image": "/images/solutions/smart-waste-cover.jpg",
+    "image": "/images/solutions/smart-waste-card.jpg",
     "tag": "SMART CITY",
     "tagColor": "#10B981",
     "theme": "light",
@@ -168,7 +168,7 @@
   {
     "id": "smart-tranzit",
     "name": "SmartTranzit",
-    "image": "/images/solutions/smart-tranzit-cover.jpg",
+    "image": "/images/solutions/smart-tranzit-card.jpg",
     "tag": "PUBLIC TRANSIT",
     "tagColor": "#A855F7",
     "theme": "dark",
@@ -196,7 +196,7 @@
   {
     "id": "employee-transport",
     "name": "Employee Transportation",
-    "image": "/images/solutions/employee-transport-cover.jpg",
+    "image": "/images/solutions/employee-transport-card.jpg",
     "tag": "COMMUTE",
     "tagColor": "#0EA5E9",
     "theme": "light",
@@ -224,7 +224,7 @@
   {
     "id": "smartbus",
     "name": "SmartBus",
-    "image": "/images/solutions/smartbus-cover.jpg",
+    "image": "/images/solutions/smartbus-card.jpg",
     "tag": "CAMPUS SAFETY",
     "tagColor": "#F59E0B",
     "theme": "light",
@@ -252,7 +252,7 @@
   {
     "id": "gridzee",
     "name": "Gridzee",
-    "image": "/images/solutions/gridzee-cover.jpg",
+    "image": "/images/solutions/gridzee-card.jpg",
     "tag": "INDOOR IOT",
     "tagColor": "#EC4899",
     "theme": "dark",

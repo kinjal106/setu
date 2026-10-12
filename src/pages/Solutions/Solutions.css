@@ -80,7 +80,7 @@
   background: #ffffff;
   border: 1px solid #E2E8F0;
   border-radius: 16px;
-  padding: 16px;
+  padding: 14px;
   display: flex;
   flex-direction: column;
   cursor: pointer;
@@ -99,10 +99,10 @@
   border-color: #CBD5E1;
 }
 
-/* 1. Cover Image Container (Square 1:1 aspect ratio to show full branded cover) */
+/* 1. Cover Image Container (Trimmed aspect ratio with top logo removed) */
 .sol-box-card__img-box {
   width: 100%;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 1024 / 849;
   background: #F1F5F9;
   border-radius: 12px;
   border: 1px solid #E2E8F0;
@@ -112,7 +112,7 @@
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
   transition: all 0.2s ease;
 }
 
