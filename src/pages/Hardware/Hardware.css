@@ -706,18 +706,19 @@
   margin-left: 6px;
 }
 
-/* Verified row */
+/* Verified row (positioned above pricing) */
 .pcard-ref__verified-row {
-  margin-top: 8px;
+  margin-top: 6px;
+  margin-bottom: 4px;
   display: flex;
   align-items: center;
 }
 
-/* Custom Verified Badge (Green Shield + setu VERIFIED - No green background pill) */
+/* Custom Verified Badge (Green Shield + Setu Verified - No green background pill) */
 .setu-verified-badge {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 5.5px;
   background: transparent;
   border: none;
   border-radius: 0;
@@ -728,36 +729,63 @@
 }
 
 .setu-verified-badge__shield {
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  background: #10B981;
+  width: 14px;
+  height: 14px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: #FFFFFF;
   flex-shrink: 0;
 }
 
 .setu-verified-badge__shield svg {
-  width: 8.5px;
-  height: 8.5px;
+  width: 14px;
+  height: 14px;
+  display: block;
+}
+
+.setu-verified-badge__text {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  line-height: 1.2;
 }
 
 .setu-verified-badge__brand {
-  font-size: 13px;
-  font-weight: 700;
+  font-size: 12.5px;
+  font-weight: 750;
   color: #047857;
   letter-spacing: -0.01em;
-  line-height: 1;
+  line-height: 1.2;
 }
 
-.setu-verified-badge__tag {
-  font-size: 10.5px;
-  font-weight: 800;
+.setu-verified-badge__label {
+  font-size: 12.5px;
+  font-weight: 600;
   color: #059669;
-  letter-spacing: 0.05em;
-  line-height: 1;
+  letter-spacing: 0;
+  line-height: 1.2;
+}
+
+/* Category Sidebar specific: no check icon, clean aligned text */
+.setu-verified-badge--sidebar {
+  gap: 0;
+}
+
+.setu-verified-badge--sidebar .setu-verified-badge__text {
+  font-size: 13.5px;
+  gap: 4px;
+}
+
+.setu-verified-badge--sidebar .setu-verified-badge__brand {
+  font-size: 13.5px;
+  font-weight: 750;
+  color: #047857;
+}
+
+.setu-verified-badge--sidebar .setu-verified-badge__label {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #059669;
 }
 
 /* ── Product Grid Container & Cards ── */

@@ -702,12 +702,15 @@ export default function ProductDetail() {
                 </span>
                 <span className="setu-verified-badge">
                   <span className="setu-verified-badge__shield">
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="20 6 9 17 4 12" />
+                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                      <circle cx="8" cy="8" r="7.5" fill="#10B981" />
+                      <path d="M4.8 8.2L7 10.4L11.5 5.9" stroke="#FFFFFF" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   </span>
-                  <span className="setu-verified-badge__brand">setu</span>
-                  <span className="setu-verified-badge__tag">VERIFIED</span>
+                  <span className="setu-verified-badge__text">
+                    <span className="setu-verified-badge__brand">Setu</span>
+                    <span className="setu-verified-badge__label">Verified</span>
+                  </span>
                 </span>
               </div>
             )}
@@ -792,12 +795,15 @@ export default function ProductDetail() {
                     <span className="setu-ui-leader-v">
                       <span className="setu-verified-badge">
                         <span className="setu-verified-badge__shield">
-                          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
-                            <polyline points="20 6 9 17 4 12" />
+                          <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                            <circle cx="8" cy="8" r="7.5" fill="#10B981" />
+                            <path d="M4.8 8.2L7 10.4L11.5 5.9" stroke="#FFFFFF" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                           </svg>
                         </span>
-                        <span className="setu-verified-badge__brand">setu</span>
-                        <span className="setu-verified-badge__tag">VERIFIED</span>
+                        <span className="setu-verified-badge__text">
+                          <span className="setu-verified-badge__brand">Setu</span>
+                          <span className="setu-verified-badge__label">Verified</span>
+                        </span>
                       </span>
                     </span>
                   </div>
@@ -836,12 +842,15 @@ export default function ProductDetail() {
                     <span className="setu-ui-leader-v">
                       <span className="setu-verified-badge">
                         <span className="setu-verified-badge__shield">
-                          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
-                            <polyline points="20 6 9 17 4 12" />
+                          <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                            <circle cx="8" cy="8" r="7.5" fill="#10B981" />
+                            <path d="M4.8 8.2L7 10.4L11.5 5.9" stroke="#FFFFFF" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                           </svg>
                         </span>
-                        <span className="setu-verified-badge__brand">setu</span>
-                        <span className="setu-verified-badge__tag">VERIFIED</span>
+                        <span className="setu-verified-badge__text">
+                          <span className="setu-verified-badge__brand">Setu</span>
+                          <span className="setu-verified-badge__label">Verified</span>
+                        </span>
                       </span>
                     </span>
                   </div>
@@ -1593,12 +1602,15 @@ export default function ProductDetail() {
                 <div className="setu-plan-card__verified-row">
                   <span className="setu-verified-badge">
                     <span className="setu-verified-badge__shield">
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="20 6 9 17 4 12" />
+                      <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                        <circle cx="8" cy="8" r="7.5" fill="#10B981" />
+                        <path d="M4.8 8.2L7 10.4L11.5 5.9" stroke="#FFFFFF" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </span>
-                    <span className="setu-verified-badge__brand">setu</span>
-                    <span className="setu-verified-badge__tag">VERIFIED</span>
+                    <span className="setu-verified-badge__text">
+                      <span className="setu-verified-badge__brand">Setu</span>
+                      <span className="setu-verified-badge__label">Verified</span>
+                    </span>
                   </span>
                 </div>
 
