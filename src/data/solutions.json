@@ -30,7 +30,7 @@
   {
     "id": "logytrak",
     "name": "LogyTrak",
-    "image": "/images/solutions/logytrak.jpg",
+    "image": "/images/solutions/logytrak-cover.jpg",
     "tag": "LOGISTICS",
     "tagColor": "#0284C7",
     "theme": "dark",
@@ -58,7 +58,7 @@
   {
     "id": "petzee",
     "name": "Petzee",
-    "image": "/images/solutions/petzee.jpg",
+    "image": "/images/solutions/petzee-cover.jpg",
     "tag": "NEW",
     "tagColor": "#EA580C",
     "theme": "light",
@@ -168,7 +168,7 @@
   {
     "id": "smart-tranzit",
     "name": "SmartTranzit",
-    "image": "/images/solutions/smart-tranzit.jpg",
+    "image": "/images/solutions/smart-tranzit-cover.jpg",
     "tag": "PUBLIC TRANSIT",
     "tagColor": "#A855F7",
     "theme": "dark",
@@ -196,7 +196,7 @@
   {
     "id": "employee-transport",
     "name": "Employee Transportation",
-    "image": "/images/solutions/employee-transport.jpg",
+    "image": "/images/solutions/employee-transport-cover.jpg",
     "tag": "COMMUTE",
     "tagColor": "#0EA5E9",
     "theme": "light",
@@ -252,7 +252,7 @@
   {
     "id": "gridzee",
     "name": "Gridzee",
-    "image": "/images/solutions/gridzee.jpg",
+    "image": "/images/solutions/gridzee-cover.jpg",
     "tag": "INDOOR IOT",
     "tagColor": "#EC4899",
     "theme": "dark",
