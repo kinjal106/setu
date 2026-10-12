@@ -19,12 +19,8 @@ const FF_HERO_SLIDES = [
       'FASTag by IDFC FIRST Bank',
       'HP • IndianOil • BPCL'
     ],
-    primaryText: 'Order FASTags in bulk',
-    primaryModal: 'fastag-bulk',
-    secondaryText: 'Apply for fuel cards',
-    secondaryModal: 'fuel-card',
-    tertiaryText: 'Enquire / Connect with us',
-    tertiaryModal: 'enquire'
+    ctaText: 'Contact with us',
+    ctaModal: 'enquire'
   },
   {
     id: 'automated-toll',
@@ -38,12 +34,8 @@ const FF_HERO_SLIDES = [
       'Multi-Vehicle Toll Tracking',
       'Direct NPCI & NETC Integration'
     ],
-    primaryText: 'Order FASTags in bulk',
-    primaryModal: 'fastag-bulk',
-    secondaryText: 'Apply for fuel cards',
-    secondaryModal: 'fuel-card',
-    tertiaryText: 'Enquire / Connect with us',
-    tertiaryModal: 'enquire'
+    ctaText: 'Contact with us',
+    ctaModal: 'enquire'
   },
   {
     id: 'unified-billing',
@@ -57,12 +49,8 @@ const FF_HERO_SLIDES = [
       'Cashless Fueling at 60,000+ Pumps',
       'Complete Driver Expense Tracking'
     ],
-    primaryText: 'Order FASTags in bulk',
-    primaryModal: 'fastag-bulk',
-    secondaryText: 'Apply for fuel cards',
-    secondaryModal: 'fuel-card',
-    tertiaryText: 'Enquire / Connect with us',
-    tertiaryModal: 'enquire'
+    ctaText: 'Contact with us',
+    ctaModal: 'enquire'
   }
 ];
 
@@ -323,29 +311,15 @@ export default function FuelFastag() {
                         ))}
                       </div>
 
-                      {/* Action Buttons */}
+                      {/* Action CTA Button: Only Contact with us */}
                       <div className="ff-hero-actions">
                         <button
                           type="button"
                           className="ff-btn ff-btn--primary"
-                          onClick={() => setActiveModal(slide.primaryModal)}
+                          onClick={() => setActiveModal(slide.ctaModal || 'enquire')}
                         >
-                          <span>{slide.primaryText}</span>
+                          <span>{slide.ctaText || 'Contact with us'}</span>
                           <span aria-hidden="true">→</span>
-                        </button>
-                        <button
-                          type="button"
-                          className="ff-btn ff-btn--secondary"
-                          onClick={() => setActiveModal(slide.secondaryModal)}
-                        >
-                          {slide.secondaryText}
-                        </button>
-                        <button
-                          type="button"
-                          className="ff-btn ff-btn--tertiary"
-                          onClick={() => setActiveModal(slide.tertiaryModal)}
-                        >
-                          {slide.tertiaryText}
                         </button>
                       </div>
                     </div>
