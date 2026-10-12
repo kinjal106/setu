@@ -1,5 +1,59 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import './SetuFinance.css';
+
+const FINANCE_HERO_SLIDES = [
+  {
+    id: 'flexible-payment',
+    overline: 'SETU CAPITAL & FINANCING • EASY CREDIT',
+    titleLine1: 'Flexible Payment Solutions',
+    titleLine2: 'Grow Your Business with Easy Credit!',
+    desc: 'Get instant credit approval and flexible payment terms designed specifically for fleet operators and IoT businesses. Procure hardware and software without cash flow friction.',
+    pills: [
+      'Instant Credit Approval',
+      'Zero Hidden Charges',
+      'Flexible 30 to 90-Day Terms',
+      '100% Digital Process'
+    ],
+    primaryText: 'Apply for Credit',
+    primaryAction: 'form',
+    secondaryText: 'Learn more',
+    secondaryAction: 'about'
+  },
+  {
+    id: 'hardware-financing',
+    overline: 'ZERO COLLATERAL • HARDWARE PROCUREMENT',
+    titleLine1: 'Zero Collateral Hardware Financing',
+    titleLine2: 'Upgrade Your Telematics Fleet Today',
+    desc: 'Purchase GPS trackers, AIS-140 devices, dashcams, and fuel sensors with zero upfront capital strain and flexible low-interest repayment milestones.',
+    pills: [
+      'Zero Collateral Required',
+      'Procure Bulk Telematics Devices',
+      'Competitive Low APR Rates',
+      'Same-Day Commercial Approval'
+    ],
+    primaryText: 'Check Credit Limit',
+    primaryAction: 'form',
+    secondaryText: 'View Rates & Terms',
+    secondaryAction: 'about'
+  },
+  {
+    id: 'digital-onboarding',
+    overline: 'POWERED BY JUSPAY • QUICK ONBOARDING',
+    titleLine1: '100% Digital Fast-Track Onboarding',
+    titleLine2: 'Verified via GSTIN in Minutes',
+    desc: 'Simple paperless credit approval powered by Juspay. Verify your business in minutes and unlock instant purchasing power across the Setu ecosystem.',
+    pills: [
+      'Instant GSTIN Verification',
+      'Seamless Bank Mandate Setup',
+      'Automated Monthly Invoicing',
+      'Dedicated Finance Account Manager'
+    ],
+    primaryText: 'Apply for Credit',
+    primaryAction: 'form',
+    secondaryText: 'Learn more',
+    secondaryAction: 'about'
+  }
+];
 
 /**
  * Juspay Logo Icon + Wordmark SVG
@@ -131,90 +185,227 @@ export default function SetuFinance() {
     });
   };
 
+  // Slider state
+  const slideCount = FINANCE_HERO_SLIDES.length;
+  const extendedSlides = useMemo(() => {
+    return [
+      FINANCE_HERO_SLIDES[slideCount - 1],
+      ...FINANCE_HERO_SLIDES,
+      FINANCE_HERO_SLIDES[0]
+    ];
+  }, [slideCount]);
+
+  const [displayIndex, setDisplayIndex] = useState(1);
+  const [isTransitioning, setIsTransitioning] = useState(true);
+  const [isPaused, setIsPaused] = useState(false);
+  const isAnimatingRef = useRef(false);
+  const trackRef = useRef(null);
+
+  const nextSlide = useCallback(() => {
+    if (isAnimatingRef.current) return;
+    isAnimatingRef.current = true;
+    setIsTransitioning(true);
+    setDisplayIndex((prev) => prev + 1);
+  }, []);
+
+  const prevSlide = useCallback(() => {
+    if (isAnimatingRef.current) return;
+    isAnimatingRef.current = true;
+    setIsTransitioning(true);
+    setDisplayIndex((prev) => prev - 1);
+  }, []);
+
+  const handleTransitionEnd = (e) => {
+    if (e.target !== trackRef.current) return;
+    if (displayIndex >= extendedSlides.length - 1) {
+      setIsTransitioning(false);
+      setDisplayIndex(1);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setIsTransitioning(true);
+          isAnimatingRef.current = false;
+        });
+      });
+    } else if (displayIndex <= 0) {
+      setIsTransitioning(false);
+      setDisplayIndex(slideCount);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setIsTransitioning(true);
+          isAnimatingRef.current = false;
+        });
+      });
+    } else {
+      isAnimatingRef.current = false;
+    }
+  };
+
+  useEffect(() => {
+    if (isAnimatingRef.current) {
+      const safety = setTimeout(() => {
+        isAnimatingRef.current = false;
+      }, 750);
+      return () => clearTimeout(safety);
+    }
+  }, [displayIndex]);
+
+  useEffect(() => {
+    if (isPaused) return;
+    const timer = setInterval(() => {
+      nextSlide();
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [isPaused, nextSlide]);
+
   return (
     <div className="setu-finance-page">
       <div className="finance-page-container">
 
-        {/* ── 1. Hero Banner: Flexible Payment Solutions (Matches Home & FuelFastag 400px Hero Banner) ── */}
-        <section className="finance-hero-banner">
+        {/* ── 1. Hero Banner Slider: Flexible Payment Solutions (Matches Home & FuelFastag 400px Hero Banner) ── */}
+        <section
+          className="finance-hero-banner"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          role="region"
+          aria-roledescription="carousel"
+          aria-label="Setu Finance solutions slider"
+        >
+          {/* Ambient Glow */}
           <div className="finance-hero-banner__glow-right" />
 
-          <div className="finance-hero-banner__content">
-            {/* Overline tag */}
-            <div className="finance-hero-banner__overline">
-              SETU CAPITAL &amp; FINANCING • EASY CREDIT
-            </div>
+          {/* Left Navigation Arrow Button */}
+          <button
+            type="button"
+            className="finance-hero-slider__side-nav finance-hero-slider__side-nav--prev"
+            onClick={(e) => {
+              e.stopPropagation();
+              prevSlide();
+            }}
+            aria-label="Previous slide"
+            title="Previous slide"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="15 18 9 12 15 6" />
+            </svg>
+          </button>
 
-            {/* Main Headline */}
-            <h1 className="finance-hero-title">
-              <span className="finance-hero-title-l1">Flexible Payment Solutions</span>
-              <span className="finance-hero-title-l2">Grow Your Business with Easy Credit!</span>
-            </h1>
+          {/* Right Navigation Arrow Button */}
+          <button
+            type="button"
+            className="finance-hero-slider__side-nav finance-hero-slider__side-nav--next"
+            onClick={(e) => {
+              e.stopPropagation();
+              nextSlide();
+            }}
+            aria-label="Next slide"
+            title="Next slide"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </button>
 
-            {/* Subtitle / Description */}
-            <p className="finance-hero-desc">
-              Get instant credit approval and flexible payment terms designed specifically for fleet operators and IoT businesses. Procure hardware and software without cash flow friction.
-            </p>
+          {/* Sliding Carousel Track */}
+          <div
+            ref={trackRef}
+            className="finance-hero-slider__track"
+            onTransitionEnd={handleTransitionEnd}
+            style={{
+              transform: `translateX(-${displayIndex * 100}%)`,
+              transition: isTransitioning ? 'transform 600ms cubic-bezier(0.22, 1, 0.36, 1)' : 'none'
+            }}
+          >
+            {extendedSlides.map((slide, index) => {
+              const isActive = index === displayIndex;
+              return (
+                <div
+                  key={`${slide.id}-${index}`}
+                  className={`finance-hero-slider__slide ${isActive ? 'finance-hero-slider__slide--active' : ''}`}
+                  aria-hidden={!isActive}
+                >
+                  <div className="finance-hero-slider__body">
+                    <div className="finance-hero-banner__content">
+                      {/* Overline tag */}
+                      <div className="finance-hero-banner__overline">
+                        {slide.overline}
+                      </div>
 
-            {/* Feature Checkmark Pills */}
-            <div className="finance-hero-pills">
-              <div className="finance-hero-pill">
-                <span className="finance-pill-check">✓</span>
-                <span>Instant Credit Approval</span>
-              </div>
-              <div className="finance-hero-pill">
-                <span className="finance-pill-check">✓</span>
-                <span>Zero Hidden Charges</span>
-              </div>
-              <div className="finance-hero-pill">
-                <span className="finance-pill-check">✓</span>
-                <span>Flexible 30 to 90-Day Terms</span>
-              </div>
-              <div className="finance-hero-pill">
-                <span className="finance-pill-check">✓</span>
-                <span>100% Digital Process</span>
-              </div>
-            </div>
+                      {/* Main Headline */}
+                      <h1 className="finance-hero-title">
+                        <span className="finance-hero-title-l1">{slide.titleLine1}</span>
+                        <span className="finance-hero-title-l2">{slide.titleLine2}</span>
+                      </h1>
 
-            {/* CTA Buttons (Exact match to Home page CTA style) */}
-            <div className="finance-hero-actions">
-              <button
-                type="button"
-                className="finance-btn finance-btn--primary"
-                onClick={() => {
-                  const formEl = document.querySelector('.finance-form-card');
-                  if (formEl) {
-                    formEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    const input = formEl.querySelector('input');
-                    if (input) input.focus();
-                  }
-                }}
-              >
-                <span>Apply for Credit</span>
-                <span aria-hidden="true">→</span>
-              </button>
-              <button
-                type="button"
-                className="finance-btn finance-btn--secondary"
-                onClick={() => {
-                  const aboutEl = document.querySelector('.finance-about-col');
-                  if (aboutEl) {
-                    aboutEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                  }
-                }}
-              >
-                Learn more
-              </button>
-            </div>
+                      {/* Subtitle / Description */}
+                      <p className="finance-hero-desc">
+                        {slide.desc}
+                      </p>
+
+                      {/* Feature Checkmark Pills */}
+                      <div className="finance-hero-pills">
+                        {slide.pills.map((pillText, pIdx) => (
+                          <div key={pIdx} className="finance-hero-pill">
+                            <span className="finance-pill-check">✓</span>
+                            <span>{pillText}</span>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* CTA Buttons (Exact match to Home page CTA style) */}
+                      <div className="finance-hero-actions">
+                        <button
+                          type="button"
+                          className="finance-btn finance-btn--primary"
+                          onClick={() => {
+                            const formEl = document.querySelector('.finance-form-card');
+                            if (formEl) {
+                              formEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                              const input = formEl.querySelector('input');
+                              if (input) input.focus();
+                            }
+                          }}
+                        >
+                          <span>{slide.primaryText}</span>
+                          <span aria-hidden="true">→</span>
+                        </button>
+                        <button
+                          type="button"
+                          className="finance-btn finance-btn--secondary"
+                          onClick={() => {
+                            const aboutEl = document.querySelector('.finance-about-col');
+                            if (aboutEl) {
+                              aboutEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            }
+                          }}
+                        >
+                          {slide.secondaryText}
+                        </button>
+                      </div>
+                    </div>
+
+                    <FinanceHeroGraphic />
+                  </div>
+                </div>
+              );
+            })}
           </div>
 
-          <FinanceHeroGraphic />
-
-          {/* Carousel Slide Dots (○ ● ○) */}
+          {/* Carousel Slide Dots */}
           <div className="finance-hero-dots" aria-hidden="true">
-            <span className="finance-hero-dot" />
-            <span className="finance-hero-dot finance-hero-dot--active" />
-            <span className="finance-hero-dot" />
+            {FINANCE_HERO_SLIDES.map((_, dotIdx) => {
+              const realIndex = (displayIndex - 1 + slideCount) % slideCount;
+              return (
+                <span
+                  key={dotIdx}
+                  className={`finance-hero-dot ${realIndex === dotIdx ? 'finance-hero-dot--active' : ''}`}
+                  onClick={() => {
+                    setIsTransitioning(true);
+                    setDisplayIndex(dotIdx + 1);
+                  }}
+                  style={{ cursor: 'pointer' }}
+                />
+              );
+            })}
           </div>
         </section>
 

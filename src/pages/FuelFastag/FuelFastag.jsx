@@ -1,10 +1,70 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import fastagData from '../../data/fastagClasses.json';
 import { VehicleIcon } from './VehicleIcons';
 import AxleDiagram from './AxleDiagram';
 import { FuelFastagHeroCards } from './FuelFastagVisual';
 import './FuelFastag.css';
+
+const FF_HERO_SLIDES = [
+  {
+    id: 'fastag-bulk',
+    overline: 'FUEL & FASTAG • NEW ON SETU',
+    titleLine1: 'FASTag and fuel cards',
+    titleLine2: 'for every vehicle you manage',
+    desc: 'Order tags and fuel cards in bulk for your own fleet or your customers’ fleets, with one KYC, one GST invoice and recharge for all vehicles in one go.',
+    pills: [
+      'One tag per vehicle, ordered in bulk',
+      'Issue in your customer’s name',
+      'FASTag by IDFC FIRST Bank',
+      'HP • IndianOil • BPCL'
+    ],
+    primaryText: 'Order FASTags in bulk',
+    primaryModal: 'fastag-bulk',
+    secondaryText: 'Apply for fuel cards',
+    secondaryModal: 'fuel-card',
+    tertiaryText: 'Enquire / Connect with us',
+    tertiaryModal: 'enquire'
+  },
+  {
+    id: 'automated-toll',
+    overline: 'SMART FLEET MOBILITY • INSTANT TOLL',
+    titleLine1: 'Automated Toll Debits',
+    titleLine2: '& Zero-Downtime FASTag Recharges',
+    desc: 'Avoid toll plaza delays and low-balance blacklisting with automated wallet top-ups, instant transaction telemetry, and live trip debit reconciliation.',
+    pills: [
+      'Instant Auto-Recharge Rules',
+      'Blacklist & Low Balance Alerts',
+      'Multi-Vehicle Toll Tracking',
+      'Direct NPCI & NETC Integration'
+    ],
+    primaryText: 'Order FASTags in bulk',
+    primaryModal: 'fastag-bulk',
+    secondaryText: 'Apply for fuel cards',
+    secondaryModal: 'fuel-card',
+    tertiaryText: 'Enquire / Connect with us',
+    tertiaryModal: 'enquire'
+  },
+  {
+    id: 'unified-billing',
+    overline: 'ENTERPRISE BILLING • 1-KYC CONVENIENCE',
+    titleLine1: 'Unified Fuel & Toll Expenses',
+    titleLine2: 'with 100% Input Tax Credit',
+    desc: 'Consolidate all fuel purchases and toll deductions into a single monthly GST invoice, drastically cutting accounting hours and simplifying fleet tax credits.',
+    pills: [
+      'Single Consolidated GST Invoice',
+      'Fuel Card Spending Limits',
+      'Cashless Fueling at 60,000+ Pumps',
+      'Complete Driver Expense Tracking'
+    ],
+    primaryText: 'Order FASTags in bulk',
+    primaryModal: 'fastag-bulk',
+    secondaryText: 'Apply for fuel cards',
+    secondaryModal: 'fuel-card',
+    tertiaryText: 'Enquire / Connect with us',
+    tertiaryModal: 'enquire'
+  }
+];
 
 export default function FuelFastag() {
   const navigate = useNavigate();
@@ -89,6 +149,78 @@ export default function FuelFastag() {
   // Table expand/collapse state: show first 4 items by default
   const [isTableExpanded, setIsTableExpanded] = useState(false);
 
+  // Slider state
+  const slideCount = FF_HERO_SLIDES.length;
+  const extendedSlides = useMemo(() => {
+    return [
+      FF_HERO_SLIDES[slideCount - 1],
+      ...FF_HERO_SLIDES,
+      FF_HERO_SLIDES[0]
+    ];
+  }, [slideCount]);
+
+  const [displayIndex, setDisplayIndex] = useState(1);
+  const [isTransitioning, setIsTransitioning] = useState(true);
+  const [isPaused, setIsPaused] = useState(false);
+  const isAnimatingRef = useRef(false);
+  const trackRef = useRef(null);
+
+  const nextSlide = useCallback(() => {
+    if (isAnimatingRef.current) return;
+    isAnimatingRef.current = true;
+    setIsTransitioning(true);
+    setDisplayIndex((prev) => prev + 1);
+  }, []);
+
+  const prevSlide = useCallback(() => {
+    if (isAnimatingRef.current) return;
+    isAnimatingRef.current = true;
+    setIsTransitioning(true);
+    setDisplayIndex((prev) => prev - 1);
+  }, []);
+
+  const handleTransitionEnd = (e) => {
+    if (e.target !== trackRef.current) return;
+    if (displayIndex >= extendedSlides.length - 1) {
+      setIsTransitioning(false);
+      setDisplayIndex(1);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setIsTransitioning(true);
+          isAnimatingRef.current = false;
+        });
+      });
+    } else if (displayIndex <= 0) {
+      setIsTransitioning(false);
+      setDisplayIndex(slideCount);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setIsTransitioning(true);
+          isAnimatingRef.current = false;
+        });
+      });
+    } else {
+      isAnimatingRef.current = false;
+    }
+  };
+
+  useEffect(() => {
+    if (isAnimatingRef.current) {
+      const safety = setTimeout(() => {
+        isAnimatingRef.current = false;
+      }, 750);
+      return () => clearTimeout(safety);
+    }
+  }, [displayIndex]);
+
+  useEffect(() => {
+    if (isPaused) return;
+    const timer = setInterval(() => {
+      nextSlide();
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [isPaused, nextSlide]);
+
   const isFilteredOrSearched = Boolean(searchQuery.trim() || selectedTagFilter !== 'ALL');
 
   const visibleVehicles = useMemo(() => {
@@ -101,79 +233,149 @@ export default function FuelFastag() {
   return (
     <div className="fuel-fastag-page">
       <div className="ff-page-container">
-        {/* ── 2. Hero Banner (Matches Home Page Hero Styling & Screenshot 1) ── */}
-        <section className="ff-hero-banner">
-          <div className="ff-hero-banner__bg-glow-left" />
+        {/* ── 2. Hero Banner Slider (Matches Home Page Hero Styling & Spacing) ── */}
+        <section
+          className="ff-hero-banner"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          role="region"
+          aria-roledescription="carousel"
+          aria-label="Fuel and FASTag solutions slider"
+        >
+          {/* Ambient Radial Glow */}
           <div className="ff-hero-banner__bg-glow-right" />
 
-          <div className="ff-hero-banner__content">
-            {/* Overline tag */}
-            <div className="ff-hero-banner__overline">
-              FUEL &amp; FASTAG • NEW ON SETU
-            </div>
+          {/* Left Navigation Arrow Button */}
+          <button
+            type="button"
+            className="ff-hero-slider__side-nav ff-hero-slider__side-nav--prev"
+            onClick={(e) => {
+              e.stopPropagation();
+              prevSlide();
+            }}
+            aria-label="Previous slide"
+            title="Previous slide"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="15 18 9 12 15 6" />
+            </svg>
+          </button>
 
-            {/* Main Headline */}
-            <h1 className="ff-hero-banner__headline">
-              <span className="ff-hero-banner__headline-l1">FASTag and fuel cards</span>
-              <span className="ff-hero-banner__headline-l2">for every vehicle you manage</span>
-            </h1>
+          {/* Right Navigation Arrow Button */}
+          <button
+            type="button"
+            className="ff-hero-slider__side-nav ff-hero-slider__side-nav--next"
+            onClick={(e) => {
+              e.stopPropagation();
+              nextSlide();
+            }}
+            aria-label="Next slide"
+            title="Next slide"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </button>
 
-            {/* Subtitle */}
-            <p className="ff-hero-banner__desc">
-              Order tags and fuel cards in bulk for your own fleet or your customers' fleets,
-              with one KYC, one GST invoice and recharge for all vehicles in one go.
-            </p>
+          {/* Sliding Carousel Track */}
+          <div
+            ref={trackRef}
+            className="ff-hero-slider__track"
+            onTransitionEnd={handleTransitionEnd}
+            style={{
+              transform: `translateX(-${displayIndex * 100}%)`,
+              transition: isTransitioning ? 'transform 600ms cubic-bezier(0.22, 1, 0.36, 1)' : 'none'
+            }}
+          >
+            {extendedSlides.map((slide, index) => {
+              const isActive = index === displayIndex;
+              return (
+                <div
+                  key={`${slide.id}-${index}`}
+                  className={`ff-hero-slider__slide ${isActive ? 'ff-hero-slider__slide--active' : ''}`}
+                  aria-hidden={!isActive}
+                >
+                  <div className="ff-hero-slider__body">
+                    <div className="ff-hero-banner__content">
+                      {/* Overline tag */}
+                      <div className="ff-hero-banner__overline">
+                        {slide.overline}
+                      </div>
 
-            {/* Feature Checkmark Pills */}
-            <div className="ff-hero-pills">
-              <div className="ff-hero-pill">
-                <span className="ff-pill-check">✓</span>
-                <span>One tag per vehicle, ordered in bulk</span>
-              </div>
-              <div className="ff-hero-pill">
-                <span className="ff-pill-check">✓</span>
-                <span>Issue in your customer's name</span>
-              </div>
-              <div className="ff-hero-pill">
-                <span className="ff-pill-check">✓</span>
-                <span>FASTag by IDFC FIRST Bank</span>
-              </div>
-              <div className="ff-hero-pill">
-                <span className="ff-pill-check">✓</span>
-                <span>HP • IndianOil • BPCL</span>
-              </div>
-            </div>
+                      {/* Main Headline */}
+                      <h1 className="ff-hero-banner__headline">
+                        <span className="ff-hero-banner__headline-l1">{slide.titleLine1}</span>
+                        <span className="ff-hero-banner__headline-l2">{slide.titleLine2}</span>
+                      </h1>
 
-            {/* Action Buttons */}
-            <div className="ff-hero-actions">
-              <button
-                type="button"
-                className="ff-btn ff-btn--primary"
-                onClick={() => setActiveModal('fastag-bulk')}
-              >
-                <span>Order FASTags in bulk</span>
-                <span aria-hidden="true">→</span>
-              </button>
-              <button
-                type="button"
-                className="ff-btn ff-btn--secondary"
-                onClick={() => setActiveModal('fuel-card')}
-              >
-                Apply for fuel cards
-              </button>
-              <button
-                type="button"
-                className="ff-btn ff-btn--tertiary"
-                onClick={() => setActiveModal('enquire')}
-              >
-                Enquire / Connect with us
-              </button>
-            </div>
+                      {/* Subtitle */}
+                      <p className="ff-hero-banner__desc">
+                        {slide.desc}
+                      </p>
+
+                      {/* Feature Checkmark Pills */}
+                      <div className="ff-hero-pills">
+                        {slide.pills.map((pillText, pIdx) => (
+                          <div key={pIdx} className="ff-hero-pill">
+                            <span className="ff-pill-check">✓</span>
+                            <span>{pillText}</span>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Action Buttons */}
+                      <div className="ff-hero-actions">
+                        <button
+                          type="button"
+                          className="ff-btn ff-btn--primary"
+                          onClick={() => setActiveModal(slide.primaryModal)}
+                        >
+                          <span>{slide.primaryText}</span>
+                          <span aria-hidden="true">→</span>
+                        </button>
+                        <button
+                          type="button"
+                          className="ff-btn ff-btn--secondary"
+                          onClick={() => setActiveModal(slide.secondaryModal)}
+                        >
+                          {slide.secondaryText}
+                        </button>
+                        <button
+                          type="button"
+                          className="ff-btn ff-btn--tertiary"
+                          onClick={() => setActiveModal(slide.tertiaryModal)}
+                        >
+                          {slide.tertiaryText}
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Right Visual Composition */}
+                    <div className="ff-hero-banner__visual">
+                      <FuelFastagHeroCards />
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
 
-          {/* Right Visual Composition */}
-          <div className="ff-hero-banner__visual">
-            <FuelFastagHeroCards />
+          {/* Slide Indicator Dots */}
+          <div className="ff-hero-dots" aria-hidden="true">
+            {FF_HERO_SLIDES.map((_, dotIdx) => {
+              const realIndex = (displayIndex - 1 + slideCount) % slideCount;
+              return (
+                <span
+                  key={dotIdx}
+                  className={`ff-hero-dot ${realIndex === dotIdx ? 'ff-hero-dot--active' : ''}`}
+                  onClick={() => {
+                    setIsTransitioning(true);
+                    setDisplayIndex(dotIdx + 1);
+                  }}
+                  style={{ cursor: 'pointer' }}
+                />
+              );
+            })}
           </div>
         </section>
 
