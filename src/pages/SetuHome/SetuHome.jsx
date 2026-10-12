@@ -1587,12 +1587,13 @@ function FeaturedProductsSection() {
 }
 
 /* ────────────────────────────────────────────────────────────
-   8. TOP BRANDS ON SETU SECTION & ASSURANCE BAR
+   8. TOP BRANDS SECTION (5 CARDS MATCHING FEATURED SECTION UI)
 ──────────────────────────────────────────────────────────── */
 const TOP_BRANDS_DATA = [
   {
     id: 'mercetech',
     name: 'Mercetech',
+    categoryTag: 'by Mercetech',
     sponsored: true,
     productCount: 3,
     startPrice: 11200,
@@ -1602,6 +1603,7 @@ const TOP_BRANDS_DATA = [
   {
     id: 't98-series',
     name: 'T98 Series',
+    categoryTag: 'by T98 Series',
     sponsored: true,
     productCount: 5,
     startPrice: 3650,
@@ -1611,6 +1613,7 @@ const TOP_BRANDS_DATA = [
   {
     id: 'm-series',
     name: 'M Series',
+    categoryTag: 'by M Series',
     sponsored: false,
     productCount: 5,
     startPrice: 564,
@@ -1620,6 +1623,7 @@ const TOP_BRANDS_DATA = [
   {
     id: 'lls-series',
     name: 'LLS Series',
+    categoryTag: 'by LLS Series',
     sponsored: false,
     productCount: 3,
     startPrice: 4500,
@@ -1629,133 +1633,93 @@ const TOP_BRANDS_DATA = [
   {
     id: 'gl-series',
     name: 'GL Series',
+    categoryTag: 'by GL Series',
     sponsored: false,
     productCount: 2,
     startPrice: 9840,
     image: '/images/hardware/gl500-2g.svg',
     searchTerm: 'GL Series'
-  },
-  {
-    id: 'eco5-series',
-    name: 'Eco5 Series',
-    sponsored: false,
-    productCount: 2,
-    startPrice: 1850,
-    image: '/images/hardware/eco5-lite.svg',
-    searchTerm: 'Eco5 Series'
   }
 ];
 
-const TRUST_ASSURANCES = [
-  {
-    id: 'gst-invoice',
-    title: 'GST invoice',
-    desc: 'In your company name',
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-        <polyline points="14 2 14 8 20 8" />
-        <line x1="16" y1="13" x2="8" y2="13" />
-        <line x1="16" y1="17" x2="8" y2="17" />
-        <polyline points="10 9 9 9 8 9" />
-      </svg>
-    )
-  },
-  {
-    id: 'bulk-prices',
-    title: 'Bulk slab prices',
-    desc: 'Up to 12% off on 500+',
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <line x1="18" y1="20" x2="18" y2="10" />
-        <line x1="12" y1="20" x2="12" y2="4" />
-        <line x1="6" y1="20" x2="6" y2="14" />
-      </svg>
-    )
-  },
-  {
-    id: 'secure-payments',
-    title: 'Secure payments',
-    desc: 'UPI, cards, credit line',
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-      </svg>
-    )
-  },
-  {
-    id: 'warranty',
-    title: '1-year warranty',
-    desc: '7 day replacement',
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-        <polyline points="9 12 11 14 15 10" />
-      </svg>
-    )
-  }
-];
-
-function TopBrandsSection({ onOpenBulkQuote, onOpenCreditLimit }) {
+function TopBrandsSection() {
   const navigate = useNavigate();
 
   return (
     <section className="top-brands-section">
       <div className="top-brands-section__header">
-        <h2 className="top-brands-section__title">Top brands on Setu</h2>
-        <p className="top-brands-section__subtitle">Browse every device a brand sells here.</p>
+        <h2 className="top-brands-section__title">Top brands</h2>
+        <button
+          type="button"
+          className="top-brands-view-all"
+          onClick={() => navigate('/hardware')}
+        >
+          <span>View all</span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M5 12h14" />
+            <path d="m12 5 7 7-7 7" />
+          </svg>
+        </button>
       </div>
 
-      {/* 6 Brands Cards Grid */}
-      <div className="top-brands-grid">
+      {/* ── 5 Cards Horizontal Grid (Matching Featured & New Arrivals UI) ── */}
+      <div className="featured-cards-grid">
         {TOP_BRANDS_DATA.map((brand) => (
           <div
             key={brand.id}
-            className="top-brand-card"
+            className="featured-product-card"
             onClick={() => navigate(`/hardware?search=${encodeURIComponent(brand.searchTerm)}`)}
             title={`Browse ${brand.name} devices on Setu`}
           >
-            {brand.sponsored && (
-              <span className="top-brand-card__badge">Sponsored</span>
-            )}
-            <div className="top-brand-card__avatar">
+            {/* Card Top Row: Badge */}
+            <div className="featured-product-card__top">
+              {brand.sponsored ? (
+                <span className="featured-product-card__badge featured-product-card__badge--sponsored">
+                  Sponsored
+                </span>
+              ) : null}
+            </div>
+
+            {/* Card Thumbnail Visual */}
+            <div className="featured-product-card__img-box">
               <img
                 src={getAssetUrl(brand.image)}
                 alt={brand.name}
-                className="top-brand-card__img"
+                className="featured-product-card__img"
               />
             </div>
-            <h3 className="top-brand-card__name">{brand.name}</h3>
-            <span className="top-brand-card__meta">
-              {brand.productCount} products · from ₹{brand.startPrice.toLocaleString()}
-            </span>
-          </div>
-        ))}
-      </div>
 
-      {/* 4 Trust & Assurance Value Props Row */}
-      <div className="top-brands-trust-grid">
-        {TRUST_ASSURANCES.map((item) => (
-          <div
-            key={item.id}
-            className="top-brands-trust-card"
-            onClick={() => {
-              if (item.id === 'bulk-prices' && onOpenBulkQuote) {
-                onOpenBulkQuote();
-              } else if (item.id === 'secure-payments' && onOpenCreditLimit) {
-                onOpenCreditLimit();
-              } else {
-                navigate('/hardware');
-              }
-            }}
-          >
-            <div className="top-brands-trust-icon">
-              {item.icon}
-            </div>
-            <div className="top-brands-trust-info">
-              <h4 className="top-brands-trust-title">{item.title}</h4>
-              <p className="top-brands-trust-desc">{item.desc}</p>
+            {/* Card Body Info */}
+            <div className="featured-product-card__body">
+              <span className="featured-product-card__brand">
+                {brand.categoryTag}
+              </span>
+
+              <h4 className="featured-product-card__title" title={brand.name}>
+                {brand.name}
+              </h4>
+
+              {/* Price block */}
+              <div className="featured-product-card__price-box">
+                <div className="featured-product-card__main-price">
+                  ₹{brand.startPrice.toLocaleString()} <span className="featured-product-card__gst">+ GST</span>
+                </div>
+                <div className="featured-product-card__bulk-tier">
+                  {brand.productCount} products · from ₹{brand.startPrice.toLocaleString()}
+                </div>
+              </div>
+
+              {/* View Products CTA button */}
+              <button
+                type="button"
+                className="featured-product-card__cart-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate(`/hardware?search=${encodeURIComponent(brand.searchTerm)}`);
+                }}
+              >
+                View Products
+              </button>
             </div>
           </div>
         ))}
@@ -2539,11 +2503,8 @@ export default function SetuHome() {
         {/* ── 4. Featured & New Arrivals 2-Tabs Section (From User Reference Images) ── */}
         <FeaturedProductsSection />
 
-        {/* ── 5. Top Brands on Setu & Assurance Value Props ── */}
-        <TopBrandsSection
-          onOpenBulkQuote={() => setBulkQuoteModalOpen(true)}
-          onOpenCreditLimit={() => setCreditLimitModalOpen(true)}
-        />
+        {/* ── 5. Top Brands Section (5 Brands with Featured UI) ── */}
+        <TopBrandsSection />
 
         {/* ── 6. Buying For A Fleet Bulk Pricing CTA Banner (With Ask Quotation) ── */}
         <FleetBulkPricingBanner

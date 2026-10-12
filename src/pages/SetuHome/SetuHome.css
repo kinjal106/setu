@@ -2217,202 +2217,47 @@
 }
 
 /* ────────────────────────────────────────────────────────────
-   8. TOP BRANDS ON SETU SECTION & ASSURANCE BAR
+   8. TOP BRANDS SECTION
 ──────────────────────────────────────────────────────────── */
 .top-brands-section {
   margin-top: 36px;
-  margin-bottom: 28px;
+  margin-bottom: 24px;
 }
 
 .top-brands-section__header {
-  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
 }
 
 .top-brands-section__title {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 750;
   color: #0F172A;
-  margin: 0 0 4px 0;
+  margin: 0;
   letter-spacing: -0.02em;
 }
 
-.top-brands-section__subtitle {
-  font-size: 13.5px;
-  color: #64748B;
-  margin: 0;
-}
-
-/* 6-Columns Horizontal Brand Grid */
-.top-brands-grid {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 16px;
-}
-
-.top-brand-card {
-  position: relative;
-  background: #FFFFFF;
-  border: 1px solid #E2E8F0;
-  border-radius: 16px;
-  padding: 22px 14px 18px 14px;
-  display: flex;
-  flex-direction: column;
+.top-brands-view-all {
+  display: inline-flex;
   align-items: center;
-  text-align: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #006EFF;
+  background: none;
+  border: none;
   cursor: pointer;
-  transition: all 180ms cubic-bezier(0.16, 1, 0.3, 1);
-  box-sizing: border-box;
-}
-
-.top-brand-card:hover {
-  border-color: #3B82F6;
-  box-shadow: 0 8px 24px -4px rgba(59, 130, 246, 0.14), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
-  transform: translateY(-2px);
-}
-
-.top-brand-card__badge {
-  position: absolute;
-  top: 10px;
-  right: 12px;
-  font-size: 10.5px;
-  font-weight: 500;
-  color: #475569;
-  background: #F8FAFC;
-  border: 1px solid #E2E8F0;
-  border-radius: 6px;
-  padding: 2px 7px;
-  line-height: 1.2;
-}
-
-.top-brand-card__avatar {
-  width: 68px;
-  height: 68px;
-  border-radius: 50%;
-  background: #F8FAFC;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 4px;
-  margin-bottom: 14px;
-  padding: 10px;
-  box-sizing: border-box;
-  transition: all 180ms ease;
-}
-
-.top-brand-card:hover .top-brand-card__avatar {
-  background: #EFF6FF;
-  transform: scale(1.06);
-}
-
-.top-brand-card__img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-}
-
-.top-brand-card__name {
-  font-size: 14.5px;
-  font-weight: 700;
-  color: #0F172A;
-  margin: 0 0 4px 0;
-  letter-spacing: -0.01em;
-  white-space: nowrap;
-}
-
-.top-brand-card__meta {
-  font-size: 12px;
-  color: #64748B;
-  line-height: 1.35;
-  white-space: nowrap;
-}
-
-/* 4 Trust & Assurance Value Props Row */
-.top-brands-trust-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  margin-top: 20px;
-}
-
-.top-brands-trust-card {
-  background: #FFFFFF;
-  border: 1px solid #E2E8F0;
-  border-radius: 14px;
-  padding: 16px 20px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  cursor: pointer;
+  padding: 4px 0;
   transition: all 160ms ease;
-  box-sizing: border-box;
+  font-family: inherit;
 }
 
-.top-brands-trust-card:hover {
-  border-color: #CBD5E1;
-  background: #FAFAFA;
-  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
-  transform: translateY(-1px);
-}
-
-.top-brands-trust-icon {
-  width: 42px;
-  height: 42px;
-  border-radius: 10px;
-  background: #EFF6FF;
-  color: #2563EB;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  transition: transform 160ms ease;
-}
-
-.top-brands-trust-card:hover .top-brands-trust-icon {
-  transform: scale(1.05);
-}
-
-.top-brands-trust-info {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-
-.top-brands-trust-title {
-  font-size: 14.5px;
-  font-weight: 700;
-  color: #0F172A;
-  margin: 0 0 2px 0;
-  white-space: nowrap;
-}
-
-.top-brands-trust-desc {
-  font-size: 12px;
-  color: #64748B;
-  margin: 0;
-  white-space: nowrap;
-}
-
-@media (max-width: 1200px) {
-  .top-brands-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  .top-brands-trust-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 640px) {
-  .top-brands-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-  }
-  .top-brands-trust-grid {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-  .top-brand-card {
-    padding: 18px 10px 16px 10px;
-  }
+.top-brands-view-all:hover {
+  color: #0055CC;
+  transform: translateX(2px);
 }
 
 /* ────────────────────────────────────────────────────────────
