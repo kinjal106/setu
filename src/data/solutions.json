@@ -10,6 +10,11 @@
     "icon": "🔴",
     "color": "#FF4444",
     "category": "fleet-management",
+    "mainFeatures": [
+      "Fuel Monitoring",
+      "Video Telematics",
+      "Tire Management"
+    ],
     "highlights": [
       "Real-time GPS vehicle tracking with 10s telemetry updates",
       "Ignition on/off alerts and unauthorized movement notification",
@@ -33,6 +38,11 @@
     "icon": "🐾",
     "color": "#FF8C00",
     "category": "pet-tracking",
+    "mainFeatures": [
+      "Real-Time GPS Tracking",
+      "Safe Zone Geofencing",
+      "Pet Health & Activity Monitoring"
+    ],
     "highlights": [
       "Real-time GPS live location with virtual safe perimeter geofencing",
       "Instant escape alerts when pet leaves home or park boundaries",
@@ -55,6 +65,11 @@
     "icon": "⚡",
     "color": "#00CC44",
     "category": "ev-management",
+    "mainFeatures": [
+      "Battery SOC & Health Monitoring",
+      "Charging Station Route Planning",
+      "Energy Consumption Analytics"
+    ],
     "highlights": [
       "Live Battery State of Charge (SOC) and real-time range estimation",
       "Charging station route planning and energy consumption rates",
@@ -78,6 +93,11 @@
     "icon": "👁️",
     "color": "#0066CC",
     "category": "workforce",
+    "mainFeatures": [
+      "GPS Attendance & Geofenced Check-in",
+      "Task Dispatch & Proof-of-Visit",
+      "Automated Mileage Calculation"
+    ],
     "highlights": [
       "GPS-verified employee attendance and geofenced client check-ins",
       "Real-time task dispatching with in-app photo and digital signature",
@@ -100,6 +120,11 @@
     "icon": "♻️",
     "color": "#228B22",
     "category": "waste-management",
+    "mainFeatures": [
+      "Ultrasonic Bin Fill-Level Sensors",
+      "Dynamic Garbage Truck Routing",
+      "RFID Bin Pickup Verification"
+    ],
     "highlights": [
       "Ultrasonic bin fill-level monitoring with automated fullness threshold alerts",
       "Dynamic AI routing for garbage trucks targeting only full bins",
@@ -123,6 +148,11 @@
     "icon": "🚌",
     "color": "#444444",
     "category": "transit",
+    "mainFeatures": [
+      "Automated Passenger Counting (APC)",
+      "Live Bus Route Scheduling",
+      "Passenger Arrival Displays (PIDS)"
+    ],
     "highlights": [
       "Automated Passenger Counting (APC) sensors via overhead AI cameras",
       "Dynamic bus route scheduling with live passenger arrival displays (PIDS)",
@@ -146,6 +176,11 @@
     "icon": "🚍",
     "color": "#FF6600",
     "category": "school-transport",
+    "mainFeatures": [
+      "Live Student & Bus Tracking",
+      "RFID Boarding & Drop-off Alerts",
+      "Driver Rash Driving & Speed Alerts"
+    ],
     "highlights": [
       "Live school bus tracking on parent app with push notifications",
       "Student RFID boarding and drop-off confirmation with photo timestamp",
@@ -169,6 +204,11 @@
     "icon": "📡",
     "color": "#8800CC",
     "category": "indoor-tracking",
+    "mainFeatures": [
+      "Sub-Meter BLE & UWB Positioning",
+      "Warehouse Asset & Forklift Tracking",
+      "Lone-Worker Safety & SOS Alarms"
+    ],
     "highlights": [
       "Sub-meter BLE and Ultra-Wideband (UWB) indoor positioning accuracy",
       "Multi-floor 2.5D building mapping with zone-based access control",

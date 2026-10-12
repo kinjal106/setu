@@ -171,6 +171,39 @@
   overflow: hidden;
 }
 
+/* 4. 3 Main Features with Green Check Icon */
+.sol-box-card__features {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid #F1F5F9;
+}
+
+.sol-feature-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #334155;
+  line-height: 1.35;
+}
+
+.sol-feature-icon {
+  flex-shrink: 0;
+  width: 15px;
+  height: 15px;
+}
+
+.sol-feature-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
 /* ────────────────────────────────────────────────────────────
    Responsive Rules
 ──────────────────────────────────────────────────────────── */

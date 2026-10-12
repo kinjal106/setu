@@ -232,11 +232,14 @@ export default function ProductDetail() {
 
   // Special features text
   const specialFeaturesText = useMemo(() => {
+    if (isSolution && product.mainFeatures && product.mainFeatures.length > 0) {
+      return product.mainFeatures.join(', ');
+    }
     if (product.specialFeatures) return product.specialFeatures;
     if (isPrithvi) return 'AIS-140 certified, SOS panic alert';
     if (product.tags && product.tags.length > 0) return product.tags.join(', ');
     return 'Live tracking';
-  }, [product.specialFeatures, product.tags, isPrithvi]);
+  }, [product.specialFeatures, product.tags, isPrithvi, isSolution, product.mainFeatures]);
 
   // Fitment list computation (guarantees 10+ models matching Boodmo / OEM screenshots)
   const fitmentList = useMemo(() => {

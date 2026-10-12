@@ -64,6 +64,34 @@ export default function Solutions() {
               <div className="sol-box-card__body">
                 <h3 className="sol-box-card__title">{sol.name}</h3>
                 <p className="sol-box-card__desc">{sol.description}</p>
+
+                {/* 4. 3 Main Features with Green Check Icon */}
+                {sol.mainFeatures && sol.mainFeatures.length > 0 && (
+                  <div className="sol-box-card__features">
+                    {sol.mainFeatures.map((feat, idx) => (
+                      <div key={idx} className="sol-feature-item">
+                        <svg
+                          className="sol-feature-icon"
+                          width="16"
+                          height="16"
+                          viewBox="0 0 20 20"
+                          fill="none"
+                          aria-hidden="true"
+                        >
+                          <circle cx="10" cy="10" r="9" fill="#DCFCE7" stroke="#16A34A" strokeWidth="1.5" />
+                          <path
+                            d="M6 10.2L8.7 13L14 7.5"
+                            stroke="#16A34A"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                        <span className="sol-feature-text">{feat}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           ))}
