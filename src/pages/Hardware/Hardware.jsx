@@ -422,6 +422,99 @@ function ProductCard({ product, isLowest, onClick }) {
             <span className="pcard-ref__super">{decimalPart}</span>
             <span className="pcard-ref__gst">+ GST</span>
           </div>
+
+          {/* Setu Verified Badge (media_1791811026993_f8d36c42.png Item 2) */}
+          <div className="pcard-ref__verified-row">
+            <span className="setu-verified-badge">
+              <span className="setu-verified-badge__shield">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              </span>
+              <span className="setu-verified-badge__brand">setu</span>
+              <span className="setu-verified-badge__tag">VERIFIED</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── Product Grid Card Component ── */
+function ProductGridCard({ product, isLowest, onClick }) {
+  const [imgError, setImgError] = useState(false);
+
+  const basePrice = Number(product.price || product.pricingPlans?.[0]?.price || 599);
+  const wholePrice = Math.floor(basePrice).toLocaleString('en-IN');
+  const decimalPart = basePrice % 1 === 0 ? '00' : (basePrice % 1).toFixed(2).slice(2);
+
+  const displayTags = product.tags && product.tags.length > 0
+    ? product.tags
+    : (product.features && product.features.length > 0 ? product.features.slice(0, 2) : ['Live tracking']);
+
+  return (
+    <div className="pcard-grid" onClick={onClick}>
+      {/* Top Image Container */}
+      <div className="pcard-grid__img-box">
+        {(isLowest || product.isLowest) && <span className="pcard-grid__badge">Lowest price</span>}
+        <div className="pcard-grid__img-center">
+          {product.image && !imgError ? (
+            <img
+              src={getAssetUrl(product.image)}
+              alt={product.name}
+              className="pcard-grid__img"
+              onError={() => setImgError(true)}
+            />
+          ) : (
+            <div className="pcard-grid__placeholder">
+              <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="1.5">
+                <rect x="2" y="7" width="20" height="14" rx="2"/>
+                <path d="M16 7V5a2 2 0 0 0-4 0v2"/>
+                <circle cx="12" cy="14" r="2"/>
+              </svg>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Card Body */}
+      <div className="pcard-grid__body">
+        <h3 className="pcard-grid__title">{product.name}</h3>
+
+        {product.shortDescription && (
+          <p className="pcard-grid__desc">{product.shortDescription}</p>
+        )}
+
+        {/* Feature Pills */}
+        {displayTags && displayTags.length > 0 && (
+          <div className="pcard-grid__tags">
+            {displayTags.map((tag, idx) => (
+              <span key={idx} className="pcard-grid__tag-pill">{tag}</span>
+            ))}
+          </div>
+        )}
+
+        {/* Price & Verified Row Footer */}
+        <div className="pcard-grid__footer">
+          <div className="pcard-ref__price-row">
+            <span className="pcard-ref__currency">₹</span>
+            <span className="pcard-ref__amount">{wholePrice}</span>
+            <span className="pcard-ref__super">{decimalPart}</span>
+            <span className="pcard-ref__gst">+ GST</span>
+          </div>
+
+          <div className="pcard-ref__verified-row">
+            <span className="setu-verified-badge">
+              <span className="setu-verified-badge__shield">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              </span>
+              <span className="setu-verified-badge__brand">setu</span>
+              <span className="setu-verified-badge__tag">VERIFIED</span>
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -443,6 +536,10 @@ export default function Hardware() {
   const filterTracking = searchParams.get('tracking') === '1';
   const filterObd = searchParams.get('obd');
   const filterRecommended = searchParams.get('recommended') === '1';
+  const urlVerified = searchParams.get('verified') === '1';
+
+  const [viewMode, setViewMode] = useState('list');
+  const [filterVerified, setFilterVerified] = useState(urlVerified);
 
   const getInitialSelection = () => {
     if (urlSub) return new Set([urlSub]);
@@ -481,6 +578,12 @@ export default function Hardware() {
     setSearch(urlSearch);
     setIgnoreTypo(false);
   }, [urlSearch]);
+
+  useEffect(() => {
+    if (urlVerified) {
+      setFilterVerified(true);
+    }
+  }, [urlVerified]);
 
   useEffect(() => {
     if (urlBrand) {
@@ -542,22 +645,6 @@ export default function Hardware() {
   }, [search]);
 
 
-
-  const handleVoiceSearch = () => {
-    if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
-      alert('Speech recognition is not supported in this browser. Please use Chrome or Edge.');
-      return;
-    }
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    const recognition = new SpeechRecognition();
-    recognition.lang = 'en-IN';
-    recognition.onresult = (event) => {
-      const transcript = event.results[0][0].transcript;
-      setSearch(transcript);
-      navigate(`/hardware?search=${encodeURIComponent(transcript)}`);
-    };
-    recognition.start();
-  };
 
   const handleSearchSubmit = (e) => {
     if (e) e.preventDefault();
@@ -645,9 +732,14 @@ export default function Hardware() {
         if (!p.badge && !p.isLowest) return false;
       }
 
+      // 5. Verification Filter (media_1791811026993_f8d36c42.png Item 3)
+      if (filterVerified) {
+        if (p.verified === false) return false;
+      }
+
       return true;
     });
-  }, [selected, selectedBrands, search, ignoreTypo, matchNameOnly, filterAis140, filterCan, filterBle, filterTracking, filterObd, filterRecommended]);
+  }, [selected, selectedBrands, search, ignoreTypo, matchNameOnly, filterAis140, filterCan, filterBle, filterTracking, filterObd, filterRecommended, filterVerified]);
 
   const lowestPriceId = useMemo(() => {
     if (!filtered || filtered.length === 0) return null;
@@ -670,6 +762,46 @@ export default function Hardware() {
         <aside className="hw-filters">
           <FilterTree categories={categories} selected={selected} onChange={setSelected} />
           <BrandFilter selected={selectedBrands} onChange={setSelectedBrands} />
+
+          {/* ── Setu Verified Filter (media_1791811026993_f8d36c42.png Item 3) ── */}
+          <div className="filter-verified">
+            <div className="filter-verified__head">
+              <span className="filter-verified__title">VERIFICATION</span>
+              {filterVerified && (
+                <button 
+                  type="button" 
+                  className="filter-verified__reset-btn"
+                  onClick={() => setFilterVerified(false)}
+                >
+                  Clear
+                </button>
+              )}
+            </div>
+            <div className="filter-verified__list">
+              <div 
+                className={`fgroup__row ${filterVerified ? 'fgroup__row--active' : ''}`}
+                onClick={() => setFilterVerified(prev => !prev)}
+              >
+                <label className="fcheck" onClick={e => e.stopPropagation()}>
+                  <input 
+                    type="checkbox" 
+                    checked={filterVerified} 
+                    onChange={e => setFilterVerified(e.target.checked)} 
+                  />
+                  <span className="fcheck__box" />
+                </label>
+                <span className="setu-verified-badge">
+                  <span className="setu-verified-badge__shield">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </span>
+                  <span className="setu-verified-badge__brand">setu</span>
+                  <span className="setu-verified-badge__tag">VERIFIED</span>
+                </span>
+              </div>
+            </div>
+          </div>
         </aside>
 
         {/* ── Right Main Content (Google-style Search & AI Overview) ── */}
@@ -677,62 +809,85 @@ export default function Hardware() {
           {/* ── Search Header Section ── */}
           <div className="hw-google-search-section">
             <h1 className="hw-page-title">Hardware</h1>
-            <form className="hw-google-search-bar" onSubmit={handleSearchSubmit}>
-              <div className="hw-google-search-icon">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748B" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="11" cy="11" r="8"/>
-                  <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                </svg>
-              </div>
+            <div className="hw-search-controls">
+              <form className="hw-google-search-bar" onSubmit={handleSearchSubmit}>
+                <div className="hw-google-search-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748B" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="11" cy="11" r="8"/>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                  </svg>
+                </div>
 
-              <input
-                type="text"
-                className="hw-google-search-input"
-                placeholder="Search hardware, devices or ask anything..."
-                value={search}
-                onChange={e => setSearch(e.target.value)}
-                aria-label="Search hardware or ask anything"
-              />
+                <input
+                  type="text"
+                  className="hw-google-search-input"
+                  placeholder="Search hardware, devices or ask anything..."
+                  value={search}
+                  onChange={e => setSearch(e.target.value)}
+                  aria-label="Search hardware or ask anything"
+                />
 
-              {search && (
+                {search && (
+                  <button
+                    type="button"
+                    className="hw-google-search-clear"
+                    onClick={() => {
+                      setSearch('');
+                      setSelectedBrands(new Set());
+                      navigate('/hardware');
+                    }}
+                    title="Clear search"
+                  >
+                    ✕
+                  </button>
+                )}
+
+                <button
+                  type="submit"
+                  className="hw-google-search-submit"
+                  title="Search hardware catalog"
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="11" cy="11" r="8"/>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                  </svg>
+                </button>
+              </form>
+
+              {/* View Mode Toggle (List View vs Grid View near search) */}
+              <div className="hw-view-toggle" role="group" aria-label="View Mode">
                 <button
                   type="button"
-                  className="hw-google-search-clear"
-                  onClick={() => {
-                    setSearch('');
-                    setSelectedBrands(new Set());
-                    navigate('/hardware');
-                  }}
-                  title="Clear search"
+                  className={`hw-view-toggle__btn ${viewMode === 'list' ? 'hw-view-toggle__btn--active' : ''}`}
+                  onClick={() => setViewMode('list')}
+                  title="List view"
+                  aria-label="List view"
                 >
-                  ✕
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="8" y1="6" x2="21" y2="6"/>
+                    <line x1="8" y1="12" x2="21" y2="12"/>
+                    <line x1="8" y1="18" x2="21" y2="18"/>
+                    <line x1="3" y1="6" x2="3.01" y2="6"/>
+                    <line x1="3" y1="12" x2="3.01" y2="12"/>
+                    <line x1="3" y1="18" x2="3.01" y2="18"/>
+                  </svg>
                 </button>
-              )}
-
-              <button
-                type="button"
-                className="hw-google-search-mic"
-                onClick={handleVoiceSearch}
-                title="Search by voice"
-              >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" />
-                  <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
-                  <line x1="12" y1="19" x2="12" y2="22" />
-                </svg>
-              </button>
-
-              <button
-                type="submit"
-                className="hw-google-search-submit"
-                title="Search hardware catalog"
-              >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="11" cy="11" r="8"/>
-                  <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                </svg>
-              </button>
-            </form>
+                <button
+                  type="button"
+                  className={`hw-view-toggle__btn ${viewMode === 'grid' ? 'hw-view-toggle__btn--active' : ''}`}
+                  onClick={() => setViewMode('grid')}
+                  title="Grid view"
+                  aria-label="Grid view"
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="3" width="7" height="7"/>
+                    <rect x="14" y="3" width="7" height="7"/>
+                    <rect x="14" y="14" width="7" height="7"/>
+                    <rect x="3" y="14" width="7" height="7"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
           </div>
 
           {/* ── Scrollable Results Container ── */}
@@ -765,41 +920,49 @@ export default function Hardware() {
               </div>
             )}
 
-            {/* ── Google AI Overview Card (Reference Image 1) ── */}
-
-
-
-            {/* ── Product List (Reference Image 1) ── */}
-            <div className="hw-list-container">
-              {filtered.length === 0 ? (
-                <div className="product-grid__empty">
-                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#D1D5DB" strokeWidth="1.5">
-                    <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                  </svg>
-                  <p>No products found for "{search}"</p>
-                  <button
-                    className="btn btn-outline btn-sm"
-                    onClick={() => {
-                      setSelected(new Set());
-                      setSelectedBrands(new Set());
-                      setSearch('');
-                      navigate('/hardware');
-                    }}
-                  >
-                    Clear all filters
-                  </button>
-                </div>
-              ) : (
-                filtered.map(p => (
+            {/* ── Product List / Grid ── */}
+            {filtered.length === 0 ? (
+              <div className="product-grid__empty">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#D1D5DB" strokeWidth="1.5">
+                  <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                </svg>
+                <p>No products found for "{search}"</p>
+                <button
+                  className="btn btn-outline btn-sm"
+                  onClick={() => {
+                    setSelected(new Set());
+                    setSelectedBrands(new Set());
+                    setFilterVerified(false);
+                    setSearch('');
+                    navigate('/hardware');
+                  }}
+                >
+                  Clear all filters
+                </button>
+              </div>
+            ) : viewMode === 'list' ? (
+              <div className="hw-list-container">
+                {filtered.map(p => (
                   <ProductCard
                     key={p.id}
                     product={p}
                     isLowest={p.id === lowestPriceId}
                     onClick={() => navigate(`/hardware/${p.slug}`)}
                   />
-                ))
-              )}
-            </div>
+                ))}
+              </div>
+            ) : (
+              <div className="hw-grid-container">
+                {filtered.map(p => (
+                  <ProductGridCard
+                    key={p.id}
+                    product={p}
+                    isLowest={p.id === lowestPriceId}
+                    onClick={() => navigate(`/hardware/${p.slug}`)}
+                  />
+                ))}
+              </div>
+            )}
 
             {/* ── People Also Ask Accordion (Reference Image 1) ── */}
             {overviewTopic?.faqs && overviewTopic.faqs.length > 0 && (

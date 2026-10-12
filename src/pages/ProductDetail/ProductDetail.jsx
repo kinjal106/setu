@@ -700,6 +700,15 @@ export default function ProductDetail() {
                   <span className="setu-ui-stock-dot" />
                   {product.inStock !== false ? 'In Stock' : 'Out of Stock'}
                 </span>
+                <span className="setu-verified-badge">
+                  <span className="setu-verified-badge__shield">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </span>
+                  <span className="setu-verified-badge__brand">setu</span>
+                  <span className="setu-verified-badge__tag">VERIFIED</span>
+                </span>
               </div>
             )}
 
@@ -777,6 +786,21 @@ export default function ProductDetail() {
                     <span className="setu-ui-leader-k">Warranty</span>
                     <span className="setu-ui-leader-v">{product.specifications?.Warranty || '1 Year'}</span>
                   </div>
+
+                  <div className="setu-ui-leader-row">
+                    <span className="setu-ui-leader-k">Verification</span>
+                    <span className="setu-ui-leader-v">
+                      <span className="setu-verified-badge">
+                        <span className="setu-verified-badge__shield">
+                          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                            <polyline points="20 6 9 17 4 12" />
+                          </svg>
+                        </span>
+                        <span className="setu-verified-badge__brand">setu</span>
+                        <span className="setu-verified-badge__tag">VERIFIED</span>
+                      </span>
+                    </span>
+                  </div>
                 </>
               ) : (
                 <>
@@ -804,6 +828,21 @@ export default function ProductDetail() {
                     <span className="setu-ui-leader-k">Supported application</span>
                     <span className="setu-ui-leader-v setu-ui-leader-v--wrap">
                       Trakzee, SmartBus and other Uffizio platforms
+                    </span>
+                  </div>
+
+                  <div className="setu-ui-leader-row">
+                    <span className="setu-ui-leader-k">Verification</span>
+                    <span className="setu-ui-leader-v">
+                      <span className="setu-verified-badge">
+                        <span className="setu-verified-badge__shield">
+                          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                            <polyline points="20 6 9 17 4 12" />
+                          </svg>
+                        </span>
+                        <span className="setu-verified-badge__brand">setu</span>
+                        <span className="setu-verified-badge__tag">VERIFIED</span>
+                      </span>
                     </span>
                   </div>
                 </>
@@ -1548,6 +1587,19 @@ export default function ProductDetail() {
                   >
                     ⓘ
                   </button>
+                </div>
+
+                {/* Setu Verified Row in Plan Card */}
+                <div className="setu-plan-card__verified-row">
+                  <span className="setu-verified-badge">
+                    <span className="setu-verified-badge__shield">
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="20 6 9 17 4 12" />
+                      </svg>
+                    </span>
+                    <span className="setu-verified-badge__brand">setu</span>
+                    <span className="setu-verified-badge__tag">VERIFIED</span>
+                  </span>
                 </div>
 
                 {/* 4 Green Checkmarked Key Features */}
