@@ -114,7 +114,8 @@ export default function FuelFastag() {
 
             {/* Main Headline */}
             <h1 className="ff-hero-banner__headline">
-              FASTag and fuel cards for every vehicle you manage
+              <span className="ff-hero-banner__headline-l1">FASTag and fuel cards</span>
+              <span className="ff-hero-banner__headline-l2">for every vehicle you manage</span>
             </h1>
 
             {/* Subtitle */}
@@ -150,7 +151,8 @@ export default function FuelFastag() {
                 className="ff-btn ff-btn--primary"
                 onClick={() => setActiveModal('fastag-bulk')}
               >
-                Order FASTags in bulk
+                <span>Order FASTags in bulk</span>
+                <span aria-hidden="true">→</span>
               </button>
               <button
                 type="button"

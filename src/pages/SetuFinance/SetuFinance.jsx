@@ -135,14 +135,77 @@ export default function SetuFinance() {
     <div className="setu-finance-page">
       <div className="finance-page-container">
 
-        {/* ── 1. Hero Banner: Flexible Payment Solutions ── */}
+        {/* ── 1. Hero Banner: Flexible Payment Solutions (Matches Home & FuelFastag 400px Hero Banner) ── */}
         <section className="finance-hero-banner">
-          <div className="finance-hero-banner__glow-left" />
           <div className="finance-hero-banner__glow-right" />
 
           <div className="finance-hero-banner__content">
-            <h1 className="finance-hero-title">Flexible Payment Solutions</h1>
-            <p className="finance-hero-sub">Grow Your Business with Easy Credit!</p>
+            {/* Overline tag */}
+            <div className="finance-hero-banner__overline">
+              SETU CAPITAL &amp; FINANCING • EASY CREDIT
+            </div>
+
+            {/* Main Headline */}
+            <h1 className="finance-hero-title">
+              <span className="finance-hero-title-l1">Flexible Payment Solutions</span>
+              <span className="finance-hero-title-l2">Grow Your Business with Easy Credit!</span>
+            </h1>
+
+            {/* Subtitle / Description */}
+            <p className="finance-hero-desc">
+              Get instant credit approval and flexible payment terms designed specifically for fleet operators and IoT businesses. Procure hardware and software without cash flow friction.
+            </p>
+
+            {/* Feature Checkmark Pills */}
+            <div className="finance-hero-pills">
+              <div className="finance-hero-pill">
+                <span className="finance-pill-check">✓</span>
+                <span>Instant Credit Approval</span>
+              </div>
+              <div className="finance-hero-pill">
+                <span className="finance-pill-check">✓</span>
+                <span>Zero Hidden Charges</span>
+              </div>
+              <div className="finance-hero-pill">
+                <span className="finance-pill-check">✓</span>
+                <span>Flexible 30 to 90-Day Terms</span>
+              </div>
+              <div className="finance-hero-pill">
+                <span className="finance-pill-check">✓</span>
+                <span>100% Digital Process</span>
+              </div>
+            </div>
+
+            {/* CTA Buttons (Exact match to Home page CTA style) */}
+            <div className="finance-hero-actions">
+              <button
+                type="button"
+                className="finance-btn finance-btn--primary"
+                onClick={() => {
+                  const formEl = document.querySelector('.finance-form-card');
+                  if (formEl) {
+                    formEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    const input = formEl.querySelector('input');
+                    if (input) input.focus();
+                  }
+                }}
+              >
+                <span>Apply for Credit</span>
+                <span aria-hidden="true">→</span>
+              </button>
+              <button
+                type="button"
+                className="finance-btn finance-btn--secondary"
+                onClick={() => {
+                  const aboutEl = document.querySelector('.finance-about-col');
+                  if (aboutEl) {
+                    aboutEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }
+                }}
+              >
+                Learn more
+              </button>
+            </div>
           </div>
 
           <FinanceHeroGraphic />
