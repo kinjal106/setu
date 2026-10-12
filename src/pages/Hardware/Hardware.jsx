@@ -400,10 +400,11 @@ function ProductCard({ product, isLowest, onClick }) {
       {/* Right details container */}
       <div className="pcard-ref__info">
         <div className="pcard-ref__content">
-          {/* Title Row with Product Label & Setu Verified Badge */}
-          <div className="pcard-ref__title-row">
-            <h3 className="pcard-ref__title">{product.name}</h3>
-            {product.verified !== false && (
+          <h3 className="pcard-ref__title">{product.name}</h3>
+
+          {/* Setu Verified Row (Below Product Title) */}
+          {product.verified !== false && (
+            <div className="pcard-ref__verified-row">
               <span className="setu-verified-badge">
                 <span className="setu-verified-badge__shield">
                   <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
@@ -416,8 +417,8 @@ function ProductCard({ product, isLowest, onClick }) {
                   <span className="setu-verified-badge__label">Verified</span>
                 </span>
               </span>
-            )}
-          </div>
+            </div>
+          )}
 
           {product.shortDescription && (
             <p className="pcard-ref__desc">{product.shortDescription}</p>
@@ -484,10 +485,11 @@ function ProductGridCard({ product, isLowest, onClick }) {
 
       {/* Card Body */}
       <div className="pcard-grid__body">
-        {/* Title Row with Product Label & Setu Verified Badge */}
-        <div className="pcard-grid__title-row">
-          <h3 className="pcard-grid__title">{product.name}</h3>
-          {product.verified !== false && (
+        <h3 className="pcard-grid__title">{product.name}</h3>
+
+        {/* Setu Verified Row (Below Product Title) */}
+        {product.verified !== false && (
+          <div className="pcard-grid__verified-row">
             <span className="setu-verified-badge">
               <span className="setu-verified-badge__shield">
                 <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
@@ -500,8 +502,8 @@ function ProductGridCard({ product, isLowest, onClick }) {
                 <span className="setu-verified-badge__label">Verified</span>
               </span>
             </span>
-          )}
-        </div>
+          </div>
+        )}
 
         {product.shortDescription && (
           <p className="pcard-grid__desc">{product.shortDescription}</p>
