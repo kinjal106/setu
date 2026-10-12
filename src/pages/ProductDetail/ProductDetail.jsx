@@ -693,13 +693,15 @@ export default function ProductDetail() {
           <div className="setu-ui-center-scroll-col" id="setu-details-scroll">
             <h1 className="setu-ui-title">{displayTitle}</h1>
             
-            <div className="setu-ui-stock-row">
-              <span className="setu-ui-stock-label">{isSolution ? 'Deployment:' : 'Status:'}</span>
-              <span className={`setu-ui-stock-badge ${product.inStock !== false ? 'setu-ui-stock-badge--in' : 'setu-ui-stock-badge--out'}`}>
-                <span className="setu-ui-stock-dot" />
-                {isSolution ? 'Live Cloud SaaS · On-demand Demo' : (product.inStock !== false ? 'In Stock' : 'Out of Stock')}
-              </span>
-            </div>
+            {!isSolution && (
+              <div className="setu-ui-stock-row">
+                <span className="setu-ui-stock-label">Status:</span>
+                <span className={`setu-ui-stock-badge ${product.inStock !== false ? 'setu-ui-stock-badge--in' : 'setu-ui-stock-badge--out'}`}>
+                  <span className="setu-ui-stock-dot" />
+                  {product.inStock !== false ? 'In Stock' : 'Out of Stock'}
+                </span>
+              </div>
+            )}
 
             {/* Product Key Details */}
             <div className="setu-ui-details-block">
