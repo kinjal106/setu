@@ -242,13 +242,48 @@
   object-fit: contain;
 }
 
-/* ── Part 2: Product Details & Specifications (Center Scrolling Partition) ── */
-.setu-ui-center-scroll-col {
+/* ── Part 2: Product Details & Specifications (Center Partition) ── */
+.setu-ui-center-partition {
   flex: 1;
   min-width: 0;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+/* Static Fixed Header: Main Title & Status */
+.setu-ui-center-fixed-header {
+  flex-shrink: 0;
+  padding: 20px 24px 14px;
+  background: #ffffff;
+  border-bottom: 1px solid #F1F5F9;
+  z-index: 10;
+}
+
+.setu-ui-center-fixed-header .setu-ui-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 6px;
+  line-height: 1.25;
+}
+
+.setu-ui-center-fixed-header .setu-ui-stock-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+.setu-ui-center-scroll-col {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
   overflow-y: auto;
-  padding: 20px 24px 36px;
+  padding: 16px 24px 36px;
   box-sizing: border-box;
   background: #ffffff;
   display: flex;
@@ -2010,10 +2045,17 @@
     max-width: 420px;
     margin: 0 auto;
   }
+  .setu-ui-center-partition {
+    height: auto;
+    overflow: visible;
+  }
+  .setu-ui-center-fixed-header {
+    padding: 16px 18px 12px;
+  }
   .setu-ui-center-scroll-col {
     height: auto;
     overflow: visible;
-    padding: 20px 18px 32px;
+    padding: 16px 18px 32px;
   }
   .setu-ui-buybox-panel {
     width: 100%;

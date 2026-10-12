@@ -689,31 +689,25 @@ export default function ProductDetail() {
             </div>
           </div>
 
-          {/* ── Part 2: Product Details & Specifications (Center Scrolling Partition) ── */}
-          <div className="setu-ui-center-scroll-col" id="setu-details-scroll">
-            <h1 className="setu-ui-title">{displayTitle}</h1>
-            
-            {!isSolution && (
-              <div className="setu-ui-stock-row">
-                <span className="setu-ui-stock-label">Status:</span>
-                <span className={`setu-ui-stock-badge ${product.inStock !== false ? 'setu-ui-stock-badge--in' : 'setu-ui-stock-badge--out'}`}>
-                  <span className="setu-ui-stock-dot" />
-                  {product.inStock !== false ? 'In Stock' : 'Out of Stock'}
-                </span>
-                <span className="setu-verified-badge">
-                  <span className="setu-verified-badge__shield">
-                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-                      <circle cx="8" cy="8" r="7.5" fill="#10B981" />
-                      <path d="M4.8 8.2L7 10.4L11.5 5.9" stroke="#FFFFFF" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
+          {/* ── Part 2: Product Details & Specifications (Center Partition) ── */}
+          <div className="setu-ui-center-partition">
+            {/* Static Fixed Header: Main Title & Status */}
+            <div className="setu-ui-center-fixed-header">
+              <h1 className="setu-ui-title">{displayTitle}</h1>
+              
+              {!isSolution && (
+                <div className="setu-ui-stock-row">
+                  <span className="setu-ui-stock-label">Status:</span>
+                  <span className={`setu-ui-stock-badge ${product.inStock !== false ? 'setu-ui-stock-badge--in' : 'setu-ui-stock-badge--out'}`}>
+                    <span className="setu-ui-stock-dot" />
+                    {product.inStock !== false ? 'In Stock' : 'Out of Stock'}
                   </span>
-                  <span className="setu-verified-badge__text">
-                    <span className="setu-verified-badge__brand">Setu</span>
-                    <span className="setu-verified-badge__label">Verified</span>
-                  </span>
-                </span>
-              </div>
-            )}
+                </div>
+              )}
+            </div>
+
+            {/* Scrollable Center Content */}
+            <div className="setu-ui-center-scroll-col" id="setu-details-scroll">
 
             {/* Product Key Details */}
             <div className="setu-ui-details-block">
@@ -1538,6 +1532,7 @@ export default function ProductDetail() {
               </div>
             </section>
 
+            </div>
           </div>
 
           {/* ── Right Fixed Partition: Buy Box Panel ── */}
@@ -1596,22 +1591,6 @@ export default function ProductDetail() {
                   >
                     ⓘ
                   </button>
-                </div>
-
-                {/* Setu Verified Row in Plan Card */}
-                <div className="setu-plan-card__verified-row">
-                  <span className="setu-verified-badge">
-                    <span className="setu-verified-badge__shield">
-                      <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-                        <circle cx="8" cy="8" r="7.5" fill="#10B981" />
-                        <path d="M4.8 8.2L7 10.4L11.5 5.9" stroke="#FFFFFF" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </span>
-                    <span className="setu-verified-badge__text">
-                      <span className="setu-verified-badge__brand">Setu</span>
-                      <span className="setu-verified-badge__label">Verified</span>
-                    </span>
-                  </span>
                 </div>
 
                 {/* 4 Green Checkmarked Key Features */}
