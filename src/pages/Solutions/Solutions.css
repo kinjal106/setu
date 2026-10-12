@@ -61,15 +61,21 @@
   line-height: 1.5;
 }
 
-/* ── 4×4 Box Card Grid of Solutions (4 cards per row) ── */
+/* ── Box Card Grid of Solutions (5 cards per row on desktop for 10 cards) ── */
 .solutions-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 20px;
   width: 100%;
 }
 
-/* Single Solution Card (Contains exactly 3 items: Image, Title, Small Description) */
+@media (min-width: 1400px) {
+  .solutions-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+/* Single Solution Card */
 .sol-box-card {
   background: #ffffff;
   border: 1px solid #E2E8F0;
@@ -93,10 +99,10 @@
   border-color: #CBD5E1;
 }
 
-/* 1. Image Container */
+/* 1. Cover Image Container (Square 1:1 aspect ratio to show full branded cover) */
 .sol-box-card__img-box {
   width: 100%;
-  height: 165px;
+  aspect-ratio: 1 / 1;
   background: #F1F5F9;
   border-radius: 12px;
   border: 1px solid #E2E8F0;
@@ -120,7 +126,7 @@
 }
 
 .sol-box-card:hover .sol-box-card__img {
-  transform: scale(1.05);
+  transform: scale(1.03);
 }
 
 .sol-vehicle-wrap {
@@ -232,9 +238,5 @@
   .solutions-grid {
     grid-template-columns: 1fr;
     gap: 16px;
-  }
-
-  .sol-box-card__img-box {
-    height: 150px;
   }
 }

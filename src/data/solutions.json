@@ -28,6 +28,34 @@
     ]
   },
   {
+    "id": "logytrak",
+    "name": "LogyTrak",
+    "image": "/images/solutions/logytrak.jpg",
+    "tag": "LOGISTICS",
+    "tagColor": "#0284C7",
+    "theme": "dark",
+    "description": "Advanced transport and logistics management software designed for consignment tracking, route dispatch, and supply chain visibility.",
+    "icon": "🚛",
+    "color": "#0284C7",
+    "category": "transport-logistics",
+    "mainFeatures": [
+      "Consignment & Cargo Tracking",
+      "Automated Route & Dispatch Planning",
+      "Proof of Delivery (e-POD)"
+    ],
+    "highlights": [
+      "Real-time consignment tracking with transit milestones and checkpoint alerts",
+      "Automated multi-stop route optimization and carrier dispatch management",
+      "Electronic Proof of Delivery (e-POD) with OTP and digital signatures",
+      "Comprehensive detention, demurrage, and turnaround time analytics"
+    ],
+    "compatibleHardware": [
+      "Advance 4-Wire GPS Tracker",
+      "V5 4G Telematics Tracker",
+      "E-Lock Asset Tracker"
+    ]
+  },
+  {
     "id": "petzee",
     "name": "Petzee",
     "image": "/images/solutions/petzee.jpg",
@@ -163,6 +191,34 @@
       "T98 SD Card MDVR",
       "Falcon F1 AI Camera",
       "Prithvi 140 RTO AIS-140"
+    ]
+  },
+  {
+    "id": "employee-transport",
+    "name": "Employee Transportation",
+    "image": "/images/solutions/employee-transport.jpg",
+    "tag": "COMMUTE",
+    "tagColor": "#0EA5E9",
+    "theme": "light",
+    "description": "Enterprise employee commute and shuttle management platform ensuring safe, timely, and automated corporate staff transportation.",
+    "icon": "🚐",
+    "color": "#0EA5E9",
+    "category": "corporate-commute",
+    "mainFeatures": [
+      "Automated Shift Rostering & Routing",
+      "Live Employee & Cab Tracking",
+      "SOS Panic Alert & Female Safety"
+    ],
+    "highlights": [
+      "Automated shift rostering and intelligent employee pickup/drop clustering",
+      "Real-time cab tracking with employee boarding validation and ETA updates",
+      "Women safety protocols including escort guard management and safe drop confirmation",
+      "In-app SOS emergency panic button with 24/7 command center escalation"
+    ],
+    "compatibleHardware": [
+      "Advance 4-Wire GPS Tracker",
+      "Prithvi 140 AIS-140 Govt GPS",
+      "Mobile App (Android & iOS)"
     ]
   },
   {
