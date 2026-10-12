@@ -400,7 +400,24 @@ function ProductCard({ product, isLowest, onClick }) {
       {/* Right details container */}
       <div className="pcard-ref__info">
         <div className="pcard-ref__content">
-          <h3 className="pcard-ref__title">{product.name}</h3>
+          {/* Title Row with Product Label & Setu Verified Badge */}
+          <div className="pcard-ref__title-row">
+            <h3 className="pcard-ref__title">{product.name}</h3>
+            {product.verified !== false && (
+              <span className="setu-verified-badge">
+                <span className="setu-verified-badge__shield">
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                    <circle cx="8" cy="8" r="7.5" fill="#10B981" />
+                    <path d="M4.8 8.2L7 10.4L11.5 5.9" stroke="#FFFFFF" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </span>
+                <span className="setu-verified-badge__text">
+                  <span className="setu-verified-badge__brand">Setu</span>
+                  <span className="setu-verified-badge__label">Verified</span>
+                </span>
+              </span>
+            )}
+          </div>
 
           {product.shortDescription && (
             <p className="pcard-ref__desc">{product.shortDescription}</p>
@@ -414,22 +431,6 @@ function ProductCard({ product, isLowest, onClick }) {
               ))}
             </div>
           )}
-
-          {/* Setu Verified Badge (above pricing) */}
-          <div className="pcard-ref__verified-row">
-            <span className="setu-verified-badge">
-              <span className="setu-verified-badge__shield">
-                <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-                  <circle cx="8" cy="8" r="7.5" fill="#10B981" />
-                  <path d="M4.8 8.2L7 10.4L11.5 5.9" stroke="#FFFFFF" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </span>
-              <span className="setu-verified-badge__text">
-                <span className="setu-verified-badge__brand">Setu</span>
-                <span className="setu-verified-badge__label">Verified</span>
-              </span>
-            </span>
-          </div>
 
           {/* Price display row */}
           <div className="pcard-ref__price-row">
@@ -483,7 +484,24 @@ function ProductGridCard({ product, isLowest, onClick }) {
 
       {/* Card Body */}
       <div className="pcard-grid__body">
-        <h3 className="pcard-grid__title">{product.name}</h3>
+        {/* Title Row with Product Label & Setu Verified Badge */}
+        <div className="pcard-grid__title-row">
+          <h3 className="pcard-grid__title">{product.name}</h3>
+          {product.verified !== false && (
+            <span className="setu-verified-badge">
+              <span className="setu-verified-badge__shield">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                  <circle cx="8" cy="8" r="7.5" fill="#10B981" />
+                  <path d="M4.8 8.2L7 10.4L11.5 5.9" stroke="#FFFFFF" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </span>
+              <span className="setu-verified-badge__text">
+                <span className="setu-verified-badge__brand">Setu</span>
+                <span className="setu-verified-badge__label">Verified</span>
+              </span>
+            </span>
+          )}
+        </div>
 
         {product.shortDescription && (
           <p className="pcard-grid__desc">{product.shortDescription}</p>
@@ -498,23 +516,8 @@ function ProductGridCard({ product, isLowest, onClick }) {
           </div>
         )}
 
-        {/* Verified Row & Price Footer */}
+        {/* Price Footer */}
         <div className="pcard-grid__footer">
-          <div className="pcard-ref__verified-row">
-            <span className="setu-verified-badge">
-              <span className="setu-verified-badge__shield">
-                <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-                  <circle cx="8" cy="8" r="7.5" fill="#10B981" />
-                  <path d="M4.8 8.2L7 10.4L11.5 5.9" stroke="#FFFFFF" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </span>
-              <span className="setu-verified-badge__text">
-                <span className="setu-verified-badge__brand">Setu</span>
-                <span className="setu-verified-badge__label">Verified</span>
-              </span>
-            </span>
-          </div>
-
           <div className="pcard-ref__price-row">
             <span className="pcard-ref__currency">₹</span>
             <span className="pcard-ref__amount">{wholePrice}</span>
