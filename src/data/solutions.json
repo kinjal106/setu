@@ -1,29 +1,57 @@
 [
   {
+    "id": "trakzee",
+    "name": "Trakzee",
+    "image": "/images/solutions/trakzee-card.jpg",
+    "tag": "PREMIUM",
+    "tagColor": "#2563EB",
+    "theme": "dark",
+    "description": "Flagship enterprise fleet management software designed for live GPS tracking, fuel theft detection, route optimization, and driver safety.",
+    "icon": "🚛",
+    "color": "#2563EB",
+    "category": "fleet-management",
+    "mainFeatures": [
+      "Real-Time Tracking & Telematics",
+      "Fuel Management & Theft Detection",
+      "Route Optimization & Driver Safety"
+    ],
+    "highlights": [
+      "Real-time GPS vehicle tracking with live telemetry, speed, and health diagnostics",
+      "Sensor-integrated fuel monitoring system detecting refilling, draining, and theft",
+      "AI route optimization analyzing traffic and restrictions to minimize transit costs",
+      "Driver behavior monitoring with violation scoring, ADAS/DMS alerts, and maintenance reminders"
+    ],
+    "compatibleHardware": [
+      "Advance 4-Wire GPS Tracker",
+      "V5 4G Telematics Tracker",
+      "Prithvi 140 AIS-140 Govt GPS"
+    ]
+  },
+  {
     "id": "trakzee-mini",
     "name": "Trakzee Mini",
     "image": "/images/solutions/trakzee-mini-card.jpg",
     "tag": "POPULAR",
     "tagColor": "#F97316",
     "theme": "dark",
-    "description": "Simplified GPS vehicle tracking platform designed for agile fleet visibility, trip history, and real-time ignition alerts.",
+    "description": "Simplified personal vehicle tracking platform tailored for agile car monitoring, geofence security, and real-time ignition status.",
     "icon": "🔴",
     "color": "#FF4444",
-    "category": "fleet-management",
+    "category": "personal-tracking",
     "mainFeatures": [
-      "Fuel Monitoring",
-      "Video Telematics",
-      "Tire Management"
+      "Live Personal Vehicle Tracking",
+      "Geofence & Anti-Theft Alerts",
+      "90-Day Trip Route Playback"
     ],
     "highlights": [
-      "Real-time GPS vehicle tracking with 10s telemetry updates",
-      "Ignition on/off alerts and unauthorized movement notification",
-      "Speed monitoring and geofence boundary breach alerts",
-      "90-day trip route playback and idle time analytics"
+      "Real-time vehicle location tracking with ignition on/off and battery status",
+      "Customizable virtual geofencing with instant boundary breach push notifications",
+      "Historical trip playback with speed analytics, idle duration, and mileage logs",
+      "Remote engine immobilization command support for anti-theft security"
     ],
     "compatibleHardware": [
       "Advance 4-Wire GPS Tracker",
-      "V5 4G Telematics Tracker",
+      "V5 Mini 4G Tracker",
       "G17 Earth GPS Tracker"
     ]
   },
@@ -34,48 +62,48 @@
     "tag": "LOGISTICS",
     "tagColor": "#0284C7",
     "theme": "dark",
-    "description": "Advanced transport and logistics management software designed for consignment tracking, route dispatch, and supply chain visibility.",
-    "icon": "🚛",
+    "description": "Supply chain and logistics management software built for consignment tracking, dynamic route dispatch, and turnaround efficiency.",
+    "icon": "📦",
     "color": "#0284C7",
     "category": "transport-logistics",
     "mainFeatures": [
       "Consignment & Cargo Tracking",
-      "Automated Route & Dispatch Planning",
+      "Automated Dispatch & Route Planning",
       "Proof of Delivery (e-POD)"
     ],
     "highlights": [
-      "Real-time consignment tracking with transit milestones and checkpoint alerts",
-      "Automated multi-stop route optimization and carrier dispatch management",
-      "Electronic Proof of Delivery (e-POD) with OTP and digital signatures",
-      "Comprehensive detention, demurrage, and turnaround time analytics"
+      "End-to-end consignment and freight tracking with milestone transit checkpoints",
+      "Automated multi-stop route optimization and dynamic carrier dispatching",
+      "Electronic Proof of Delivery (e-POD) with OTP verification and digital signatures",
+      "Detention, demurrage, and transporter performance analytics"
     ],
     "compatibleHardware": [
       "Advance 4-Wire GPS Tracker",
       "V5 4G Telematics Tracker",
-      "E-Lock Asset Tracker"
+      "7H Smart E-Lock Asset Tracker"
     ]
   },
   {
     "id": "petzee",
     "name": "Petzee",
     "image": "/images/solutions/petzee-card.jpg",
-    "tag": "NEW",
+    "tag": "PET CARE",
     "tagColor": "#EA580C",
     "theme": "light",
-    "description": "Intelligent pet tracking and safety platform designed to help pet owners monitor real-time location, activity, and safe zones.",
+    "description": "Intelligent pet tracking and safety platform designed to monitor real-time location, activity levels, and safe perimeter zones.",
     "icon": "🐾",
     "color": "#FF8C00",
     "category": "pet-tracking",
     "mainFeatures": [
-      "Real-Time GPS Tracking",
-      "Safe Zone Geofencing",
-      "Pet Health & Activity Monitoring"
+      "Real-Time GPS Pet Tracking",
+      "Safe Perimeter Geofencing",
+      "Activity & Health Monitoring"
     ],
     "highlights": [
-      "Real-time GPS live location with virtual safe perimeter geofencing",
-      "Instant escape alerts when pet leaves home or park boundaries",
-      "Daily activity goal tracking, steps, and resting vitals",
-      "Waterproof BLE & 4G collar sync with parent mobile app"
+      "Sub-second live GPS location tracking with satellite map overlay",
+      "Virtual safe perimeter geofencing with instant escape and return alerts",
+      "Daily activity goal monitoring, resting periods, and wellness trends",
+      "Pet group management and multi-user guardian access via mobile app"
     ],
     "compatibleHardware": [
       "V5 Mini 4G Tracker",
@@ -89,20 +117,20 @@
     "tag": "EV FLEET",
     "tagColor": "#10B981",
     "theme": "dark",
-    "description": "Smart electric vehicle (EV) fleet management platform to monitor battery state of charge (SOC), charging cycles, and regenerative range.",
+    "description": "Smart electric vehicle (EV) management software optimizing battery health, charging logistics, and regenerative driving range.",
     "icon": "⚡",
     "color": "#00CC44",
     "category": "ev-management",
     "mainFeatures": [
       "Battery SOC & Health Monitoring",
-      "Charging Station Route Planning",
-      "Energy Consumption Analytics"
+      "Charging Logistics & Scheduling",
+      "Range Prediction & Energy Analytics"
     ],
     "highlights": [
-      "Live Battery State of Charge (SOC) and real-time range estimation",
-      "Charging station route planning and energy consumption rates",
-      "Battery health degradation diagnostics and temperature safeguards",
-      "CAN-bus integration for real-time motor and inverter telemetry"
+      "Real-time State of Charge (SOC), cell voltage, and temperature diagnostics",
+      "Charging station route planning with off-peak charging automation",
+      "Dynamic range estimation addressing range anxiety based on driving patterns",
+      "CAN-bus integration for motor efficiency and energy consumption analytics"
     ],
     "compatibleHardware": [
       "EcoGas Track 4G",
@@ -117,20 +145,20 @@
     "tag": "WORKFORCE",
     "tagColor": "#38BDF8",
     "theme": "dark",
-    "description": "Smart workforce and field task management platform designed to streamline dispatch, proof-of-visit, and team productivity.",
+    "description": "Workforce and field task management software designed to automate employee attendance, task dispatch, and proof of work.",
     "icon": "👁️",
     "color": "#0066CC",
     "category": "workforce",
     "mainFeatures": [
       "GPS Attendance & Geofenced Check-in",
-      "Task Dispatch & Proof-of-Visit",
-      "Automated Mileage Calculation"
+      "Task Assignment & Proof of Work",
+      "Leave & Travel Reimbursement"
     ],
     "highlights": [
-      "GPS-verified employee attendance and geofenced client check-ins",
-      "Real-time task dispatching with in-app photo and digital signature",
-      "Automated mileage calculation for field travel reimbursement",
-      "Manager live map view showing active technician whereabouts"
+      "Real-time GPS attendance marking with geofenced site check-in verification",
+      "Dynamic task dispatching with real-time status, photos, and digital sign-offs",
+      "Automated travel mileage calculation for field expense reimbursements",
+      "Integrated leave management system and manager live workforce map view"
     ],
     "compatibleHardware": [
       "Mobile App (Android & iOS)",
@@ -144,20 +172,20 @@
     "tag": "SMART CITY",
     "tagColor": "#10B981",
     "theme": "light",
-    "description": "Advanced waste collection system that simplifies municipal cleanup with smart bin level sensors and dynamic truck routing.",
+    "description": "IoT-driven waste collection system optimizing municipal cleanup through smart fill-level sensors and dynamic garbage truck routing.",
     "icon": "♻️",
     "color": "#228B22",
     "category": "waste-management",
     "mainFeatures": [
-      "Ultrasonic Bin Fill-Level Sensors",
-      "Dynamic Garbage Truck Routing",
-      "RFID Bin Pickup Verification"
+      "Smart Bin Fill-Level Sensors",
+      "Dynamic Route Optimization",
+      "RFID Pickup Verification"
     ],
     "highlights": [
-      "Ultrasonic bin fill-level monitoring with automated fullness threshold alerts",
-      "Dynamic AI routing for garbage trucks targeting only full bins",
-      "RFID bin pickup verification and driver completion logging",
-      "Municipal carbon savings and fuel reduction reporting"
+      "Ultrasonic IoT bin sensor monitoring with automated fullness threshold alerts",
+      "Dynamic AI collection routing targeting only bins that require emptying",
+      "RFID pickup verification with driver completion and timestamp logging",
+      "Municipal fuel savings, operational efficiency, and carbon reduction reporting"
     ],
     "compatibleHardware": [
       "IoT Ultrasonic Fill Sensors",
@@ -172,20 +200,20 @@
     "tag": "PUBLIC TRANSIT",
     "tagColor": "#A855F7",
     "theme": "dark",
-    "description": "Public transportation management software designed to streamline passenger counting, bus scheduling, and route optimization.",
+    "description": "Public transportation management software designed to automate passenger counting, bus scheduling, and route adherence.",
     "icon": "🚌",
     "color": "#444444",
     "category": "transit",
     "mainFeatures": [
       "Automated Passenger Counting (APC)",
-      "Live Bus Route Scheduling",
+      "Live Bus Scheduling & Dispatch",
       "Passenger Arrival Displays (PIDS)"
     ],
     "highlights": [
-      "Automated Passenger Counting (APC) sensors via overhead AI cameras",
-      "Dynamic bus route scheduling with live passenger arrival displays (PIDS)",
-      "Automated fare collection (AFC) validation and ticket integration",
-      "Driver schedule adherence and headway management alerts"
+      "Overhead camera Automated Passenger Counting (APC) for real-time bus occupancy",
+      "Dynamic timetable scheduling with headway management and bus bunching alerts",
+      "Integration with Passenger Information Display Systems (PIDS) and commuter apps",
+      "Automated Fare Collection (AFC) verification and transit KPI analytics"
     ],
     "compatibleHardware": [
       "T98 SD Card MDVR",
@@ -200,20 +228,20 @@
     "tag": "COMMUTE",
     "tagColor": "#0EA5E9",
     "theme": "light",
-    "description": "Enterprise employee commute and shuttle management platform ensuring safe, timely, and automated corporate staff transportation.",
+    "description": "Enterprise employee transport management system (ETMS) ensuring automated shift rostering, real-time tracking, and women's safety.",
     "icon": "🚐",
     "color": "#0EA5E9",
     "category": "corporate-commute",
     "mainFeatures": [
-      "Automated Shift Rostering & Routing",
+      "Automated Shift Rostering",
       "Live Employee & Cab Tracking",
-      "SOS Panic Alert & Female Safety"
+      "SOS Panic & Women Safety"
     ],
     "highlights": [
-      "Automated shift rostering and intelligent employee pickup/drop clustering",
-      "Real-time cab tracking with employee boarding validation and ETA updates",
-      "Women safety protocols including escort guard management and safe drop confirmation",
-      "In-app SOS emergency panic button with 24/7 command center escalation"
+      "Intelligent shift rostering with automated pickup/drop route clustering",
+      "Real-time cab tracking with employee boarding OTP and safe drop confirmation",
+      "Dedicated women safety protocols with escort guard tracking and route monitoring",
+      "In-app SOS panic button connected 24/7 to the corporate command center"
     ],
     "compatibleHardware": [
       "Advance 4-Wire GPS Tracker",
@@ -228,20 +256,20 @@
     "tag": "CAMPUS SAFETY",
     "tagColor": "#F59E0B",
     "theme": "light",
-    "description": "School transportation management software providing parents and schools with live student tracking, RFID boarding, and instant ETA.",
+    "description": "School bus tracking and student safety platform providing parents and schools with live GPS tracking, RFID boarding, and instant ETA.",
     "icon": "🚍",
     "color": "#FF6600",
     "category": "school-transport",
     "mainFeatures": [
-      "Live Student & Bus Tracking",
-      "RFID Boarding & Drop-off Alerts",
-      "Driver Rash Driving & Speed Alerts"
+      "Live School Bus GPS Tracking",
+      "RFID Student Attendance Boarding",
+      "Parent App Instant ETA Alerts"
     ],
     "highlights": [
-      "Live school bus tracking on parent app with push notifications",
-      "Student RFID boarding and drop-off confirmation with photo timestamp",
-      "Automated pickup & drop route optimization with stop geofencing",
-      "Driver rash driving and speeding alerts with emergency SOS panic button"
+      "Live school bus tracking on parent mobile app with real-time ETA countdown",
+      "Student RFID card tap boarding and deboarding confirmation with guardian alerts",
+      "Automated stop geofencing and multi-bus school route optimization",
+      "Driver behavior monitoring, speed governance, and emergency SOS alerts"
     ],
     "compatibleHardware": [
       "Prithvi 140 AIS-140 Govt GPS",
@@ -256,20 +284,20 @@
     "tag": "INDOOR IOT",
     "tagColor": "#EC4899",
     "theme": "dark",
-    "description": "Real-time indoor location and monitoring system (RTLS) for people, forklifts, and medical or warehouse equipment.",
+    "description": "Real-time indoor location system (RTLS) for tracking warehouse assets, forklifts, equipment, and workforce safety.",
     "icon": "📡",
     "color": "#8800CC",
     "category": "indoor-tracking",
     "mainFeatures": [
       "Sub-Meter BLE & UWB Positioning",
-      "Warehouse Asset & Forklift Tracking",
-      "Lone-Worker Safety & SOS Alarms"
+      "Indoor Asset & Equipment Tracking",
+      "Zone Access Control & Alerts"
     ],
     "highlights": [
-      "Sub-meter BLE and Ultra-Wideband (UWB) indoor positioning accuracy",
-      "Multi-floor 2.5D building mapping with zone-based access control",
-      "Warehouse asset utilization heatmaps and forklift collision alerts",
-      "Lone-worker man-down alerts and emergency evacuation muster counts"
+      "Sub-meter BLE beacons and Ultra-Wideband (UWB) indoor positioning accuracy",
+      "Multi-floor 2.5D building mapping with asset utilization heatmaps",
+      "Restricted zone geofencing with unauthorized entry and collision alarms",
+      "Lone-worker man-down alarms and emergency evacuation muster counts"
     ],
     "compatibleHardware": [
       "BLE Anchor Gateways",
