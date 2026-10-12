@@ -582,6 +582,340 @@ const ANIMATED_SEARCH_PHRASES = [
   'Search "OBD-II vehicle trackers with diagnostics"...'
 ];
 
+/* ────────────────────────────────────────────────────────────
+   ADVANCE SEARCH BOTTOM SHEET COMPONENT (Matches Reference Images)
+──────────────────────────────────────────────────────────── */
+const DEFAULT_ADVANCE_FILTERS = {
+  matchProductNameOnly: true, // "Match the Keyword in the Product Name"
+  deliveryTwoDay: false,      // "2 day delivery"
+  freeShipping: true,         // "Free Shipping"
+  outOfStock: true,           // "Out of stock"
+  featureAis140: false,       // "AIS 140"
+  featureTracking: true,      // "Tracking"
+  featureCan: true,           // "CAN"
+  featureBle: true,           // "BLE"
+  obdWired: true,             // "Wired"
+  obdWireless: false,         // "Wireless"
+  obdExternalPower: false,    // "External Power"
+  suggestionVerified: true,   // "setu VERIFIED"
+  suggestionRecommended: false // "setu Recommended"
+};
+
+function AdvanceSearchBottomSheet({ isOpen, onClose, filters, onToggleFilter, onReset, onApply }) {
+  // Close on Escape key
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
+
+  // Prevent background scrolling when open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
+  if (!isOpen) return null;
+
+  return (
+    <div
+      className="advance-sheet-backdrop"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Advance Search Filters"
+    >
+      <div className="advance-sheet-panel" onClick={(e) => e.stopPropagation()}>
+        {/* Top Drag Handle Bar */}
+        <div className="advance-sheet-handle" />
+
+        {/* Sheet Header */}
+        <div className="advance-sheet-head">
+          <div className="advance-sheet-title-group">
+            <h3 className="advance-sheet-title">Advance Search</h3>
+            <span className="advance-sheet-subtitle">Refine hardware solutions by delivery, connectivity, and specifications</span>
+          </div>
+          <button
+            type="button"
+            className="advance-sheet-close-btn"
+            onClick={onClose}
+            aria-label="Close advance search"
+          >
+            ✕
+          </button>
+        </div>
+
+        {/* Sheet Content Body - Matches Image 2 */}
+        <div className="advance-sheet-body">
+          {/* 1. Search keyword */}
+          <div className="advance-section">
+            <h4 className="advance-section__title">Search keyword</h4>
+            <label className="advance-checkbox-item">
+              <input
+                type="checkbox"
+                checked={filters.matchProductNameOnly}
+                onChange={() => onToggleFilter('matchProductNameOnly')}
+              />
+              <span className="advance-custom-check">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              </span>
+              <span className="advance-checkbox-label">Match the Keyword in the Product Name</span>
+            </label>
+          </div>
+
+          {/* 2. Delivery Day | Free Delivery | Availability (3 Columns) */}
+          <div className="advance-grid-3col">
+            <div className="advance-col">
+              <h4 className="advance-section__title">Delivery Day</h4>
+              <label className="advance-checkbox-item">
+                <input
+                  type="checkbox"
+                  checked={filters.deliveryTwoDay}
+                  onChange={() => onToggleFilter('deliveryTwoDay')}
+                />
+                <span className="advance-custom-check">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                </span>
+                <span className="advance-checkbox-label">2 day delivery</span>
+              </label>
+            </div>
+
+            <div className="advance-col">
+              <h4 className="advance-section__title">Free Delivery</h4>
+              <label className="advance-checkbox-item">
+                <input
+                  type="checkbox"
+                  checked={filters.freeShipping}
+                  onChange={() => onToggleFilter('freeShipping')}
+                />
+                <span className="advance-custom-check">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                </span>
+                <span className="advance-checkbox-label">Free Shipping</span>
+              </label>
+            </div>
+
+            <div className="advance-col">
+              <h4 className="advance-section__title">Availability</h4>
+              <label className="advance-checkbox-item">
+                <input
+                  type="checkbox"
+                  checked={filters.outOfStock}
+                  onChange={() => onToggleFilter('outOfStock')}
+                />
+                <span className="advance-custom-check">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                </span>
+                <span className="advance-checkbox-label">Out of stock</span>
+              </label>
+            </div>
+          </div>
+
+          {/* 3. Features */}
+          <div className="advance-section">
+            <h4 className="advance-section__title">Features</h4>
+            <div className="advance-row-items">
+              <label className="advance-checkbox-item">
+                <input
+                  type="checkbox"
+                  checked={filters.featureAis140}
+                  onChange={() => onToggleFilter('featureAis140')}
+                />
+                <span className="advance-custom-check">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                </span>
+                <span className="advance-checkbox-label">AIS 140</span>
+              </label>
+
+              <label className="advance-checkbox-item">
+                <input
+                  type="checkbox"
+                  checked={filters.featureTracking}
+                  onChange={() => onToggleFilter('featureTracking')}
+                />
+                <span className="advance-custom-check">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                </span>
+                <span className="advance-checkbox-label">Tracking</span>
+              </label>
+
+              <label className="advance-checkbox-item">
+                <input
+                  type="checkbox"
+                  checked={filters.featureCan}
+                  onChange={() => onToggleFilter('featureCan')}
+                />
+                <span className="advance-custom-check">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                </span>
+                <span className="advance-checkbox-label">CAN</span>
+              </label>
+
+              <label className="advance-checkbox-item">
+                <input
+                  type="checkbox"
+                  checked={filters.featureBle}
+                  onChange={() => onToggleFilter('featureBle')}
+                />
+                <span className="advance-custom-check">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                </span>
+                <span className="advance-checkbox-label">BLE</span>
+              </label>
+            </div>
+          </div>
+
+          {/* 4. OBD */}
+          <div className="advance-section">
+            <h4 className="advance-section__title">OBD</h4>
+            <div className="advance-row-items">
+              <label className="advance-checkbox-item">
+                <input
+                  type="checkbox"
+                  checked={filters.obdWired}
+                  onChange={() => onToggleFilter('obdWired')}
+                />
+                <span className="advance-custom-check">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                </span>
+                <span className="advance-checkbox-label">Wired</span>
+              </label>
+
+              <label className="advance-checkbox-item">
+                <input
+                  type="checkbox"
+                  checked={filters.obdWireless}
+                  onChange={() => onToggleFilter('obdWireless')}
+                />
+                <span className="advance-custom-check">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                </span>
+                <span className="advance-checkbox-label">Wireless</span>
+              </label>
+
+              <label className="advance-checkbox-item">
+                <input
+                  type="checkbox"
+                  checked={filters.obdExternalPower}
+                  onChange={() => onToggleFilter('obdExternalPower')}
+                />
+                <span className="advance-custom-check">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                </span>
+                <span className="advance-checkbox-label">External Power</span>
+              </label>
+            </div>
+          </div>
+
+          {/* 5. Suggestions (Badges) */}
+          <div className="advance-section">
+            <h4 className="advance-section__title">Suggestions</h4>
+            <div className="advance-row-items advance-row-items--badges">
+              <label className="advance-checkbox-item advance-checkbox-item--badge">
+                <input
+                  type="checkbox"
+                  checked={filters.suggestionVerified}
+                  onChange={() => onToggleFilter('suggestionVerified')}
+                />
+                <span className="advance-custom-check">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                </span>
+                <span className="advance-badge-verified">
+                  <span className="advance-badge-verified__shield">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </span>
+                  <span className="advance-badge-verified__brand">setu</span>
+                  <span className="advance-badge-verified__tag">VERIFIED</span>
+                </span>
+              </label>
+
+              <label className="advance-checkbox-item advance-checkbox-item--badge">
+                <input
+                  type="checkbox"
+                  checked={filters.suggestionRecommended}
+                  onChange={() => onToggleFilter('suggestionRecommended')}
+                />
+                <span className="advance-custom-check">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                </span>
+                <span className="advance-badge-recommended">
+                  <span className="advance-badge-recommended__brand">setu</span>
+                  <span className="advance-badge-recommended__text">Recommended</span>
+                </span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        {/* Sheet Footer */}
+        <div className="advance-sheet-foot">
+          <button
+            type="button"
+            className="advance-sheet-reset-btn"
+            onClick={onReset}
+          >
+            Reset filters
+          </button>
+          <div className="advance-sheet-actions">
+            <button
+              type="button"
+              className="advance-sheet-cancel-btn"
+              onClick={onClose}
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              className="advance-sheet-apply-btn"
+              onClick={onApply}
+            >
+              <span>Apply &amp; Search</span>
+              <span aria-hidden="true">→</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function PrimaryIntelligentSearchBar({ onSearchActiveChange, onOpenFinder, onOpenFilters, onOpenAIChat }) {
   const navigate = useNavigate();
   const [query, setQuery] = useState('');
@@ -649,6 +983,44 @@ function PrimaryIntelligentSearchBar({ onSearchActiveChange, onOpenFinder, onOpe
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  const [isAdvanceOpen, setIsAdvanceOpen] = useState(false);
+  const [advanceFilters, setAdvanceFilters] = useState(DEFAULT_ADVANCE_FILTERS);
+
+  const toggleFilter = (key) => {
+    setAdvanceFilters((prev) => ({
+      ...prev,
+      [key]: !prev[key]
+    }));
+  };
+
+  const resetFilters = () => {
+    setAdvanceFilters(DEFAULT_ADVANCE_FILTERS);
+  };
+
+  const buildHardwareSearchUrl = (qStr, currentFilters) => {
+    const params = new URLSearchParams();
+    const trimmed = (qStr || '').trim();
+    if (trimmed) {
+      params.set('search', trimmed);
+    }
+    if (currentFilters.matchProductNameOnly) params.set('matchName', '1');
+    if (currentFilters.deliveryTwoDay) params.set('delivery', '2day');
+    if (currentFilters.freeShipping) params.set('shipping', 'free');
+    if (!currentFilters.outOfStock) params.set('inStockOnly', '1');
+    if (currentFilters.featureAis140) params.set('ais140', '1');
+    if (currentFilters.featureTracking) params.set('tracking', '1');
+    if (currentFilters.featureCan) params.set('can', '1');
+    if (currentFilters.featureBle) params.set('ble', '1');
+    if (currentFilters.obdWired) params.set('obd', 'wired');
+    if (currentFilters.obdWireless) params.set('obd', 'wireless');
+    if (currentFilters.obdExternalPower) params.set('obd', 'external');
+    if (currentFilters.suggestionVerified) params.set('verified', '1');
+    if (currentFilters.suggestionRecommended) params.set('recommended', '1');
+
+    const paramString = params.toString();
+    return paramString ? `/hardware?${paramString}` : '/hardware';
+  };
+
   const matchingHardware = useMemo(() => {
     if (!query.trim()) return [];
     const stopWords = new Set(['what', 'is', 'are', 'the', 'how', 'to', 'for', 'with', 'a', 'an', 'in', 'of', 'and', 'do', 'can', 'i', 'get', 'prevent']);
@@ -668,6 +1040,9 @@ function PrimaryIntelligentSearchBar({ onSearchActiveChange, onOpenFinder, onOpe
     if (tokens.length === 0) return [];
 
     const getSearchableText = (p) => {
+      if (advanceFilters.matchProductNameOnly) {
+        return p.name.toLowerCase();
+      }
       return `${p.name} ${p.slug} ${p.category} ${p.subcategory || ''} ${p.shortDescription || ''} ${(p.tags || []).join(' ')} ${(p.features || []).join(' ')} ${p.brand || ''} ${p.badge || ''}`.toLowerCase();
     };
 
@@ -693,15 +1068,21 @@ function PrimaryIntelligentSearchBar({ onSearchActiveChange, onOpenFinder, onOpe
       .map((item) => item.product);
 
     return partialMatches.slice(0, 6);
-  }, [query]);
+  }, [query, advanceFilters]);
 
   // Functionality 1: Pressing Enter or submitting navigates to the Hardware page with the search query to show all matching products!
   const handleSubmit = (e) => {
     if (e) e.preventDefault();
-    const q = query.trim();
-    if (!q) return;
+    const targetUrl = buildHardwareSearchUrl(query, advanceFilters);
+    navigate(targetUrl);
+    setIsFocused(false);
+    setIsAdvanceOpen(false);
+  };
 
-    navigate(`/hardware?search=${encodeURIComponent(q)}`);
+  const handleApplyAdvance = () => {
+    const targetUrl = buildHardwareSearchUrl(query, advanceFilters);
+    navigate(targetUrl);
+    setIsAdvanceOpen(false);
     setIsFocused(false);
   };
 
@@ -724,7 +1105,7 @@ function PrimaryIntelligentSearchBar({ onSearchActiveChange, onOpenFinder, onOpe
       e.stopPropagation();
     }
     setQuery(item.query);
-    navigate(`/hardware?search=${encodeURIComponent(item.query)}`);
+    navigate(buildHardwareSearchUrl(item.query, advanceFilters));
     setIsFocused(false);
   };
 
@@ -770,6 +1151,31 @@ function PrimaryIntelligentSearchBar({ onSearchActiveChange, onOpenFinder, onOpe
           </button>
         )}
 
+        {/* Advance Search Trigger Button (Placed before Search button) */}
+        <button
+          type="button"
+          className={`intelligent-search-bar__advance-btn ${isAdvanceOpen ? 'intelligent-search-bar__advance-btn--active' : ''}`}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setIsAdvanceOpen((prev) => !prev);
+          }}
+          title="Open Advance Search Options"
+        >
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="4" y1="21" x2="4" y2="14" />
+            <line x1="4" y1="10" x2="4" y2="3" />
+            <line x1="12" y1="21" x2="12" y2="12" />
+            <line x1="12" y1="8" x2="12" y2="3" />
+            <line x1="20" y1="21" x2="20" y2="16" />
+            <line x1="20" y1="12" x2="20" y2="3" />
+            <line x1="1" y1="14" x2="7" y2="14" />
+            <line x1="9" y1="8" x2="15" y2="8" />
+            <line x1="17" y1="16" x2="23" y2="16" />
+          </svg>
+          <span>Advance Search</span>
+        </button>
+
         {/* Primary Search CTA: Search Button */}
         <button
           type="submit"
@@ -783,6 +1189,16 @@ function PrimaryIntelligentSearchBar({ onSearchActiveChange, onOpenFinder, onOpe
           <span>Search</span>
         </button>
       </form>
+
+      {/* ── Advance Search Bottom Sheet ── */}
+      <AdvanceSearchBottomSheet
+        isOpen={isAdvanceOpen}
+        onClose={() => setIsAdvanceOpen(false)}
+        filters={advanceFilters}
+        onToggleFilter={toggleFilter}
+        onReset={resetFilters}
+        onApply={handleApplyAdvance}
+      />
 
       {/* ── Search Suggestions Directly Below Search Bar (Single Line) ── */}
       <div className="search-suggestions-row">

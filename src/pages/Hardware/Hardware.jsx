@@ -425,6 +425,13 @@ export default function Hardware() {
   const urlSearch = searchParams.get('search') || searchParams.get('q') || '';
   const urlCat = searchParams.get('category') || '';
   const urlSub = searchParams.get('sub') || '';
+  const matchNameOnly = searchParams.get('matchName') === '1';
+  const filterAis140 = searchParams.get('ais140') === '1';
+  const filterCan = searchParams.get('can') === '1';
+  const filterBle = searchParams.get('ble') === '1';
+  const filterTracking = searchParams.get('tracking') === '1';
+  const filterObd = searchParams.get('obd');
+  const filterRecommended = searchParams.get('recommended') === '1';
 
   const getInitialSelection = () => {
     if (urlSub) return new Set([urlSub]);
@@ -575,9 +582,37 @@ export default function Hardware() {
         if (!selectedBrands.has(p.brand)) return false;
       }
 
+      // 4. Advance Search Filters
+      if (matchNameOnly && q) {
+        if (!p.name.toLowerCase().includes(q)) return false;
+      }
+      if (filterAis140) {
+        const pText = `${p.name} ${p.category} ${p.subcategory || ''} ${(p.features || []).join(' ')}`.toLowerCase();
+        if (!pText.includes('ais') && !pText.includes('140')) return false;
+      }
+      if (filterCan) {
+        const pText = `${p.name} ${(p.features || []).join(' ')} ${(p.tags || []).join(' ')}`.toLowerCase();
+        if (!pText.includes('can')) return false;
+      }
+      if (filterBle) {
+        const pText = `${p.name} ${(p.features || []).join(' ')} ${(p.tags || []).join(' ')}`.toLowerCase();
+        if (!pText.includes('ble') && !pText.includes('bluetooth')) return false;
+      }
+      if (filterTracking) {
+        const pText = `${p.name} ${p.category} ${(p.features || []).join(' ')}`.toLowerCase();
+        if (!pText.includes('track') && !pText.includes('gps')) return false;
+      }
+      if (filterObd === 'wireless') {
+        const pText = `${p.name} ${(p.features || []).join(' ')}`.toLowerCase();
+        if (!pText.includes('wireless') && !pText.includes('ble')) return false;
+      }
+      if (filterRecommended) {
+        if (!p.badge && !p.isLowest) return false;
+      }
+
       return true;
     });
-  }, [selected, selectedBrands, search, ignoreTypo]);
+  }, [selected, selectedBrands, search, ignoreTypo, matchNameOnly, filterAis140, filterCan, filterBle, filterTracking, filterObd, filterRecommended]);
 
   const lowestPriceId = useMemo(() => {
     if (!filtered || filtered.length === 0) return null;
