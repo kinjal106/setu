@@ -601,7 +601,7 @@ const DEFAULT_ADVANCE_FILTERS = {
   suggestionRecommended: false // "setu Recommended"
 };
 
-function AdvanceSearchBottomSheet({ isOpen, onClose, filters, onToggleFilter, onReset, onApply }) {
+function AdvanceSearchModal({ isOpen, onClose, filters, onToggleFilter, onReset, onApply }) {
   // Close on Escape key
   useEffect(() => {
     if (!isOpen) return;
@@ -632,13 +632,10 @@ function AdvanceSearchBottomSheet({ isOpen, onClose, filters, onToggleFilter, on
       onClick={onClose}
       role="dialog"
       aria-modal="true"
-      aria-label="Advance Search Filters"
+      aria-label="Advance Search Filters Popup"
     >
       <div className="advance-sheet-panel" onClick={(e) => e.stopPropagation()}>
-        {/* Top Drag Handle Bar */}
-        <div className="advance-sheet-handle" />
-
-        {/* Sheet Header */}
+        {/* Modal Header */}
         <div className="advance-sheet-head">
           <div className="advance-sheet-title-group">
             <h3 className="advance-sheet-title">Advance Search</h3>
@@ -1190,8 +1187,8 @@ function PrimaryIntelligentSearchBar({ onSearchActiveChange, onOpenFinder, onOpe
         </button>
       </form>
 
-      {/* ── Advance Search Bottom Sheet ── */}
-      <AdvanceSearchBottomSheet
+      {/* ── Advance Search Modal Popup ── */}
+      <AdvanceSearchModal
         isOpen={isAdvanceOpen}
         onClose={() => setIsAdvanceOpen(false)}
         filters={advanceFilters}
