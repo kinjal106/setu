@@ -472,21 +472,18 @@
 .intelligent-search-bar__advance-btn {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
+  justify-content: center;
+  width: 44px;
   height: 44px;
-  padding: 0 16px;
-  border-radius: 22px;
+  padding: 0;
+  border-radius: 50%;
   background: #F8FAFC;
   border: 1px solid #E2E8F0;
-  color: #334155;
-  font-size: 13.5px;
-  font-weight: 600;
+  color: #475569;
   cursor: pointer;
   transition: all 160ms cubic-bezier(0.16, 1, 0.3, 1);
   margin-right: 8px;
   flex-shrink: 0;
-  font-family: inherit;
-  white-space: nowrap;
 }
 
 .intelligent-search-bar__advance-btn:hover {
@@ -870,9 +867,10 @@
     gap: 16px;
   }
   .intelligent-search-bar__advance-btn {
-    padding: 0 12px;
-    font-size: 12.5px;
-    height: 40px;
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    margin-right: 6px;
   }
 }
 
