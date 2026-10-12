@@ -10,15 +10,9 @@ const FF_HERO_SLIDES = [
   {
     id: 'fastag-bulk',
     overline: 'FUEL & FASTAG • NEW ON SETU',
-    titleLine1: 'FASTag and fuel cards',
-    titleLine2: 'for every vehicle you manage',
-    desc: 'Order tags and fuel cards in bulk for your own fleet or your customers’ fleets, with one KYC, one GST invoice and recharge for all vehicles in one go.',
-    pills: [
-      'One tag per vehicle, ordered in bulk',
-      'Issue in your customer’s name',
-      'FASTag by IDFC FIRST Bank',
-      'HP • IndianOil • BPCL'
-    ],
+    titleLine1: 'FASTag and Fuel Cards',
+    titleLine2: 'For every vehicle you manage.',
+    desc: 'Order certified RFID tags and corporate fuel cards with 1-KYC onboarding, unified GST invoicing, and instant recharges.',
     ctaText: 'Contact with us',
     ctaModal: 'enquire'
   },
@@ -26,14 +20,8 @@ const FF_HERO_SLIDES = [
     id: 'automated-toll',
     overline: 'SMART FLEET MOBILITY • INSTANT TOLL',
     titleLine1: 'Automated Toll Debits',
-    titleLine2: '& Zero-Downtime FASTag Recharges',
-    desc: 'Avoid toll plaza delays and low-balance blacklisting with automated wallet top-ups, instant transaction telemetry, and live trip debit reconciliation.',
-    pills: [
-      'Instant Auto-Recharge Rules',
-      'Blacklist & Low Balance Alerts',
-      'Multi-Vehicle Toll Tracking',
-      'Direct NPCI & NETC Integration'
-    ],
+    titleLine2: 'Zero-downtime FASTag recharges.',
+    desc: 'Avoid toll plaza delays and low-balance blacklisting with automated wallet top-ups, instant telemetry, and live trip reconciliation.',
     ctaText: 'Contact with us',
     ctaModal: 'enquire'
   },
@@ -41,14 +29,8 @@ const FF_HERO_SLIDES = [
     id: 'unified-billing',
     overline: 'ENTERPRISE BILLING • 1-KYC CONVENIENCE',
     titleLine1: 'Unified Fuel & Toll Expenses',
-    titleLine2: 'with 100% Input Tax Credit',
-    desc: 'Consolidate all fuel purchases and toll deductions into a single monthly GST invoice, drastically cutting accounting hours and simplifying fleet tax credits.',
-    pills: [
-      'Single Consolidated GST Invoice',
-      'Fuel Card Spending Limits',
-      'Cashless Fueling at 60,000+ Pumps',
-      'Complete Driver Expense Tracking'
-    ],
+    titleLine2: 'With 100% input tax credit.',
+    desc: 'Consolidate all fuel purchases and toll deductions into a single monthly GST invoice, drastically cutting accounting hours.',
     ctaText: 'Contact with us',
     ctaModal: 'enquire'
   }
@@ -300,16 +282,6 @@ export default function FuelFastag() {
                       <p className="ff-hero-banner__desc">
                         {slide.desc}
                       </p>
-
-                      {/* Feature Checkmark Pills */}
-                      <div className="ff-hero-pills">
-                        {slide.pills.map((pillText, pIdx) => (
-                          <div key={pIdx} className="ff-hero-pill">
-                            <span className="ff-pill-check">✓</span>
-                            <span>{pillText}</span>
-                          </div>
-                        ))}
-                      </div>
 
                       {/* Action CTA Button: Only Contact with us */}
                       <div className="ff-hero-actions">

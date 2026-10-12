@@ -6,14 +6,8 @@ const FINANCE_HERO_SLIDES = [
     id: 'flexible-payment',
     overline: 'SETU CAPITAL & FINANCING • EASY CREDIT',
     titleLine1: 'Flexible Payment Solutions',
-    titleLine2: 'Grow Your Business with Easy Credit!',
-    desc: 'Get instant credit approval and flexible payment terms designed specifically for fleet operators and IoT businesses. Procure hardware and software without cash flow friction.',
-    pills: [
-      'Instant Credit Approval',
-      'Zero Hidden Charges',
-      'Flexible 30 to 90-Day Terms',
-      '100% Digital Process'
-    ],
+    titleLine2: 'Grow your business with easy credit.',
+    desc: 'Get instant credit approval and flexible 30 to 90-day payment terms for seamless hardware and software procurement.',
     primaryText: 'Apply for Credit',
     primaryAction: 'form',
     secondaryText: 'Learn more',
@@ -23,14 +17,8 @@ const FINANCE_HERO_SLIDES = [
     id: 'hardware-financing',
     overline: 'ZERO COLLATERAL • HARDWARE PROCUREMENT',
     titleLine1: 'Zero Collateral Hardware Financing',
-    titleLine2: 'Upgrade Your Telematics Fleet Today',
-    desc: 'Purchase GPS trackers, AIS-140 devices, dashcams, and fuel sensors with zero upfront capital strain and flexible low-interest repayment milestones.',
-    pills: [
-      'Zero Collateral Required',
-      'Procure Bulk Telematics Devices',
-      'Competitive Low APR Rates',
-      'Same-Day Commercial Approval'
-    ],
+    titleLine2: 'Upgrade your telematics fleet today.',
+    desc: 'Purchase GPS trackers, AIS-140 devices, and dashcams with low-interest repayment milestones and zero capital strain.',
     primaryText: 'Check Credit Limit',
     primaryAction: 'form',
     secondaryText: 'View Rates & Terms',
@@ -40,14 +28,8 @@ const FINANCE_HERO_SLIDES = [
     id: 'digital-onboarding',
     overline: 'POWERED BY JUSPAY • QUICK ONBOARDING',
     titleLine1: '100% Digital Fast-Track Onboarding',
-    titleLine2: 'Verified via GSTIN in Minutes',
-    desc: 'Simple paperless credit approval powered by Juspay. Verify your business in minutes and unlock instant purchasing power across the Setu ecosystem.',
-    pills: [
-      'Instant GSTIN Verification',
-      'Seamless Bank Mandate Setup',
-      'Automated Monthly Invoicing',
-      'Dedicated Finance Account Manager'
-    ],
+    titleLine2: 'Verified via GSTIN in minutes.',
+    desc: 'Paperless commercial credit verification powered by Juspay with seamless bank mandate setup and instant approval.',
     primaryText: 'Apply for Credit',
     primaryAction: 'form',
     secondaryText: 'Learn more',
@@ -340,16 +322,6 @@ export default function SetuFinance() {
                       <p className="finance-hero-desc">
                         {slide.desc}
                       </p>
-
-                      {/* Feature Checkmark Pills */}
-                      <div className="finance-hero-pills">
-                        {slide.pills.map((pillText, pIdx) => (
-                          <div key={pIdx} className="finance-hero-pill">
-                            <span className="finance-pill-check">✓</span>
-                            <span>{pillText}</span>
-                          </div>
-                        ))}
-                      </div>
 
                       {/* CTA Buttons (Exact match to Home page CTA style) */}
                       <div className="finance-hero-actions">
