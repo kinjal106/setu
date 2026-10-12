@@ -713,44 +713,49 @@
   align-items: center;
 }
 
-/* Custom Verified Badge (Green Shield + setu VERIFIED) */
+/* Custom Verified Badge (Green Shield + setu VERIFIED - No green background pill) */
 .setu-verified-badge {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  background: #DCFCE7;
-  border: 1px solid rgba(16, 185, 129, 0.35);
-  border-radius: 999px;
-  padding: 3px 10px 3px 5px;
-  box-shadow: 0 1px 2px rgba(16, 185, 129, 0.12);
+  gap: 5px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
   user-select: none;
   width: fit-content;
 }
 
 .setu-verified-badge__shield {
-  width: 18px;
-  height: 18px;
+  width: 15px;
+  height: 15px;
   border-radius: 50%;
   background: #10B981;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   color: #FFFFFF;
   flex-shrink: 0;
 }
 
+.setu-verified-badge__shield svg {
+  width: 8.5px;
+  height: 8.5px;
+}
+
 .setu-verified-badge__brand {
-  font-size: 12.5px;
-  font-weight: 750;
-  color: #064E3B;
-  letter-spacing: -0.02em;
+  font-size: 13px;
+  font-weight: 700;
+  color: #047857;
+  letter-spacing: -0.01em;
   line-height: 1;
 }
 
 .setu-verified-badge__tag {
-  font-size: 10px;
+  font-size: 10.5px;
   font-weight: 800;
-  color: #047857;
+  color: #059669;
   letter-spacing: 0.05em;
   line-height: 1;
 }
@@ -1096,22 +1101,30 @@
   transform: scale(1.04);
 }
 
-/* ── View Mode Toggle (List vs Grid near Search) ── */
+/* ── View Mode Toggle (Round Shape Same as Search Bar) ── */
 .hw-view-toggle {
   display: flex;
   align-items: center;
+  height: 44px;
   background: #F8FAFC;
   border: 1.5px solid #E2E8F0;
-  border-radius: 12px;
-  padding: 3px;
-  gap: 3px;
+  border-radius: 28px;
+  padding: 0 4px;
+  gap: 4px;
   flex-shrink: 0;
+  box-sizing: border-box;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  transition: all 0.2s ease;
+}
+
+.hw-view-toggle:hover {
+  border-color: #CBD5E1;
 }
 
 .hw-view-toggle__btn {
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
   border: none;
   background: transparent;
   color: #64748B;
@@ -1124,13 +1137,13 @@
 
 .hw-view-toggle__btn:hover {
   color: #0F172A;
-  background: #EDF2F7;
+  background: #E2E8F0;
 }
 
 .hw-view-toggle__btn--active {
-  background: #ffffff !important;
-  color: #006EFF !important;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  background: #006EFF !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 2px 6px rgba(0, 110, 255, 0.28);
 }
 
 /* ────────────────────────────────────────────────────────────
