@@ -31,6 +31,7 @@ const DEFAULT_ADDR_FORM = {
   firstName: '',
   lastName: '',
   phone: '',
+  altPhone: '',
   email: '',
   addressLine1: '',
   addressLine2: '',
@@ -83,6 +84,7 @@ export default function Order() {
     lastName: 'Sharma',
     name: 'Aditi Sharma',
     phone: '+91 98200 12345',
+    altPhone: '+91 98200 67890',
     email: 'aditi.sharma@trexsify.com',
     addressLine1: 'Office no 2, Anupam Annapolis',
     addressLine2: '3rd floor, Goregoan East',
@@ -94,7 +96,7 @@ export default function Order() {
     gstin: '27AAJCA4191J1ZE'
   });
 
-  // Saved Shipping addresses list (matching media_1791193485645.png & media_1791815185261_068866c1.png)
+  // Saved Shipping addresses list (matching Setu platform standard)
   const [savedShippingAddresses, setSavedShippingAddresses] = useState([
     {
       id: 'ship-1',
@@ -102,6 +104,7 @@ export default function Order() {
       lastName: 'Bidari',
       name: 'Ankush Bidari',
       phone: '+91 98450 67890',
+      altPhone: '+91 98450 11223',
       email: 'ankush.bidari@fleetops.in',
       addressLine1: '197, 1st Floor, New No. 15',
       addressLine2: '4th Cross Road, 7th Block West',
@@ -110,7 +113,7 @@ export default function Order() {
       zipCode: '560070',
       country: 'India',
       address: '197, 1st Floor, New No. 15, 4th Cross Road, 7th Block West, Bengaluru, Karnataka 560070, India',
-      gstin: 'Unregistered'
+      gstin: '29ABCDE1234F1Z5'
     }
   ]);
   const [selectedShippingId, setSelectedShippingId] = useState('ship-1');
@@ -221,6 +224,7 @@ export default function Order() {
       firstName: fName,
       lastName: lName,
       phone: addr.phone || '',
+      altPhone: addr.altPhone || '',
       email: addr.email || '',
       addressLine1: addr.addressLine1 || addr.address || '',
       addressLine2: addr.addressLine2 || '',
@@ -248,6 +252,7 @@ export default function Order() {
       firstName: fName,
       lastName: lName,
       phone: billingAddress.phone || '',
+      altPhone: billingAddress.altPhone || '',
       email: billingAddress.email || '',
       addressLine1: billingAddress.addressLine1 || billingAddress.address || '',
       addressLine2: billingAddress.addressLine2 || '',
@@ -265,10 +270,12 @@ export default function Order() {
     });
   };
 
-  // Form validity check for the address modal
+  // Form validity check for the address modal (GSTIN is compulsory)
   const isAddrFormValid = Boolean(
     addrFormData.firstName.trim() &&
     addrFormData.phone.trim() &&
+    addrFormData.email.trim() &&
+    addrFormData.gstin.trim() &&
     addrFormData.addressLine1.trim() &&
     addrFormData.city.trim() &&
     addrFormData.state &&
@@ -281,6 +288,7 @@ export default function Order() {
     const firstName = addrFormData.firstName.trim();
     const lastName = addrFormData.lastName.trim();
     const phone = addrFormData.phone.trim();
+    const altPhone = addrFormData.altPhone.trim();
     const email = addrFormData.email.trim();
     const addressLine1 = addrFormData.addressLine1.trim();
     const addressLine2 = addrFormData.addressLine2.trim();
@@ -288,9 +296,9 @@ export default function Order() {
     const state = addrFormData.state.trim();
     const zipCode = addrFormData.zipCode.trim();
     const country = addrFormData.country.trim() || 'India';
-    const gstin = addrFormData.gstin.trim() || 'Unregistered';
+    const gstin = addrFormData.gstin.trim();
 
-    if (!firstName || !phone || !addressLine1 || !city || !state || !zipCode) return;
+    if (!firstName || !phone || !email || !gstin || !addressLine1 || !city || !state || !zipCode) return;
 
     const fullName = [firstName, lastName].filter(Boolean).join(' ');
     const addressParts = [
@@ -307,6 +315,7 @@ export default function Order() {
       lastName,
       name: fullName,
       phone,
+      altPhone,
       email,
       addressLine1,
       addressLine2,
@@ -551,7 +560,7 @@ export default function Order() {
                       <span className="order-addr-name">{billingAddress.name}</span>
                     </div>
 
-                    {(billingAddress.phone || billingAddress.email) && (
+                    {(billingAddress.phone || billingAddress.altPhone || billingAddress.email) && (
                       <div className="order-addr-contact-row">
                         {billingAddress.phone && (
                           <span className="order-addr-contact-item">
@@ -561,7 +570,16 @@ export default function Order() {
                             <span>{billingAddress.phone}</span>
                           </span>
                         )}
-                        {billingAddress.phone && billingAddress.email && <span className="order-addr-contact-dot">•</span>}
+                        {billingAddress.altPhone && (
+                          <>
+                            {billingAddress.phone && <span className="order-addr-contact-dot">•</span>}
+                            <span className="order-addr-contact-item">
+                              <span style={{ fontSize: '11px', color: '#94A3B8', fontWeight: 600 }}>Alt:</span>
+                              <span>{billingAddress.altPhone}</span>
+                            </span>
+                          </>
+                        )}
+                        {(billingAddress.phone || billingAddress.altPhone) && billingAddress.email && <span className="order-addr-contact-dot">•</span>}
                         {billingAddress.email && (
                           <span className="order-addr-contact-item">
                             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#64748B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -637,7 +655,7 @@ export default function Order() {
                           <span className="order-same-addr-pill">Using Billing Address</span>
                         </div>
 
-                        {(billingAddress.phone || billingAddress.email) && (
+                        {(billingAddress.phone || billingAddress.altPhone || billingAddress.email) && (
                           <div className="order-addr-contact-row">
                             {billingAddress.phone && (
                               <span className="order-addr-contact-item">
@@ -647,7 +665,16 @@ export default function Order() {
                                 <span>{billingAddress.phone}</span>
                               </span>
                             )}
-                            {billingAddress.phone && billingAddress.email && <span className="order-addr-contact-dot">•</span>}
+                            {billingAddress.altPhone && (
+                              <>
+                                {billingAddress.phone && <span className="order-addr-contact-dot">•</span>}
+                                <span className="order-addr-contact-item">
+                                  <span style={{ fontSize: '11px', color: '#94A3B8', fontWeight: 600 }}>Alt:</span>
+                                  <span>{billingAddress.altPhone}</span>
+                                </span>
+                              </>
+                            )}
+                            {(billingAddress.phone || billingAddress.altPhone) && billingAddress.email && <span className="order-addr-contact-dot">•</span>}
                             {billingAddress.email && (
                               <span className="order-addr-contact-item">
                                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#64748B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -716,7 +743,7 @@ export default function Order() {
                                   <span className="order-addr-name">{addr.name}</span>
                                 </div>
 
-                                {(addr.phone || addr.email) && (
+                                {(addr.phone || addr.altPhone || addr.email) && (
                                   <div className="order-addr-contact-row">
                                     {addr.phone && (
                                       <span className="order-addr-contact-item">
@@ -726,7 +753,16 @@ export default function Order() {
                                         <span>{addr.phone}</span>
                                       </span>
                                     )}
-                                    {addr.phone && addr.email && <span className="order-addr-contact-dot">•</span>}
+                                    {addr.altPhone && (
+                                      <>
+                                        {addr.phone && <span className="order-addr-contact-dot">•</span>}
+                                        <span className="order-addr-contact-item">
+                                          <span style={{ fontSize: '11px', color: '#94A3B8', fontWeight: 600 }}>Alt:</span>
+                                          <span>{addr.altPhone}</span>
+                                        </span>
+                                      </>
+                                    )}
+                                    {(addr.phone || addr.altPhone) && addr.email && <span className="order-addr-contact-dot">•</span>}
                                     {addr.email && (
                                       <span className="order-addr-contact-item">
                                         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#64748B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -910,23 +946,30 @@ export default function Order() {
           onClick={() => setAddressModalConfig(prev => ({ ...prev, isOpen: false }))}
         >
           <div className="order-modal__card order-modal__card--address" onClick={(e) => e.stopPropagation()}>
-            {/* Deep Blue Header Bar matching media_1791815185261_068866c1.png */}
-            <div className="order-modal__header order-modal__header--blue">
-              <h3 className="order-modal__title order-modal__title--white">
+            {/* Standard Setu Floating Circular Close Button */}
+            <button 
+              type="button" 
+              className="order-modal__close-btn"
+              onClick={() => setAddressModalConfig(prev => ({ ...prev, isOpen: false }))}
+              title="Close"
+              aria-label="Close"
+            >
+              ✕
+            </button>
+
+            {/* Setu Standard Modal Header */}
+            <div className="order-modal__header-standard">
+              <span className="order-modal__badge">DELIVERY & BILLING</span>
+              <h3 className="order-modal__title">
                 {addressModalConfig.target === 'billing' 
                   ? 'Edit Billing Address' 
                   : addressModalConfig.mode === 'edit' 
                     ? 'Edit Shipping Address' 
                     : 'Add Shipping Address'}
               </h3>
-              <button 
-                type="button" 
-                className="order-modal__close-btn order-modal__close-btn--white"
-                onClick={() => setAddressModalConfig(prev => ({ ...prev, isOpen: false }))}
-                title="Close"
-              >
-                ✕
-              </button>
+              <p className="order-modal__subtitle">
+                Please provide complete destination details for dispatch, tracking, and GST invoicing.
+              </p>
             </div>
 
             <form onSubmit={handleSaveAddressModal} className="order-modal__form order-modal__form--grid">
@@ -934,7 +977,7 @@ export default function Order() {
                 
                 {/* Row 1: First Name & Last Name */}
                 <div className="order-form-group">
-                  <label htmlFor="addrFirstName">First Name *</label>
+                  <label htmlFor="addrFirstName">First Name <span className="order-req">*</span></label>
                   <input 
                     id="addrFirstName"
                     type="text" 
@@ -959,15 +1002,15 @@ export default function Order() {
                   />
                 </div>
 
-                {/* Row 2: Mobile Number & Email ID (User Requested) */}
+                {/* Row 2: Mobile Number & Alternative Mobile Number */}
                 <div className="order-form-group">
-                  <label htmlFor="addrPhone">Mobile Number *</label>
+                  <label htmlFor="addrPhone">Mobile Number <span className="order-req">*</span></label>
                   <input 
                     id="addrPhone"
                     type="tel" 
                     required
                     maxLength={15}
-                    placeholder="Mobile Number" 
+                    placeholder="Primary Mobile Number" 
                     value={addrFormData.phone}
                     onChange={(e) => setAddrFormData({ ...addrFormData, phone: e.target.value })}
                   />
@@ -975,7 +1018,21 @@ export default function Order() {
                 </div>
 
                 <div className="order-form-group">
-                  <label htmlFor="addrEmail">Email ID *</label>
+                  <label htmlFor="addrAltPhone">Alternative Mobile Number</label>
+                  <input 
+                    id="addrAltPhone"
+                    type="tel" 
+                    maxLength={15}
+                    placeholder="Alternative Mobile Number" 
+                    value={addrFormData.altPhone}
+                    onChange={(e) => setAddrFormData({ ...addrFormData, altPhone: e.target.value })}
+                  />
+                  <span className="order-form-help">Optional emergency contact</span>
+                </div>
+
+                {/* Row 3: Email ID & GSTIN (Compulsory) */}
+                <div className="order-form-group">
+                  <label htmlFor="addrEmail">Email ID <span className="order-req">*</span></label>
                   <input 
                     id="addrEmail"
                     type="email" 
@@ -988,9 +1045,23 @@ export default function Order() {
                   <span className="order-form-help">For dispatch updates & invoice</span>
                 </div>
 
-                {/* Row 3: Address Line 1 & Address Line 2 */}
                 <div className="order-form-group">
-                  <label htmlFor="addrLine1">Address Line 1 *</label>
+                  <label htmlFor="addrGstin">GSTIN <span className="order-req">*</span></label>
+                  <input 
+                    id="addrGstin"
+                    type="text" 
+                    required
+                    maxLength={15}
+                    placeholder="e.g. 29ABCDE1234F1Z5" 
+                    value={addrFormData.gstin}
+                    onChange={(e) => setAddrFormData({ ...addrFormData, gstin: e.target.value.toUpperCase() })}
+                  />
+                  <span className="order-form-help">15-digit GSTIN (Compulsory)</span>
+                </div>
+
+                {/* Row 4: Address Line 1 & Address Line 2 */}
+                <div className="order-form-group">
+                  <label htmlFor="addrLine1">Address Line 1 <span className="order-req">*</span></label>
                   <input 
                     id="addrLine1"
                     type="text" 
@@ -1004,7 +1075,7 @@ export default function Order() {
                 </div>
 
                 <div className="order-form-group">
-                  <label htmlFor="addrLine2">Address Line 2 *</label>
+                  <label htmlFor="addrLine2">Address Line 2</label>
                   <input 
                     id="addrLine2"
                     type="text" 
@@ -1016,9 +1087,9 @@ export default function Order() {
                   <span className="order-form-help">Maximum Character Limit is 60</span>
                 </div>
 
-                {/* Row 4: City / Town & State / Region */}
+                {/* Row 5: City / Town & State / Region */}
                 <div className="order-form-group">
-                  <label htmlFor="addrCity">City / Town *</label>
+                  <label htmlFor="addrCity">City / Town <span className="order-req">*</span></label>
                   <input 
                     id="addrCity"
                     type="text" 
@@ -1032,7 +1103,7 @@ export default function Order() {
                 </div>
 
                 <div className="order-form-group">
-                  <label htmlFor="addrState">State / Region *</label>
+                  <label htmlFor="addrState">State / Region <span className="order-req">*</span></label>
                   <div className="order-select-wrapper">
                     <select 
                       id="addrState"
@@ -1054,9 +1125,9 @@ export default function Order() {
                   </div>
                 </div>
 
-                {/* Row 5: Zip / Postal Code & Country */}
+                {/* Row 6: Zip / Postal Code & Country */}
                 <div className="order-form-group">
-                  <label htmlFor="addrZip">Zip / Postal Code</label>
+                  <label htmlFor="addrZip">Zip / Postal Code <span className="order-req">*</span></label>
                   <input 
                     id="addrZip"
                     type="text" 
@@ -1070,7 +1141,7 @@ export default function Order() {
                 </div>
 
                 <div className="order-form-group">
-                  <label htmlFor="addrCountry">Country *</label>
+                  <label htmlFor="addrCountry">Country <span className="order-req">*</span></label>
                   <div className="order-select-wrapper">
                     <select 
                       id="addrCountry"
@@ -1092,24 +1163,17 @@ export default function Order() {
                   </div>
                 </div>
 
-                {/* Row 6: GSTIN spanning full width */}
-                <div className="order-form-group order-form-group--full">
-                  <label htmlFor="addrGstin">GSTIN (Optional for Fleet Tax Credit)</label>
-                  <input 
-                    id="addrGstin"
-                    type="text" 
-                    maxLength={15}
-                    placeholder="e.g. 27AAJCA4191J1ZE" 
-                    value={addrFormData.gstin}
-                    onChange={(e) => setAddrFormData({ ...addrFormData, gstin: e.target.value.toUpperCase() })}
-                  />
-                  <span className="order-form-help">15-digit GST identification number</span>
-                </div>
-
               </div>
 
-              {/* Footer action: Save Address matching media_1791815185261_068866c1.png */}
+              {/* Setu Standard Modal Footer Bar */}
               <div className="order-modal__footer-bar">
+                <button 
+                  type="button" 
+                  className="order-modal-cancel-btn"
+                  onClick={() => setAddressModalConfig(prev => ({ ...prev, isOpen: false }))}
+                >
+                  Cancel
+                </button>
                 <button 
                   type="submit" 
                   className={`order-modal-save-btn ${isAddrFormValid ? 'order-modal-save-btn--active' : 'order-modal-save-btn--disabled'}`}
