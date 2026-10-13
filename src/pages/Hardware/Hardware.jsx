@@ -405,18 +405,11 @@ function ProductCard({ product, isLowest, onClick }) {
           {/* Setu Verified Row (Below Product Title) */}
           {product.verified !== false && (
             <div className="pcard-ref__verified-row">
-              <span className="setu-verified-badge">
-                <span className="setu-verified-badge__shield">
-                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-                    <circle cx="8" cy="8" r="7.5" fill="#10B981" />
-                    <path d="M4.8 8.2L7 10.4L11.5 5.9" stroke="#FFFFFF" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </span>
-                <span className="setu-verified-badge__text">
-                  <span className="setu-verified-badge__brand">Setu</span>
-                  <span className="setu-verified-badge__label">Verified</span>
-                </span>
-              </span>
+              <img 
+                src={getAssetUrl('/images/setu-verified-badge.png')} 
+                alt="Setu Verified" 
+                className="setu-verified-badge-img"
+              />
             </div>
           )}
 
@@ -490,18 +483,11 @@ function ProductGridCard({ product, isLowest, onClick }) {
         {/* Setu Verified Row (Below Product Title) */}
         {product.verified !== false && (
           <div className="pcard-grid__verified-row">
-            <span className="setu-verified-badge">
-              <span className="setu-verified-badge__shield">
-                <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-                  <circle cx="8" cy="8" r="7.5" fill="#10B981" />
-                  <path d="M4.8 8.2L7 10.4L11.5 5.9" stroke="#FFFFFF" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </span>
-              <span className="setu-verified-badge__text">
-                <span className="setu-verified-badge__brand">Setu</span>
-                <span className="setu-verified-badge__label">Verified</span>
-              </span>
-            </span>
+            <img 
+              src={getAssetUrl('/images/setu-verified-badge.png')} 
+              alt="Setu Verified" 
+              className="setu-verified-badge-img"
+            />
           </div>
         )}
 
@@ -801,12 +787,11 @@ export default function Hardware() {
                   />
                   <span className="fcheck__box" />
                 </label>
-                <span className="setu-verified-badge setu-verified-badge--sidebar">
-                  <span className="setu-verified-badge__text">
-                    <span className="setu-verified-badge__brand">Setu</span>
-                    <span className="setu-verified-badge__label">Verified</span>
-                  </span>
-                </span>
+                <img 
+                  src={getAssetUrl('/images/setu-verified-badge.png')} 
+                  alt="Setu Verified" 
+                  className="setu-verified-badge-img setu-verified-badge-img--sidebar"
+                />
               </div>
             </div>
           </div>

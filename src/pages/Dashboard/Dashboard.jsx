@@ -143,7 +143,7 @@ export default function Dashboard() {
           <button 
             type="button" 
             className="fleet-dash__btn-setu"
-            onClick={() => navigate('/setu')}
+            onClick={() => navigate('/')}
             title="Browse Hardware, Trackers, Sensors and Telematics Solutions"
           >
             <span>🛒</span>
@@ -186,7 +186,7 @@ export default function Dashboard() {
       </div>
 
       {/* ── Promotional Setu Banner Card ── */}
-      <div className="fleet-setu-banner" onClick={() => navigate('/setu')}>
+      <div className="fleet-setu-banner" onClick={() => navigate('/')}>
         <div className="fleet-setu-banner__glow" />
         <div className="fleet-setu-banner__content">
           <div className="fleet-setu-banner__tag">SETU B2B MARKETPLACE</div>

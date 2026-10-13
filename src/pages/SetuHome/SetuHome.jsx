@@ -850,15 +850,12 @@ function AdvanceSearchModal({ isOpen, onClose, filters, onToggleFilter, onReset,
                     <polyline points="20 6 9 17 4 12" />
                   </svg>
                 </span>
-                <span className="advance-badge-verified">
-                  <span className="advance-badge-verified__shield">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                  </span>
-                  <span className="advance-badge-verified__brand">setu</span>
-                  <span className="advance-badge-verified__tag">VERIFIED</span>
-                </span>
+                <img 
+                  src={getAssetUrl('/images/setu-verified-badge.png')} 
+                  alt="Setu Verified" 
+                  className="setu-verified-badge-img"
+                  style={{ marginLeft: '4px' }}
+                />
               </label>
 
               <label className="advance-checkbox-item advance-checkbox-item--badge">

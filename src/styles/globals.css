@@ -225,3 +225,21 @@ input, select, textarea {
   margin: 0px 0px 16px 0px !important;
   font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
 }
+
+/* ─────────────────────────────────────────────────────────────
+   GLOBAL SETU VERIFIED BADGE (OFFICIAL BADGE IMAGE)
+   ───────────────────────────────────────────────────────────── */
+.setu-verified-badge-img {
+  height: 22px;
+  width: auto;
+  max-width: 110px;
+  object-fit: contain;
+  display: inline-block;
+  vertical-align: middle;
+  user-select: none;
+}
+
+.setu-verified-badge-img--sidebar {
+  height: 20px;
+}
+
