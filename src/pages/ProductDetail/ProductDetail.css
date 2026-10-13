@@ -277,6 +277,19 @@
   margin: 0;
 }
 
+.setu-ui-header-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 6px;
+  flex-wrap: wrap;
+}
+
+.setu-ui-verified-badge-wrap {
+  display: inline-flex;
+  align-items: center;
+}
+
 .setu-ui-center-scroll-col {
   flex: 1;
   min-width: 0;
@@ -922,9 +935,10 @@
   color: #2563eb;
 }
 
-.setu-plan-card__verified-row {
-  margin-top: -6px;
-  margin-bottom: 16px;
+.setu-plan-card__verified-row,
+.setu-plan-card__verified-box {
+  margin-top: 0;
+  margin-bottom: 14px;
   display: flex;
   align-items: center;
 }

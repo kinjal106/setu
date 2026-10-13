@@ -695,15 +695,28 @@ export default function ProductDetail() {
             <div className="setu-ui-center-fixed-header">
               <h1 className="setu-ui-title">{displayTitle}</h1>
               
-              {!isSolution && (
-                <div className="setu-ui-stock-row">
-                  <span className="setu-ui-stock-label">Status:</span>
-                  <span className={`setu-ui-stock-badge ${product.inStock !== false ? 'setu-ui-stock-badge--in' : 'setu-ui-stock-badge--out'}`}>
-                    <span className="setu-ui-stock-dot" />
-                    {product.inStock !== false ? 'In Stock' : 'Out of Stock'}
-                  </span>
-                </div>
-              )}
+              <div className="setu-ui-header-meta-row" style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '6px', flexWrap: 'wrap' }}>
+                {!isSolution && (
+                  <div className="setu-ui-stock-row" style={{ margin: 0 }}>
+                    <span className="setu-ui-stock-label">Status:</span>
+                    <span className={`setu-ui-stock-badge ${product.inStock !== false ? 'setu-ui-stock-badge--in' : 'setu-ui-stock-badge--out'}`}>
+                      <span className="setu-ui-stock-dot" />
+                      {product.inStock !== false ? 'In Stock' : 'Out of Stock'}
+                    </span>
+                  </div>
+                )}
+
+                {product.verified !== false && (
+                  <div className="setu-ui-verified-badge-wrap" style={{ display: 'inline-flex', alignItems: 'center' }}>
+                    <img 
+                      src={getAssetUrl('/images/setu-verified-badge.png')} 
+                      alt="Setu Verified" 
+                      className="setu-verified-badge-img"
+                      style={{ height: '22px' }}
+                    />
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* Scrollable Center Content */}
@@ -1533,6 +1546,17 @@ export default function ProductDetail() {
                   </p>
                 </div>
 
+                {product.verified !== false && (
+                  <div style={{ marginBottom: '12px' }}>
+                    <img 
+                      src={getAssetUrl('/images/setu-verified-badge.png')} 
+                      alt="Setu Verified" 
+                      className="setu-verified-badge-img"
+                      style={{ height: '22px' }}
+                    />
+                  </div>
+                )}
+
                 {/* 4 Green Checkmarked Key Features */}
                 <ul className="setu-plan-card__benefits-list">
                   {planBenefits.slice(0, 4).map((benefit, idx) => (
@@ -1563,6 +1587,18 @@ export default function ProductDetail() {
               </div>
             ) : (
               <div className="setu-plan-card">
+
+                {/* Setu Verified Row in Plan Card */}
+                {product.verified !== false && (
+                  <div className="setu-plan-card__verified-box" style={{ marginBottom: '12px' }}>
+                    <img 
+                      src={getAssetUrl('/images/setu-verified-badge.png')} 
+                      alt="Setu Verified" 
+                      className="setu-verified-badge-img"
+                      style={{ height: '22px' }}
+                    />
+                  </div>
+                )}
 
                 {/* Price row */}
                 <div className="setu-plan-card__price-row">
