@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import products from '../../data/products.json';
 import { getAssetUrl } from '../../utils/assetUrl';
 import { useCart } from '../../context/CartContext';
+import SetuVerifiedBadge from '../../components/SetuVerifiedBadge/SetuVerifiedBadge';
 import './SetuHome.css';
 
 /* ────────────────────────────────────────────────────────────
@@ -850,12 +851,7 @@ function AdvanceSearchModal({ isOpen, onClose, filters, onToggleFilter, onReset,
                     <polyline points="20 6 9 17 4 12" />
                   </svg>
                 </span>
-                <img 
-                  src={getAssetUrl('/images/setu-verified-badge.png')} 
-                  alt="Setu Verified" 
-                  className="setu-verified-badge-img"
-                  style={{ marginLeft: '4px' }}
-                />
+                <SetuVerifiedBadge className="advance-badge-verified-comp" />
               </label>
 
               <label className="advance-checkbox-item advance-checkbox-item--badge">

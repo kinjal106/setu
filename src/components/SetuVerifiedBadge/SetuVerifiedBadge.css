@@ -1,0 +1,143 @@
+/* ─────────────────────────────────────────────────────────────
+   SETU VERIFIED BADGE (LIGHT GREEN BACKGROUND CARD)
+   Official component styling matching user requirement:
+   Check icon (shield), setu VERIFIED text inside light green card
+   ───────────────────────────────────────────────────────────── */
+.setu-verified-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #DCFCE7; /* Soft light mint green card background */
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  border-radius: 9999px; /* Capsule / pill card shape */
+  padding: 3px 10px 3px 5px;
+  box-shadow: 0 1px 2px rgba(16, 185, 129, 0.08);
+  user-select: none;
+  width: fit-content;
+  flex-shrink: 0;
+  vertical-align: middle;
+  line-height: 1;
+  box-sizing: border-box;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.setu-verified-badge:hover {
+  background: #D1FAE5;
+  border-color: rgba(16, 185, 129, 0.5);
+}
+
+.setu-verified-badge__shield {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 17px;
+  height: 17px;
+  line-height: 1;
+}
+
+.setu-verified-badge__shield svg {
+  width: 17px;
+  height: 17px;
+  display: block;
+}
+
+.setu-verified-badge__text {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  line-height: 1;
+}
+
+.setu-verified-badge__brand {
+  font-size: 12px;
+  font-weight: 750;
+  color: #064E3B; /* Deep dark forest green for high contrast */
+  letter-spacing: -0.01em;
+  line-height: 1;
+  font-family: inherit;
+}
+
+.setu-verified-badge__label {
+  font-size: 10.5px;
+  font-weight: 750;
+  color: #047857; /* Vibrant emerald green */
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1;
+  font-family: inherit;
+}
+
+/* Category Sidebar specific: no check icon, but still inside the light green card pill */
+.setu-verified-badge--no-icon,
+.setu-verified-badge--sidebar {
+  padding: 3px 10px;
+  gap: 0;
+}
+
+.setu-verified-badge--no-icon .setu-verified-badge__text,
+.setu-verified-badge--sidebar .setu-verified-badge__text {
+  gap: 4px;
+}
+
+.setu-verified-badge--no-icon .setu-verified-badge__brand,
+.setu-verified-badge--sidebar .setu-verified-badge__brand {
+  font-size: 12px;
+  font-weight: 750;
+  color: #064E3B;
+}
+
+.setu-verified-badge--no-icon .setu-verified-badge__label,
+.setu-verified-badge--sidebar .setu-verified-badge__label {
+  font-size: 10.5px;
+  font-weight: 750;
+  color: #047857;
+}
+
+/* Size: Large (for Product Detail fixed header / buybox) */
+.setu-verified-badge--lg {
+  padding: 4px 12px 4px 7px;
+  gap: 7px;
+}
+
+.setu-verified-badge--lg .setu-verified-badge__shield {
+  width: 19px;
+  height: 19px;
+}
+
+.setu-verified-badge--lg .setu-verified-badge__shield svg {
+  width: 19px;
+  height: 19px;
+}
+
+.setu-verified-badge--lg .setu-verified-badge__brand {
+  font-size: 13px;
+}
+
+.setu-verified-badge--lg .setu-verified-badge__label {
+  font-size: 11px;
+}
+
+/* Size: Small */
+.setu-verified-badge--sm {
+  padding: 2px 8px 2px 4px;
+  gap: 4px;
+}
+
+.setu-verified-badge--sm .setu-verified-badge__shield {
+  width: 14px;
+  height: 14px;
+}
+
+.setu-verified-badge--sm .setu-verified-badge__shield svg {
+  width: 14px;
+  height: 14px;
+}
+
+.setu-verified-badge--sm .setu-verified-badge__brand {
+  font-size: 11px;
+}
+
+.setu-verified-badge--sm .setu-verified-badge__label {
+  font-size: 9.5px;
+}

@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import products from '../../data/products.json';
 import categories from '../../data/categories.json';
 import { getAssetUrl } from '../../utils/assetUrl';
+import SetuVerifiedBadge from '../../components/SetuVerifiedBadge/SetuVerifiedBadge';
 import './Hardware.css';
 
 /* ── AI Overview Topics Knowledge Base (Matches Reference Images 1 & 2) ── */
@@ -405,11 +406,7 @@ function ProductCard({ product, isLowest, onClick }) {
           {/* Setu Verified Row (Below Product Title) */}
           {product.verified !== false && (
             <div className="pcard-ref__verified-row">
-              <img 
-                src={getAssetUrl('/images/setu-verified-badge.png')} 
-                alt="Setu Verified" 
-                className="setu-verified-badge-img"
-              />
+              <SetuVerifiedBadge />
             </div>
           )}
 
@@ -483,11 +480,7 @@ function ProductGridCard({ product, isLowest, onClick }) {
         {/* Setu Verified Row (Below Product Title) */}
         {product.verified !== false && (
           <div className="pcard-grid__verified-row">
-            <img 
-              src={getAssetUrl('/images/setu-verified-badge.png')} 
-              alt="Setu Verified" 
-              className="setu-verified-badge-img"
-            />
+            <SetuVerifiedBadge />
           </div>
         )}
 
@@ -787,11 +780,7 @@ export default function Hardware() {
                   />
                   <span className="fcheck__box" />
                 </label>
-                <img 
-                  src={getAssetUrl('/images/setu-verified-badge.png')} 
-                  alt="Setu Verified" 
-                  className="setu-verified-badge-img setu-verified-badge-img--sidebar"
-                />
+                <SetuVerifiedBadge noIcon />
               </div>
             </div>
           </div>

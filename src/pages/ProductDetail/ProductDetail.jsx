@@ -6,6 +6,7 @@ import solutionsData from '../../data/solutions.json';
 import { getPartFitmentList } from '../../data/autopartsFitment';
 import { useCart } from '../../context/CartContext';
 import { getAssetUrl } from '../../utils/assetUrl';
+import SetuVerifiedBadge from '../../components/SetuVerifiedBadge/SetuVerifiedBadge';
 import './ProductDetail.css';
 
 export default function ProductDetail() {
@@ -708,12 +709,7 @@ export default function ProductDetail() {
 
                 {product.verified !== false && (
                   <div className="setu-ui-verified-badge-wrap" style={{ display: 'inline-flex', alignItems: 'center' }}>
-                    <img 
-                      src={getAssetUrl('/images/setu-verified-badge.png')} 
-                      alt="Setu Verified" 
-                      className="setu-verified-badge-img"
-                      style={{ height: '22px' }}
-                    />
+                    <SetuVerifiedBadge size="lg" />
                   </div>
                 )}
               </div>
@@ -800,11 +796,7 @@ export default function ProductDetail() {
                   <div className="setu-ui-leader-row">
                     <span className="setu-ui-leader-k">Verification</span>
                     <span className="setu-ui-leader-v">
-                      <img 
-                        src={getAssetUrl('/images/setu-verified-badge.png')} 
-                        alt="Setu Verified" 
-                        className="setu-verified-badge-img"
-                      />
+                      <SetuVerifiedBadge />
                     </span>
                   </div>
                 </>
@@ -840,11 +832,7 @@ export default function ProductDetail() {
                   <div className="setu-ui-leader-row">
                     <span className="setu-ui-leader-k">Verification</span>
                     <span className="setu-ui-leader-v">
-                      <img 
-                        src={getAssetUrl('/images/setu-verified-badge.png')} 
-                        alt="Setu Verified" 
-                        className="setu-verified-badge-img"
-                      />
+                      <SetuVerifiedBadge />
                     </span>
                   </div>
                 </>
@@ -1548,12 +1536,7 @@ export default function ProductDetail() {
 
                 {product.verified !== false && (
                   <div style={{ marginBottom: '12px' }}>
-                    <img 
-                      src={getAssetUrl('/images/setu-verified-badge.png')} 
-                      alt="Setu Verified" 
-                      className="setu-verified-badge-img"
-                      style={{ height: '22px' }}
-                    />
+                    <SetuVerifiedBadge />
                   </div>
                 )}
 
@@ -1591,12 +1574,7 @@ export default function ProductDetail() {
                 {/* Setu Verified Row in Plan Card */}
                 {product.verified !== false && (
                   <div className="setu-plan-card__verified-box" style={{ marginBottom: '12px' }}>
-                    <img 
-                      src={getAssetUrl('/images/setu-verified-badge.png')} 
-                      alt="Setu Verified" 
-                      className="setu-verified-badge-img"
-                      style={{ height: '22px' }}
-                    />
+                    <SetuVerifiedBadge />
                   </div>
                 )}
 
