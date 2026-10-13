@@ -361,6 +361,22 @@ function BrandFilter({ selected, onChange }) {
   );
 }
 
+/* ── Helper to retrieve volume bulk pricing tier text ── */
+function getBulkPricingText(product) {
+  if (product?.bulkTierText) {
+    if (product.bulkTierText.includes('•')) {
+      return product.bulkTierText.split('•').pop().trim();
+    }
+    return product.bulkTierText.trim();
+  }
+  const basePrice = Number(product?.price || product?.pricingPlans?.[0]?.price);
+  if (basePrice && !isNaN(basePrice)) {
+    const bulk500 = Math.round(basePrice * 0.875);
+    return `₹${bulk500.toLocaleString('en-IN')} each on 500+`;
+  }
+  return null;
+}
+
 /* ── Product Card Component matching media_1791179790288.png ── */
 function ProductCard({ product, isLowest, onClick }) {
   const [imgError, setImgError] = useState(false);
@@ -368,6 +384,7 @@ function ProductCard({ product, isLowest, onClick }) {
   const basePrice = Number(product.price || product.pricingPlans?.[0]?.price || 599);
   const wholePrice = Math.floor(basePrice).toLocaleString('en-IN');
   const decimalPart = basePrice % 1 === 0 ? '00' : (basePrice % 1).toFixed(2).slice(2);
+  const bulkTier = getBulkPricingText(product);
 
   const displayTags = product.tags && product.tags.length > 0
     ? product.tags
@@ -424,11 +441,18 @@ function ProductCard({ product, isLowest, onClick }) {
           )}
 
           {/* Price display row */}
-          <div className="pcard-ref__price-row">
-            <span className="pcard-ref__currency">₹</span>
-            <span className="pcard-ref__amount">{wholePrice}</span>
-            <span className="pcard-ref__super">{decimalPart}</span>
-            <span className="pcard-ref__gst">+ GST</span>
+          <div className="pcard-ref__price-wrap">
+            <div className="pcard-ref__price-row">
+              <span className="pcard-ref__currency">₹</span>
+              <span className="pcard-ref__amount">{wholePrice}</span>
+              <span className="pcard-ref__super">{decimalPart}</span>
+              <span className="pcard-ref__gst">+ GST</span>
+            </div>
+            {bulkTier && (
+              <div className="pcard-ref__bulk-tier" title={product.bulkTierText}>
+                {bulkTier}
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -443,6 +467,7 @@ function ProductGridCard({ product, isLowest, onClick }) {
   const basePrice = Number(product.price || product.pricingPlans?.[0]?.price || 599);
   const wholePrice = Math.floor(basePrice).toLocaleString('en-IN');
   const decimalPart = basePrice % 1 === 0 ? '00' : (basePrice % 1).toFixed(2).slice(2);
+  const bulkTier = getBulkPricingText(product);
 
   const displayTags = product.tags && product.tags.length > 0
     ? product.tags
@@ -505,6 +530,11 @@ function ProductGridCard({ product, isLowest, onClick }) {
             <span className="pcard-ref__super">{decimalPart}</span>
             <span className="pcard-ref__gst">+ GST</span>
           </div>
+          {bulkTier && (
+            <div className="pcard-ref__bulk-tier" title={product.bulkTierText}>
+              {bulkTier}
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -669,10 +669,17 @@
 }
 
 /* Price row */
+.pcard-ref__price-wrap {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
 .pcard-ref__price-row {
   display: flex;
   align-items: baseline;
-  margin-top: auto;
+  margin-top: 0;
   margin-bottom: 0;
 }
 
@@ -705,6 +712,13 @@
   font-weight: 500;
   color: #64748B;
   margin-left: 6px;
+}
+
+.pcard-ref__bulk-tier {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #059669;
+  line-height: 1.25;
 }
 
 /* Verified row (positioned below product title) */
@@ -856,7 +870,8 @@
   padding-top: 13px;
   border-top: 1px solid #F1F5F9;
   display: flex;
-  align-items: baseline;
+  flex-direction: column;
+  gap: 2px;
 }
 
 /* Empty state */
