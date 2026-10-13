@@ -823,13 +823,6 @@ export default function Hardware() {
             <h1 className="hw-page-title">Hardware</h1>
             <div className="hw-search-controls">
               <form className="hw-google-search-bar" onSubmit={handleSearchSubmit}>
-                <div className="hw-google-search-icon">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748B" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="11" cy="11" r="8"/>
-                    <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                  </svg>
-                </div>
-
                 <input
                   type="text"
                   className="hw-google-search-input"

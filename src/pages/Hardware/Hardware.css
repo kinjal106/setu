@@ -1000,7 +1000,7 @@
   background: #F8FAFC;
   border: 1.5px solid #E2E8F0;
   border-radius: 28px;
-  padding: 0 4px 0 14px;
+  padding: 0 4px 0 18px;
   transition: all 0.2s ease;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
 }
@@ -1009,15 +1009,6 @@
   background: #ffffff;
   border-color: #006EFF;
   box-shadow: 0 3px 12px rgba(0, 110, 255, 0.12);
-}
-
-.hw-google-search-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 10px;
-  color: #64748B;
-  flex-shrink: 0;
 }
 
 .hw-google-search-input {
