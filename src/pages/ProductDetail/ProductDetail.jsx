@@ -293,15 +293,12 @@ export default function ProductDetail() {
     ? 'Enterprise Cloud License'
     : (product.consumptionUnit || (product.unit ? `Per ${product.unit}` : 'Per Device'));
 
-  // Bulk slab pricing calculation based on base price
-  const slabPrices = useMemo(() => {
-    return {
-      slab1: basePrice,
-      slab2: Math.round(basePrice * 0.9583),
-      slab3: Math.round(basePrice * 0.9167),
-      slab4: Math.round(basePrice * 0.875)
-    };
+  // Single object pricing: price per unit is constant regardless of quantity (Buy 1 or 100 the price remains the same)
+  const unitPrice = useMemo(() => {
+    return basePrice;
   }, [basePrice]);
+
+  const displayPriceText = isSolution ? 'Demo on Request' : `₹${unitPrice.toLocaleString('en-IN')}`;
 
   // Gallery images (main + 4 thumbnails = 5 preview images total)
   const [activeThumb, setActiveThumb] = useState(0);
@@ -393,24 +390,6 @@ export default function ProductDetail() {
       item.variants?.some((v) => v.variant.toLowerCase().includes(q) || v.fuelType.toLowerCase().includes(q))
     );
   }, [fitmentList, fitmentSearch]);
-
-  // Determine current active slab
-  const currentSlab = useMemo(() => {
-    if (qty >= 500) return '500+';
-    if (qty >= 101) return '101–500';
-    if (qty >= 51) return '51–100';
-    return '1–50';
-  }, [qty]);
-
-  // Active unit price based on current quantity
-  const unitPrice = useMemo(() => {
-    if (qty >= 500) return slabPrices.slab4;
-    if (qty >= 101) return slabPrices.slab3;
-    if (qty >= 51) return slabPrices.slab2;
-    return slabPrices.slab1;
-  }, [qty, slabPrices]);
-
-  const displayPriceText = isSolution ? 'Demo on Request' : `₹${unitPrice.toLocaleString('en-IN')}`;
 
   // Key benefits list (4 items with green checkmarks)
   const planBenefits = useMemo(() => {
@@ -515,8 +494,8 @@ export default function ProductDetail() {
           a: `Parts come with manufacturer warranty against material and manufacturing defects (typically 6 months to 1 year). In case of transit damage or fitment variance, Setu provides a hassle-free 7-day priority replacement guarantee.`
         },
         {
-          q: 'How do bulk volume pricing and GST invoices work for fleet workshops?',
-          a: `Volume discounts apply automatically starting at 51, 101, and 500+ units. Fleet workshops and commercial transporters receive formal GST tax invoices with statutory HSN classifications, enabling 100% Input Tax Credit (ITC).`
+          q: 'How does single-unit flat-rate pricing and GST invoicing work?',
+          a: `Setu offers transparent flat-rate pricing with zero minimum order quantity — whether you order a single unit or 100, the unit price remains the same. Fleet workshops and commercial transporters receive formal GST tax invoices with statutory HSN classifications, enabling 100% Input Tax Credit (ITC).`
         },
         {
           q: 'What is the warehouse dispatch timeline across India?',
@@ -540,8 +519,8 @@ export default function ProductDetail() {
         a: 'Setu operates a verified technician network covering 400+ cities and transport hubs across India. When you choose depot installation (₹499/vehicle), certified telematics technicians arrive directly at your yard, perform hidden wiring, calibrate ignition/sensors, and verify live platform packets before handoff.'
       },
       {
-        q: 'How do bulk volume discounts and GST invoices work?',
-        a: `Tiered volume pricing applies automatically when ordering 51, 101, or 500+ units. All orders receive a formal GST tax invoice with statutory HSN classifications, enabling 100% Input Tax Credit (ITC) for your company.`
+        q: 'How does single-unit flat-rate pricing and GST invoicing work?',
+        a: `Setu offers transparent flat-rate pricing with zero minimum order quantity — whether you order 1 unit or 100, the unit price remains the same. All orders receive a formal GST tax invoice with statutory HSN classifications, enabling 100% Input Tax Credit (ITC) for your company.`
       },
       {
         q: 'What warranty and replacement guarantee are included?',
@@ -858,15 +837,23 @@ export default function ProductDetail() {
               </div>
             )}
 
-            {/* Bulk Pricing Slab Card - Hardware & Auto Parts Only */}
+            {/* Single Object Pricing Card - Hardware & Auto Parts Only */}
             {!isSolution && (
-              <div className="setu-ui-bulk-card">
-                <div className="setu-ui-bulk-header">
-                  <h3 className="setu-ui-bulk-title">Bulk pricing slab</h3>
+              <div className="setu-ui-single-pricing-card">
+                <div className="setu-ui-single-pricing-header">
+                  <div className="setu-ui-single-pricing-title-group">
+                    <div className="setu-ui-single-pricing-title-row">
+                      <h3 className="setu-ui-single-pricing-title">Single Unit Pricing</h3>
+                      <span className="setu-ui-flat-rate-badge">Flat Rate · No MOQ</span>
+                    </div>
+                    <p className="setu-ui-single-pricing-subtitle">
+                      Buy a single unit or 100, the price per unit remains the same.
+                    </p>
+                  </div>
 
-                  <div className="setu-ui-bulk-qty-wrap">
-                    <div className="setu-ui-bulk-qty-label-box">
-                      <span className="setu-ui-bulk-qty-label">Quantity</span>
+                  <div className="setu-ui-single-pricing-qty-wrap">
+                    <div className="setu-ui-single-pricing-qty-label-box">
+                      <span className="setu-ui-single-pricing-qty-label">Quantity</span>
                       <div
                         className="setu-tooltip-wrap"
                         onMouseEnter={() => setShowQtyTooltip(true)}
@@ -882,7 +869,7 @@ export default function ProductDetail() {
                         </button>
                         {showQtyTooltip && (
                           <div className="setu-tooltip-bubble">
-                            <span>Mini. order quantity is 1 · Type directly or click + / —</span>
+                            <span>Type quantity directly or click + / —</span>
                             <div className="setu-tooltip-arrow" />
                           </div>
                         )}
@@ -927,132 +914,55 @@ export default function ProductDetail() {
                   </div>
                 </div>
 
-                <table className="setu-ui-bulk-table">
-                  <thead>
-                    <tr>
-                      <th className="setu-ui-bulk-th-slab">QUANTITY SLAB</th>
-                      <th className="setu-ui-bulk-th-price">PRICE PER UNIT</th>
-                      <th className="setu-ui-bulk-th-save">YOU SAVE</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr
-                      className={`setu-ui-bulk-row ${currentSlab === '1–50' ? 'setu-ui-slab--active' : ''}`}
-                      onClick={() => setQty(1)}
-                    >
-                      <td>
-                        <div className="setu-ui-slab-cell">
-                          <span className={`setu-ui-slab-radio ${currentSlab === '1–50' ? 'setu-ui-slab-radio--active' : ''}`}>
-                            {currentSlab === '1–50' ? (
-                              <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
-                                <circle cx="8" cy="8" r="7" stroke="#2563EB" strokeWidth="1.8" fill="#FFFFFF"/>
-                                <circle cx="8" cy="8" r="3.5" fill="#2563EB"/>
-                              </svg>
-                            ) : (
-                              <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
-                                <circle cx="8" cy="8" r="7" stroke="#94A3B8" strokeWidth="1.5" fill="#FFFFFF"/>
-                              </svg>
-                            )}
-                          </span>
-                          <span className="setu-ui-slab-name">1–50 units</span>
-                          {currentSlab === '1–50' && <span className="setu-ui-current-pill">Current</span>}
-                        </div>
-                      </td>
-                      <td className="setu-ui-slab-price">₹{slabPrices.slab1.toLocaleString('en-IN')}</td>
-                      <td className="setu-ui-slab-save">—</td>
-                    </tr>
+                <div className="setu-ui-single-pricing-body">
+                  <div className="setu-ui-single-pricing-grid">
+                    <div className="setu-ui-single-pricing-col">
+                      <span className="setu-ui-single-pricing-sublabel">Unit Price</span>
+                      <div className="setu-ui-single-pricing-val">
+                        ₹{unitPrice.toLocaleString('en-IN')}
+                        <span className="setu-ui-single-pricing-unit">/ {consumptionUnit}</span>
+                      </div>
+                    </div>
 
-                    <tr
-                      className={`setu-ui-bulk-row ${currentSlab === '51–100' ? 'setu-ui-slab--active' : ''}`}
-                      onClick={() => setQty(51)}
-                    >
-                      <td>
-                        <div className="setu-ui-slab-cell">
-                          <span className={`setu-ui-slab-radio ${currentSlab === '51–100' ? 'setu-ui-slab-radio--active' : ''}`}>
-                            {currentSlab === '51–100' ? (
-                              <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
-                                <circle cx="8" cy="8" r="7" stroke="#2563EB" strokeWidth="1.8" fill="#FFFFFF"/>
-                                <circle cx="8" cy="8" r="3.5" fill="#2563EB"/>
-                              </svg>
-                            ) : (
-                              <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
-                                <circle cx="8" cy="8" r="7" stroke="#94A3B8" strokeWidth="1.5" fill="#FFFFFF"/>
-                              </svg>
-                            )}
-                          </span>
-                          <span className="setu-ui-slab-name">51–100 units</span>
-                          {currentSlab === '51–100' && <span className="setu-ui-current-pill">Current</span>}
-                        </div>
-                      </td>
-                      <td className="setu-ui-slab-price">₹{slabPrices.slab2.toLocaleString('en-IN')}</td>
-                      <td className="setu-ui-slab-save">
-                        <span className="setu-ui-save-badge">
-                          {Math.round(((slabPrices.slab1 - slabPrices.slab2) / slabPrices.slab1) * 100)}% OFF
-                        </span>
-                      </td>
-                    </tr>
+                    <div className="setu-ui-single-pricing-col">
+                      <span className="setu-ui-single-pricing-sublabel">Selected Quantity</span>
+                      <div className="setu-ui-single-pricing-val">
+                        {qty} <span className="setu-ui-single-pricing-unit">{qty === 1 ? 'Unit' : 'Units'}</span>
+                      </div>
+                    </div>
 
-                    <tr
-                      className={`setu-ui-bulk-row ${currentSlab === '101–500' ? 'setu-ui-slab--active' : ''}`}
-                      onClick={() => setQty(101)}
-                    >
-                      <td>
-                        <div className="setu-ui-slab-cell">
-                          <span className={`setu-ui-slab-radio ${currentSlab === '101–500' ? 'setu-ui-slab-radio--active' : ''}`}>
-                            {currentSlab === '101–500' ? (
-                              <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
-                                <circle cx="8" cy="8" r="7" stroke="#2563EB" strokeWidth="1.8" fill="#FFFFFF"/>
-                                <circle cx="8" cy="8" r="3.5" fill="#2563EB"/>
-                              </svg>
-                            ) : (
-                              <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
-                                <circle cx="8" cy="8" r="7" stroke="#94A3B8" strokeWidth="1.5" fill="#FFFFFF"/>
-                              </svg>
-                            )}
-                          </span>
-                          <span className="setu-ui-slab-name">101–500 units</span>
-                          {currentSlab === '101–500' && <span className="setu-ui-current-pill">Current</span>}
-                        </div>
-                      </td>
-                      <td className="setu-ui-slab-price">₹{slabPrices.slab3.toLocaleString('en-IN')}</td>
-                      <td className="setu-ui-slab-save">
-                        <span className="setu-ui-save-badge">
-                          {Math.round(((slabPrices.slab1 - slabPrices.slab3) / slabPrices.slab1) * 100)}% OFF
-                        </span>
-                      </td>
-                    </tr>
+                    <div className="setu-ui-single-pricing-col setu-ui-single-pricing-col--total">
+                      <span className="setu-ui-single-pricing-sublabel">Total Amount (Excl. taxes)</span>
+                      <div className="setu-ui-single-pricing-val setu-ui-single-pricing-val--total">
+                        ₹{(unitPrice * qty).toLocaleString('en-IN')}
+                      </div>
+                    </div>
+                  </div>
 
-                    <tr
-                      className={`setu-ui-bulk-row ${currentSlab === '500+' ? 'setu-ui-slab--active' : ''}`}
-                      onClick={() => setQty(500)}
-                    >
-                      <td>
-                        <div className="setu-ui-slab-cell">
-                          <span className={`setu-ui-slab-radio ${currentSlab === '500+' ? 'setu-ui-slab-radio--active' : ''}`}>
-                            {currentSlab === '500+' ? (
-                              <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
-                                <circle cx="8" cy="8" r="7" stroke="#2563EB" strokeWidth="1.8" fill="#FFFFFF"/>
-                                <circle cx="8" cy="8" r="3.5" fill="#2563EB"/>
-                              </svg>
-                            ) : (
-                              <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
-                                <circle cx="8" cy="8" r="7" stroke="#94A3B8" strokeWidth="1.5" fill="#FFFFFF"/>
-                              </svg>
-                            )}
-                          </span>
-                          <span className="setu-ui-slab-name">500+ units</span>
-                          {currentSlab === '500+' && <span className="setu-ui-current-pill">Current</span>}
-                        </div>
-                      </td>
-                      <td className="setu-ui-slab-price">₹{slabPrices.slab4.toLocaleString('en-IN')}</td>
-                      <td className="setu-ui-slab-save">
-                        <span className="setu-ui-save-badge">
-                          {Math.round(((slabPrices.slab1 - slabPrices.slab4) / slabPrices.slab1) * 100)}% OFF
-                        </span>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                  <div className="setu-ui-single-pricing-footer">
+                    <div className="setu-ui-single-pricing-chips">
+                      <span className="setu-ui-single-pricing-chips-label">Quick select:</span>
+                      {[1, 5, 10, 25, 50, 100].map((num) => (
+                        <button
+                          key={num}
+                          type="button"
+                          className={`setu-ui-pricing-chip ${qty === num ? 'setu-ui-pricing-chip--active' : ''}`}
+                          onClick={() => setQty(num)}
+                        >
+                          {num}
+                        </button>
+                      ))}
+                    </div>
+
+                    <div className="setu-ui-single-pricing-note">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#059669" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="m9 12 2 2 4-4" />
+                      </svg>
+                      <span>Flat-rate assurance: Buy a single unit or 100, the unit price remains ₹{unitPrice.toLocaleString('en-IN')}. Zero minimum order quantity.</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             )}
 
@@ -1273,10 +1183,8 @@ export default function ProductDetail() {
                         <td>Exclusive of GST and freight charges</td>
                       </tr>
                       <tr>
-                        <th>Bulk Pricing Slabs</th>
-                        <td>
-                          1–50: ₹{slabPrices.slab1.toLocaleString('en-IN')} · 51–100: ₹{slabPrices.slab2.toLocaleString('en-IN')} · 101–500: ₹{slabPrices.slab3.toLocaleString('en-IN')} · 500+: ₹{slabPrices.slab4.toLocaleString('en-IN')}
-                        </td>
+                        <th>Pricing Model</th>
+                        <td>Flat rate · ₹{unitPrice.toLocaleString('en-IN')} / {consumptionUnit} (Same price for 1 or 100+ · No MOQ)</td>
                       </tr>
                     </>
                   ) : (
@@ -1338,10 +1246,8 @@ export default function ProductDetail() {
                         <td>Exclusive of GST and freight</td>
                       </tr>
                       <tr>
-                        <th>Bulk pricing slabs</th>
-                        <td>
-                          1–50: ₹{slabPrices.slab1.toLocaleString('en-IN')} · 51–100: ₹{slabPrices.slab2.toLocaleString('en-IN')} · 101–500: ₹{slabPrices.slab3.toLocaleString('en-IN')} · 500+: ₹{slabPrices.slab4.toLocaleString('en-IN')}
-                        </td>
+                        <th>Pricing model</th>
+                        <td>Flat rate · ₹{unitPrice.toLocaleString('en-IN')} / {consumptionUnit} (Same price for 1 or 100+ · No MOQ)</td>
                       </tr>
                     </>
                   )}
@@ -1599,6 +1505,51 @@ export default function ProductDetail() {
 
                 <div className="setu-plan-card__divider" />
 
+                {/* Quantity Selector in Buy Box */}
+                {!isSolution && (
+                  <div className="setu-plan-card__qty-row">
+                    <div className="setu-plan-card__qty-label-wrap">
+                      <span className="setu-plan-card__qty-label">Quantity</span>
+                      <span className="setu-plan-card__qty-sub">Flat rate · No MOQ</span>
+                    </div>
+                    <div className="setu-bulk-counter setu-bulk-counter--compact">
+                      <button
+                        type="button"
+                        className="setu-bulk-counter__btn setu-bulk-counter__btn--minus"
+                        onClick={() => setQty(Math.max(1, qty - 1))}
+                        aria-label="Decrease quantity"
+                      >
+                        —
+                      </button>
+                      <input
+                        type="number"
+                        min="1"
+                        max="99999"
+                        value={qty}
+                        onChange={(e) => {
+                          const val = parseInt(e.target.value, 10);
+                          if (isNaN(val)) {
+                            setQty(1);
+                          } else {
+                            setQty(Math.max(1, Math.min(99999, val)));
+                          }
+                        }}
+                        className="setu-bulk-counter__input"
+                        aria-label="Order Quantity"
+                        title="Type any quantity directly"
+                      />
+                      <button
+                        type="button"
+                        className="setu-bulk-counter__btn setu-bulk-counter__btn--plus"
+                        onClick={() => setQty(qty + 1)}
+                        aria-label="Increase quantity"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+                )}
+
                 {/* Final Quantity & Order Total Bar (Directly Above Buy Now Buttons) */}
                 <div className="setu-plan-card__final-summary-box">
                   <div className="setu-plan-card__final-summary-row">
@@ -1715,7 +1666,7 @@ export default function ProductDetail() {
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="20 6 9 17 4 12" />
                   </svg>
-                  <span>500</span>
+                  <span>No Limit (Flat Rate)</span>
                 </div>
               </div>
             </div>

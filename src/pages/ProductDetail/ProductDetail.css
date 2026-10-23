@@ -560,50 +560,82 @@
   margin: 4px 0 0;
 }
 
-/* Bulk Pricing Slab Card - Exact Match to Screenshot */
-.setu-ui-bulk-card {
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
+/* Single Unit Flat-Rate Pricing Card */
+.setu-ui-single-pricing-card {
+  border: 1px solid #E2E8F0;
+  border-radius: 12px;
   background: #ffffff;
-  padding: 16px 20px;
-  margin-top: 16px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  padding: 20px 22px;
+  margin-top: 18px;
+  margin-bottom: 22px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
 }
 
-.setu-ui-bulk-header {
+.setu-ui-single-pricing-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 16px;
-  padding: 0;
-  background: transparent;
-  border-bottom: none;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
-.setu-ui-bulk-title {
+.setu-ui-single-pricing-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.setu-ui-single-pricing-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.setu-ui-single-pricing-title {
   font-size: 16px;
   font-weight: 700;
-  color: #0f172a;
+  color: #0F172A;
   margin: 0;
   letter-spacing: -0.2px;
 }
 
-.setu-ui-bulk-qty-wrap {
+.setu-ui-flat-rate-badge {
+  display: inline-flex;
+  align-items: center;
+  background: #EFF6FF;
+  color: #1D4ED8;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 20px;
+  border: 1px solid #BFDBFE;
+  letter-spacing: 0.3px;
+}
+
+.setu-ui-single-pricing-subtitle {
+  font-size: 13px;
+  color: #64748B;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.setu-ui-single-pricing-qty-wrap {
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
-.setu-ui-bulk-qty-label-box {
+.setu-ui-single-pricing-qty-label-box {
   display: flex;
   align-items: center;
   gap: 5px;
 }
 
-.setu-ui-bulk-qty-label {
+.setu-ui-single-pricing-qty-label {
   font-size: 13px;
-  font-weight: 500;
-  color: #0f172a;
+  font-weight: 600;
+  color: #0F172A;
 }
 
 .setu-bulk-counter {
@@ -672,132 +704,175 @@
   font-weight: 500;
 }
 
-.setu-ui-bulk-table {
-  width: 100%;
-  border-collapse: collapse;
-  table-layout: fixed;
-  font-size: 13px;
+.setu-ui-single-pricing-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-.setu-ui-bulk-table th {
-  text-align: left;
-  color: #64748b;
-  font-weight: 600;
-  padding: 6px 12px 10px;
-  border-bottom: none;
+.setu-ui-single-pricing-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.35fr;
+  gap: 12px;
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 10px;
+  padding: 14px 18px;
+}
+
+@media (max-width: 640px) {
+  .setu-ui-single-pricing-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+
+.setu-ui-single-pricing-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.setu-ui-single-pricing-col--total {
+  border-left: 1px solid #E2E8F0;
+  padding-left: 16px;
+}
+
+@media (max-width: 640px) {
+  .setu-ui-single-pricing-col--total {
+    border-left: none;
+    border-top: 1px solid #E2E8F0;
+    padding-left: 0;
+    padding-top: 10px;
+  }
+}
+
+.setu-ui-single-pricing-sublabel {
   font-size: 11px;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  background: transparent;
+  color: #64748B;
 }
 
-.setu-ui-bulk-th-slab {
-  width: 44%;
+.setu-ui-single-pricing-val {
+  font-size: 16px;
+  font-weight: 700;
+  color: #0F172A;
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
 }
 
-.setu-ui-bulk-th-price {
-  width: 32%;
+.setu-ui-single-pricing-val--total {
+  font-size: 20px;
+  font-weight: 800;
+  color: #2563EB;
 }
 
-.setu-ui-bulk-th-save {
-  width: 24%;
+.setu-ui-single-pricing-unit {
+  font-size: 12px;
+  font-weight: 500;
+  color: #64748B;
 }
 
-.setu-ui-bulk-row {
-  cursor: pointer;
-  transition: background-color 0.15s ease;
-  border-bottom: 1px solid #f1f5f9;
+.setu-ui-single-pricing-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.setu-ui-bulk-row:hover {
-  background: #f8fafc;
-}
-
-.setu-ui-bulk-row td {
-  padding: 12px 12px;
-  vertical-align: middle;
-  color: #1e293b;
-}
-
-.setu-ui-bulk-row:last-child {
-  border-bottom: none;
-}
-
-.setu-ui-slab--active {
-  background: #f0f7ff !important;
-  border-radius: 6px;
-}
-
-.setu-ui-slab--active td:first-child {
-  border-top-left-radius: 6px;
-  border-bottom-left-radius: 6px;
-}
-
-.setu-ui-slab--active td:last-child {
-  border-top-right-radius: 6px;
-  border-bottom-right-radius: 6px;
-}
-
-.setu-ui-slab-cell {
-  display: inline-flex;
+.setu-ui-single-pricing-chips {
+  display: flex;
   align-items: center;
   gap: 8px;
+  flex-wrap: wrap;
 }
 
-.setu-ui-slab-radio {
+.setu-ui-single-pricing-chips-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #475569;
+  margin-right: 4px;
+}
+
+.setu-ui-pricing-chip {
+  min-width: 38px;
+  height: 28px;
+  padding: 0 10px;
+  border-radius: 6px;
+  border: 1px solid #CBD5E1;
+  background: #FFFFFF;
+  color: #334155;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
 }
 
-.setu-ui-slab-name {
-  font-size: 13px;
+.setu-ui-pricing-chip:hover {
+  border-color: #2563EB;
+  color: #2563EB;
+  background: #F8FAFC;
+}
+
+.setu-ui-pricing-chip--active {
+  background: #2563EB;
+  border-color: #2563EB;
+  color: #FFFFFF;
+}
+
+.setu-ui-pricing-chip--active:hover {
+  background: #1D4ED8;
+  border-color: #1D4ED8;
+  color: #FFFFFF;
+}
+
+.setu-ui-single-pricing-note {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
   font-weight: 500;
-  color: #1e293b;
+  color: #059669;
+  background: #ECFDF5;
+  border: 1px solid #A7F3D0;
+  border-radius: 8px;
+  padding: 8px 12px;
+  line-height: 1.4;
 }
 
-.setu-ui-slab--active .setu-ui-slab-name {
-  font-weight: 600;
+/* Buy Box Quantity Row */
+.setu-plan-card__qty-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0 14px;
 }
 
-.setu-ui-current-pill {
-  background: #2563eb;
-  color: #ffffff;
-  font-size: 11px;
-  font-weight: 600;
-  padding: 2px 7px;
-  border-radius: 4px;
-  margin-left: 8px;
-  vertical-align: middle;
-  display: inline-block;
+.setu-plan-card__qty-label-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
-.setu-ui-slab-price {
-  font-size: 14px;
-  font-weight: 700;
-  color: #0f172a;
-  text-align: left;
-}
-
-.setu-ui-slab--active .setu-ui-slab-price {
-  color: #2563eb;
-}
-
-.setu-ui-slab-save {
-  text-align: left;
+.setu-plan-card__qty-label {
   font-size: 13px;
-  color: #64748b;
+  font-weight: 700;
+  color: #0F172A;
 }
 
-.setu-ui-save-badge {
-  background: #dcfce7;
-  color: #15803d;
+.setu-plan-card__qty-sub {
   font-size: 11px;
-  font-weight: 700;
-  padding: 2px 8px;
-  border-radius: 4px;
-  display: inline-block;
+  font-weight: 500;
+  color: #059669;
+}
+
+.setu-bulk-counter--compact {
+  height: 32px;
 }
 
 
