@@ -293,12 +293,15 @@ export default function ProductDetail() {
     ? 'Enterprise Cloud License'
     : (product.consumptionUnit || (product.unit ? `Per ${product.unit}` : 'Per Device'));
 
-  // Single object pricing: price per unit is constant regardless of quantity (Buy 1 or 100 the price remains the same)
-  const unitPrice = useMemo(() => {
-    return basePrice;
+  // Bulk slab pricing calculation based on base price
+  const slabPrices = useMemo(() => {
+    return {
+      slab1: basePrice,
+      slab2: Math.round(basePrice * 0.9583),
+      slab3: Math.round(basePrice * 0.9167),
+      slab4: Math.round(basePrice * 0.875)
+    };
   }, [basePrice]);
-
-  const displayPriceText = isSolution ? 'Demo on Request' : `₹${unitPrice.toLocaleString('en-IN')}`;
 
   // Gallery images (main + 4 thumbnails = 5 preview images total)
   const [activeThumb, setActiveThumb] = useState(0);
@@ -316,6 +319,24 @@ export default function ProductDetail() {
 
   // Interactive states
   const [qty, setQty] = useState(1);
+
+  // Current active slab based on quantity
+  const currentSlab = useMemo(() => {
+    if (qty >= 500) return '500+';
+    if (qty >= 101) return '101–500';
+    if (qty >= 51) return '51–100';
+    return '1–50';
+  }, [qty]);
+
+  // Active unit price adapts dynamically based on quantity slab
+  const unitPrice = useMemo(() => {
+    if (qty >= 500) return slabPrices.slab4;
+    if (qty >= 101) return slabPrices.slab3;
+    if (qty >= 51) return slabPrices.slab2;
+    return slabPrices.slab1;
+  }, [qty, slabPrices]);
+
+  const displayPriceText = isSolution ? 'Demo on Request' : `₹${unitPrice.toLocaleString('en-IN')}`;
   const [activeTab, setActiveTab] = useState('description');
   const [showInfoModal, setShowInfoModal] = useState(false);
   const [showTermsModal, setShowTermsModal] = useState(false);
@@ -837,21 +858,84 @@ export default function ProductDetail() {
               </div>
             )}
 
-            {/* Single Object Pricing Card - Hardware & Auto Parts Only */}
+            {/* Pricing & Volume Slabs Card - Hardware & Auto Parts Only */}
             {!isSolution && (
               <div className="setu-ui-single-pricing-card">
                 <div className="setu-ui-single-pricing-row">
                   <div className="setu-ui-single-pricing-left">
-                    <h3 className="setu-ui-single-pricing-title">Single Unit Pricing</h3>
+                    <h3 className="setu-ui-single-pricing-title">Pricing &amp; Volume Slabs</h3>
                     <p className="setu-ui-single-pricing-sub">
-                      Exclusive of GST and shipping charges
+                      Single unit rate with volume slab pricing (Excl. taxes &amp; shipping)
                     </p>
                   </div>
                   <div className="setu-ui-single-pricing-right">
-                    <span className="setu-ui-single-pricing-sublabel">Unit Price</span>
+                    <span className="setu-ui-single-pricing-sublabel">Single Unit Price</span>
                     <div className="setu-ui-single-pricing-val">
-                      ₹{unitPrice.toLocaleString('en-IN')}
+                      ₹{slabPrices.slab1.toLocaleString('en-IN')}
                       <span className="setu-ui-single-pricing-unit">/ {consumptionUnit}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Volume Slab Rates */}
+                <div className="setu-ui-slab-tiers-wrap">
+                  <div className="setu-ui-slab-tiers-header">
+                    <span className="setu-ui-slab-tiers-label">Volume Slab Rates</span>
+                    <span className="setu-ui-slab-tiers-hint">Automatic slab discounts based on order quantity</span>
+                  </div>
+                  <div className="setu-ui-slab-tiers-grid">
+                    <div
+                      className={`setu-ui-slab-tier ${currentSlab === '1–50' ? 'setu-ui-slab-tier--active' : ''}`}
+                      onClick={() => setQty(1)}
+                      role="button"
+                      tabIndex={0}
+                      title="Click to set quantity to 1"
+                    >
+                      <span className="setu-ui-slab-tier-range">1–50 units</span>
+                      <span className="setu-ui-slab-tier-price">₹{slabPrices.slab1.toLocaleString('en-IN')}</span>
+                      <span className="setu-ui-slab-tier-badge setu-ui-slab-tier-badge--base">Base rate</span>
+                    </div>
+
+                    <div
+                      className={`setu-ui-slab-tier ${currentSlab === '51–100' ? 'setu-ui-slab-tier--active' : ''}`}
+                      onClick={() => setQty(51)}
+                      role="button"
+                      tabIndex={0}
+                      title="Click to set quantity to 51"
+                    >
+                      <span className="setu-ui-slab-tier-range">51–100 units</span>
+                      <span className="setu-ui-slab-tier-price">₹{slabPrices.slab2.toLocaleString('en-IN')}</span>
+                      <span className="setu-ui-slab-tier-badge">
+                        {Math.round(((slabPrices.slab1 - slabPrices.slab2) / slabPrices.slab1) * 100)}% OFF
+                      </span>
+                    </div>
+
+                    <div
+                      className={`setu-ui-slab-tier ${currentSlab === '101–500' ? 'setu-ui-slab-tier--active' : ''}`}
+                      onClick={() => setQty(101)}
+                      role="button"
+                      tabIndex={0}
+                      title="Click to set quantity to 101"
+                    >
+                      <span className="setu-ui-slab-tier-range">101–500 units</span>
+                      <span className="setu-ui-slab-tier-price">₹{slabPrices.slab3.toLocaleString('en-IN')}</span>
+                      <span className="setu-ui-slab-tier-badge">
+                        {Math.round(((slabPrices.slab1 - slabPrices.slab3) / slabPrices.slab1) * 100)}% OFF
+                      </span>
+                    </div>
+
+                    <div
+                      className={`setu-ui-slab-tier ${currentSlab === '500+' ? 'setu-ui-slab-tier--active' : ''}`}
+                      onClick={() => setQty(500)}
+                      role="button"
+                      tabIndex={0}
+                      title="Click to set quantity to 500"
+                    >
+                      <span className="setu-ui-slab-tier-range">500+ units</span>
+                      <span className="setu-ui-slab-tier-price">₹{slabPrices.slab4.toLocaleString('en-IN')}</span>
+                      <span className="setu-ui-slab-tier-badge">
+                        {Math.round(((slabPrices.slab1 - slabPrices.slab4) / slabPrices.slab1) * 100)}% OFF
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -934,7 +1018,7 @@ export default function ProductDetail() {
                     <strong>Fitment Guarantee:</strong> Verified 100% direct fitment for listed vehicle models
                   </li>
                   <li>
-                    <strong>Fleet &amp; Garage Orders:</strong> Transparent flat-rate pricing. Statutory GST tax invoice with full ITC claim
+                    <strong>Fleet &amp; Garage Orders:</strong> Single unit &amp; volume slab pricing with automatic bulk discounts. Statutory GST tax invoice with full ITC claim
                   </li>
                 </ul>
               ) : (
@@ -949,7 +1033,7 @@ export default function ProductDetail() {
                     <strong>Platform:</strong> Pre-tested with Trakzee. Goes live the day it is installed
                   </li>
                   <li>
-                    <strong>Buying for a fleet:</strong> Transparent flat-rate pricing. GST invoice in your company name
+                    <strong>Buying for a fleet:</strong> Single unit &amp; volume slab pricing with automatic bulk discounts. GST invoice in your company name
                   </li>
                 </ul>
               )}
@@ -1076,7 +1160,7 @@ export default function ProductDetail() {
                       </tr>
                       <tr>
                         <th>Pricing Model</th>
-                        <td>Flat rate · ₹{unitPrice.toLocaleString('en-IN')} / {consumptionUnit} (Same price for 1 or 100+ · No MOQ)</td>
+                        <td>Single Unit: ₹{slabPrices.slab1.toLocaleString('en-IN')} · Volume Slabs: 51–100: ₹{slabPrices.slab2.toLocaleString('en-IN')}, 101–500: ₹{slabPrices.slab3.toLocaleString('en-IN')}, 500+: ₹{slabPrices.slab4.toLocaleString('en-IN')}</td>
                       </tr>
                     </>
                   ) : (
@@ -1139,7 +1223,7 @@ export default function ProductDetail() {
                       </tr>
                       <tr>
                         <th>Pricing model</th>
-                        <td>Flat rate · ₹{unitPrice.toLocaleString('en-IN')} / {consumptionUnit} (Same price for 1 or 100+ · No MOQ)</td>
+                        <td>Single Unit: ₹{slabPrices.slab1.toLocaleString('en-IN')} · Volume Slabs: 51–100: ₹{slabPrices.slab2.toLocaleString('en-IN')}, 101–500: ₹{slabPrices.slab3.toLocaleString('en-IN')}, 500+: ₹{slabPrices.slab4.toLocaleString('en-IN')}</td>
                       </tr>
                     </>
                   )}
@@ -1445,6 +1529,11 @@ export default function ProductDetail() {
                     <span className="setu-plan-card__final-summary-label">Final Quantity:</span>
                     <span className="setu-plan-card__final-summary-qty">
                       <strong>{qty}</strong> {qty === 1 ? 'Unit' : 'Units'}
+                      {currentSlab !== '1–50' && (
+                        <span className="setu-plan-card__slab-applied-pill">
+                          Slab {currentSlab}
+                        </span>
+                      )}
                     </span>
                   </div>
                   <div className="setu-plan-card__final-summary-row setu-plan-card__final-summary-row--total">

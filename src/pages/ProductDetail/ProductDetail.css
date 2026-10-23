@@ -636,6 +636,119 @@
   color: #64748B;
 }
 
+/* Volume Slab Pricing Tiers Grid */
+.setu-ui-slab-tiers-wrap {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid #F1F5F9;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.setu-ui-slab-tiers-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.setu-ui-slab-tiers-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #334155;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.setu-ui-slab-tiers-hint {
+  font-size: 11px;
+  color: #64748B;
+}
+
+.setu-ui-slab-tiers-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+@media (max-width: 640px) {
+  .setu-ui-slab-tiers-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.setu-ui-slab-tier {
+  background: #F8FAFC;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 8px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.setu-ui-slab-tier:hover {
+  border-color: #93C5FD;
+  background: #F0F7FF;
+}
+
+.setu-ui-slab-tier--active {
+  border-color: #2563EB;
+  background: #EFF6FF;
+  box-shadow: 0 0 0 1px #2563EB;
+}
+
+.setu-ui-slab-tier-range {
+  font-size: 11px;
+  font-weight: 600;
+  color: #475569;
+}
+
+.setu-ui-slab-tier--active .setu-ui-slab-tier-range {
+  color: #1D4ED8;
+  font-weight: 700;
+}
+
+.setu-ui-slab-tier-price {
+  font-size: 15px;
+  font-weight: 800;
+  color: #0F172A;
+}
+
+.setu-ui-slab-tier--active .setu-ui-slab-tier-price {
+  color: #1E40AF;
+}
+
+.setu-ui-slab-tier-badge {
+  font-size: 10px;
+  font-weight: 700;
+  color: #15803D;
+  background: #DCFCE7;
+  padding: 1px 6px;
+  border-radius: 4px;
+  width: fit-content;
+  margin-top: 2px;
+}
+
+.setu-ui-slab-tier-badge--base {
+  background: #E2E8F0;
+  color: #475569;
+}
+
+.setu-plan-card__slab-applied-pill {
+  background: #DBEAFE;
+  color: #1D4ED8;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
 .setu-bulk-counter {
   display: inline-flex;
   align-items: stretch;

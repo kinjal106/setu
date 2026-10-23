@@ -363,7 +363,18 @@ function BrandFilter({ selected, onChange }) {
 
 /* ── Helper to retrieve volume bulk pricing tier text ── */
 function getBulkPricingText(product) {
-  return 'Flat rate · Same price for 1 or 100+';
+  if (product?.bulkTierText) {
+    if (product.bulkTierText.includes('•')) {
+      return product.bulkTierText.split('•').pop().trim();
+    }
+    return product.bulkTierText.trim();
+  }
+  const basePrice = Number(product?.price || product?.pricingPlans?.[0]?.price);
+  if (basePrice && !isNaN(basePrice)) {
+    const bulk500 = Math.round(basePrice * 0.875);
+    return `₹${bulk500.toLocaleString('en-IN')} each on 500+`;
+  }
+  return null;
 }
 
 /* ── Product Card Component matching media_1791179790288.png ── */
