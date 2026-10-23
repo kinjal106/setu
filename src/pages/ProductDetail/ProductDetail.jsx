@@ -938,30 +938,6 @@ export default function ProductDetail() {
                       </div>
                     </div>
                   </div>
-
-                  <div className="setu-ui-single-pricing-footer">
-                    <div className="setu-ui-single-pricing-chips">
-                      <span className="setu-ui-single-pricing-chips-label">Quick select:</span>
-                      {[1, 5, 10, 25, 50, 100].map((num) => (
-                        <button
-                          key={num}
-                          type="button"
-                          className={`setu-ui-pricing-chip ${qty === num ? 'setu-ui-pricing-chip--active' : ''}`}
-                          onClick={() => setQty(num)}
-                        >
-                          {num}
-                        </button>
-                      ))}
-                    </div>
-
-                    <div className="setu-ui-single-pricing-note">
-                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#059669" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                        <circle cx="12" cy="12" r="10" />
-                        <path d="m9 12 2 2 4-4" />
-                      </svg>
-                      <span>Flat-rate assurance: Buy a single unit or 100, the unit price remains ₹{unitPrice.toLocaleString('en-IN')}. Zero minimum order quantity.</span>
-                    </div>
-                  </div>
                 </div>
               </div>
             )}
