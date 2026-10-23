@@ -840,94 +840,18 @@ export default function ProductDetail() {
             {/* Single Object Pricing Card - Hardware & Auto Parts Only */}
             {!isSolution && (
               <div className="setu-ui-single-pricing-card">
-                <div className="setu-ui-single-pricing-header">
-                  <h3 className="setu-ui-single-pricing-title">Single Unit Pricing</h3>
-
-                  <div className="setu-ui-single-pricing-qty-wrap">
-                    <div className="setu-ui-single-pricing-qty-label-box">
-                      <span className="setu-ui-single-pricing-qty-label">Quantity</span>
-                      <div
-                        className="setu-tooltip-wrap"
-                        onMouseEnter={() => setShowQtyTooltip(true)}
-                        onMouseLeave={() => setShowQtyTooltip(false)}
-                      >
-                        <button
-                          type="button"
-                          className="setu-plan-card__qty-info-btn"
-                          onClick={() => setShowQtyTooltip(!showQtyTooltip)}
-                          aria-label="Quantity info"
-                        >
-                          ⓘ
-                        </button>
-                        {showQtyTooltip && (
-                          <div className="setu-tooltip-bubble">
-                            <span>Type quantity directly or click + / —</span>
-                            <div className="setu-tooltip-arrow" />
-                          </div>
-                        )}
-                      </div>
-                    </div>
-
-                    <div className="setu-bulk-counter">
-                      <button
-                        type="button"
-                        className="setu-bulk-counter__btn setu-bulk-counter__btn--minus"
-                        onClick={() => setQty(Math.max(1, qty - 1))}
-                        aria-label="Decrease quantity"
-                      >
-                        —
-                      </button>
-                      <input
-                        type="number"
-                        min="1"
-                        max="99999"
-                        value={qty}
-                        onChange={(e) => {
-                          const val = parseInt(e.target.value, 10);
-                          if (isNaN(val)) {
-                            setQty(1);
-                          } else {
-                            setQty(Math.max(1, Math.min(99999, val)));
-                          }
-                        }}
-                        className="setu-bulk-counter__input"
-                        aria-label="Order Quantity"
-                        title="Type any quantity directly"
-                      />
-                      <button
-                        type="button"
-                        className="setu-bulk-counter__btn setu-bulk-counter__btn--plus"
-                        onClick={() => setQty(qty + 1)}
-                        aria-label="Increase quantity"
-                      >
-                        +
-                      </button>
-                    </div>
+                <div className="setu-ui-single-pricing-row">
+                  <div className="setu-ui-single-pricing-left">
+                    <h3 className="setu-ui-single-pricing-title">Single Unit Pricing</h3>
+                    <p className="setu-ui-single-pricing-sub">
+                      Exclusive of GST and shipping charges
+                    </p>
                   </div>
-                </div>
-
-                <div className="setu-ui-single-pricing-body">
-                  <div className="setu-ui-single-pricing-grid">
-                    <div className="setu-ui-single-pricing-col">
-                      <span className="setu-ui-single-pricing-sublabel">Unit Price</span>
-                      <div className="setu-ui-single-pricing-val">
-                        ₹{unitPrice.toLocaleString('en-IN')}
-                        <span className="setu-ui-single-pricing-unit">/ {consumptionUnit}</span>
-                      </div>
-                    </div>
-
-                    <div className="setu-ui-single-pricing-col">
-                      <span className="setu-ui-single-pricing-sublabel">Selected Quantity</span>
-                      <div className="setu-ui-single-pricing-val">
-                        {qty} <span className="setu-ui-single-pricing-unit">{qty === 1 ? 'Unit' : 'Units'}</span>
-                      </div>
-                    </div>
-
-                    <div className="setu-ui-single-pricing-col setu-ui-single-pricing-col--total">
-                      <span className="setu-ui-single-pricing-sublabel">Total Amount (Excl. taxes)</span>
-                      <div className="setu-ui-single-pricing-val setu-ui-single-pricing-val--total">
-                        ₹{(unitPrice * qty).toLocaleString('en-IN')}
-                      </div>
+                  <div className="setu-ui-single-pricing-right">
+                    <span className="setu-ui-single-pricing-sublabel">Unit Price</span>
+                    <div className="setu-ui-single-pricing-val">
+                      ₹{unitPrice.toLocaleString('en-IN')}
+                      <span className="setu-ui-single-pricing-unit">/ {consumptionUnit}</span>
                     </div>
                   </div>
                 </div>
@@ -1010,7 +934,7 @@ export default function ProductDetail() {
                     <strong>Fitment Guarantee:</strong> Verified 100% direct fitment for listed vehicle models
                   </li>
                   <li>
-                    <strong>Fleet &amp; Garage Orders:</strong> Volume discounts apply at 51, 101, and 500+ units. Statutory GST tax invoice with full ITC claim
+                    <strong>Fleet &amp; Garage Orders:</strong> Transparent flat-rate pricing. Statutory GST tax invoice with full ITC claim
                   </li>
                 </ul>
               ) : (
@@ -1025,7 +949,7 @@ export default function ProductDetail() {
                     <strong>Platform:</strong> Pre-tested with Trakzee. Goes live the day it is installed
                   </li>
                   <li>
-                    <strong>Buying for a fleet:</strong> Price drops at 51, 101 and 501 units. GST invoice in your company name
+                    <strong>Buying for a fleet:</strong> Transparent flat-rate pricing. GST invoice in your company name
                   </li>
                 </ul>
               )}

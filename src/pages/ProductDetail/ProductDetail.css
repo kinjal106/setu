@@ -563,33 +563,26 @@
 /* Single Unit Flat-Rate Pricing Card */
 .setu-ui-single-pricing-card {
   border: 1px solid #E2E8F0;
-  border-radius: 12px;
+  border-radius: 10px;
   background: #ffffff;
-  padding: 20px 22px;
-  margin-top: 18px;
-  margin-bottom: 22px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+  padding: 16px 20px;
+  margin-top: 16px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
 }
 
-.setu-ui-single-pricing-header {
+.setu-ui-single-pricing-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
   gap: 16px;
   flex-wrap: wrap;
 }
 
-.setu-ui-single-pricing-title-group {
+.setu-ui-single-pricing-left {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-}
-
-.setu-ui-single-pricing-title-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  gap: 3px;
 }
 
 .setu-ui-single-pricing-title {
@@ -600,42 +593,47 @@
   letter-spacing: -0.2px;
 }
 
-.setu-ui-flat-rate-badge {
-  display: inline-flex;
-  align-items: center;
-  background: #EFF6FF;
-  color: #1D4ED8;
-  font-size: 11px;
-  font-weight: 700;
-  padding: 3px 9px;
-  border-radius: 20px;
-  border: 1px solid #BFDBFE;
-  letter-spacing: 0.3px;
-}
-
-.setu-ui-single-pricing-subtitle {
+.setu-ui-single-pricing-sub {
   font-size: 13px;
   color: #64748B;
   margin: 0;
   line-height: 1.4;
 }
 
-.setu-ui-single-pricing-qty-wrap {
+.setu-ui-single-pricing-right {
   display: flex;
-  align-items: center;
-  gap: 12px;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
 }
 
-.setu-ui-single-pricing-qty-label-box {
-  display: flex;
-  align-items: center;
-  gap: 5px;
+@media (max-width: 640px) {
+  .setu-ui-single-pricing-right {
+    align-items: flex-start;
+  }
 }
 
-.setu-ui-single-pricing-qty-label {
-  font-size: 13px;
+.setu-ui-single-pricing-sublabel {
+  font-size: 11px;
   font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #64748B;
+}
+
+.setu-ui-single-pricing-val {
+  font-size: 20px;
+  font-weight: 800;
   color: #0F172A;
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.setu-ui-single-pricing-unit {
+  font-size: 13px;
+  font-weight: 500;
+  color: #64748B;
 }
 
 .setu-bulk-counter {
@@ -702,78 +700,6 @@
   border-left: 1px solid #e2e8f0;
   font-size: 15px;
   font-weight: 500;
-}
-
-.setu-ui-single-pricing-body {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.setu-ui-single-pricing-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1.35fr;
-  gap: 12px;
-  background: #F8FAFC;
-  border: 1px solid #E2E8F0;
-  border-radius: 10px;
-  padding: 14px 18px;
-}
-
-@media (max-width: 640px) {
-  .setu-ui-single-pricing-grid {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-}
-
-.setu-ui-single-pricing-col {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.setu-ui-single-pricing-col--total {
-  border-left: 1px solid #E2E8F0;
-  padding-left: 16px;
-}
-
-@media (max-width: 640px) {
-  .setu-ui-single-pricing-col--total {
-    border-left: none;
-    border-top: 1px solid #E2E8F0;
-    padding-left: 0;
-    padding-top: 10px;
-  }
-}
-
-.setu-ui-single-pricing-sublabel {
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: #64748B;
-}
-
-.setu-ui-single-pricing-val {
-  font-size: 16px;
-  font-weight: 700;
-  color: #0F172A;
-  display: flex;
-  align-items: baseline;
-  gap: 4px;
-}
-
-.setu-ui-single-pricing-val--total {
-  font-size: 20px;
-  font-weight: 800;
-  color: #2563EB;
-}
-
-.setu-ui-single-pricing-unit {
-  font-size: 12px;
-  font-weight: 500;
-  color: #64748B;
 }
 
 /* Buy Box Quantity Row */
