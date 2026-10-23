@@ -841,15 +841,7 @@ export default function ProductDetail() {
             {!isSolution && (
               <div className="setu-ui-single-pricing-card">
                 <div className="setu-ui-single-pricing-header">
-                  <div className="setu-ui-single-pricing-title-group">
-                    <div className="setu-ui-single-pricing-title-row">
-                      <h3 className="setu-ui-single-pricing-title">Single Unit Pricing</h3>
-                      <span className="setu-ui-flat-rate-badge">Flat Rate · No MOQ</span>
-                    </div>
-                    <p className="setu-ui-single-pricing-subtitle">
-                      Buy a single unit or 100, the price per unit remains the same.
-                    </p>
-                  </div>
+                  <h3 className="setu-ui-single-pricing-title">Single Unit Pricing</h3>
 
                   <div className="setu-ui-single-pricing-qty-wrap">
                     <div className="setu-ui-single-pricing-qty-label-box">
@@ -1484,10 +1476,7 @@ export default function ProductDetail() {
                 {/* Quantity Selector in Buy Box */}
                 {!isSolution && (
                   <div className="setu-plan-card__qty-row">
-                    <div className="setu-plan-card__qty-label-wrap">
-                      <span className="setu-plan-card__qty-label">Quantity</span>
-                      <span className="setu-plan-card__qty-sub">Flat rate · No MOQ</span>
-                    </div>
+                    <span className="setu-plan-card__qty-label">Quantity</span>
                     <div className="setu-bulk-counter setu-bulk-counter--compact">
                       <button
                         type="button"
