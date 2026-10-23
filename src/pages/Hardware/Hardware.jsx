@@ -363,6 +363,10 @@ function BrandFilter({ selected, onChange }) {
 
 /* ── Helper to retrieve volume bulk pricing tier text ── */
 function getBulkPricingText(product) {
+  // Single pricing products do not have bulk slab discount tiers
+  if (product?.pricingType === 'single') {
+    return null;
+  }
   if (product?.bulkTierText) {
     if (product.bulkTierText.includes('•')) {
       return product.bulkTierText.split('•').pop().trim();
