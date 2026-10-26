@@ -2096,6 +2096,13 @@
   border: 1px solid #E2E8F0;
 }
 
+.featured-product-card__badge--recommended {
+  background: #EFF6FF;
+  color: #1D4ED8;
+  border: 1px solid #DBEAFE;
+  font-weight: 600;
+}
+
 .featured-product-card__badge--new {
   background: #10B981;
   color: #FFFFFF;

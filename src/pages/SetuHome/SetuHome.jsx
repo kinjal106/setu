@@ -1354,7 +1354,7 @@ const FEATURED_PRODUCTS = [
     slug: 'eco5-pro',
     name: 'Eco5 Pro 4G OBD Tracker',
     brand: 'Eco5 Series',
-    badge: 'Sponsored',
+    badge: 'Recommended',
     image: '/images/hardware/eco5-lite.svg',
     price: 2450,
     bulkTierText: '₹2,140 each on 500+'
@@ -1364,7 +1364,7 @@ const FEATURED_PRODUCTS = [
     slug: 'titan-t4-ai-4g',
     name: 'Mercetech Titan T4 Dash Camera',
     brand: 'Mercetech',
-    badge: 'Sponsored',
+    badge: 'Recommended',
     image: '/images/hardware/titan-t4.svg',
     price: 12500,
     bulkTierText: '₹10,930 each on 500+'
@@ -1374,7 +1374,7 @@ const FEATURED_PRODUCTS = [
     slug: 't5324-mdvr',
     name: 'T98 SD Card MDVR',
     brand: 'T98 Series',
-    badge: 'Sponsored',
+    badge: 'Recommended',
     image: '/images/hardware/t5324-mdvr.svg',
     price: 8900,
     bulkTierText: '₹7,780 each on 500+'
@@ -1384,7 +1384,7 @@ const FEATURED_PRODUCTS = [
     slug: 'v5-4g',
     name: 'V5 4G Telematics Tracker',
     brand: 'M Series',
-    badge: 'Sponsored',
+    badge: 'Recommended',
     image: '/images/hardware/v5-4g.svg',
     price: 2850,
     bulkTierText: '₹2,490 each on 500+'
@@ -1394,7 +1394,7 @@ const FEATURED_PRODUCTS = [
     slug: 'gb440',
     name: 'GB440 Fleet Tracker',
     brand: 'M Series',
-    badge: 'Sponsored',
+    badge: 'Recommended',
     image: '/images/hardware/gb440.svg',
     price: 3100,
     bulkTierText: '₹2,710 each on 500+'
@@ -1455,7 +1455,7 @@ const NEW_ARRIVALS_PRODUCTS = [
 function FeaturedProductsSection() {
   const navigate = useNavigate();
   const { addToCart } = useCart();
-  const [activeTab, setActiveTab] = useState('featured');
+  const [activeTab, setActiveTab] = useState('recommended');
   const [addedItems, setAddedItems] = useState({});
 
   const handleAddToCart = (product, e) => {
@@ -1467,7 +1467,7 @@ function FeaturedProductsSection() {
     }, 2000);
   };
 
-  const currentProducts = (activeTab === 'featured' ? FEATURED_PRODUCTS : NEW_ARRIVALS_PRODUCTS).slice(0, 5);
+  const currentProducts = (activeTab === 'recommended' ? FEATURED_PRODUCTS : NEW_ARRIVALS_PRODUCTS).slice(0, 5);
 
   return (
     <section className="featured-tabs-section">
@@ -1476,10 +1476,10 @@ function FeaturedProductsSection() {
         <div className="featured-tabs-nav">
           <button
             type="button"
-            className={`featured-tab-btn ${activeTab === 'featured' ? 'featured-tab-btn--active' : ''}`}
-            onClick={() => setActiveTab('featured')}
+            className={`featured-tab-btn ${activeTab === 'recommended' ? 'featured-tab-btn--active' : ''}`}
+            onClick={() => setActiveTab('recommended')}
           >
-            Featured
+            Recommended
           </button>
           <button
             type="button"
