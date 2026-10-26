@@ -1075,7 +1075,7 @@ export default function ProductDetail() {
               </div>
             )}
 
-            {/* 2. Single Unit Pricing Card - Single Pricing Products Only (Image 3) */}
+            {/* 2. Single Unit Pricing Card - Single Pricing Products Only */}
             {isSinglePricing && (
               <div className="setu-ui-single-pricing-card">
                 <div className="setu-ui-single-pricing-row">
@@ -1085,11 +1085,80 @@ export default function ProductDetail() {
                       Exclusive of GST and shipping charges
                     </p>
                   </div>
-                  <div className="setu-ui-single-pricing-right">
-                    <span className="setu-ui-single-pricing-sublabel">Unit Price</span>
-                    <div className="setu-ui-single-pricing-val">
-                      ₹{unitPrice.toLocaleString('en-IN')}
-                      <span className="setu-ui-single-pricing-unit">/ {consumptionUnit}</span>
+
+                  <div className="setu-ui-single-pricing-actions">
+                    {/* Quantity Selector in Single Pricing */}
+                    <div className="setu-ui-single-pricing-qty-wrap">
+                      <div className="setu-ui-single-pricing-qty-label-box">
+                        <span className="setu-ui-single-pricing-qty-label">Quantity</span>
+                        <div
+                          className="setu-tooltip-wrap"
+                          onMouseEnter={() => setShowQtyTooltip(true)}
+                          onMouseLeave={() => setShowQtyTooltip(false)}
+                        >
+                          <button
+                            type="button"
+                            className="setu-plan-card__qty-info-btn"
+                            onClick={() => setShowQtyTooltip(!showQtyTooltip)}
+                            aria-label="Quantity info"
+                          >
+                            ⓘ
+                          </button>
+                          {showQtyTooltip && (
+                            <div className="setu-tooltip-bubble">
+                              <span>Type quantity directly or click + / —</span>
+                              <div className="setu-tooltip-arrow" />
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="setu-bulk-counter setu-bulk-counter--compact">
+                        <button
+                          type="button"
+                          className="setu-bulk-counter__btn setu-bulk-counter__btn--minus"
+                          onClick={() => setQty(Math.max(1, qty - 1))}
+                          aria-label="Decrease quantity"
+                        >
+                          —
+                        </button>
+                        <input
+                          type="number"
+                          min="1"
+                          max="99999"
+                          value={qty}
+                          onChange={(e) => {
+                            const val = parseInt(e.target.value, 10);
+                            if (isNaN(val)) {
+                              setQty(1);
+                            } else {
+                              setQty(Math.max(1, Math.min(99999, val)));
+                            }
+                          }}
+                          className="setu-bulk-counter__input"
+                          aria-label="Order Quantity"
+                          title="Type any quantity directly"
+                        />
+                        <button
+                          type="button"
+                          className="setu-bulk-counter__btn setu-bulk-counter__btn--plus"
+                          onClick={() => setQty(qty + 1)}
+                          aria-label="Increase quantity"
+                        >
+                          +
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="setu-ui-single-pricing-divider" />
+
+                    {/* Unit Price */}
+                    <div className="setu-ui-single-pricing-right">
+                      <span className="setu-ui-single-pricing-sublabel">Unit Price</span>
+                      <div className="setu-ui-single-pricing-val">
+                        ₹{unitPrice.toLocaleString('en-IN')}
+                        <span className="setu-ui-single-pricing-unit">/ {consumptionUnit}</span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1648,48 +1717,6 @@ export default function ProductDetail() {
                 </div>
 
                 <div className="setu-plan-card__divider" />
-
-                {/* Quantity Selector in Buy Box - Shown ONLY for Single Pricing (for Slab pricing it is in middle card header per Image 2) */}
-                {isSinglePricing && (
-                  <div className="setu-plan-card__qty-row">
-                    <span className="setu-plan-card__qty-label">Quantity</span>
-                    <div className="setu-bulk-counter setu-bulk-counter--compact">
-                      <button
-                        type="button"
-                        className="setu-bulk-counter__btn setu-bulk-counter__btn--minus"
-                        onClick={() => setQty(Math.max(1, qty - 1))}
-                        aria-label="Decrease quantity"
-                      >
-                        —
-                      </button>
-                      <input
-                        type="number"
-                        min="1"
-                        max="99999"
-                        value={qty}
-                        onChange={(e) => {
-                          const val = parseInt(e.target.value, 10);
-                          if (isNaN(val)) {
-                            setQty(1);
-                          } else {
-                            setQty(Math.max(1, Math.min(99999, val)));
-                          }
-                        }}
-                        className="setu-bulk-counter__input"
-                        aria-label="Order Quantity"
-                        title="Type any quantity directly"
-                      />
-                      <button
-                        type="button"
-                        className="setu-bulk-counter__btn setu-bulk-counter__btn--plus"
-                        onClick={() => setQty(qty + 1)}
-                        aria-label="Increase quantity"
-                      >
-                        +
-                      </button>
-                    </div>
-                  </div>
-                )}
 
                 {/* Final Quantity & Order Total Bar (Directly Above Buy Now Buttons) */}
                 <div className="setu-plan-card__final-summary-box">

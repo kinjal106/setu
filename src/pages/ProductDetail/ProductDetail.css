@@ -600,6 +600,50 @@
   line-height: 1.4;
 }
 
+.setu-ui-single-pricing-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+@media (max-width: 720px) {
+  .setu-ui-single-pricing-actions {
+    width: 100%;
+    justify-content: space-between;
+    gap: 12px;
+  }
+}
+
+.setu-ui-single-pricing-qty-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.setu-ui-single-pricing-qty-label-box {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.setu-ui-single-pricing-qty-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.setu-ui-single-pricing-divider {
+  width: 1px;
+  height: 32px;
+  background-color: #E2E8F0;
+}
+
+@media (max-width: 720px) {
+  .setu-ui-single-pricing-divider {
+    display: none;
+  }
+}
+
 .setu-ui-single-pricing-right {
   display: flex;
   flex-direction: column;
