@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
-   All Hardware Brands Page Styles (Setu Theme)
-   Matches the enterprise aesthetic of Setu Portal
+   All Hardware Brands Page Styles (Hardware Listing Pattern)
+   Matches the exact design, profile image, list view & grid view
    ═══════════════════════════════════════════════════════════════ */
 
 .brands-page {
@@ -9,7 +9,7 @@
   padding: 24px 32px 60px;
   box-sizing: border-box;
   color: #0F172A;
-  font-family: inherit;
+  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .brands-page__container {
@@ -17,450 +17,211 @@
   margin: 0 auto;
 }
 
-/* ── Top Breadcrumbs & Back Nav ── */
-.brands-top-nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
-  gap: 16px;
-}
-
-.brands-breadcrumbs {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13.5px;
-  color: #64748B;
-  flex-wrap: wrap;
-}
-
-.brands-crumb-link {
-  color: #64748B;
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.15s ease;
-}
-
-.brands-crumb-link:hover {
-  color: #2563EB;
-}
-
-.brands-crumb-sep {
-  color: #94A3B8;
-  font-size: 13px;
-  user-select: none;
-}
-
-.brands-crumb-current {
-  color: #0F172A;
-  font-weight: 600;
-}
-
-.brands-back-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 14px;
-  background: #FFFFFF;
-  border: 1px solid #E2E8F0;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 600;
-  color: #334155;
-  cursor: pointer;
-  transition: all 0.15s ease;
-}
-
-.brands-back-btn:hover {
-  background: #F1F5F9;
-  border-color: #CBD5E1;
-  color: #0F172A;
-}
-
-/* ── Hero Header Card ── */
-.brands-hero-card {
-  background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
-  border-radius: 16px;
-  padding: 32px 36px;
-  color: #FFFFFF;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 32px;
-  margin-bottom: 24px;
-  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.18), 0 8px 10px -6px rgba(15, 23, 42, 0.1);
-  position: relative;
-  overflow: hidden;
-}
-
-.brands-hero-card::after {
-  content: '';
-  position: absolute;
-  right: -50px;
-  top: -50px;
-  width: 260px;
-  height: 260px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(59, 130, 246, 0.22) 0%, rgba(59, 130, 246, 0) 70%);
-  pointer-events: none;
-}
-
-.brands-hero-left {
-  max-width: 780px;
-  position: relative;
-  z-index: 1;
-}
-
-.brands-hero-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 11.5px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: #60A5FA;
-  margin-bottom: 10px;
-  text-transform: uppercase;
-}
-
-.brands-hero-eyebrow-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #3B82F6;
-  box-shadow: 0 0 10px #3B82F6;
-}
-
-.brands-hero-title {
-  font-size: 30px;
-  font-weight: 800;
-  color: #FFFFFF;
-  margin: 0 0 10px 0;
-  letter-spacing: -0.02em;
-}
-
-.brands-hero-desc {
-  font-size: 14.5px;
-  line-height: 1.55;
-  color: #CBD5E1;
-  margin: 0;
-}
-
-.brands-hero-stats {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  background: rgba(255, 255, 255, 0.07);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 14px;
-  padding: 16px 24px;
-  flex-shrink: 0;
-  position: relative;
-  z-index: 1;
-}
-
-.brands-stat-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-.brands-stat-val {
-  font-size: 26px;
-  font-weight: 800;
-  color: #60A5FA;
-  line-height: 1.1;
-}
-
-.brands-stat-lbl {
-  font-size: 11.5px;
-  font-weight: 600;
-  color: #94A3B8;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  margin-top: 3px;
-}
-
-.brands-stat-divider {
-  width: 1px;
-  height: 38px;
-  background: rgba(255, 255, 255, 0.16);
-}
-
-/* ── Search & Filter Toolbar ── */
-.brands-toolbar {
-  background: #FFFFFF;
-  border: 1px solid #E2E8F0;
-  border-radius: 14px;
-  padding: 14px 18px;
-  margin-bottom: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  flex-wrap: wrap;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-}
-
-.brands-search-wrap {
-  position: relative;
-  flex: 1;
-  min-width: 280px;
-  display: flex;
-  align-items: center;
-}
-
-.brands-search-icon {
-  position: absolute;
-  left: 14px;
-  color: #94A3B8;
-  pointer-events: none;
-}
-
-.brands-search-input {
-  width: 100%;
-  height: 42px;
-  padding: 0 38px 0 42px;
-  border: 1px solid #E2E8F0;
-  border-radius: 10px;
-  font-size: 14px;
-  color: #0F172A;
-  background: #F8FAFC;
-  outline: none;
-  transition: all 0.18s ease;
-  font-family: inherit;
-}
-
-.brands-search-input:focus {
-  border-color: #2563EB;
-  background: #FFFFFF;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
-}
-
-.brands-search-clear {
-  position: absolute;
-  right: 12px;
-  background: transparent;
-  border: none;
-  color: #94A3B8;
-  font-size: 14px;
-  cursor: pointer;
-  padding: 4px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: color 0.15s ease;
-}
-
-.brands-search-clear:hover {
-  color: #0F172A;
-}
-
-.brands-filter-chips {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.brands-chip {
-  padding: 8px 14px;
-  border-radius: 8px;
-  font-size: 12.5px;
-  font-weight: 600;
-  background: #F1F5F9;
-  color: #475569;
-  border: 1px solid transparent;
-  cursor: pointer;
-  transition: all 0.15s ease;
-  white-space: nowrap;
-}
-
-.brands-chip:hover {
-  background: #E2E8F0;
-  color: #0F172A;
-}
-
-.brands-chip--active {
-  background: #EFF6FF;
-  color: #1D4ED8;
-  border-color: #BFDBFE;
-}
-
-.brands-sort-wrap {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-shrink: 0;
-}
-
-.brands-sort-label {
-  font-size: 12.5px;
-  font-weight: 600;
-  color: #64748B;
-}
-
-.brands-sort-select {
-  height: 38px;
-  padding: 0 12px;
-  border: 1px solid #CBD5E1;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 500;
-  color: #1E293B;
-  background: #FFFFFF;
-  cursor: pointer;
-  outline: none;
-  font-family: inherit;
-  transition: border-color 0.15s ease;
-}
-
-.brands-sort-select:focus {
-  border-color: #2563EB;
-}
-
-/* ── Results Info Bar ── */
+/* ── Results Info Bar & View Toggle ── */
 .brands-results-meta {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
-  font-size: 13px;
-  color: #64748B;
-  padding: 0 4px;
+  margin-bottom: 20px;
+  padding: 0 2px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.brands-results-meta__left {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.brands-results-count {
+  font-size: 15px;
+  color: #475569;
+  font-weight: 500;
 }
 
 .brands-results-count strong {
   color: #0F172A;
+  font-weight: 700;
+}
+
+.brands-results-meta__right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 
 .brands-results-sub {
   color: #94A3B8;
-  font-size: 12.5px;
+  font-size: 13px;
 }
 
-/* ── Grid of Brands ── */
-.brands-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-}
-
-@media (max-width: 1100px) {
-  .brands-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 720px) {
-  .brands-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* ── Individual Brand Card ── */
-.brand-card {
-  background: #FFFFFF;
-  border: 1px solid #E2E8F0;
-  border-radius: 14px;
-  padding: 22px;
-  display: flex;
-  flex-direction: column;
-  cursor: pointer;
-  transition: all 200ms cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
-  position: relative;
-}
-
-.brand-card:hover {
-  border-color: #3B82F6;
-  box-shadow: 0 10px 25px -4px rgba(37, 99, 235, 0.12), 0 4px 8px -2px rgba(0, 0, 0, 0.04);
-  transform: translateY(-3px);
-}
-
-.brand-card__top {
+/* ── View Mode Toggle (Identical to Hardware Listing) ── */
+.hw-view-toggle {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin-bottom: 16px;
+  height: 40px;
+  background: #FFFFFF;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 28px;
+  padding: 0 4px;
+  gap: 4px;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+  transition: all 0.2s ease;
 }
 
-.brand-card__avatar {
-  width: 62px;
-  height: 62px;
-  border-radius: 12px;
-  background: #EFF6FF;
-  border: 1px solid #DBEAFE;
+.hw-view-toggle:hover {
+  border-color: #CBD5E1;
+}
+
+.hw-view-toggle__btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: #64748B;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 8px;
-  box-sizing: border-box;
-  transition: all 180ms ease;
+  cursor: pointer;
+  transition: all 0.15s ease;
 }
 
-.brand-card:hover .brand-card__avatar {
-  background: #DBEAFE;
+.hw-view-toggle__btn:hover {
+  color: #0F172A;
+  background: #F1F5F9;
+}
+
+.hw-view-toggle__btn--active {
+  background: #006EFF !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 2px 6px rgba(0, 110, 255, 0.28);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   1. LIST VIEW (Exact Pattern of Hardware List: .pcard-ref)
+   ═══════════════════════════════════════════════════════════════ */
+
+.brands-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.pcard-ref.brand-pcard-ref {
+  display: flex;
+  align-items: flex-start;
+  background: #ffffff;
+  border: 1px solid #EEF2F6;
+  border-radius: 14px;
+  padding: 20px 24px;
+  transition: all 160ms ease;
+  cursor: pointer;
+  position: relative;
+  box-sizing: border-box;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03);
+}
+
+.pcard-ref.brand-pcard-ref:hover {
+  background: #FAFCFF;
+  border-color: #CBD5E1;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+  transform: translateY(-1px);
+}
+
+/* Left Profile Image Box (Same as Hardware Listing) */
+.pcard-ref__img-box {
+  flex: 0 0 160px;
+  width: 160px;
+  height: 130px;
+  max-height: 130px;
+  align-self: flex-start;
+  background: #F4F6F9;
+  border-radius: 12px;
+  border: 1px solid #EEF2F6;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  user-select: none;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+/* Device Count Badge in Profile Image Box */
+.pcard-ref__badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: #0F172A;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.01em;
+  z-index: 2;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+  line-height: 1.2;
+}
+
+.pcard-ref__img-center {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pcard-ref__img {
+  max-width: 110px;
+  max-height: 110px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  transition: transform 220ms ease;
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.04));
+}
+
+.pcard-ref.brand-pcard-ref:hover .pcard-ref__img {
   transform: scale(1.05);
 }
 
-.brand-card__img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
+/* Right Details Container */
+.pcard-ref__info {
+  flex: 1;
+  padding: 0 0 0 24px;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
 }
 
-.brand-card__count-badge {
+.pcard-ref__content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.brand-card-top-row {
   display: flex;
   align-items: baseline;
-  gap: 5px;
-  background: #EFF6FF;
-  border: 1px solid #BFDBFE;
-  border-radius: 20px;
-  padding: 5px 12px;
-  color: #1D4ED8;
+  gap: 12px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
 }
 
-.brand-card__count-num {
-  font-size: 15px;
-  font-weight: 800;
-  color: #1E40AF;
-  line-height: 1;
-}
-
-.brand-card__count-lbl {
-  font-size: 11.5px;
-  font-weight: 600;
-  color: #2563EB;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-}
-
-.brand-card__header {
-  margin-bottom: 10px;
-}
-
-.brand-card__title-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 4px;
-}
-
-.brand-card__name {
+.pcard-ref__title {
   font-size: 18px;
   font-weight: 700;
   color: #0F172A;
   margin: 0;
-  letter-spacing: -0.01em;
-}
-
-.brand-card:hover .brand-card__name {
-  color: #2563EB;
+  line-height: 1.3;
 }
 
 .brand-card__category {
@@ -468,184 +229,303 @@
   font-weight: 600;
   color: #64748B;
   text-transform: uppercase;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.04em;
 }
 
-.brand-card__tagline {
+.pcard-ref__desc {
   font-size: 13.5px;
+  color: #64748B;
   line-height: 1.5;
-  color: #475569;
+  margin: 0 0 10px 0;
+  max-width: 820px;
+}
+
+/* Feature tags / popular devices */
+.pcard-ref__tags {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px;
   margin: 0 0 14px 0;
-  flex: 1;
 }
 
-/* ── Popular models pill tags ── */
-.brand-card__models {
-  margin-bottom: 16px;
-  background: #F8FAFC;
-  border: 1px solid #F1F5F9;
-  border-radius: 8px;
-  padding: 10px 12px;
+.brand-tags-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #94A3B8;
+  margin-right: 4px;
 }
 
-.brand-card__models-label {
-  display: block;
+.pcard-ref__tag-pill {
+  font-size: 12px;
+  font-weight: 500;
+  color: #475569;
+  background: #F1F5F9;
+  border-radius: 9999px;
+  padding: 3px 11px;
+  line-height: 1.35;
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #E2E8F0;
+}
+
+/* Bottom Price & CTA Row */
+.brand-card-bottom-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 4px;
+}
+
+.brand-starting-from {
   font-size: 11px;
   font-weight: 600;
   color: #94A3B8;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  margin-bottom: 6px;
+  margin-bottom: 2px;
+  display: block;
 }
 
-.brand-card__model-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.brand-card__model-pill {
-  font-size: 11px;
-  font-weight: 600;
-  color: #334155;
-  background: #FFFFFF;
-  border: 1px solid #E2E8F0;
-  border-radius: 4px;
-  padding: 2px 7px;
-}
-
-/* ── Card Footer ── */
-.brand-card__footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-top: 14px;
-  border-top: 1px solid #F1F5F9;
-  gap: 12px;
-}
-
-.brand-card__price-box {
+.pcard-ref__price-wrap {
   display: flex;
   flex-direction: column;
 }
 
-.brand-card__price-label {
-  font-size: 11px;
-  color: #94A3B8;
-  font-weight: 500;
+.pcard-ref__price-row {
+  display: flex;
+  align-items: baseline;
+  margin: 0;
 }
 
-.brand-card__price-val {
-  font-size: 15px;
+.pcard-ref__currency {
+  font-size: 16px;
+  font-weight: 600;
+  color: #0F172A;
+  margin-right: 2px;
+}
+
+.pcard-ref__amount {
+  font-size: 22px;
   font-weight: 700;
   color: #0F172A;
+  line-height: 1;
+  letter-spacing: -0.02em;
 }
 
-.brand-card__price-tax {
-  font-size: 10.5px;
+.pcard-ref__gst {
+  font-size: 12px;
   font-weight: 500;
   color: #64748B;
+  margin-left: 6px;
 }
 
+/* Brand CTA Button */
 .brand-card__cta-btn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  background: #EFF6FF;
-  border: 1px solid #BFDBFE;
-  border-radius: 8px;
-  padding: 8px 14px;
-  color: #2563EB;
-  font-size: 12.5px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.15s ease;
-  font-family: inherit;
-}
-
-.brand-card:hover .brand-card__cta-btn {
-  background: #2563EB;
-  color: #FFFFFF;
-  border-color: #2563EB;
-}
-
-/* ── Empty State ── */
-.brands-empty-state {
-  background: #FFFFFF;
-  border: 1px solid #E2E8F0;
-  border-radius: 14px;
-  padding: 60px 20px;
-  text-align: center;
-  margin-top: 20px;
-}
-
-.brands-empty-state__icon {
-  font-size: 40px;
-  margin-bottom: 12px;
-}
-
-.brands-empty-state__title {
-  font-size: 18px;
-  font-weight: 700;
-  color: #0F172A;
-  margin: 0 0 8px 0;
-}
-
-.brands-empty-state__desc {
-  font-size: 14px;
-  color: #64748B;
-  margin: 0 0 18px 0;
-}
-
-.brands-empty-state__reset-btn {
-  background: #2563EB;
+  gap: 7px;
+  background: #006EFF;
   color: #FFFFFF;
   border: none;
   border-radius: 8px;
-  padding: 10px 20px;
-  font-size: 13.5px;
+  padding: 8px 16px;
+  font-size: 13px;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.15s ease;
+  transition: all 160ms ease;
+  font-family: inherit;
+  box-shadow: 0 2px 6px rgba(0, 110, 255, 0.2);
 }
 
-.brands-empty-state__reset-btn:hover {
-  background: #1D4ED8;
+.brand-card__cta-btn:hover {
+  background: #0056cc;
+  box-shadow: 0 4px 10px rgba(0, 110, 255, 0.32);
+  transform: translateY(-1px);
 }
 
-/* ── Responsive Refinements ── */
-@media (max-width: 900px) {
-  .brands-hero-card {
+.brand-card__cta-btn--sm {
+  padding: 7px 12px;
+  font-size: 12px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   2. GRID VIEW (Exact Pattern of Hardware Grid: .pcard-grid)
+   ═══════════════════════════════════════════════════════════════ */
+
+.brands-grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.pcard-grid.brand-pcard-grid {
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border: 1px solid #EEF2F6;
+  border-radius: 14px;
+  padding: 18px 18px 20px;
+  transition: all 160ms ease;
+  cursor: pointer;
+  position: relative;
+  box-sizing: border-box;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03);
+}
+
+.pcard-grid.brand-pcard-grid:hover {
+  background: #FAFCFF;
+  border-color: #CBD5E1;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+  transform: translateY(-2px);
+}
+
+/* Top Profile Image Box (Same as Hardware Grid) */
+.pcard-grid__img-box {
+  width: 100%;
+  height: 160px;
+  background: #F4F6F9;
+  border-radius: 10px;
+  border: 1px solid #EEF2F6;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  box-sizing: border-box;
+  margin-bottom: 14px;
+  user-select: none;
+}
+
+.pcard-grid__badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: #0F172A;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.01em;
+  z-index: 2;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+  line-height: 1.2;
+}
+
+.pcard-grid__img-center {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pcard-grid__img {
+  max-width: 130px;
+  max-height: 130px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  transition: transform 220ms ease;
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.04));
+}
+
+.pcard-grid.brand-pcard-grid:hover .pcard-grid__img {
+  transform: scale(1.05);
+}
+
+/* Card Body */
+.pcard-grid__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.pcard-grid__title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #0F172A;
+  margin: 0 0 4px 0;
+  line-height: 1.3;
+}
+
+.pcard-grid__desc {
+  font-size: 13px;
+  color: #64748B;
+  line-height: 1.5;
+  margin: 8px 0 12px 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.pcard-grid__tags {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.pcard-grid__tag-pill {
+  font-size: 11.5px;
+  font-weight: 500;
+  color: #475569;
+  background: #F1F5F9;
+  border-radius: 9999px;
+  padding: 3px 9px;
+  border: 1px solid #E2E8F0;
+}
+
+.brand-grid-footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid #F1F5F9;
+}
+
+/* ── Responsive Adjustments ── */
+@media (max-width: 768px) {
+  .brands-page {
+    padding: 16px 16px 40px;
+  }
+
+  .brands-results-meta {
     flex-direction: column;
     align-items: flex-start;
-    padding: 24px;
-    gap: 20px;
+    gap: 10px;
   }
-  .brands-hero-title {
-    font-size: 24px;
-  }
-  .brands-hero-stats {
-    width: 100%;
-    justify-content: space-around;
-  }
-}
 
-@media (max-width: 640px) {
-  .brands-page {
-    padding: 16px 14px 40px;
-  }
-  .brands-toolbar {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  .brands-search-wrap {
-    min-width: 100%;
-  }
-  .brands-filter-chips {
-    overflow-x: auto;
-    padding-bottom: 4px;
-  }
-  .brands-sort-wrap {
+  .brands-results-meta__right {
+    width: 100%;
     justify-content: space-between;
+  }
+
+  .pcard-ref.brand-pcard-ref {
+    flex-direction: column;
+    padding: 16px;
+  }
+
+  .pcard-ref__img-box {
+    width: 100%;
+    height: 150px;
+    max-height: 150px;
+    margin-bottom: 14px;
+  }
+
+  .pcard-ref__info {
+    padding: 0;
+    width: 100%;
+  }
+
+  .brands-grid-container {
+    grid-template-columns: 1fr;
   }
 }
