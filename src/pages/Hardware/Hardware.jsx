@@ -1,7 +1,8 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams, Link } from 'react-router-dom';
 import products from '../../data/products.json';
 import categories from '../../data/categories.json';
+import { BRANDS_DATA } from '../../data/brandsData';
 import { getAssetUrl } from '../../utils/assetUrl';
 import SetuVerifiedBadge from '../../components/SetuVerifiedBadge/SetuVerifiedBadge';
 import './Hardware.css';
@@ -102,21 +103,13 @@ const STOP_WORDS = new Set([
 ]);
 
 
-const BRAND_ORDER = [
-  'M Series',
-  'T98 Series',
-  'BR Series',
-  'LLS Series',
-  'Magnet Series',
-  'Mercetech',
-  'EC Series',
-  'Eco5 Series',
-  'GL Series'
-];
+const BRAND_ORDER = BRANDS_DATA.map(b => b.name);
 
 const findBrandMatch = (name) => {
   if (!name) return null;
   const lower = name.trim().toLowerCase();
+  const inBrands = BRANDS_DATA.find(b => b.name.toLowerCase() === lower || b.id.toLowerCase() === lower);
+  if (inBrands) return inBrands.name;
   const inOrder = BRAND_ORDER.find(b => b.toLowerCase() === lower);
   if (inOrder) return inOrder;
   const inProducts = products.find(p => p.brand && p.brand.toLowerCase() === lower);
@@ -287,25 +280,10 @@ function FilterTree({ categories, selected, onChange }) {
 /* ── Brand Filter Component matching media_1791179790288.png ── */
 function BrandFilter({ selected, onChange }) {
   const brandList = useMemo(() => {
-    const counts = {};
-    products.forEach(p => {
-      if (p.brand) {
-        counts[p.brand] = (counts[p.brand] || 0) + 1;
-      }
-    });
-
-    const items = [];
-    BRAND_ORDER.forEach(b => {
-      items.push({ name: b, count: counts[b] || 0 });
-    });
-
-    Object.keys(counts).forEach(b => {
-      if (!BRAND_ORDER.includes(b)) {
-        items.push({ name: b, count: counts[b] });
-      }
-    });
-
-    return items;
+    return BRANDS_DATA.map(b => ({
+      name: b.name,
+      count: b.deviceCount
+    }));
   }, []);
 
   const toggleBrand = (brandName) => {
@@ -353,6 +331,7 @@ function BrandFilter({ selected, onChange }) {
                 <span className="fcheck__box" />
               </label>
               <span className="fgroup__label">{b.name}</span>
+              <span className="fgroup__brand-count">({b.count})</span>
             </div>
           );
         })}
@@ -824,9 +803,35 @@ export default function Hardware() {
         <main className="hw-main">
           {/* ── Search Header Section ── */}
           <div className="hw-google-search-section">
-            <h1 className="hw-page-title">Hardware</h1>
-            <div className="hw-search-controls">
-              <form className="hw-google-search-bar" onSubmit={handleSearchSubmit}>
+            <nav className="hw-breadcrumbs-bar" aria-label="Breadcrumbs">
+              <Link to="/" className="hw-crumb-link">Home</Link>
+              <span className="hw-crumb-sep">›</span>
+              <Link to="/brands" className="hw-crumb-link">All Brands</Link>
+              {urlBrand && (
+                <>
+                  <span className="hw-crumb-sep">›</span>
+                  <span className="hw-crumb-current">{urlBrand}</span>
+                </>
+              )}
+            </nav>
+
+            <div className="hw-header-row">
+              <div className="hw-title-row">
+                <h1 className="hw-page-title">{urlBrand ? `${urlBrand} Hardware` : 'Hardware'}</h1>
+                {urlBrand && (
+                  <button 
+                    type="button" 
+                    className="hw-all-brands-btn"
+                    onClick={() => navigate('/brands')}
+                    title="View all hardware brands"
+                  >
+                    ← All Brands
+                  </button>
+                )}
+              </div>
+
+              <div className="hw-search-controls">
+                <form className="hw-google-search-bar" onSubmit={handleSearchSubmit}>
                 <input
                   type="text"
                   className="hw-google-search-input"
@@ -897,6 +902,23 @@ export default function Hardware() {
                 </button>
               </div>
             </div>
+            </div>
+
+            {urlBrand && (
+              <div className="hw-brand-active-banner">
+                <span>Showing certified hardware devices from <strong>{urlBrand}</strong></span>
+                <button
+                  type="button"
+                  className="hw-brand-clear-btn"
+                  onClick={() => {
+                    setSelectedBrands(new Set());
+                    navigate('/hardware');
+                  }}
+                >
+                  Show All Hardware ✕
+                </button>
+              </div>
+            )}
           </div>
 
           {/* ── Scrollable Results Container ── */}

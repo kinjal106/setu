@@ -40,7 +40,12 @@ export default function Header() {
   }, [isMenuOpen]);
 
   const isActive = (path) => {
-    if (path === '/hardware') return location.pathname.startsWith('/hardware') || location.pathname.startsWith('/setu/hardware');
+    if (path === '/hardware') {
+      return location.pathname.startsWith('/hardware') || 
+             location.pathname.startsWith('/setu/hardware') ||
+             location.pathname.startsWith('/brands') ||
+             location.pathname.startsWith('/setu/brands');
+    }
     if (path === '/solutions') return location.pathname.startsWith('/solutions') || location.pathname.startsWith('/setu/solutions');
     if (path === '/fuel-fastag') return location.pathname.startsWith('/fuel-fastag') || location.pathname.startsWith('/setu/fuel-fastag');
     if (path === '/finance') return location.pathname.startsWith('/finance') || location.pathname.startsWith('/setu/finance');

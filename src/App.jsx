@@ -12,6 +12,7 @@ import ProductDetail from './pages/ProductDetail/ProductDetail';
 import Solutions from './pages/Solutions/Solutions';
 import FuelFastag from './pages/FuelFastag/FuelFastag';
 import AutoParts from './pages/AutoParts/AutoParts';
+import Brands from './pages/Brands/Brands';
 import Order from './pages/Order/Order';
 import Cart from './pages/Cart/Cart';
 import OrderHistory from './pages/OrderHistory/OrderHistory';
@@ -52,6 +53,8 @@ function AppLayout() {
             <Route path="/setu" element={<SetuHome />} />
             <Route path="/hardware" element={<Hardware />} />
             <Route path="/setu/hardware" element={<Hardware />} />
+            <Route path="/brands" element={<Brands />} />
+            <Route path="/setu/brands" element={<Brands />} />
             <Route path="/hardware/:slug" element={<ProductDetail />} />
             <Route path="/setu/hardware/:slug" element={<ProductDetail />} />
             <Route path="/solutions" element={<Solutions />} />

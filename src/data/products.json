@@ -5,7 +5,7 @@
     "slug": "advance-4wire",
     "category": "vehicle-tracking",
     "subcategory": "wired-gps-tracker",
-    "brand": "M Series",
+    "brand": "Pictor",
     "image": "/images/hardware/advance-4wire.svg",
     "shortDescription": "Lowest-cost wired tracker for live location and ignition on/off alerts.",
     "tags": [
@@ -121,7 +121,7 @@
     "slug": "g17-earth",
     "category": "vehicle-tracking",
     "subcategory": "wired-gps-tracker",
-    "brand": "M Series",
+    "brand": "Earth Track",
     "image": "/images/hardware/g17-earth.svg",
     "shortDescription": "Compact tracker for two-wheelers, autos and small cars.",
     "tags": [
@@ -216,7 +216,7 @@
     "slug": "v5-mini",
     "category": "vehicle-tracking",
     "subcategory": "wired-gps-tracker",
-    "brand": "M Series",
+    "brand": "Fetaca",
     "image": "/images/hardware/v5-mini.svg",
     "shortDescription": "Miniature 4G wired tracker with built-in surge protection and remote immobilizer support.",
     "tags": [
@@ -333,7 +333,7 @@
     "slug": "v5-4g",
     "category": "vehicle-tracking",
     "subcategory": "wired-gps-tracker",
-    "brand": "M Series",
+    "brand": "Fetaca",
     "image": "/images/hardware/v5-4g.svg",
     "shortDescription": "Heavy-duty 4G GPS tracker for trucks, construction equipment, and intercity buses.",
     "tags": [
@@ -450,7 +450,7 @@
     "slug": "gb440",
     "category": "vehicle-tracking",
     "subcategory": "ais-gps-device",
-    "brand": "M Series",
+    "brand": "HL",
     "image": "/images/hardware/gb440.svg",
     "shortDescription": "Enterprise-grade fleet telematics unit with RS232, RS485 and multi-sensor support.",
     "tags": [
@@ -545,7 +545,7 @@
     "slug": "prithvi-140",
     "category": "vehicle-tracking",
     "subcategory": "ais-gps-device",
-    "brand": "T98 Series",
+    "brand": "Watsoo",
     "image": "/images/hardware/prithvi-140.svg",
     "shortDescription": "Government AIS 140 certified tracker with emergency SOS button and dual profile eSIM.",
     "tags": [
@@ -640,7 +640,7 @@
     "slug": "prithvi-140-rto",
     "category": "vehicle-tracking",
     "subcategory": "ais-gps-device",
-    "brand": "T98 Series",
+    "brand": "Watsoo",
     "image": "/images/hardware/prithvi-140-rto.svg",
     "shortDescription": "State RTO approved vehicle location tracking device with panic button and IRNSS support.",
     "tags": [
@@ -735,7 +735,7 @@
     "slug": "prithvi-140-mining",
     "category": "vehicle-tracking",
     "subcategory": "ais-gps-device",
-    "brand": "T98 Series",
+    "brand": "Watsoo",
     "image": "/images/hardware/prithvi-140-mining.svg",
     "shortDescription": "Ruggedized IP67 waterproof tracking device compliant with Department of Mines regulations.",
     "tags": [
@@ -830,7 +830,7 @@
     "slug": "prithvi-140-oem",
     "category": "vehicle-tracking",
     "subcategory": "ais-gps-device",
-    "brand": "T98 Series",
+    "brand": "OEM",
     "image": "/images/hardware/prithvi-140-oem.svg",
     "shortDescription": "OEM-grade telematics gateway designed for vehicle body builders and fleet retrofits.",
     "tags": [
@@ -925,7 +925,7 @@
     "slug": "t5324-mdvr",
     "category": "video-telematics",
     "subcategory": "mdvr",
-    "brand": "T98 Series",
+    "brand": "JSD",
     "image": "/images/hardware/t5324-mdvr.svg",
     "shortDescription": "4-channel Mobile Digital Video Recorder with real-time video streaming over 4G network.",
     "tags": [
@@ -1020,7 +1020,7 @@
     "slug": "br06",
     "category": "vehicle-tracking",
     "subcategory": "wired-gps-tracker",
-    "brand": "BR Series",
+    "brand": "Acumen",
     "image": "/images/hardware/br06.svg",
     "shortDescription": "BR06 is a compact and reliable GPS tracking device designed for real-time vehicle monitoring.",
     "tags": [
@@ -1115,7 +1115,7 @@
     "slug": "br05-4g",
     "category": "vehicle-tracking",
     "subcategory": "wired-gps-tracker",
-    "brand": "BR Series",
+    "brand": "Acumen",
     "image": "/images/hardware/br05-4g.svg",
     "shortDescription": "High-sensitivity 4G GPS tracker with built-in antenna and internal battery backup.",
     "tags": [
@@ -1210,7 +1210,7 @@
     "slug": "br08-obd",
     "category": "vehicle-tracking",
     "subcategory": "wired-gps-tracker",
-    "brand": "BR Series",
+    "brand": "Acumen",
     "image": "/images/hardware/br06.svg",
     "shortDescription": "Multi-functional GPS tracker equipped with fuel cut-off relay and external mic support.",
     "tags": [
@@ -1305,7 +1305,7 @@
     "slug": "sp-ble4-fuel",
     "category": "fuel-sensors",
     "subcategory": "fuel-level-sensor",
-    "brand": "LLS Series",
+    "brand": "OMNICOMM",
     "image": "/images/hardware/sp-ble4-fuel.svg",
     "shortDescription": "High-precision wireless capacitive fuel level sensor with Bluetooth Low Energy connectivity.",
     "tags": [
@@ -1400,7 +1400,7 @@
     "slug": "lls-capacitive",
     "category": "fuel-sensors",
     "subcategory": "fuel-level-sensor",
-    "brand": "LLS Series",
+    "brand": "OMNICOMM",
     "image": "/images/hardware/sp-ble4-fuel.svg",
     "shortDescription": "Standard digital capacitive fuel level rod with RS485 Modbus output and auto temperature compensation.",
     "tags": [
@@ -1495,7 +1495,7 @@
     "slug": "lls-ultrasonic",
     "category": "fuel-sensors",
     "subcategory": "fuel-level-sensor",
-    "brand": "LLS Series",
+    "brand": "OMNICOMM",
     "image": "/images/hardware/sp-ble4-fuel.svg",
     "shortDescription": "External bottom-mount ultrasonic liquid sensor with zero drilling required.",
     "tags": [
@@ -1590,7 +1590,7 @@
     "slug": "gl500-2g",
     "category": "asset-logistics",
     "subcategory": "e-lock-tracker",
-    "brand": "GL Series",
+    "brand": "Qtloads",
     "image": "/images/hardware/gl500-2g.svg",
     "shortDescription": "Smart electronic GPS e-lock tracker with heavy duty enclosure and tamper alert system.",
     "specialFeatures": "Tamper alerts",
@@ -1683,7 +1683,7 @@
     "slug": "gl500-4g",
     "category": "asset-logistics",
     "subcategory": "e-lock-tracker",
-    "brand": "GL Series",
+    "brand": "Qtloads",
     "image": "/images/hardware/gl500-4g.svg",
     "shortDescription": "4G LTE smart electronic GPS e-lock tracker for heavy cargo containers, trailers, and logistics.",
     "specialFeatures": "Tamper alerts",
@@ -1776,7 +1776,7 @@
     "slug": "7h-elock",
     "category": "asset-logistics",
     "subcategory": "e-lock-tracker",
-    "brand": "Magnet Series",
+    "brand": "Meitrack",
     "image": "/images/hardware/7h-elock.svg",
     "shortDescription": "Smart electronic GPS padlock with RFID/Bluetooth unlock and stainless steel locking rope.",
     "tags": [
@@ -2156,7 +2156,7 @@
     "slug": "ec02-tracker",
     "category": "vehicle-tracking",
     "subcategory": "wired-gps-tracker",
-    "brand": "EC Series",
+    "brand": "Concex",
     "image": "/images/hardware/advance-4wire.svg",
     "shortDescription": "Reliable wired vehicle GPS tracker with remote engine cut-off relay.",
     "tags": [
@@ -2251,7 +2251,7 @@
     "slug": "ecogas-track",
     "category": "vehicle-tracking",
     "subcategory": "wired-gps-tracker",
-    "brand": "EC Series",
+    "brand": "Ecogas",
     "image": "/images/hardware/ecogas-track.svg",
     "shortDescription": "Specialized GPS tracking unit designed for CNG/LPG commercial vehicles with gas leak alert inputs.",
     "tags": [
@@ -2346,7 +2346,7 @@
     "slug": "eco5-lite",
     "category": "vehicle-tracking",
     "subcategory": "obd-gps-tracker",
-    "brand": "Eco5 Series",
+    "brand": "Ruptela",
     "image": "/images/hardware/eco5-lite.svg",
     "shortDescription": "Compact plug-and-play OBD tracker for quick installation without cutting any vehicle wires.",
     "tags": [
@@ -2441,7 +2441,7 @@
     "slug": "eco5-pro",
     "category": "vehicle-tracking",
     "subcategory": "obd-gps-tracker",
-    "brand": "Eco5 Series",
+    "brand": "Ruptela",
     "image": "/images/hardware/eco5-lite.svg",
     "shortDescription": "Advanced OBD-II telematics device reading live ECU parameters, RPM, coolant temperature, and DTC codes.",
     "tags": [
@@ -2528,6 +2528,156 @@
       "operatingTemperature": "-20°C to +70°C",
       "compatibility": "iOS, Android, Web Platforms"
     },
+    "pricingType": "slab"
+  },
+  {
+    "id": "itriangle-bharat-101",
+    "name": "Itriangle Bharat 101 AIS-140",
+    "slug": "itriangle-bharat-101",
+    "category": "vehicle-tracking",
+    "subcategory": "ais-gps-device",
+    "brand": "Itriangle",
+    "image": "/images/hardware/prithvi-140-rto.svg",
+    "shortDescription": "ICAT certified AIS-140 vehicle tracking unit with emergency panic button & NavIC satellite positioning.",
+    "tags": [
+      "AIS-140",
+      "NavIC",
+      "ICAT Certified"
+    ],
+    "price": 3800,
+    "bulkTierText": "₹3,450 each on 500+",
+    "inStock": true,
+    "features": [
+      "Govt AIS-140 Certified",
+      "SOS Emergency Panic Button",
+      "Dual eSIM Cellular Roaming",
+      "IRNSS NavIC Satellite Support"
+    ],
+    "pricingType": "slab"
+  },
+  {
+    "id": "itriangle-aquila-pro",
+    "name": "Itriangle Aquila Pro 4G",
+    "slug": "itriangle-aquila-pro",
+    "category": "vehicle-tracking",
+    "subcategory": "wired-gps-tracker",
+    "brand": "Itriangle",
+    "image": "/images/hardware/prithvi-140.svg",
+    "shortDescription": "Advanced telematics unit with internal battery backup, digital I/O and harsh driving detection.",
+    "tags": [
+      "4G LTE",
+      "Harsh Braking",
+      "Dual SIM"
+    ],
+    "price": 2950,
+    "bulkTierText": "₹2,680 each on 500+",
+    "inStock": true,
+    "features": [
+      "4G LTE Connectivity",
+      "Ignition On/Off Alerts",
+      "Harsh Braking & Cornering",
+      "Internal Backup Battery"
+    ],
+    "pricingType": "slab"
+  },
+  {
+    "id": "gpswala-smart-4g",
+    "name": "GPSwala Smart 4G Tracker",
+    "slug": "gpswala-smart-4g",
+    "category": "vehicle-tracking",
+    "subcategory": "wired-gps-tracker",
+    "brand": "GPSwala",
+    "image": "/images/hardware/br06.svg",
+    "shortDescription": "Compact 4G wired GPS tracker with live tracking, geofencing, and ignition detection for commercial vehicles.",
+    "tags": [
+      "4G",
+      "Compact",
+      "Live Tracking"
+    ],
+    "price": 1499,
+    "bulkTierText": "₹1,320 each on 500+",
+    "inStock": true,
+    "features": [
+      "Real-time Location Tracking",
+      "Ignition Sense Wire",
+      "Tow & Anti-Theft Alerts",
+      "Web & App Access"
+    ],
+    "pricingType": "single"
+  },
+  {
+    "id": "rdm-heavy-fleet",
+    "name": "RDM Heavy Machinery Fleet Tracker",
+    "slug": "rdm-heavy-fleet",
+    "category": "asset-logistics",
+    "subcategory": "asset-gps-tracker",
+    "brand": "RDM",
+    "image": "/images/hardware/falcon-f1.svg",
+    "shortDescription": "Industrial fleet and heavy equipment monitoring terminal with CAN diagnostic telemetry and operating hour tracking.",
+    "tags": [
+      "Heavy Machinery",
+      "Engine Hours",
+      "CAN Bus"
+    ],
+    "price": 8500,
+    "bulkTierText": "₹7,650 each on 500+",
+    "inStock": true,
+    "features": [
+      "Engine Hour Meter Tracking",
+      "Heavy Equipment Vibration Sensor",
+      "CAN Bus J1939 Telemetry",
+      "IP67 Weatherproof"
+    ],
+    "pricingType": "slab"
+  },
+  {
+    "id": "pictor-pro-4g",
+    "name": "Pictor Pro 4G Fleet Tracker",
+    "slug": "pictor-pro-4g",
+    "category": "vehicle-tracking",
+    "subcategory": "wired-gps-tracker",
+    "brand": "Pictor",
+    "image": "/images/hardware/advance-4wire.svg",
+    "shortDescription": "Flagship 4G commercial telematics terminal with remote engine immobilization and dual-profile cellular connectivity.",
+    "tags": [
+      "4G LTE",
+      "Engine Cutoff",
+      "Dual Profile"
+    ],
+    "price": 2890,
+    "bulkTierText": "₹2,520 each on 500+",
+    "inStock": true,
+    "features": [
+      "High Precision GPS & GNSS",
+      "Remote Relay Engine Cutoff",
+      "Over-the-Air Firmware Updates",
+      "Trakzee Cloud Live Sync"
+    ],
+    "pricingType": "slab"
+  },
+  {
+    "id": "earth-track-pro",
+    "name": "Earth Track Pro 4G",
+    "slug": "earth-track-pro",
+    "category": "vehicle-tracking",
+    "subcategory": "wired-gps-tracker",
+    "brand": "Earth Track",
+    "image": "/images/hardware/g17-earth.svg",
+    "shortDescription": "Rugged commercial fleet tracker engineered for heavy logistics, extreme temperature resistance, and live telemetry.",
+    "tags": [
+      "4G",
+      "Rugged",
+      "Heavy Transport"
+    ],
+    "price": 2650,
+    "bulkTierText": "₹2,320 each on 500+",
+    "inStock": true,
+    "features": [
+      "Industrial Grade ABS Enclosure",
+      "Extreme Thermal Tolerance (-30C to +80C)",
+      "Ignition & Movement Sensor",
+      "48-Hour Internal Battery"
+    ],
     "pricingType": "slab"
   }
 ]

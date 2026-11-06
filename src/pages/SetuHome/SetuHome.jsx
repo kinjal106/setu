@@ -1576,49 +1576,49 @@ function FeaturedProductsSection() {
 ──────────────────────────────────────────────────────────── */
 const TOP_BRANDS_DATA = [
   {
-    id: 'mercetech',
-    name: 'Mercetech',
-    sponsored: true,
-    productCount: 3,
-    startPrice: 11200,
-    image: '/images/hardware/falcon-f1.svg',
-    searchTerm: 'Mercetech'
-  },
-  {
-    id: 't98-series',
-    name: 'T98 Series',
-    sponsored: true,
-    productCount: 5,
-    startPrice: 3650,
-    image: '/images/hardware/prithvi-140.svg',
-    searchTerm: 'T98 Series'
-  },
-  {
-    id: 'm-series',
-    name: 'M Series',
+    id: 'pictor',
+    name: 'Pictor',
     sponsored: false,
-    productCount: 5,
-    startPrice: 564,
+    productCount: 37,
+    startPrice: 599,
     image: '/images/hardware/advance-4wire.svg',
-    searchTerm: 'M Series'
+    searchTerm: 'Pictor'
   },
   {
-    id: 'lls-series',
-    name: 'LLS Series',
+    id: 'earth-track',
+    name: 'Earth Track',
     sponsored: false,
-    productCount: 3,
-    startPrice: 4500,
-    image: '/images/hardware/sp-ble4-fuel.svg',
-    searchTerm: 'LLS Series'
+    productCount: 28,
+    startPrice: 564,
+    image: '/images/hardware/g17-earth.svg',
+    searchTerm: 'Earth Track'
   },
   {
-    id: 'gl-series',
-    name: 'GL Series',
+    id: 'fetaca',
+    name: 'Fetaca',
     sponsored: false,
-    productCount: 2,
-    startPrice: 9840,
-    image: '/images/hardware/gl500-2g.svg',
-    searchTerm: 'GL Series'
+    productCount: 20,
+    startPrice: 2490,
+    image: '/images/hardware/v5-4g.svg',
+    searchTerm: 'Fetaca'
+  },
+  {
+    id: 'hl',
+    name: 'HL',
+    sponsored: false,
+    productCount: 17,
+    startPrice: 2710,
+    image: '/images/hardware/gb440.svg',
+    searchTerm: 'HL'
+  },
+  {
+    id: 'ruptela',
+    name: 'Ruptela',
+    sponsored: false,
+    productCount: 9,
+    startPrice: 2140,
+    image: '/images/hardware/eco5-lite.svg',
+    searchTerm: 'Ruptela'
   }
 ];
 
@@ -1632,7 +1632,7 @@ function TopBrandsSection() {
         <button
           type="button"
           className="top-brands-view-all"
-          onClick={() => navigate('/hardware')}
+          onClick={() => navigate('/brands')}
         >
           <span>View all</span>
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
